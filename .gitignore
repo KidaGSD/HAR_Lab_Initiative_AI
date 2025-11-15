@@ -1,0 +1,44 @@
+# === Data Files (Large) ===
+/runs/*/
+/egoexo_cache/
+/egoexo_cache_test/
+/data/raw/
+/data/processed/
+*.npz
+*.parquet
+Ego4d/
+docs/
+# === Large Media Files ===
+*.pdf
+*.zip
+*.tar.gz
+*.mp4
+*.avi
+
+# === Temporary/Build Files ===
+.DS_Store
+.cache/
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+*.log
+
+# === Credentials & Secrets ===
+access_key.txt
+*.key
+*.pem
+*.env
+
+# === Personal/Local Config ===
+.claude/
+.config/
+
+# === Archive (local only) ===
+/archive/
+
+# === Exceptions (DO commit these) ===
+!config/*.yaml
+!*.md
+!requirements.txt
+!README.md

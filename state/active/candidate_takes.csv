@@ -1,0 +1,908 @@
+take_uid,take_name,scenario,duration_min,has_trimmed_eye_gaze,has_trimmed_trajectory,has_trimmed_vrs,modalities_present,downloaded
+d8013909-d1be-4b97-831e-b903115eb94c,cmu_bike01_5,Install a Wheel,2.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+6f942bbd-acc8-4ec1-8758-89029b391cda,cmu_bike01_7,Clean and Lubricate the Chain,2.38,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+80ad3fed-5d6d-4d0a-b160-b0ce4d06ab81,cmu_bike02_4,Clean and Lubricate the Chain,0.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+048eccd2-6f53-48cf-8eda-1d633eb74812,cmu_bike02_5,Install a Wheel,1.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+b6a97017-0d95-4992-97d2-7195bf85acd3,cmu_bike02_6,Clean and Lubricate the Chain,2.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+9da9ef7e-7cf8-4b0b-8a55-80f599d312ad,cmu_bike03_5,Clean and Lubricate the Chain,1.56,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+750d4100-59e5-4a2c-bd31-b1adff39738f,cmu_bike05_5,Install a Wheel,1.57,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+6d84049f-2f5a-4560-8725-9e2182ade954,cmu_bike05_6,Clean and Lubricate the Chain,1.32,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+534f433c-14c2-4eb7-851a-a23a8b2ee340,cmu_bike06_2,Fix a Flat Tire - Replace a Bike Tube,0.62,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+3037db18-5716-4b2d-8a9e-d3408d078843,cmu_bike06_4,Fix a Flat Tire - Replace a Bike Tube,2.95,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+178ef0ae-da45-4982-bbf6-90f2cf8c9ae0,cmu_bike06_5,Install a Wheel,0.70,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+1410e2ce-a62c-4a2c-8453-6eb172a58965,cmu_bike08_2,Fix a Flat Tire - Replace a Bike Tube,0.35,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+7dbdb2ef-939a-44a8-a0ee-92f36cc7428b,cmu_bike08_5,Install a Wheel,0.27,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+cdeef701-ca02-4914-81c9-47a8384f24c6,cmu_bike08_6,Clean and Lubricate the Chain,0.57,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+8162166b-41c8-4b1a-baf2-14df7feddd83,cmu_bike09_2,Remove a Wheel,0.25,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+673f2b3e-413a-4450-aca8-ffbfb56db7be,cmu_bike09_4,Fix a Flat Tire - Replace a Bike Tube,2.24,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+111c8b18-f7da-4613-8821-98b5ca61eaf5,cmu_bike09_5,Install a Wheel,0.32,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+f3c868c5-25fb-4b49-99de-1edf8a44ee7a,cmu_bike09_6,Clean and Lubricate the Chain,0.63,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+30a2a49c-ea8a-4199-a9e2-7b21515d3483,cmu_bike10_2,Fix a Flat Tire - Replace a Bike Tube,0.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+9f4fe231-eafd-4998-98a3-cdd716ec9a63,cmu_bike10_3,Install a Wheel,0.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+0a3868ef-fdba-4aba-bc02-5028d1ed26f4,cmu_bike10_4,Fix a Flat Tire - Replace a Bike Tube,1.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+6ad4304b-adf5-4b25-9001-67102157a174,cmu_bike10_5,Install a Wheel,1.13,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+4b029f02-237c-44fe-8495-881f5ac0a8b2,cmu_bike10_7,Clean and Lubricate the Chain,0.55,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+e3cf5c2c-5e11-4ff6-8026-c9bb431bd54e,cmu_bike12_5,Clean and Lubricate the Chain,1.07,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+09f074cc-4ae1-4e3a-9b99-39cd537fa4b4,cmu_bike13_5,Install a Wheel,0.49,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+36925344-acf8-4d1f-8ce1-7b320b755c03,cmu_bike13_6,Clean and Lubricate the Chain,1.18,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+9aaa8873-b7a0-45ea-ba81-6a586087194c,cmu_bike14_5,Clean and Lubricate the Chain,1.04,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+4a7b1cc0-93d7-4e0b-95e2-75a8c126d971,cmu_bike15_5,Clean and Lubricate the Chain,2.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+094d3625-cd1e-45b1-8e08-4ee8727d0159,cmu_bike16_5,Clean and Lubricate the Chain,1.39,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+5811df02-cfb8-4519-a631-2fe68162ffd0,cmu_bike17_5,Clean and Lubricate the Chain,1.16,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+8ce327aa-26bb-4cc5-bf2f-d8d2968ecb3e,cmu_bike18_5,Install a Wheel,0.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+0fd69732-9536-4224-9dcf-dad8855c2d4c,cmu_bike18_6,Clean and Lubricate the Chain,0.90,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+80f082de-9e90-4c33-b4d3-3d3c7ce11e0a,cmu_bike19_5,Clean and Lubricate the Chain,1.24,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+2e53bfbb-2476-48c8-8dbb-668071453cc2,cmu_bike20_4,Install a Wheel,2.16,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+0e7ba4ab-464b-4993-bb0a-5e87abf46318,cmu_bike20_5,Clean and Lubricate the Chain,1.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+2a6617b5-ce8f-4234-a128-829b639df186,cmu_bike21_3,Install a Wheel,2.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+7d2996e6-72c5-4413-b285-d291d174c373,cmu_bike21_5,Clean and Lubricate the Chain,2.65,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+75c8af15-2c63-4024-ab24-db3ec0569207,fair_bike_06_14,Remove a Wheel,0.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+a69a5919-7b9d-4724-9b26-46dea6fa0c87,fair_bike_08_10,Adjust a Rear Derailueur,3.62,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+8ee393cb-d4b3-47ae-a3d0-0e9f8bb912d1,fair_bike_08_12,Adjust a Rear Derailueur,3.41,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",done
+5a7bab1e-a30b-4001-a5aa-2e8a6601315b,fair_bike_08_14,Adjust a Rear Derailueur,3.49,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a4988227-0d23-4ee5-b106-981690dcfad3,fair_bike_08_2,Adjust a Rear Derailueur,4.36,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b069e23f-1a22-4920-879a-80616b098e60,fair_bike_08_4,Adjust a Rear Derailueur,4.07,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2941605e-7cfb-441f-92b7-b4ee187edeb6,fair_bike_08_6,Adjust a Rear Derailueur,3.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b199d52d-4fc7-4ac3-b9c4-b5c84014dc1b,fair_bike_08_8,Adjust a Rear Derailueur,3.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3cbd7070-7c55-4b15-ac31-100ab8c7298a,fair_cooking_05_2,Cooking Noodles,8.49,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+53ee9e25-ba9b-429e-9cad-70c223a2f881,fair_cooking_05_4,Cooking Noodles,6.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0b05324a-47a2-456a-9f7a-1c36519d86e0,fair_cooking_05_6,Cooking Noodles,5.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+154d1224-d0c0-45f9-8e89-33f1ffa04606,fair_cooking_06_2,Cooking Noodles,6.93,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a261cc1d-7a45-479f-81a9-7c73eb379e6c,fair_cooking_06_4,Cooking Noodles,9.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6bc7a29f-3397-4549-9ee2-d98fa93da873,fair_cooking_06_6,Cooking Noodles,5.90,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7112613f-9315-4da7-b741-1fb18f07f497,fair_cooking_09_2,Making Sesame-Ginger Asian Salad,11.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d04754aa-9310-43b2-9a10-07019d498abe,fair_cooking_09_4,Making Sesame-Ginger Asian Salad,9.38,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+91d27f06-a756-45d4-9547-673a9ef0a05f,fair_cooking_09_6,Making Sesame-Ginger Asian Salad,9.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+19c3829d-7af3-4cb6-878c-7d29d565edef,fair_cooking_09_8,Making Sesame-Ginger Asian Salad,5.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+09262ab7-05ea-43d3-8965-c9ebabdbd85c,georgiatech_bike_06_10,Fix a Flat Tire - Replace a Bike Tube,4.55,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+091d8f3a-27d4-4dd0-8434-5b4d572e48e9,georgiatech_bike_06_12,Install a Wheel,0.88,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+85b4c3c3-6486-43bd-b5b6-7cae6ffd4c9f,georgiatech_bike_06_2,Remove a Wheel,0.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+96e117f2-984a-42fe-ad83-23857e27ae45,georgiatech_bike_06_4,Fix a Flat Tire - Replace a Bike Tube,5.21,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+168d649c-bb35-4401-9373-225f0731b508,georgiatech_bike_06_6,Install a Wheel,1.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1b4585b3-3717-4b1c-bacc-a8240ac91926,georgiatech_bike_06_8,Remove a Wheel,0.37,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a89215f1-92fe-4207-9293-62ce108171da,georgiatech_bike_07_10,Fix a Flat Tire - Replace a Bike Tube,6.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+71b8a896-84d6-4da6-97ab-78cfee6cd5da,georgiatech_bike_07_12,Install a Wheel,1.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+725b6b84-0a79-4053-b581-828a5da77753,georgiatech_bike_07_2,Remove a Wheel,0.44,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a628ce61-dbd9-428e-ad72-106c9aa8af3f,georgiatech_bike_07_4,Fix a Flat Tire - Replace a Bike Tube,3.30,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c935b13b-462a-4ced-a041-f06592dff0e5,georgiatech_bike_07_6,Install a Wheel,1.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2dc49d13-5347-4d4b-8506-5510f2ae0b84,georgiatech_bike_07_8,Remove a Wheel,0.63,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a38fd4bc-43c5-4b89-98ac-35fbfbd1077d,georgiatech_bike_08_14,Install a Wheel,4.23,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+80fc19d1-934b-4142-979b-9492ec828cc4,georgiatech_bike_08_8,Remove a Wheel,0.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f462ffd2-da2b-497e-a74b-486a11a74203,georgiatech_bike_10_10,Install a Wheel,1.34,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+98bbcdba-4168-4420-ae43-2a94003456ed,georgiatech_bike_10_12,Fix a Flat Tire - Replace a Bike Tube,3.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f1cda984-ee18-4257-861c-a5691d8fde65,georgiatech_bike_10_2,Remove a Wheel,0.83,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d47fb8b1-1ecf-4c00-a096-c1d0cba08900,georgiatech_bike_10_4,Fix a Flat Tire - Replace a Bike Tube,4.28,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d68f0d40-c574-47cc-9ae5-3f95be1b440f,georgiatech_bike_10_6,Install a Wheel,1.91,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7a28a812-34c4-46db-9022-f19b254488c0,georgiatech_bike_10_8,Remove a Wheel,0.53,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e71c943b-75c0-4055-92fc-115d1c8f6d8a,georgiatech_bike_12_10,Fix a Flat Tire - Replace a Bike Tube,4.62,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4fbac7f7-f8f0-40c6-9f73-7279fcc077b1,georgiatech_bike_12_12,Install a Wheel,0.88,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+95fa7feb-562e-4085-bc83-4dd14bd9862b,georgiatech_bike_12_2,Remove a Wheel,0.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f7d5c603-29d6-4800-a4fa-768819f52a84,georgiatech_bike_12_4,Fix a Flat Tire - Replace a Bike Tube,4.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6f408dd3-343d-49cc-846b-103660ab5275,georgiatech_bike_12_6,Install a Wheel,0.78,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4df80aae-3500-463b-884d-63d034e6414f,georgiatech_bike_12_8,Remove a Wheel,0.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fb47b3c0-525d-472e-a600-4bc587992d7e,georgiatech_bike_13_11,Install a Wheel,2.90,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b27fd3f0-9a5d-4e75-a805-dd0f8f59da6b,georgiatech_bike_13_2,Remove a Wheel,1.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b017339c-0a23-4d8a-8f79-de75d18765f6,georgiatech_bike_13_3,Fix a Flat Tire - Replace a Bike Tube,3.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cb40593c-d5a0-46bb-9c66-c330b6c43468,georgiatech_bike_13_5,Install a Wheel,2.43,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+19b33513-70e2-4928-8815-5725187a1755,georgiatech_bike_13_7,Remove a Wheel,1.44,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+79b6e5d3-84a8-46bd-8e45-fd514f65aeef,georgiatech_bike_13_9,Fix a Flat Tire - Replace a Bike Tube,3.10,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+99052842-9369-415d-b87b-1bf756ab13dd,georgiatech_bike_14_10,Fix a Flat Tire - Replace a Bike Tube,7.22,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+350002f0-3d78-477e-9c33-80a2cc16f29e,georgiatech_bike_14_12,Install a Wheel,1.27,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5eb9aca3-65df-4c6d-bc38-89919e19f49a,georgiatech_bike_14_2,Remove a Wheel,0.87,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8ad335cf-c9c5-412f-9347-53867db66ee0,georgiatech_bike_14_6,Install a Wheel,1.41,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c692c40e-f2ca-4338-bb9e-1c779a7288a2,georgiatech_bike_14_8,Remove a Wheel,1.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7f979cc2-20b3-41e2-b46a-fd7fbd6b9384,georgiatech_bike_15_10,Fix a Flat Tire - Replace a Bike Tube,5.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0ac48b92-088a-4191-acfc-8805dfe3c87d,georgiatech_bike_15_12,Fix a Flat Tire - Replace a Bike Tube,5.39,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+341c8e30-a29d-4641-84b7-6f44c77c63d2,georgiatech_bike_15_2,Remove a Wheel,1.64,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+80138be1-0b55-489e-af4f-1da173c2a500,georgiatech_bike_15_4,Install a Wheel,1.45,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+853961be-a9e1-4b0c-81f6-d3e17c190b08,georgiatech_bike_15_6,Remove a Wheel,1.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+39aed552-db33-4f6e-92c4-88ec4b369550,georgiatech_bike_15_8,Install a Wheel,3.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+da1f7028-3ccd-4dbe-90d6-eddb045496cf,georgiatech_bike_16_10,Install a Wheel,2.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9c00fe6a-3cf2-4dd9-a34e-39cbcc506cb1,georgiatech_bike_16_12,Fix a Flat Tire - Replace a Bike Tube,4.50,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8c904e96-eea7-4b47-a8a1-0201424090df,georgiatech_bike_16_14,Fix a Flat Tire - Replace a Bike Tube,3.87,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0ee17c1c-3c71-4e5c-bc6f-ae7dfb27232e,georgiatech_bike_16_2,Remove a Wheel,0.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3889788b-5b6a-4139-ab64-ecf9c0945242,georgiatech_bike_16_6,Install a Wheel,2.95,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+45eda8fc-cb07-4d82-91f1-d02cb579b9ec,georgiatech_bike_16_8,Remove a Wheel,1.09,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3db860b7-a23a-4d9b-a988-4b656a608122,georgiatech_cooking_01_03_4,Making Sesame-Ginger Asian Salad,12.68,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d494760b-e16d-4e5c-880f-b7ad598056a7,georgiatech_cooking_02_01_2,Cooking Tomato & Eggs,10.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a56ce926-8c85-4883-9ff5-dd7779d71b64,georgiatech_cooking_02_02_2,Cooking Tomato & Eggs,9.25,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c7d8eaab-dfb5-45ce-a152-d9f79c60fcca,georgiatech_cooking_02_02_6,Making Sesame-Ginger Asian Salad,12.32,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2f5e3fbf-bd7a-4b11-b75d-ef62aa2f622d,georgiatech_cooking_03_01_6,Cooking Tomato & Eggs,12.71,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4899b46a-0c7b-424f-8c14-5561e12258a0,georgiatech_cooking_03_04_6,Making Sesame-Ginger Asian Salad,11.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+916d656b-c2a0-4147-bd73-bc4050285591,georgiatech_cooking_03_05_4,Making Sesame-Ginger Asian Salad,14.17,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+517207e4-cbae-4e58-81b4-cc8936dcefdf,georgiatech_cooking_06_02_4,Making Sesame-Ginger Asian Salad,9.45,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+13b85191-0a2c-4d0f-a54c-3118f5a96cbb,georgiatech_cooking_06_03_2,Making Sesame-Ginger Asian Salad,10.64,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+00a6dd13-d5b0-4743-b252-ed61e61f1d49,georgiatech_cooking_08_01_4,Cooking Tomato & Eggs,11.07,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b0d22d33-59a7-4735-90cf-3a5d73aa9aa2,georgiatech_cooking_11_02_6,Cooking Noodles,13.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4af687ac-9602-48b9-acaf-c0085bc2fe53,georgiatech_cooking_14_01_6,Cooking Tomato & Eggs,12.88,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+35841551-2a0b-4441-9be3-f45f72fef916,georgiatech_cooking_14_02_7,Cooking Noodles,13.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6ded8a71-6cca-4514-bbe0-6a5f028262c9,georgiatech_covid_02_10,Covid-19 Rapid Antigen Test,4.40,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e09f97c8-0493-4d0a-98a6-e678d4c7dc00,georgiatech_covid_02_12,Covid-19 Rapid Antigen Test,4.22,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c4c0e97d-135b-4dec-b736-e184442bd42e,georgiatech_covid_02_14,Covid-19 Rapid Antigen Test,2.68,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cc8bfc86-777e-4537-b207-9c599e9a1f40,georgiatech_covid_02_2,Covid-19 Rapid Antigen Test,4.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b511dfed-58f4-4c91-bf0a-f8ce9d47aea9,georgiatech_covid_02_4,Covid-19 Rapid Antigen Test,4.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ede7b9c1-c501-40b3-bc6d-205ea142366c,georgiatech_covid_02_6,Covid-19 Rapid Antigen Test,3.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b60db7b1-c623-4f04-8c63-695c24b4648b,georgiatech_covid_02_8,Covid-19 Rapid Antigen Test,2.93,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e4751da9-508b-401f-bdcb-90bb0921d7b9,georgiatech_covid_03_10,Covid-19 Rapid Antigen Test,2.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c0049eef-6fb3-4383-9ab3-5e6b892cd843,georgiatech_covid_03_12,Covid-19 Rapid Antigen Test,3.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2a926404-4a2f-49a7-b249-7cbd16f1235e,georgiatech_covid_03_14,Covid-19 Rapid Antigen Test,3.11,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a9a3e6d2-398b-41e9-8d74-9a744bb8b171,georgiatech_covid_03_2,Covid-19 Rapid Antigen Test,5.41,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+68c657c5-24e9-4a8a-80a4-3f1fa7bf0ae3,georgiatech_covid_03_4,Covid-19 Rapid Antigen Test,4.85,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fb083c14-d568-424b-8450-b7f0455478ec,georgiatech_covid_03_6,Covid-19 Rapid Antigen Test,5.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+612b8008-e028-4fcc-a6dc-4a5ee3115e6d,georgiatech_covid_03_8,Covid-19 Rapid Antigen Test,4.32,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+85fd6959-1429-4edc-8cfb-632c45599558,georgiatech_covid_04_10,Covid-19 Rapid Antigen Test,4.30,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9f14cc97-8fff-491c-a659-359b09332328,georgiatech_covid_04_12,Covid-19 Rapid Antigen Test,3.92,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+99615a31-c056-4d5d-9f42-32dc2c437d14,georgiatech_covid_04_14,Covid-19 Rapid Antigen Test,5.15,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7215cf58-5fc4-4b4b-acbf-cf3c3e734ee1,georgiatech_covid_04_2,Covid-19 Rapid Antigen Test,6.20,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9d88d1fc-6174-4c63-b0dc-3f55c6b1bffc,georgiatech_covid_04_4,Covid-19 Rapid Antigen Test,3.81,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fc39031f-a708-4aea-965a-cc980f57e0ad,georgiatech_covid_04_6,Covid-19 Rapid Antigen Test,4.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0dbdfbf7-046b-4d42-abcc-023cf6004bec,georgiatech_covid_04_8,Covid-19 Rapid Antigen Test,5.88,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5ab8958c-7f0f-4580-8de4-edd20a839c49,georgiatech_covid_05_10,Covid-19 Rapid Antigen Test,4.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c7c5fe65-f694-4ff1-b51d-ee8059143f51,georgiatech_covid_05_12,Covid-19 Rapid Antigen Test,3.56,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c8b331da-1756-4836-acc5-f3d1c2142339,georgiatech_covid_05_2,Covid-19 Rapid Antigen Test,4.36,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bbc13004-11f9-4a73-ab06-3fa3836d518f,georgiatech_covid_05_4,Covid-19 Rapid Antigen Test,3.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+aa445893-9c9f-402a-a646-a8dacc34ebc1,georgiatech_covid_05_6,Covid-19 Rapid Antigen Test,2.78,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d8a7872e-aa42-4296-a4b8-53b72f3c8b19,georgiatech_covid_05_8,Covid-19 Rapid Antigen Test,2.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f17fe7ec-5157-4b33-9cca-0e87c2d2ea9d,georgiatech_covid_06_10,Covid-19 Rapid Antigen Test,4.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+eac7ad5d-7cbf-468f-9865-324e45b7edda,georgiatech_covid_06_12,Covid-19 Rapid Antigen Test,2.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b3a746ef-30e5-438e-9a31-5e8a432268f7,georgiatech_covid_06_14,Covid-19 Rapid Antigen Test,3.68,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5c12c6e3-d34e-4e9a-bd7f-74aed58427a7,georgiatech_covid_06_2,Covid-19 Rapid Antigen Test,5.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5bd830a8-5752-4aab-bd01-e9fb518864fe,georgiatech_covid_06_4,Covid-19 Rapid Antigen Test,4.52,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+458d121d-b244-4a24-b0c7-8b7a17a94791,georgiatech_covid_06_8,Covid-19 Rapid Antigen Test,4.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1e457d17-85cd-44b2-9c60-84304b07282d,georgiatech_covid_07_10,Covid-19 Rapid Antigen Test,3.18,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0f9842a7-512f-4c04-9254-b810129f52b3,georgiatech_covid_07_12,Covid-19 Rapid Antigen Test,3.27,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f7d3a129-4548-41d6-b675-0e85c4d4e324,georgiatech_covid_07_2,Covid-19 Rapid Antigen Test,5.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3566c03b-5c4d-4fb8-b73c-0117a95cafb5,georgiatech_covid_07_4,Covid-19 Rapid Antigen Test,4.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+77cd56fc-6b68-4c7f-814b-81545484dd2d,georgiatech_covid_07_6,Covid-19 Rapid Antigen Test,5.09,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cc93caa4-3f2e-48fb-95d6-fdfc0e45db01,georgiatech_covid_07_8,Covid-19 Rapid Antigen Test,3.17,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8e3c3065-f05d-4ce2-af8e-f6bbd58d4383,georgiatech_covid_08_10,Covid-19 Rapid Antigen Test,4.08,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+01ad22c9-6626-46cf-b5e2-a316faacfb99,georgiatech_covid_08_12,Covid-19 Rapid Antigen Test,4.78,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3cbf69e4-1c29-4515-9a03-67c3526e91e1,georgiatech_covid_08_2,Covid-19 Rapid Antigen Test,2.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8f379213-9adf-40d8-9482-3eed6b03b83b,georgiatech_covid_08_4,Covid-19 Rapid Antigen Test,3.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ba599750-543d-4b8f-bf65-da170082a25e,georgiatech_covid_08_6,Covid-19 Rapid Antigen Test,3.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+71d1fd0e-6665-4b45-8b2a-3460d36e368a,georgiatech_covid_08_8,Covid-19 Rapid Antigen Test,3.48,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+11bf68ee-12f0-435d-98eb-925c158ac705,georgiatech_covid_09_10,Covid-19 Rapid Antigen Test,4.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6dd93969-2dff-4546-bac6-a435698eb14a,georgiatech_covid_09_12,Covid-19 Rapid Antigen Test,3.37,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d0109704-c19c-444a-890f-5796742434a8,georgiatech_covid_09_2,Covid-19 Rapid Antigen Test,5.16,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+dd09ac20-b7ae-48e0-a0c1-69f49f541ac4,georgiatech_covid_09_4,Covid-19 Rapid Antigen Test,3.93,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f7919017-3bd3-4c92-8f7f-ce9b33f07353,georgiatech_covid_09_6,Covid-19 Rapid Antigen Test,3.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1bd5a43c-9476-4491-b82e-6b02aeee2231,georgiatech_covid_09_8,Covid-19 Rapid Antigen Test,5.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9e3cebb7-8a16-471a-9b32-d9b4e294896e,georgiatech_covid_11_11,Covid-19 Rapid Antigen Test,4.23,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5ccd281c-9ede-49d8-9f61-f8f228565472,georgiatech_covid_11_13,Covid-19 Rapid Antigen Test,3.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6d1847fe-d2d2-4a11-80fb-1cf5ff6d965a,georgiatech_covid_11_2,Covid-19 Rapid Antigen Test,8.53,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7f534830-cde5-45ff-87fc-d2072a584cae,georgiatech_covid_11_4,Covid-19 Rapid Antigen Test,5.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e469c7e2-bcbd-4cf6-97d7-3f3562e5c1a9,georgiatech_covid_11_7,Covid-19 Rapid Antigen Test,5.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+69cd4cbf-f1f1-4b92-ae7d-85d85e144554,georgiatech_covid_11_9,Covid-19 Rapid Antigen Test,5.41,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d6706cac-3a65-411f-b9e2-cf7245305fbe,georgiatech_covid_12_11,Covid-19 Rapid Antigen Test,2.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ea9149f5-4953-4f44-9712-e45ccb976568,georgiatech_covid_12_13,Covid-19 Rapid Antigen Test,3.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+062ed386-05a4-4ff5-a8ff-2235045349d7,georgiatech_covid_12_3,Covid-19 Rapid Antigen Test,2.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4d250ada-e17a-4385-a08c-88b645cfe872,georgiatech_covid_12_5,Covid-19 Rapid Antigen Test,4.66,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+574adb34-f42d-494b-8ccf-a62922bb5299,georgiatech_covid_12_7,Covid-19 Rapid Antigen Test,3.16,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+80f65504-a37a-4c84-8a19-df3bba123326,georgiatech_covid_12_9,Covid-19 Rapid Antigen Test,3.41,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6a3376a7-949e-4385-b16e-076dfb8c3f5a,georgiatech_covid_13_10,Covid-19 Rapid Antigen Test,2.44,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7d6fa5c7-a206-4b36-889b-44bed72b0cc8,georgiatech_covid_13_2,Covid-19 Rapid Antigen Test,5.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b1494499-048c-4be5-9595-7d664956a02d,georgiatech_covid_13_4,Covid-19 Rapid Antigen Test,5.10,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+87531064-1b80-40c5-896c-344cb3200d5a,georgiatech_covid_13_6,Covid-19 Rapid Antigen Test,3.18,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cf11c037-3a43-43a8-b9ca-b3c457d31535,georgiatech_covid_13_8,Covid-19 Rapid Antigen Test,3.39,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+445ce086-3655-476c-b836-00b11071be75,georgiatech_covid_14_10,Covid-19 Rapid Antigen Test,4.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c67c7ced-c96e-4fe2-9389-75e367a5fdeb,georgiatech_covid_14_12,Covid-19 Rapid Antigen Test,3.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+aab781c2-c2be-4aa8-addc-cc6586bc172b,georgiatech_covid_14_4,Covid-19 Rapid Antigen Test,7.97,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fe2b0452-ab6c-4ed3-a4b5-d6a160e8e8ff,georgiatech_covid_14_6,Covid-19 Rapid Antigen Test,6.08,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b19462f1-e7fa-4b90-83da-931b1e9d50e2,georgiatech_covid_14_7,Covid-19 Rapid Antigen Test,0.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d8de9993-e87b-4dbc-8214-23fa69ecf02f,georgiatech_covid_14_8,Covid-19 Rapid Antigen Test,4.39,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+00cad7aa-fd92-486d-b309-59d03fa51dfa,georgiatech_covid_15_10,Covid-19 Rapid Antigen Test,2.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4764e94b-9132-4e65-996c-bc2bc67e17a2,georgiatech_covid_15_2,Covid-19 Rapid Antigen Test,7.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c24336fd-f974-42c6-82c8-e20e5054ab8f,georgiatech_covid_15_4,Covid-19 Rapid Antigen Test,2.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+23c5bf8a-7781-42d4-b6d8-2ab6025157c7,georgiatech_covid_15_6,Covid-19 Rapid Antigen Test,2.32,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8bb95fbe-efa4-416b-9558-a0301b846f25,georgiatech_covid_15_8,Covid-19 Rapid Antigen Test,2.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a21f41be-388c-40c7-8e9a-58564fcb280a,georgiatech_covid_16_10,Covid-19 Rapid Antigen Test,6.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0266d30c-c751-451b-9425-a1c1b19cbac8,georgiatech_covid_16_12,Covid-19 Rapid Antigen Test,4.87,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a4f92794-0f4b-4edf-9a31-9d6fc871212d,georgiatech_covid_16_2,Covid-19 Rapid Antigen Test,7.43,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4c5bf275-87e6-4e6b-a06e-aa338fd11268,georgiatech_covid_16_4,Covid-19 Rapid Antigen Test,5.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+713cffc9-4d72-416c-a038-e1fe258b0468,georgiatech_covid_16_6,Covid-19 Rapid Antigen Test,5.18,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6febbc33-722b-4f0f-81aa-170a9dafbc36,georgiatech_covid_16_8,Covid-19 Rapid Antigen Test,5.36,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5f0bc6b4-7389-4e85-88fe-c21135bfbd7b,georgiatech_covid_17_11,Covid-19 Rapid Antigen Test,4.65,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ec6885cb-287c-421e-b16d-e63a59c21d80,georgiatech_covid_17_12,Covid-19 Rapid Antigen Test,0.48,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+dc7b1764-5c69-45f9-b86a-6a96ab5482a9,georgiatech_covid_17_13,Covid-19 Rapid Antigen Test,4.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+abfb0e8e-4351-4086-b7ca-f84785d768d0,georgiatech_covid_17_2,Covid-19 Rapid Antigen Test,6.23,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+56c2e9da-72fa-4104-a2f2-e8d69c837307,georgiatech_covid_17_5,Covid-19 Rapid Antigen Test,5.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+23c5085a-8ead-4f74-be3b-9287e4019e98,georgiatech_covid_17_6,Covid-19 Rapid Antigen Test,0.56,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c0032add-32b1-4e31-b140-1e36cf100cef,georgiatech_covid_17_7,Covid-19 Rapid Antigen Test,5.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7222c624-56ce-4946-9208-6fb388f3be10,georgiatech_covid_17_9,Covid-19 Rapid Antigen Test,5.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cfd6b713-2511-41d4-84b8-0eced6beb5db,georgiatech_covid_18_10,Covid-19 Rapid Antigen Test,4.94,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ca9dc2d8-2be0-45a9-bcda-5ea27302f71a,georgiatech_covid_18_12,Covid-19 Rapid Antigen Test,3.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+94145154-ef77-4fe2-9dea-c8b73508cfbf,georgiatech_covid_18_2,Covid-19 Rapid Antigen Test,4.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c30672fa-2bc3-4348-b839-5ba456622659,georgiatech_covid_18_4,Covid-19 Rapid Antigen Test,2.34,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+378417ad-60f2-4d2e-8b75-038effb3736c,georgiatech_covid_18_6,Covid-19 Rapid Antigen Test,3.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bb97189c-c3c2-445b-998a-e65162cb6c93,georgiatech_covid_18_8,Covid-19 Rapid Antigen Test,2.37,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+98f58f0f-53d6-4e41-bf41-d8d74ccbc37c,iiith_cooking_01_1,Cooking an Omelet,14.64,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1ec1409c-a3fd-46ab-8698-99f9317e9f13,iiith_cooking_02_3,Making Milk Tea,5.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7c0a813b-dce3-4ba0-92cc-a8e0a6f87581,iiith_cooking_04_1,Cooking an Omelet,6.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f982aad4-3315-4c23-80fa-eb91fc5cb686,iiith_cooking_05_5,Cooking an Omelet,5.31,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3b198da5-de1c-456d-8241-ad165e25fb88,iiith_cooking_09_1,Making Milk Tea,3.10,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b84f9817-e5a5-44c5-a29a-cd727531a2fc,iiith_cooking_100_2,Cooking an Omelet,3.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+40e0f26d-85a6-4bae-bec3-1da231ba08a4,iiith_cooking_103_2,Cooking an Omelet,6.34,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d1548463-c2b5-4ae3-b85e-5bf6c3a2c6be,iiith_cooking_103_4,Making Cucumber & Tomato Salad,2.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+732ef35c-72cd-4b6f-aa7a-f35ac3f0233d,iiith_cooking_103_6,Making Milk Tea,3.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9b6fa661-4e89-477d-94cc-fb3981f83c76,iiith_cooking_104_2,Cooking an Omelet,1.93,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b66a94dd-a690-4261-867d-d8f4f94109e3,iiith_cooking_104_4,Making Cucumber & Tomato Salad,1.14,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+be8ddc40-dbf0-4d7e-ab0a-3ba11e10f7c0,iiith_cooking_106_2,Cooking an Omelet,3.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0a6a26fa-cbbc-4843-bf28-9f799119a4bc,iiith_cooking_106_4,Making Cucumber & Tomato Salad,1.80,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a76b4603-b9fd-4558-ad1f-8949e5fc392b,iiith_cooking_107_2,Cooking an Omelet,2.81,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0ffe3d64-3afe-456f-829e-45fc51e50dc4,iiith_cooking_107_4,Making Milk Tea,1.49,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+adf67490-c9f0-4771-810a-3c6b4007b3c8,iiith_cooking_108_2,Cooking an Omelet,2.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+51ef0477-cb8f-4930-90a0-1cfed839a453,iiith_cooking_108_5,Making Milk Tea,1.07,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1e15d070-a035-41a4-b37a-d82da76cd915,iiith_cooking_109_2,Cooking an Omelet,2.13,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+75ee3911-d8ad-48f2-bbf1-9b83b11e068a,iiith_cooking_109_5,Making Milk Tea,0.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+713ffb6c-cd51-48a0-a7ae-4f34a1966a71,iiith_cooking_10_1,Making Milk Tea,3.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5b4cc5cb-22f0-4814-aa24-8d51ba50000a,iiith_cooking_110_2,Cooking an Omelet,2.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+eba56e4f-7ec8-4d47-9380-e69928323e94,iiith_cooking_111_2,Cooking an Omelet,1.83,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+efc25548-3e82-490c-8e49-06bed2471b91,iiith_cooking_111_5,Making Milk Tea,0.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+975b2d0f-fcf7-4521-b129-7c65a3268609,iiith_cooking_112_2,Cooking an Omelet,2.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2e3a5173-5d90-45c1-b732-f5565b2ab844,iiith_cooking_112_3,Making Cucumber & Tomato Salad,0.81,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ac651c92-0938-4258-8c22-a8d1e881af61,iiith_cooking_113_2,Cooking an Omelet,4.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+88514d40-8f43-4ca6-bbb6-569afba960f6,iiith_cooking_113_3,Making Cucumber & Tomato Salad,1.41,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9b5d1af1-7477-463a-a7f4-296ac08df234,iiith_cooking_113_5,Making Milk Tea,2.18,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+027d6141-8cf8-4cd6-b250-6f1ac4f6afcf,iiith_cooking_115_2,Cooking an Omelet,4.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c28f6776-7794-439d-acad-a6e52a158a7f,iiith_cooking_115_3,Making Cucumber & Tomato Salad,1.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7b7503cc-130b-428d-9905-750ae751982f,iiith_cooking_115_5,Making Milk Tea,2.34,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+39d5e4c4-993f-46ad-979b-3daa146e4d53,iiith_cooking_116_2,Cooking an Omelet,4.68,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+49533424-1bda-4a6e-ab04-86b1194df72b,iiith_cooking_116_5,Making Milk Tea,2.20,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3817cb6b-8b20-4f6f-a8a1-d0943d491656,iiith_cooking_117_2,Cooking an Omelet,3.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+49944f64-4fc9-44b8-bba2-7d6720c3186f,iiith_cooking_117_4,Cooking an Omelet,2.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e1df2957-a10c-4bc0-ac91-4014551287f0,iiith_cooking_11_1,Cooking an Omelet,5.77,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+896805f2-f741-40ae-87a0-16e520c12ada,iiith_cooking_120_2,Cooking an Omelet,3.49,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2ceb8750-40dc-4639-bf49-e19566df83d4,iiith_cooking_120_4,Cooking an Omelet,2.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6101e4e5-a889-45c5-ab66-e9125d2138bf,iiith_cooking_120_6,Making Milk Tea,2.14,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a9902d89-3aab-4bce-aa07-720cf12523f6,iiith_cooking_122_2,Cooking an Omelet,2.95,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bf53c470-f60b-4f93-bb97-9b2a61a5ab89,iiith_cooking_123_2,Cooking an Omelet,6.20,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3382c19f-4a93-4247-9a7c-11f4f72959a0,iiith_cooking_123_4,Cooking an Omelet,3.81,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3655a8a0-38fc-4be9-ab20-32448b48abb1,iiith_cooking_124_2,Cooking an Omelet,3.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6790fe08-7a63-4925-a60f-dd78bf9944ff,iiith_cooking_124_4,Cooking an Omelet,2.20,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+89cc817a-4182-4285-888a-af16b3c1a63e,iiith_cooking_124_5,Making Milk Tea,1.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4356d71a-56a5-413b-a407-14f144112d91,iiith_cooking_125_2,Cooking an Omelet,7.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1d9015f0-2e1e-4b9c-bbb6-161f65beed49,iiith_cooking_125_3,Cooking Tomato & Eggs,3.97,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fdee7835-5174-4915-b13a-74ec4f33ad95,iiith_cooking_125_4,Cooking an Omelet,2.17,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+87a09132-b107-40bf-aca0-1ae6e5dc46cd,iiith_cooking_126_2,Cooking an Omelet,4.23,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d5c0fb59-70e3-414e-96f0-49db81584fbe,iiith_cooking_126_3,Making Milk Tea,2.87,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e02bcacc-92af-4fe0-8c57-e42ff3f74dcf,iiith_cooking_128_2,Cooking Tomato & Eggs,3.71,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c112d4da-5120-47d7-9b05-a4ef68baa226,iiith_cooking_128_4,Cooking Tomato & Eggs,3.30,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+96baac26-c261-4836-81c7-fae46778f91a,iiith_cooking_129_2,Cooking Tomato & Eggs,3.89,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f842e90f-a1ff-4d14-bacf-aadc888742a3,iiith_cooking_129_3,Cooking Tomato & Eggs,3.20,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+be1eb1c1-a45f-4e8b-9ae2-3d8db0af7e59,iiith_cooking_12_1,Cooking an Omelet,4.70,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+847fbeab-dd68-4852-95f3-3a09f754f3b7,iiith_cooking_130_2,Cooking Tomato & Eggs,5.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1f34bb6a-70ba-4e7c-ae19-b5086fc1176a,iiith_cooking_130_4,Cooking Tomato & Eggs,5.79,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7ec264c5-0029-4b84-81ea-c3b24a059ae4,iiith_cooking_131_2,Cooking Tomato & Eggs,6.81,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ee2c4d41-d7f7-4b85-9f4f-cc1da654cd40,iiith_cooking_131_4,Cooking Tomato & Eggs,6.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0a715ea3-5aa9-427f-86b3-12190c557905,iiith_cooking_132_2,Cooking Tomato & Eggs,6.93,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+18e2cf60-65f4-4715-91e0-3917deb5daa8,iiith_cooking_132_4,Cooking Tomato & Eggs,5.24,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d8967e18-31e6-49ec-b00b-00250320ee18,iiith_cooking_134_2,Cooking Tomato & Eggs,7.81,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4be6b7e6-b07b-405a-b384-ccf8dc9391f2,iiith_cooking_135_2,Cooking Tomato & Eggs,6.65,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+086de81a-8989-4c62-b91c-9bd69bb1745d,iiith_cooking_136_2,Cooking Tomato & Eggs,7.13,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8711980a-b71f-46d6-86c8-1607a5478dd0,iiith_cooking_137_2,Cooking Tomato & Eggs,5.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+96d772ac-01e0-4e53-85e5-4ce45e58b6f1,iiith_cooking_138_2,Cooking Tomato & Eggs,4.70,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+126eb2a4-4d4f-4d35-b390-7d9550b54c60,iiith_cooking_13_1,Cooking an Omelet,7.78,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5d98d741-a4b9-42ac-8ffe-0960260a9f57,iiith_cooking_141_2,Cooking Tomato & Eggs,5.93,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e68d09a0-fe18-483c-8a7d-24b32f9baa9e,iiith_cooking_142_2,Cooking Tomato & Eggs,4.11,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+beb7196e-c020-4224-b5c4-e431ad9f143e,iiith_cooking_142_4,Cooking Tomato & Eggs,4.28,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d089566c-9f8b-4213-bfdd-b89764d09bbd,iiith_cooking_143_2,Cooking Tomato & Eggs,4.89,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fac6316e-d141-4bbd-b88b-a624491acb30,iiith_cooking_145_2,Cooking Tomato & Eggs,7.43,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+41e70872-13dc-45e3-82b4-4cbe58d952da,iiith_cooking_146_2,Cooking Tomato & Eggs,4.75,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0b771d9f-7bab-4023-ac08-e56c06505946,iiith_cooking_147_2,Cooking Tomato & Eggs,5.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+34ba42af-5c77-434e-a8c4-cf745bcaaf0d,iiith_cooking_148_2,Cooking Tomato & Eggs,7.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b07855a6-9582-44d2-be98-47daadda043a,iiith_cooking_149_2,Cooking Tomato & Eggs,7.77,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+be126f22-8f3e-403d-8b00-80f8935cffe7,iiith_cooking_15_1,Making Milk Tea,4.70,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cc5a6be4-d030-4057-9ed5-1f895c6c9274,iiith_cooking_16_1,Cooking an Omelet,6.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e8cf53f3-a9e3-45b6-a313-10765ae183e2,iiith_cooking_17_1,Making Cucumber & Tomato Salad,5.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+abf00ef3-e9f2-491a-9692-114c4885298c,iiith_cooking_19_1,Cooking an Omelet,5.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8dd0a9f8-e647-4d7d-a87d-35af5019a5a4,iiith_cooking_22_1,Cooking an Omelet,4.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+83b377ef-967a-4380-b3ac-321dbf79f72a,iiith_cooking_26_1,Cooking an Omelet,4.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c725d111-3c79-47a5-8b76-c5a16da73d28,iiith_cooking_27_1,Making Milk Tea,4.23,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6244154b-acf6-4c2c-a8b2-c43a4f30d631,iiith_cooking_27_3,Making Cucumber & Tomato Salad,1.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+819523fa-f601-4ed3-aa1f-b1df5f0482bf,iiith_cooking_28_1,Cooking an Omelet,5.63,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+47da5a64-aaff-45f4-8ed8-b7ab64b2d851,iiith_cooking_29_1,Making Milk Tea,4.48,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c785b2ec-1efd-4135-9707-d54386109075,iiith_cooking_29_3,Making Cucumber & Tomato Salad,2.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+360be2ce-99dd-424e-a7c6-a5908c7aa2f3,iiith_cooking_30_1,Cooking an Omelet,5.50,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f03b7f2c-2ac1-42db-ba61-c0f9c5be9dc3,iiith_cooking_31_1,Making Milk Tea,3.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fcf26143-bd53-49f7-a876-78829e4faf71,iiith_cooking_31_3,Making Cucumber & Tomato Salad,2.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+35bfade9-8ead-46a4-b2f0-cdcfb86df1d6,iiith_cooking_32_1,Cooking an Omelet,4.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1f541cce-f10b-4cd3-814f-8e2d527df8f5,iiith_cooking_33_1,Cooking an Omelet,4.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+262871b5-eee7-4e65-9532-9a219b5aa52b,iiith_cooking_34_1,Making Cucumber & Tomato Salad,3.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f3287a55-a424-4011-a38e-c73700829576,iiith_cooking_35_1,Making Milk Tea,3.10,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+42b14a01-28c8-42a5-8981-b8a026f8dc18,iiith_cooking_36_1,Cooking an Omelet,4.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+97ecbdcf-f044-4d75-9b46-b7ba0f35ef19,iiith_cooking_37_1,Making Milk Tea,3.28,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3054ec91-4ea2-4612-8b0e-8f3ba0c6b981,iiith_cooking_37_3,Making Cucumber & Tomato Salad,2.77,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c792ef5b-1479-4336-b57c-6d4ee1e4d336,iiith_cooking_38_1,Cooking an Omelet,3.87,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+79fb81e5-7025-46c7-9e0c-e9d97658929b,iiith_cooking_39_1,Making Cucumber & Tomato Salad,3.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c68f8dd1-3fea-49e6-934b-7ed7a6b12aeb,iiith_cooking_39_3,Making Milk Tea,2.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ed064e3d-b2e1-4103-b955-3d720460d89b,iiith_cooking_40_1,Cooking an Omelet,3.53,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+079b7691-d098-4a2d-befd-ed702a134388,iiith_cooking_42_1,Cooking an Omelet,3.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+01b0a6e3-04ce-4f0d-8df4-b3d3c1508780,iiith_cooking_44_1,Cooking an Omelet,2.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8cd9020c-eaba-402f-87b5-f7c5422a49b4,iiith_cooking_46_2,Cooking an Omelet,6.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3393df19-6c51-45f9-ad93-2bc3e75ad224,iiith_cooking_47_2,Making Cucumber & Tomato Salad,4.89,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0bacb5bb-591d-4756-a2cf-ed90793e65bb,iiith_cooking_48_2,Making Milk Tea,4.80,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f179e1a2-3265-464a-a106-a08c30d0a2ae,iiith_cooking_49_2,Cooking an Omelet,3.91,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0099226c-9bec-44aa-ba43-2b90eb7b8379,iiith_cooking_50_2,Making Milk Tea,2.42,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ab1786c9-b44c-40e2-8d59-5f7ddf06dceb,iiith_cooking_50_4,Making Cucumber & Tomato Salad,2.17,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cafdce82-b25f-41ad-86b7-0f945fa1c2bd,iiith_cooking_52_2,Making Milk Tea,2.85,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fa491404-c879-4d0f-a683-e7d2693ca124,iiith_cooking_52_4,Making Cucumber & Tomato Salad,1.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0f6bce99-6334-4f0a-b466-59808c1661ba,iiith_cooking_53_2,Cooking an Omelet,3.45,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7c1e3829-4687-4f8e-b254-1a186fe05ecb,iiith_cooking_54_2,Making Milk Tea,1.92,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+02def476-33eb-4895-a448-a4398d44e16b,iiith_cooking_54_4,Making Cucumber & Tomato Salad,1.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b50aba6e-2a45-4df2-9d07-8aaa993862ae,iiith_cooking_55_2,Cooking an Omelet,7.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4bc2e040-3193-40ad-ae69-d75f9fa4e5a4,iiith_cooking_56_2,Cooking an Omelet,4.68,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9acdfd19-c754-41c8-a010-e055365d5f1b,iiith_cooking_58_2,Making Milk Tea,2.38,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0748def0-bdc8-455f-813f-78ea0b9f44b8,iiith_cooking_58_4,Making Cucumber & Tomato Salad,2.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+140253fd-9258-483a-9bf1-5426d91a05dd,iiith_cooking_59_2,Cooking an Omelet,4.66,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+09acf615-b967-4c6b-b48b-53640e7be030,iiith_cooking_60_2,Making Milk Tea,2.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2ca53d8d-0120-4dad-a856-c8f20aaa2cc4,iiith_cooking_60_4,Making Cucumber & Tomato Salad,2.21,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2612d868-6900-4798-9f95-bfc2c0cd8684,iiith_cooking_61_2,Cooking an Omelet,3.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+526c8433-c267-48fc-8c63-edb5fa9a86ed,iiith_cooking_61_4,Making Cucumber & Tomato Salad,1.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4e293884-ab8b-4b0f-bce5-7294cd30975c,iiith_cooking_61_6,Making Milk Tea,1.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+12cc4bfc-42cd-4d71-8ef0-e6137fe75198,iiith_cooking_62_2,Cooking an Omelet,3.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5bdad405-bf2e-4b66-b89e-2d83a487b556,iiith_cooking_62_4,Making Cucumber & Tomato Salad,1.09,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+460fbae7-dc82-4f2c-810c-d5603f935256,iiith_cooking_62_6,Making Milk Tea,1.49,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0822b710-baa5-4b66-b0da-96b72c15f846,iiith_cooking_63_2,Cooking an Omelet,3.30,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cfac1e14-8ed8-4143-b69c-e1399ee06914,iiith_cooking_63_4,Making Cucumber & Tomato Salad,1.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bf0a2ea8-b7be-4e55-aab9-4c9e222a4568,iiith_cooking_63_6,Making Milk Tea,1.43,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+622995a4-01fb-478e-a33d-7eef6e8b370d,iiith_cooking_64_2,Cooking an Omelet,4.92,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+645a45ce-c993-4f67-b136-fe8c3bad9b6b,iiith_cooking_65_2,Making Cucumber & Tomato Salad,1.77,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cd3aff9e-a017-4841-b61f-06790d271334,iiith_cooking_65_4,Making Milk Tea,1.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f9bd5b3e-51bb-4d17-8b93-63571ea4fb97,iiith_cooking_66_2,Cooking an Omelet,2.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+889a8376-5513-49c7-a5c3-6ff6cd7cfea2,iiith_cooking_66_4,Making Cucumber & Tomato Salad,1.32,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e9fb4eba-bac7-47e3-8416-3e8d42bc2811,iiith_cooking_66_6,Making Milk Tea,1.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3c3266b2-ecb8-4d81-8693-bc2caa4b1409,iiith_cooking_67_2,Cooking an Omelet,2.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+961e4bc4-8a41-4f0c-ba12-bc198b9b15f2,iiith_cooking_67_4,Making Cucumber & Tomato Salad,0.91,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cec24cad-0c95-49a2-bdd3-5635e4b88149,iiith_cooking_67_6,Making Milk Tea,1.19,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+245c5620-481a-477c-be6d-07e02073eb4b,iiith_cooking_68_2,Cooking an Omelet,2.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+aa6c180d-b00f-4f23-b800-8c93eade3eec,iiith_cooking_68_4,Making Cucumber & Tomato Salad,1.32,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+073bdef7-e4cb-49ea-b006-b3d6f53f34b3,iiith_cooking_68_6,Making Milk Tea,1.65,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a3b39b50-809e-45bd-87d9-de565461645b,iiith_cooking_69_2,Cooking an Omelet,2.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+91de5314-babd-4fba-a641-f7ffe904a5eb,iiith_cooking_69_4,Making Cucumber & Tomato Salad,1.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+033ec5be-760b-4c5c-8003-5ce87c182774,iiith_cooking_69_6,Making Milk Tea,1.65,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d39e0bcf-5f2c-4468-abe6-ae18b3c407cb,iiith_cooking_70_2,Cooking an Omelet,2.80,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a2527385-d99e-4cc8-a407-250da018a3c9,iiith_cooking_70_4,Making Cucumber & Tomato Salad,1.21,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2eff9418-fd22-4cec-854a-ccc1ba2681bc,iiith_cooking_70_6,Making Milk Tea,2.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+62d59872-7198-4df5-a1e8-56b1136f6952,iiith_cooking_71_2,Cooking an Omelet,4.85,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2c9c701c-08f8-4217-88da-f0b46886ee5c,iiith_cooking_71_4,Making Cucumber & Tomato Salad,1.75,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b888e3bd-17bb-41f9-a559-85a600f82b9e,iiith_cooking_72_2,Cooking an Omelet,4.24,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1a99f0cf-76f5-465d-97ff-9b888a3592ce,iiith_cooking_72_4,Making Cucumber & Tomato Salad,1.38,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c5df850e-885b-41e5-a58a-9b520664b81c,iiith_cooking_72_6,Making Milk Tea,1.66,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ac50825f-acfb-44a4-a8a4-b60939e56a1a,iiith_cooking_74_2,Cooking an Omelet,4.08,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4a546aee-f59e-4adc-af79-79cf9e79ca18,iiith_cooking_74_4,Making Cucumber & Tomato Salad,1.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+34e7f37c-49b3-4cf9-b595-7803ca4c7cae,iiith_cooking_74_6,Making Milk Tea,1.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5b4fcf58-6bdc-41e4-b7e0-739abc35e7e8,iiith_cooking_75_2,Cooking an Omelet,4.64,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b43d9279-a020-4ff1-8cf1-c26facdc7e2f,iiith_cooking_76_2,Making Cucumber & Tomato Salad,1.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+09725ee9-eb23-4bea-9f63-76354e00be1e,iiith_cooking_76_4,Making Milk Tea,1.63,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f1c3d2f5-e6bf-4899-a40d-12489d1ebb11,iiith_cooking_77_2,Cooking an Omelet,2.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+281b1c72-71be-4745-9a21-3a24a02e3c6f,iiith_cooking_79_2,Cooking an Omelet,2.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5795a690-ce90-4c46-81ec-3959cb1d0027,iiith_cooking_80_2,Making Cucumber & Tomato Salad,1.15,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7f57b437-75b9-4cff-a260-28dba2ffaacd,iiith_cooking_81_2,Cooking an Omelet,3.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+66a58e88-a8a3-49c8-94db-949274cb5be0,iiith_cooking_85_2,Cooking an Omelet,7.20,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b88a75be-5c0b-4d8a-b8a8-b85e6f78dd17,iiith_cooking_87_2,Cooking an Omelet,4.64,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+27de554e-8e3a-4e6e-8cfe-895eb7864351,iiith_cooking_87_4,Making Cucumber & Tomato Salad,2.11,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a057c9b8-55b7-4ed1-8279-e9ed2e4d1657,iiith_cooking_87_6,Making Milk Tea,1.88,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+26065a7c-c2dc-475d-acff-6b5b9cb94469,iiith_cooking_89_2,Cooking an Omelet,5.43,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9273e1ed-05a9-447a-9de4-dc6ac3580c47,iiith_cooking_89_4,Making Cucumber & Tomato Salad,2.63,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8eb9612b-7b52-4f0c-a72f-dd7f3c54bf2e,iiith_cooking_89_6,Making Milk Tea,3.15,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4b140b97-5a6f-4526-a14b-a78711175b30,iiith_cooking_90_2,Cooking an Omelet,4.70,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4671238e-594f-49ba-ad74-b6b2bfe6a9a0,iiith_cooking_90_4,Making Cucumber & Tomato Salad,1.92,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4617fb22-6bc7-4b04-8676-cf42d75ba0a2,iiith_cooking_91_2,Cooking an Omelet,3.71,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+95ce549b-f567-40bb-8199-12537708ce21,iiith_cooking_93_2,Cooking an Omelet,3.50,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+edcf2ab1-cab8-4f72-82e1-839d625534e3,iiith_cooking_93_4,Making Cucumber & Tomato Salad,1.51,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1fc97419-3336-48c3-bd1b-21da8dc2a816,iiith_cooking_93_6,Making Milk Tea,1.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cd827818-97ba-4f83-8c06-fc0b3305ac58,iiith_cooking_96_2,Cooking an Omelet,3.99,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6b17a7d8-6454-44f4-aa50-32256f4cce73,iiith_cooking_98_2,Cooking an Omelet,3.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ea543b61-df81-417b-8352-463f21092703,iiith_cooking_98_5,Making Cucumber & Tomato Salad,1.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cdfc53a8-3d12-414d-857e-e1ead31c5be3,iiith_cooking_98_7,Making Milk Tea,2.23,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+37b18db8-a85a-49dd-a594-68cb1dd5ed0e,iiith_cooking_99_2,Cooking an Omelet,3.15,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+806b80b5-7963-482a-a5b5-82b95bfdd8b3,indiana_bike_01_1,Remove a Wheel,3.18,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+abc64c60-1cc8-49c1-8489-79592aafdf8a,indiana_bike_01_2,Install a Wheel,2.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c4ec8d72-a571-4ed4-a3a2-885d76eaba9c,indiana_bike_05_10,Install a Wheel,0.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bc7dea78-6890-4130-a763-297002ee296b,indiana_bike_05_11,Install a Wheel,2.36,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4cc670f9-d6c1-473e-b10b-2d229f04c9ba,indiana_bike_05_2,Remove a Wheel,3.42,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+03143eda-e746-44ce-b1de-02c79aa0a5d8,indiana_bike_05_3,Fix a Flat Tire - Replace a Bike Tube,6.42,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a42523c6-8b30-4cf6-956a-413473ddec5d,indiana_bike_05_4,Install a Wheel,5.27,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+51083415-2491-4b47-99ea-04854aa2246b,indiana_bike_05_5,Clean and Lubricate the Chain,6.16,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fa083063-17b3-4840-92dc-7237af92f418,indiana_bike_05_7,Remove a Wheel,1.57,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5462ea13-4e33-4c14-9f7c-fbf7756a95c9,indiana_bike_06_11,Clean and Lubricate the Chain,3.50,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+65aab74f-39c0-4f9f-9661-a3298d18c4b0,indiana_bike_06_7,Remove a Wheel,3.90,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+eab41965-492f-4f76-b857-ffe858e3c10e,indiana_bike_08_10,Clean and Lubricate the Chain,2.91,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6b93427f-465c-436b-a841-78424da94581,indiana_bike_08_2,Remove a Wheel,2.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ad8ef724-84cd-403a-934d-9690f7cb96b8,indiana_bike_08_3,Fix a Flat Tire - Replace a Bike Tube,6.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+954769e4-29ff-48a6-a870-38866a9cd7ad,indiana_bike_08_4,Install a Wheel,1.50,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a4b3be28-cc60-43f9-8158-0e098eb5aa82,indiana_bike_08_5,Clean and Lubricate the Chain,2.41,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+46314fe6-1b71-4ae8-bdec-2ce1fb430227,indiana_bike_08_7,Remove a Wheel,1.75,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+20161581-ec53-4508-a21c-328ed66b78f9,indiana_bike_08_8,Install a Wheel,2.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2da6c2ce-a88f-4790-9642-8dfa810ae91b,indiana_bike_09_10,Clean and Lubricate the Chain,2.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a8f7a36a-28da-4b81-83b1-be21dc4c7f8a,indiana_bike_09_12,Remove a Wheel,2.15,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7907cb48-2df8-42b2-b91c-58d13e6d9c11,indiana_bike_09_13,Install a Wheel,5.28,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4164d2e3-a26f-44d0-8adf-bdb94f82c10e,indiana_bike_09_14,Clean and Lubricate the Chain,2.27,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6fbe4821-85ec-4834-80bb-0a214fa80893,indiana_bike_09_4,Clean and Lubricate the Chain,2.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0022ecd2-43d9-4fb9-83bc-0bb23b62f9d7,indiana_bike_09_5,Install a Wheel,4.37,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1bc1334f-2546-4175-a9f4-b4338f46a246,indiana_bike_09_6,Clean and Lubricate the Chain,4.91,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f8e15a05-f5b1-48e7-8751-6fbeb8acad38,indiana_bike_09_7,Install a Wheel,1.94,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+812bb3bb-217a-454c-995c-d3e995576b81,indiana_bike_09_8,Remove a Wheel,2.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+15f47ae7-5f0a-4d90-b34e-b1f60a2017e3,indiana_bike_09_9,Install a Wheel,2.99,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8bc406ec-cc7e-4f3a-8e14-c35b0a427cfc,indiana_bike_10_11,Remove a Wheel,0.36,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+349a435d-c2ad-4c64-9067-8733e7cd5ec9,indiana_bike_10_12,Fix a Flat Tire - Replace a Bike Tube,3.10,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+047a4e6e-97a9-4202-918c-9460bf89bdbe,indiana_bike_10_13,Fix a Flat Tire - Replace a Bike Tube,2.10,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+dfe05c45-851b-4a94-9c22-05aca881fda6,indiana_bike_10_14,Clean and Lubricate the Chain,1.55,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a0f2b3d8-95f9-4ade-81c1-e17fcefa75d6,indiana_bike_10_2,Remove a Wheel,0.90,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cda93e67-c411-48cd-83f0-d7aafc6e4b3f,indiana_bike_10_3,Fix a Flat Tire - Replace a Bike Tube,6.53,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5c3e7989-9b64-42dd-af7c-274ce12619bd,indiana_bike_10_4,Clean and Lubricate the Chain,2.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+695a4a5b-8241-4e12-8bbf-20c8dbb2cd27,indiana_bike_10_6,Remove a Wheel,1.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0733d5bc-b1a8-40c3-98de-9585e23eb2d9,indiana_bike_10_7,Fix a Flat Tire - Replace a Bike Tube,3.57,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7785da94-b19b-491c-94dc-89106e095f79,indiana_bike_10_8,Install a Wheel,1.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2bb5152e-cab4-46dc-9aa6-e73007f7df8b,indiana_bike_10_9,Clean and Lubricate the Chain,2.48,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+333e7b03-d350-4bea-b980-f1bd217bd164,indiana_bike_11_11,Remove a Wheel,0.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+61b218b2-52fb-465f-855f-41e5164d7998,indiana_bike_11_12,Fix a Flat Tire - Replace a Bike Tube,4.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+667851b8-c0b6-4073-94ae-07efe816234c,indiana_bike_11_13,Install a Wheel,1.52,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9c50296b-217b-4e84-aaae-9015daee59a9,indiana_bike_11_14,Clean and Lubricate the Chain,1.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+45f15f81-ec4e-4db4-b42d-4121a564d485,indiana_bike_11_2,Remove a Wheel,0.66,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6245b4c7-b1e5-4118-ab4f-ee0bbd613592,indiana_bike_11_3,Fix a Flat Tire - Replace a Bike Tube,1.19,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8c952699-0c25-453b-92dd-52b0580248db,indiana_bike_11_4,Clean and Lubricate the Chain,2.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7712c368-8f30-461f-8996-28723dd42d0c,indiana_bike_11_6,Remove a Wheel,1.70,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7c187ae5-b793-42c2-abca-54e1d0822a32,indiana_bike_11_7,Fix a Flat Tire - Replace a Bike Tube,6.94,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c2ebdf8c-3990-4d02-9760-41dc1f131419,indiana_bike_11_8,Install a Wheel,2.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+10c9cece-4f33-4fa9-8c1a-5974d16c1c0a,indiana_bike_11_9,Clean and Lubricate the Chain,1.97,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d1a1dbab-abe5-4ec3-83a7-888bfa9c0861,indiana_bike_12_11,Clean and Lubricate the Chain,3.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0476eb2d-4ed4-4cd0-8df1-52bb2e14539f,indiana_bike_12_16,Clean and Lubricate the Chain,5.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f8b4b1a2-c85f-4595-8680-67ecf53d3dc4,indiana_bike_12_6,Clean and Lubricate the Chain,2.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+669691fc-ef53-442b-ab76-e2374bf152f4,indiana_bike_12_7,Clean and Lubricate the Chain,7.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e2e24a61-148a-46b4-b9a2-d164359e3554,indiana_bike_14_2,Clean and Lubricate the Chain,7.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4c1ce02e-53fd-4b0d-b895-14f5e2fbc78f,indiana_bike_14_4,Clean and Lubricate the Chain,3.45,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+83decc40-f9da-469a-9ce2-1d173b06e5b3,indiana_bike_14_6,Clean and Lubricate the Chain,4.53,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+66f0c633-292e-44b2-ad78-7ec57a8507e6,indiana_bike_14_8,Clean and Lubricate the Chain,3.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f8e4fafa-88bf-4c06-b1a4-bccb68e91505,indiana_bike_15_10,Clean and Lubricate the Chain,1.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1f664bfe-37f2-4cf5-8664-75083a0d5550,indiana_bike_15_12,Clean and Lubricate the Chain,1.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+79e21905-f3b1-40af-a757-fc83ee09bdc7,indiana_bike_15_14,Clean and Lubricate the Chain,1.52,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7691261d-d593-4e6f-8f5b-83d8d3f50bf9,indiana_bike_15_16,Clean and Lubricate the Chain,1.42,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+38987aa6-00a5-42f3-9b65-bee0bbbabea5,indiana_bike_15_18,Clean and Lubricate the Chain,1.93,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+91616dfc-039e-458f-9096-e1aab49dd172,indiana_bike_15_2,Clean and Lubricate the Chain,1.39,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fc63e045-ad3f-4246-ae1b-66efb0961c54,indiana_bike_15_20,Clean and Lubricate the Chain,1.41,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6e05290c-b6b3-44f5-9f73-afcfbff5fd58,indiana_bike_15_22,Clean and Lubricate the Chain,2.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c3e71ce1-0749-4477-ba99-5d59cd93d90e,indiana_bike_15_24,Clean and Lubricate the Chain,1.48,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cc8654a4-d87a-411a-bde4-1d7d4a8ba20e,indiana_bike_15_4,Clean and Lubricate the Chain,1.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+77117f3f-45e1-4b85-89ec-9b5ef24ff5f1,indiana_bike_15_6,Clean and Lubricate the Chain,1.71,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1134e405-27f2-415c-90b4-22b8d4831266,indiana_bike_15_8,Clean and Lubricate the Chain,1.66,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+46988f5c-86df-4bb3-bf4c-aca0e044bce0,indiana_cooking_01_3,Making Milk Tea,7.50,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b4c2bba9-fd6e-4736-a071-811734d1234c,indiana_cooking_03_2,Cooking Scrambled Eggs,6.11,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b918c9ce-f1ad-4fb2-9569-3726685517ee,indiana_cooking_04_2,Cooking Sushi Rolls,8.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4d6e4368-543b-4b69-a261-e8c01401ee8c,indiana_cooking_04_3,Cooking Brownies,10.39,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1c4c0679-9b40-4624-8e8d-b688a3a69929,indiana_cooking_07_3,Making Chai Tea,11.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ac5bc1ee-b7d5-4948-90aa-8f418ca4c0fa,indiana_cooking_08_2,Making Chai Tea,9.89,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+75cc6a20-2451-4922-844b-3e376e095657,indiana_cooking_11_2,Making Chai Tea,8.81,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b01f5a56-713e-4ed3-907e-14a0f3e6c101,indiana_cooking_14_3,Making Chai Tea,9.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c726ae4b-d68f-4b59-9c41-47a4615eef51,indiana_cooking_14_6,Cooking Noodles,14.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cb55bedd-c5ff-4bbb-83a9-b8287d3bb77c,indiana_cooking_17_2,Making Chai Tea,6.48,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f4e73920-1679-43d6-a307-4b6672811e46,indiana_cooking_17_3,Making Sesame-Ginger Asian Salad,9.28,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c083db28-d790-4602-915d-d7e5df588ef6,indiana_cooking_17_4,Cooking Tomato & Eggs,13.80,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b9e252ee-51c4-480d-8dc0-6a0a6022fa0f,indiana_cooking_17_5,Cooking Noodles,13.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4fd05061-02cd-4bf6-9191-02ff8303ca40,indiana_cooking_18_2,Making Chai Tea,10.07,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c7f81b64-f398-4b75-ad96-de62f2a31ec6,indiana_cooking_21_4,Cooking Tomato & Eggs,14.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9de1e91d-4331-43ac-813a-318b02732d7f,indiana_cooking_21_5,Cooking Noodles,14.77,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d6e80361-e429-4491-a08a-ed33c7ceecd5,indiana_cooking_22_4,Cooking Tomato & Eggs,13.75,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c8a70210-89d2-4b7e-bea7-5a79712fe631,indiana_cooking_22_5,Cooking Noodles,13.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+af277c0a-fa1c-4d8c-9f7a-a6a4d23b1796,indiana_cooking_23_2,Making Chai Tea,8.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+99a39dee-cd6d-4a27-b32e-bc2dee856c02,indiana_cooking_23_4,Cooking Tomato & Eggs,13.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+204dea41-2a6d-42d9-ac91-aae4f773ed36,minnesota_cooking_022_4,Making Greek Salad,14.56,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b7bbc3ad-3a43-4a76-8d8d-3c91b4d708d5,minnesota_cooking_023_2,Cooking Scrambled Eggs,7.51,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+56e27160-f974-4db5-9290-3da11b9e5f52,minnesota_cooking_023_4,Cooking Scrambled Eggs,4.88,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fffda904-c5bd-4ed2-96b8-0ae518a7c3ec,minnesota_cooking_023_6,Cooking Pasta,14.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cb327cb5-3ad5-4f47-9cfa-29b4e7cc2836,minnesota_cooking_024_2,Making Greek Salad,9.44,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ad14de7c-ea6f-4811-a590-1ee8a65275e4,minnesota_cooking_030_2,Cooking Scrambled Eggs,8.44,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1091537f-776b-456b-a390-070ca99f2d08,minnesota_cooking_032_4,Cooking Scrambled Eggs,7.95,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e8a5f8a4-d01c-4599-bc3b-980157bf14ed,minnesota_cooking_040_2,Cooking Scrambled Eggs,4.30,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+decfd1c6-c12d-4b22-adcf-afe640485ec5,minnesota_cooking_040_4,Making Greek Salad,12.99,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4773786c-6320-4a24-81e9-d735dbf9476b,minnesota_cooking_040_6,Cooking Pasta,12.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2558806a-cf6c-42dd-8323-ab80e7b7dc75,minnesota_cooking_050_2,Cooking Scrambled Eggs,9.57,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e5bfb696-72d8-4005-9a49-442579352db8,minnesota_cooking_060_2,Cooking Scrambled Eggs,6.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4c075527-7526-4c00-9681-53258fe70881,minnesota_cooking_060_4,Making Greek Salad,12.48,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8011f715-1132-4cdf-ad47-146bc1759f21,minnesota_cooking_061_2,Cooking Pasta,10.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f7b3e85b-7681-48b3-97cb-6b0a5705022e,nus_cooking_06_2,Cooking Scrambled Eggs,4.64,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a4b63d2e-e149-4256-b951-eb9947420030,nus_cooking_06_3,Making Greek Salad,7.44,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4a10d608-6712-4f08-aa69-1cfd4541dd6c,nus_cooking_06_4,Cooking Noodles,6.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+587eca14-1115-4a97-aff1-664de9e3415f,nus_cooking_07_2,Cooking Scrambled Eggs,3.21,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+528408d0-3098-4ab8-840c-7ee95869880b,nus_cooking_07_3,Making Greek Salad,7.37,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+10114022-4de6-43cd-af19-b3bc5cbeae31,nus_cooking_07_4,Cooking Noodles,6.13,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3512c265-1506-47ad-8ade-aa8891f65ced,nus_cooking_09_2,Cooking Scrambled Eggs,2.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1c7e5c46-d4cf-4ba5-9b4c-03379881c2a1,nus_cooking_09_3,Making Greek Salad,4.56,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+561e7156-f761-4509-a714-e8b2b8e754a4,nus_cooking_09_4,Cooking Noodles,7.42,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3ce1d69f-2a22-434d-8902-86ff4acb155b,nus_cooking_09_5,Making Milk Tea,1.66,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+57dee964-b77f-430b-8f37-fa4e5ba5c6a3,nus_cooking_10_2,Cooking Scrambled Eggs,4.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a94c3d1b-69c5-4c8f-8840-ec5c37630965,nus_cooking_10_3,Making Greek Salad,6.94,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+dcca4382-3494-4bb2-b79a-0e514513895e,nus_cooking_10_4,Cooking Noodles,7.49,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3c21c496-e352-4b71-a3fb-307e134e9fdd,nus_cooking_12_2,Cooking Scrambled Eggs,4.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9706857d-4232-4f55-9873-871da2906f3a,nus_cooking_12_3,Making Greek Salad,7.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f06d7f9b-0da8-4406-b3d3-06cd70de0e0f,nus_cooking_12_4,Cooking Noodles,9.20,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a759a24a-3447-4554-99df-9dc1b647eb8d,nus_cooking_12_5,Making Milk Tea,2.83,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+388f4da0-327a-4121-b034-840e1c523149,nus_cooking_13_2,Cooking Scrambled Eggs,3.56,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3225ea5c-6210-481d-b364-3a4bfd0b5277,nus_cooking_13_3,Making Greek Salad,5.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f276ab71-0bba-4fb3-819f-d08cf3f80098,nus_cooking_13_4,Cooking Noodles,8.15,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+26dda206-8923-4a3d-95de-c62c5e082d9e,nus_cooking_13_5,Making Milk Tea,2.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7be57a0b-9f5a-4682-a18b-1998d938451e,nus_cooking_15_2,Cooking Scrambled Eggs,8.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+86d8d4ac-a4b1-4574-8979-0457af8c34a6,nus_cooking_15_3,Making Greek Salad,11.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3be02e64-5a3b-4022-9643-69c0eaf34ac0,nus_cooking_15_4,Cooking Noodles,13.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+934c8086-19a8-4aac-aae9-c02a912cbf9e,nus_cooking_15_5,Making Milk Tea,4.11,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1215d140-b34c-43f3-82dc-c3f102bbf1e4,nus_cooking_16_2,Cooking Scrambled Eggs,4.24,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ab52c59f-e6ee-4f3f-92ac-5a6db630f8fd,nus_cooking_16_3,Making Greek Salad,10.91,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3cf6545b-6476-41f4-a526-6d1da55588e3,nus_cooking_16_4,Cooking Noodles,8.22,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f7011ab9-4260-4fd3-a218-36263fabb1f0,nus_cooking_17_2,Cooking Scrambled Eggs,3.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ad758298-5b6a-4e49-bda3-5d254a5f54c7,nus_cooking_17_3,Making Cucumber & Tomato Salad,5.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+952ca52f-91d7-40a8-b254-affcc831112a,nus_cooking_17_4,Cooking Noodles,5.55,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+24215853-bc7c-4f1c-97c4-ff49aa04d7d3,nus_covidtest_01_1,Covid-19 Rapid Antigen Test,4.62,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+12549f7c-36fb-4ea7-a28d-7ffb822167dd,nus_covidtest_01_2,Covid-19 Rapid Antigen Test,3.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5d45ec21-c866-4f24-b037-9fa5d25c78ee,nus_covidtest_01_3,Covid-19 Rapid Antigen Test,3.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8c0f600f-c579-4dcc-a24a-497ef8640c97,nus_covidtest_02_2,Covid-19 Rapid Antigen Test,3.75,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a58f7f81-1ca2-4f98-bae4-2afce688c685,nus_covidtest_02_3,Covid-19 Rapid Antigen Test,2.79,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c1e9f1ff-db75-4865-a52a-6b4899f708d0,nus_covidtest_03_1,Covid-19 Rapid Antigen Test,3.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+edfd7e49-1765-43e5-ac74-00e1d36b54ad,nus_covidtest_03_2,Covid-19 Rapid Antigen Test,3.93,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+daa1dd3a-4532-4dce-b747-39547e46d2f2,nus_covidtest_04_1,Covid-19 Rapid Antigen Test,3.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+45cb84f9-a925-43f8-aa7e-0fba6e23a86e,nus_covidtest_04_2,Covid-19 Rapid Antigen Test,3.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c17c9de6-ecdd-4f94-a1e2-afcf8c0d26bb,nus_covidtest_06_1,Covid-19 Rapid Antigen Test,3.77,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b7817e91-1bc3-437d-828c-235ee28c014d,nus_covidtest_06_2,Covid-19 Rapid Antigen Test,3.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cd3f00ad-0328-4a6b-84bb-a4fc4c12d03a,nus_covidtest_07_1,Covid-19 Rapid Antigen Test,2.97,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6c5a0938-b548-4b9a-b367-f239a0cdd366,nus_covidtest_07_2,Covid-19 Rapid Antigen Test,2.55,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c2a2dd78-4982-4eef-8c2b-86d99b52aff6,nus_covidtest_08_1,Covid-19 Rapid Antigen Test,2.57,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+300ce13f-a96a-4402-a41c-19b0d459a45d,nus_covidtest_08_2,Covid-19 Rapid Antigen Test,2.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+50e60e9a-a4e8-4fb6-a6ed-e768f0c1baf3,nus_covidtest_10_1,Covid-19 Rapid Antigen Test,3.93,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a75fcdee-19da-402a-96bd-820a2d2a4379,nus_covidtest_10_2,Covid-19 Rapid Antigen Test,4.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+43d02146-6069-45cd-92f6-b8521aaf764b,nus_covidtest_11_1,Covid-19 Rapid Antigen Test,5.20,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d0a32323-35e8-4420-b4c2-59b391924a00,nus_covidtest_12_1,Covid-19 Rapid Antigen Test,2.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d8680628-a74a-4e23-badc-f7db6f8736cc,nus_covidtest_12_2,Covid-19 Rapid Antigen Test,4.16,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2b709538-7d52-432b-9bd8-d9929e1ec822,nus_covidtest_13_2,Covid-19 Rapid Antigen Test,1.81,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b8e7ec5d-1e32-4780-b55b-6f7ff51dd4e4,nus_covidtest_14_1,Covid-19 Rapid Antigen Test,3.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2781dc4d-5aeb-411c-8c0e-89da0ec74468,nus_covidtest_14_2,Covid-19 Rapid Antigen Test,3.52,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5527e6b1-adc4-434d-87e6-e81e116bbc77,nus_covidtest_15_1,Covid-19 Rapid Antigen Test,4.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+dd649889-5705-4532-8191-c261acfb864a,nus_covidtest_15_2,Covid-19 Rapid Antigen Test,4.31,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6b3474b9-86fa-483c-953a-0c776e50ba29,nus_covidtest_16_1,Covid-19 Rapid Antigen Test,3.40,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+faf039a2-d360-4e8c-b5fc-a5f80e24c819,nus_covidtest_16_2,Covid-19 Rapid Antigen Test,3.78,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4e6b8c29-30e3-4eb5-a823-3577d97088b8,nus_covidtest_17_1,Covid-19 Rapid Antigen Test,4.20,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fe9c727d-dac3-4efe-9906-b268991547cf,nus_covidtest_17_2,Covid-19 Rapid Antigen Test,3.95,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2c8af64f-9826-42f0-9ebd-6760f3e0fe19,nus_covidtest_18_1,Covid-19 Rapid Antigen Test,4.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f3f87687-6c1d-415f-9fe0-5f0bdb031371,nus_covidtest_18_2,Covid-19 Rapid Antigen Test,4.63,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0692260e-e2ab-44da-8f3c-cbdb02be4b63,nus_covidtest_19_1,Covid-19 Rapid Antigen Test,5.94,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6049198a-9e11-46cf-9d6c-c2cdef265a9c,nus_covidtest_19_2,Covid-19 Rapid Antigen Test,4.08,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+581e8371-9aae-4a33-ae80-2ed2628f5038,nus_covidtest_21_1,Covid-19 Rapid Antigen Test,4.68,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9365a457-db04-4e11-981f-92a95cda4ce4,nus_covidtest_21_2,Covid-19 Rapid Antigen Test,2.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5dc6b68f-c360-4519-8b45-1d9ba21dbeed,nus_covidtest_22_2,Covid-19 Rapid Antigen Test,2.87,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8ce40250-ff30-4fb2-a1da-619772caf4c3,nus_covidtest_23_1,Covid-19 Rapid Antigen Test,4.24,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+40dc3bbc-c8c4-4e6d-a2a5-32a357f3c291,nus_covidtest_23_2,Covid-19 Rapid Antigen Test,2.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+40d9dc9a-b35f-46a4-90de-a9ac5bedd611,nus_covidtest_24_1,Covid-19 Rapid Antigen Test,4.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7b839fc9-8b7c-47f1-b55e-2247dfd8eb41,nus_covidtest_24_2,Covid-19 Rapid Antigen Test,3.35,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+be9be01d-a4cc-4759-840c-3afeb65ded16,nus_covidtest_25_1,Covid-19 Rapid Antigen Test,4.36,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e6b06da9-b9ab-4fb2-b9b6-d6d126bc85d6,nus_covidtest_25_2,Covid-19 Rapid Antigen Test,5.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+469e89e3-bae0-43f4-a39c-9be0489cce8b,nus_covidtest_26_2,Covid-19 Rapid Antigen Test,3.13,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e9a78eed-2c7f-4976-9021-f2dce9a363ff,nus_covidtest_26_3,Covid-19 Rapid Antigen Test,3.43,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f5ca819d-80dd-4b71-a384-f3c5821f6345,nus_covidtest_27_2,Covid-19 Rapid Antigen Test,2.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+48bea491-3c81-4750-802f-bb78d96ba466,nus_covidtest_27_3,Covid-19 Rapid Antigen Test,1.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+429b0214-c001-4b59-a31b-d99939d1ebb5,nus_covidtest_28_2,Covid-19 Rapid Antigen Test,2.65,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4bde82d8-0350-43aa-9512-84b016d0c190,nus_covidtest_28_3,Covid-19 Rapid Antigen Test,1.94,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+979fd973-086f-420e-b3af-9718eb171258,nus_covidtest_29_2,Covid-19 Rapid Antigen Test,2.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6f012362-e4e9-4798-b0da-db170bd360c6,nus_covidtest_29_3,Covid-19 Rapid Antigen Test,2.27,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b62796ae-e9ec-4062-82f5-d0e4445afbf0,nus_covidtest_31_2,Covid-19 Rapid Antigen Test,4.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d6d2a1f4-261c-4a4e-a4b3-435af2c877ac,nus_covidtest_31_3,Covid-19 Rapid Antigen Test,3.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+53b3b5f8-78f5-4322-80d0-625cf9a60537,nus_covidtest_32_2,Covid-19 Rapid Antigen Test,2.64,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f15b5587-6679-44a5-a193-306d525a4ff0,nus_covidtest_32_3,Covid-19 Rapid Antigen Test,2.04,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c06e7634-c750-4abb-b70d-895ea9692844,nus_covidtest_33_2,Covid-19 Rapid Antigen Test,3.37,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+78cd2182-10ee-4b39-a862-d04e20c503ca,nus_covidtest_33_3,Covid-19 Rapid Antigen Test,3.92,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+eeb8ebeb-cb6b-42e0-9e1d-0cd9203cd0ac,nus_covidtest_35_2,Covid-19 Rapid Antigen Test,3.56,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+369d1a36-c4bf-4ee0-9079-ae30aff21d72,nus_covidtest_35_3,Covid-19 Rapid Antigen Test,2.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7264ecac-1636-4e6e-8364-0951dc527b1c,nus_covidtest_36_2,Covid-19 Rapid Antigen Test,5.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7f9d0bd8-9684-4aa7-a9ff-888226bef112,nus_covidtest_36_3,Covid-19 Rapid Antigen Test,3.66,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7535b1a2-6226-4f14-a369-fb72861d2708,nus_covidtest_37_2,Covid-19 Rapid Antigen Test,3.52,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f68db1a2-5f16-4569-97a2-e9a7b70c7d97,nus_covidtest_37_3,Covid-19 Rapid Antigen Test,3.17,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+89e5a9b8-fcdf-40b9-9a8b-b5ba59286c9c,nus_covidtest_37_4,Covid-19 Rapid Antigen Test,2.77,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+63217b63-d7e9-4cea-a06b-7180b63a078d,nus_covidtest_38_2,Covid-19 Rapid Antigen Test,4.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7c55cb1a-db2d-417b-9a0d-a3a81b99a026,nus_covidtest_38_3,Covid-19 Rapid Antigen Test,2.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0b6f5a9b-e3cc-4515-ace5-2ceb23a6f426,nus_covidtest_39_2,Covid-19 Rapid Antigen Test,4.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bd975b4c-373f-434a-b520-c7ad55ee556f,nus_covidtest_39_3,Covid-19 Rapid Antigen Test,4.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f7b11289-fd4c-49f9-86c6-cedf3dd43038,nus_covidtest_40_2,Covid-19 Rapid Antigen Test,3.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+85f9fbc3-7ed4-4e02-86ff-222b867aa94c,nus_covidtest_40_3,Covid-19 Rapid Antigen Test,2.22,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e9c37db2-b5f1-461c-a137-e9373730e04a,nus_covidtest_41_2,Covid-19 Rapid Antigen Test,3.15,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5ec6e29f-9b84-49ff-ab42-22c562d5c4a3,nus_covidtest_41_3,Covid-19 Rapid Antigen Test,2.70,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e42e5726-e8ac-4b40-80a8-f3dfa5539e2b,nus_covidtest_42_2,Covid-19 Rapid Antigen Test,4.89,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+892bb28a-5b5e-4085-9c83-1f2a0b3ce0b2,nus_covidtest_42_3,Covid-19 Rapid Antigen Test,2.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fb5d0776-b801-4b85-b291-0c2c8cccf7a9,nus_covidtest_43_2,Covid-19 Rapid Antigen Test,3.09,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8db188af-c56c-4cd0-aa45-6aa187881f08,nus_covidtest_43_3,Covid-19 Rapid Antigen Test,2.81,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ce93edba-402f-4483-a500-d4d4624762b0,nus_covidtest_43_4,Covid-19 Rapid Antigen Test,3.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5e6b0f3a-b154-44ab-a428-c1aea6211cf5,nus_covidtest_44_2,Covid-19 Rapid Antigen Test,3.11,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9d015ada-96f8-4fa5-898e-daff15ec961f,nus_covidtest_44_3,Covid-19 Rapid Antigen Test,2.78,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1804c25f-8c3f-49c7-9ac6-fdcf73d7a928,nus_covidtest_44_4,Covid-19 Rapid Antigen Test,3.08,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+74b2a560-6270-4297-84da-78623d9d463b,nus_covidtest_45_1,Covid-19 Rapid Antigen Test,6.24,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+17fb58a7-cce4-439b-9b62-fe3c069846bd,nus_covidtest_46_1,Covid-19 Rapid Antigen Test,5.83,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f87f7ed1-1e52-4f78-8084-5de702bf2594,nus_covidtest_48_1,Covid-19 Rapid Antigen Test,8.62,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4948e864-bd35-45d2-9573-3c11c7015a8f,nus_covidtest_49_1,Covid-19 Rapid Antigen Test,4.15,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+43a80889-99c2-48ad-b75a-4fc3f1999e98,nus_covidtest_50_1,Covid-19 Rapid Antigen Test,4.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5e9b05eb-f68d-4447-8d8f-30a8d6035124,nus_covidtest_51_1,Covid-19 Rapid Antigen Test,6.45,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b0f19505-05b3-4c2f-b22f-5cff04ad4164,nus_covidtest_52_1,Covid-19 Rapid Antigen Test,2.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a646ea40-9d0a-4636-97b4-0701da456a41,nus_covidtest_53_1,Covid-19 Rapid Antigen Test,4.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a7891933-2d02-4923-af1c-67283981fa48,nus_covidtest_54_1,Covid-19 Rapid Antigen Test,5.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b1a9c9a4-47a6-4bbb-845c-93b8834f1ef2,nus_covidtest_55_1,Covid-19 Rapid Antigen Test,3.88,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4319a6b8-25c0-4204-803a-1b8909cc6b61,nus_covidtest_56_1,Covid-19 Rapid Antigen Test,4.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+91fb183c-819b-4ec2-9376-f23bbc983e61,nus_covidtest_57_1,Covid-19 Rapid Antigen Test,3.88,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2fe9ef71-a933-4562-b4c2-f503eee31e9f,nus_covidtest_58_1,Covid-19 Rapid Antigen Test,4.75,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+28277708-c025-4422-9064-957dadbb3ea0,nus_covidtest_59_1,Covid-19 Rapid Antigen Test,3.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d360b43d-51bf-430b-9200-05e273dcc0d2,nus_covidtest_60_1,Covid-19 Rapid Antigen Test,3.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1496313d-e46a-4fa4-8a9d-3fa8c21d4b55,nus_covidtest_61_1,Covid-19 Rapid Antigen Test,2.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e1ac4389-ef65-4f09-9802-3f18fe9f0be6,nus_covidtest_62_1,Covid-19 Rapid Antigen Test,3.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2b9fc435-d090-4b85-b755-fb4854560f23,nus_covidtest_63_1,Covid-19 Rapid Antigen Test,4.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9bc33576-bcb6-42a5-b040-3220456f268f,sfu_cooking015_2,Cooking Scrambled Eggs,2.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+19912997-45b4-4c43-8209-7599079d8eed,sfu_cooking015_4,Cooking Scrambled Eggs,2.99,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3986f4f6-9fb9-4311-95b8-06a5d4640794,sfu_cooking017_4,Making Cucumber & Tomato Salad,1.23,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4851928d-2d6f-43be-b33b-f4c8aa877f85,sfu_cooking017_6,Cooking Scrambled Eggs,4.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6bb03392-7bdd-49d4-9cd8-93aa05242e22,sfu_cooking017_9,Making Milk Tea,3.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2bf430f0-a803-46d6-8dd1-9cb1a447a186,sfu_cooking020_6,Cooking Scrambled Eggs,4.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+23a1d2ed-c9fd-4f4d-9ca7-f98461409b4c,sfu_cooking020_8,Cooking Scrambled Eggs,3.83,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+dc2678ea-c15d-408b-8e88-218e50c15574,sfu_cooking022_11,Cooking Scrambled Eggs,4.48,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3c744ca5-c64a-4de3-8235-c2f542ac5056,sfu_cooking022_2,Making Cucumber & Tomato Salad,5.49,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+09c9329d-87f5-4ccc-b0c1-b7887e3fb39f,sfu_cooking022_5,Making Cucumber & Tomato Salad,3.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1cba1f16-0c0e-472e-87d9-94d393ca7af2,sfu_cooking022_9,Making Coffee latte,3.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+823affad-e570-4091-a85f-da7aed524500,sfu_cooking023_6,Cooking Scrambled Eggs,7.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3540ae4e-89f8-4f61-8606-3492031c35fe,sfu_cooking023_8,Making Coffee latte,4.22,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7089a121-02fe-4f25-aa1a-dd83cdd3c130,sfu_cooking024_2,Making Cucumber & Tomato Salad,1.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e8616e9d-f2cb-4fcb-bb3c-5efef7bd4975,sfu_cooking024_4,Making Cucumber & Tomato Salad,1.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9a00ede9-3714-4609-b024-6bac5e459422,sfu_cooking024_6,Cooking Scrambled Eggs,2.27,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+391353b5-eb07-461a-b5b7-67c3a525ec4e,sfu_cooking024_8,Making Coffee latte,2.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+304ac782-8ebc-4ffc-929c-a0d44ce19f45,sfu_cooking025_3,Making Cucumber & Tomato Salad,0.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7c8ac1bc-3f73-47ab-895d-474a8f28382a,sfu_cooking025_5,Cooking Scrambled Eggs,2.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+349c67bc-8160-4f87-9a36-2b28a11545d2,sfu_cooking025_7,Making Coffee latte,0.41,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+35e4a30c-bd1b-4b46-aab2-2b49adcc4b7c,sfu_cooking026_2,Cooking Scrambled Eggs,3.38,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+762f9011-aac1-4bea-b0aa-b21d642a61ea,sfu_cooking026_4,Cooking Scrambled Eggs,1.04,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b880f349-0ef2-4470-b597-adbd239ea6e2,sfu_cooking026_8,Making Coffee latte,0.49,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b9643892-d3dc-4dba-a18f-b9f8e44cbcb4,sfu_cooking027_2,Making Cucumber & Tomato Salad,0.95,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+dbae13b9-694b-40ba-9c1e-f326225337bf,sfu_cooking027_4,Making Cucumber & Tomato Salad,0.63,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a85db96a-3674-4a36-8768-be747c189ae5,sfu_cooking027_7,Cooking an Omelet,2.44,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c34636f2-7947-4f72-b08e-12ff5db0cdce,sfu_cooking027_9,Making Milk Tea,2.90,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+64839cc5-06ff-4cb8-b381-5388913d2e29,sfu_cooking028_12,Making Cucumber & Tomato Salad,3.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0c656506-defb-4657-8e57-6c90ca6b1d80,sfu_cooking028_2,Cooking an Omelet,6.89,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fc9d4ef5-2644-40f2-a755-c9b8e89bae60,sfu_cooking028_6,Cooking Noodles,13.38,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6dd5a917-7a7e-46e1-9498-6f7f6ff64252,sfu_cooking028_8,Making Cucumber & Tomato Salad,6.32,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+37081591-1f5f-454f-b2a4-bfdcec5ccca6,sfu_cooking029_2,Cooking an Omelet,5.48,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+24aeba39-9b30-4533-9d28-39b50c6ce3c4,sfu_cooking029_4,Making Cucumber & Tomato Salad,5.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8fb16417-d314-437c-a1f5-a17f77196688,sfu_cooking029_6,Cooking Noodles,11.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3c7e6b2f-75c5-46d6-b0c0-880429a93e10,sfu_cooking029_8,Cooking an Omelet,4.62,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+aa03ce34-2a6d-4c60-b294-8f283e7cfd8a,sfu_cooking030_2,Cooking Scrambled Eggs,9.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f963c6e5-439a-47cf-ba6f-5a28ae478463,sfu_cooking030_4,Making Cucumber & Tomato Salad,9.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b7f61e87-02ff-4d15-9882-e7816b072765,sfu_cooking030_6,Cooking Noodles,9.19,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+dc809bc1-b98b-4705-9cd3-a749943d1f9a,sfu_cooking031_1,Cooking Scrambled Eggs,5.53,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bd58f048-87aa-4b40-97ee-17bdb2dd947e,sfu_cooking031_10,Cooking Tomato & Eggs,0.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+36821f68-75ce-4784-930d-d341e340e9bd,sfu_cooking031_2,Cooking Scrambled Eggs,0.50,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+40d72c13-0a74-4499-8e94-174a93440c36,sfu_cooking031_3,Making Cucumber & Tomato Salad,4.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1fbef931-df85-4490-aa28-ab00900489c6,sfu_cooking031_7,Cooking Tomato & Eggs,8.36,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+acb45dd0-2685-4d32-a6d0-3d1a94eb480b,sfu_cooking031_9,Cooking Tomato & Eggs,6.50,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+294f49e6-55f5-4eed-b66f-6f86b1c1b353,sfu_cooking032_1,Cooking Scrambled Eggs,6.18,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5cb66fee-c010-4df7-925a-55cda04173c8,sfu_cooking032_3,Making Cucumber & Tomato Salad,4.09,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+34ad059f-5b0c-41e0-8aaf-096d3f4482b8,sfu_cooking_001_2,Cooking Scrambled Eggs,4.31,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+424d48e3-b2cc-4558-b9e8-f954f3a61f7a,sfu_cooking_001_4,Making Cucumber & Tomato Salad,2.87,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+978cd92e-8766-4c68-9d06-8a1a19ff1dc1,sfu_cooking_001_6,Making Coffee latte,4.09,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3f6a08d0-b2fe-4625-9cb1-531622f76128,sfu_cooking_001_8,Cooking Scrambled Eggs,4.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f9dbdf83-0135-4fdd-973a-f207c79b3453,sfu_cooking_002_3,Cooking an Omelet,7.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+127941e8-52d5-494f-901b-af3521a67ae3,sfu_cooking_003_1,Cooking Scrambled Eggs,8.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+77521486-6690-4374-abc2-0d9bc491af0c,sfu_cooking_003_5,Making Milk Tea,4.55,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b2fea2b1-2404-4cf2-9be3-79879011cba6,sfu_cooking_004_1,Cooking Tomato & Eggs,9.56,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+32bd2d54-16a9-4b34-aff8-daefce73b626,sfu_cooking_004_3,Making Cucumber & Tomato Salad,3.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+46cc2fa4-bfb1-4a4a-beba-e157254be154,sfu_cooking_004_5,Making Coffee latte,3.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+084fe4d0-b55d-4de4-a26d-32d7735e9621,sfu_cooking_005_1,Cooking an Omelet,5.92,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2d146c0f-88df-483d-8a26-efb052b9a8ac,sfu_cooking_005_4,Making Coffee latte,3.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6eb10b39-5171-4293-afba-4084f5825748,sfu_cooking_007_1,Cooking Scrambled Eggs,8.13,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f76f2040-989c-42df-b2fb-e0903165443d,sfu_cooking_007_3,Cooking Noodles,12.09,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6bd00296-7ae3-41c9-89fd-52ba9410018f,sfu_cooking_007_5,Making Milk Tea,8.20,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bbfcc023-558a-4396-8560-d683c2407180,sfu_cooking_007_7,Making Milk Tea,6.65,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2df948cb-cc89-432c-842f-2419f7cf5fff,sfu_cooking_008_1,Cooking Tomato & Eggs,9.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+44d647ce-72d2-4312-b80c-99faea2d017d,sfu_cooking_008_3,Making Cucumber & Tomato Salad,4.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b26b4d93-0364-4333-8d4d-38ca1a6a4dfa,sfu_cooking_008_5,Making Coffee latte,2.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0c49cda5-7e55-46d8-8f1f-522ed1924a79,sfu_cooking_009_3,Cooking an Omelet,6.90,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e2b190bb-f8b2-43a7-b2da-b80f3708dcf3,sfu_cooking_010_1,Cooking an Omelet,10.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+31c74ac0-8c3d-4d5e-b577-4e54f16fb52d,sfu_cooking_010_3,Making Cucumber & Tomato Salad,4.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b5f62731-3deb-4bac-b00c-fe96e57d86b3,sfu_cooking_010_5,Making Chai Tea,6.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2272e855-b35c-4ac0-b008-031e119718b5,sfu_cooking_010_7,Making Cucumber & Tomato Salad,3.40,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5f153be3-ed11-470c-b032-e779d7a88180,sfu_cooking_011_3,Cooking an Omelet,8.70,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+42efe6bf-aeff-4777-a189-d2872be008b5,sfu_cooking_012_1,Making Cucumber & Tomato Salad,6.36,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ce433b23-9913-4265-a1ed-7a0c24e54384,sfu_cooking_012_3,Making Coffee latte,5.21,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e8028494-e106-43dd-96b2-ea35b5f9b232,sfu_cooking_012_6,Making Coffee latte,2.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3059469a-03fc-4ae0-bbf7-b08187d1b290,sfu_cooking_013_1,Cooking Scrambled Eggs,5.13,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0015e453-3227-41b0-bd64-03c134abe054,sfu_cooking_013_3,Cooking Dumplings,7.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3a7779b2-5d99-46b2-a0c0-28fc2100918e,sfu_covid_001_10,Covid-19 Rapid Antigen Test,2.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+09399c5a-e4fc-4f7b-a1b1-550f2203db44,sfu_covid_001_12,Covid-19 Rapid Antigen Test,3.45,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c0a2159b-e900-4fe1-ac09-7a85925ef216,sfu_covid_001_2,Covid-19 Rapid Antigen Test,3.49,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2bb5ab9f-0fa9-4eeb-b550-9b7a9bffe3ee,sfu_covid_001_4,Covid-19 Rapid Antigen Test,4.25,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1831d594-72a4-42ba-9828-177bfb8b6e21,sfu_covid_001_6,Covid-19 Rapid Antigen Test,5.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0cf0130a-2eed-49a9-8f66-8440e3aa387d,sfu_covid_001_8,Covid-19 Rapid Antigen Test,2.50,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6ea11962-0de6-49bd-b133-91be5b46f810,sfu_covid_002_10,Covid-19 Rapid Antigen Test,7.81,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+096b07f9-c370-4274-84af-46460cfae586,sfu_covid_002_12,Covid-19 Rapid Antigen Test,5.75,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d4c27ee9-443b-4ebf-a3ef-57829e24d991,sfu_covid_002_2,Covid-19 Rapid Antigen Test,5.13,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+eafee432-77a1-4f9c-949e-aea614671b1c,sfu_covid_002_4,Covid-19 Rapid Antigen Test,5.16,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7abe1f04-6712-4325-b49d-4bb65bd30eec,sfu_covid_002_6,Covid-19 Rapid Antigen Test,5.31,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+57ca60ce-ff69-4ce4-ab84-379bb3dbbed6,sfu_covid_004_10,Covid-19 Rapid Antigen Test,3.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3ae90191-2706-4d42-bb27-6776b9692342,sfu_covid_004_12,Covid-19 Rapid Antigen Test,2.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+350c784e-21aa-4274-bac8-a1fae4a1e090,sfu_covid_004_2,Covid-19 Rapid Antigen Test,4.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a2fde9e6-566b-4b88-97d4-e984362abdad,sfu_covid_004_4,Covid-19 Rapid Antigen Test,3.77,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cde23a81-898b-468d-8a59-8cdf0e519b82,sfu_covid_004_6,Covid-19 Rapid Antigen Test,6.14,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ff3f42f5-e876-41a9-8260-d791d3ac5ad2,sfu_covid_004_8,Covid-19 Rapid Antigen Test,3.97,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b63da48d-f6a2-4b94-a9af-3e694ca549f2,sfu_covid_005_2,Covid-19 Rapid Antigen Test,4.65,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6d3f6d89-77ab-4753-b541-a0325fbe1718,sfu_covid_005_4,Covid-19 Rapid Antigen Test,2.62,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a50779e0-ce11-4274-82e8-f2cc5e9e9eaa,sfu_covid_005_6,Covid-19 Rapid Antigen Test,2.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2389ea6b-4075-4335-bd75-b38afa5de79a,sfu_covid_006_2,Covid-19 Rapid Antigen Test,8.51,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3cb3bdd8-c8c0-43cc-8136-f04cf3cbdbb8,sfu_covid_006_4,Covid-19 Rapid Antigen Test,4.24,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9706c370-9e04-46c5-aa8b-29412d48d987,sfu_covid_006_6,Covid-19 Rapid Antigen Test,6.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0ef2ea1f-713e-4e0b-8fe7-7427479e9223,sfu_covid_007_2,Covid-19 Rapid Antigen Test,9.90,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+807147c7-a25f-4a01-aa87-7a5a7bd73994,sfu_covid_008_10,Covid-19 Rapid Antigen Test,4.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b1848902-22f3-4d15-b18f-78b18ea3a17a,sfu_covid_008_12,Covid-19 Rapid Antigen Test,4.47,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6d59ca00-e402-4272-b0d2-1b34a2370860,sfu_covid_008_16,Covid-19 Rapid Antigen Test,3.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4c1dce2e-73e8-4d3e-8c04-57ba6ca335da,sfu_covid_008_2,Covid-19 Rapid Antigen Test,4.15,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+890bc050-8ec4-4800-b43f-e466ffee7964,sfu_covid_008_6,Covid-19 Rapid Antigen Test,1.25,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b02ad516-cfaa-43ee-a0b4-b487f9c8f981,sfu_covid_008_7,Covid-19 Rapid Antigen Test,5.31,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+19828f95-9f7d-491c-b84b-1a0163647628,sfu_covid_009_10,Covid-19 Rapid Antigen Test,6.17,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+82a014a8-1665-4323-91cf-eba494740a10,sfu_covid_009_12,Covid-19 Rapid Antigen Test,6.31,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+86cbcb14-0b47-4b17-b8ff-e6cc44a96b66,sfu_covid_009_14,Covid-19 Rapid Antigen Test,7.02,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4794b8f9-75b7-4eec-81b4-da8c5177ecb7,sfu_covid_009_2,Covid-19 Rapid Antigen Test,3.28,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e9bceaa5-6e5a-4dd6-b206-079fdfce0d74,sfu_covid_009_4,Covid-19 Rapid Antigen Test,4.36,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ecb9c4c1-214c-4bfa-a9f3-371b85267113,sfu_covid_009_6,Covid-19 Rapid Antigen Test,5.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0e661761-15d5-4b97-8797-f87158e10ce8,sfu_covid_009_8,Covid-19 Rapid Antigen Test,4.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c8aabd02-b46e-4e91-b2f4-f9d97cfb1a75,sfu_covid_010_2,Covid-19 Rapid Antigen Test,3.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d9c3ae49-4650-40fe-b734-3b2097cf4eed,sfu_covid_010_4,Covid-19 Rapid Antigen Test,2.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+abf39b23-850e-4ef6-b680-6d85d9b2f783,sfu_covid_010_6,Covid-19 Rapid Antigen Test,4.87,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e7f8f9f4-7cff-4a10-8192-820cb41d8920,sfu_covid_011_2,Covid-19 Rapid Antigen Test,3.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0827eef1-5701-4de7-a0c4-c143ccbb98de,sfu_covid_011_4,Covid-19 Rapid Antigen Test,2.92,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+dfcb8b50-80c2-4c63-bbeb-eb73a1ef23ce,sfu_covid_011_6,Covid-19 Rapid Antigen Test,0.83,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fc7176d5-c7a3-41b5-83aa-36b5ef2215bf,sfu_covid_011_7,Covid-19 Rapid Antigen Test,2.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d83596b2-54ee-4cf7-9a7d-7dd09633b841,sfu_covid_012_5,Covid-19 Rapid Antigen Test,2.51,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3dd860a1-8e01-4a44-9382-fc8ffab5834e,sfu_covid_013_12,Covid-19 Rapid Antigen Test,6.57,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fd831f5c-6274-4f53-9832-9847164588f9,sfu_covid_013_2,Covid-19 Rapid Antigen Test,4.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3c4dc50b-de23-4cb0-be99-cd4e2d62ef54,sfu_covid_013_4,Covid-19 Rapid Antigen Test,3.97,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fa7bf209-bd42-4e0f-8feb-a0baeca7b025,sfu_covid_013_8,Covid-19 Rapid Antigen Test,3.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+29efb99f-abab-4530-8f20-abcdc0653daa,sfu_covid_014_2,Covid-19 Rapid Antigen Test,6.22,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a46d15b2-5c90-4938-bdca-40b87f51bec1,uniandes_cooking_001_10,Cooking Scrambled Eggs,8.53,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+783c918b-1473-4b72-b106-cb2718c46af8,uniandes_cooking_001_12,Making Coffee latte,8.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d0df0e37-f7f3-4b38-8b80-36b4a14af68a,uniandes_cooking_001_3,Making Coffee latte,5.58,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3528e260-6a6d-46d7-b97d-b6c029ec7304,uniandes_cooking_001_5,Cooking Scrambled Eggs,11.09,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+526b8408-7edc-4390-a1cc-44512faaa432,uniandes_cooking_001_8,Making Coffee latte,4.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5df0a1b2-0240-4ddb-a6a8-2c48c80d7427,uniandes_cooking_002_10,Cooking Scrambled Eggs,13.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0583b07f-6e72-456c-8934-397927455be9,uniandes_cooking_002_12,Making Coffee latte,5.41,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8ef56f71-6d85-4ff4-949e-2c386d99a38e,uniandes_cooking_002_2,Cooking Scrambled Eggs,6.45,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+aeec58e3-fbc9-467c-acda-6c92b45de1ab,uniandes_cooking_002_4,Making Coffee latte,4.10,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7130970c-73d9-413d-964e-167696280422,uniandes_cooking_002_6,Making Coffee latte,5.72,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c529c120-c1fb-4504-97c7-52912c2aa3c0,uniandes_cooking_002_8,Cooking Scrambled Eggs,12.04,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+071edc40-b64c-4e94-aeed-d523ed4a2794,uniandes_cooking_003_10,Cooking Scrambled Eggs,10.19,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ee0b1b43-6411-49d2-96ba-d06fa02760a9,uniandes_cooking_003_13,Making Milk Tea,6.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f3a8d0f5-ac34-4732-858a-39162f491f4b,uniandes_cooking_003_2,Cooking Tomato & Eggs,7.93,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f3566beb-664b-4df0-8a83-140ae9c2952e,uniandes_cooking_003_4,Making Coffee latte,10.42,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+11b8d7e3-9c5e-4652-84ef-91504a07f332,uniandes_cooking_003_6,Cooking Tomato & Eggs,5.82,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+109db476-2edd-4968-b2da-6abec1a199da,uniandes_cooking_003_8,Making Coffee latte,5.73,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+150e45fa-eb77-4a8b-bd60-d4801dff8c9f,uniandes_cooking_004_2,Cooking Scrambled Eggs,13.90,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0aebd388-55a4-4425-a9ee-f09b64d94a00,uniandes_cooking_004_4,Making Coffee latte,13.75,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+01f3ef42-91ea-4561-a26a-aad776212c98,uniandes_cooking_004_6,Cooking Scrambled Eggs,9.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8caf94c0-835e-48cd-9e7c-fa6bfddc0d5c,uniandes_cooking_004_8,Making Milk Tea,7.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+199582b7-81e0-4c64-92a4-2d3979881752,uniandes_cooking_005_10,Cooking an Omelet,7.04,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bf919aea-104a-457d-8946-2388f641ae50,uniandes_cooking_005_12,Making Coffee latte,4.51,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+206e9042-02a3-48ac-bed0-45861fe658cb,uniandes_cooking_005_2,Cooking Scrambled Eggs,4.21,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+dcf60f14-5b6e-4550-b1ed-0befd0849074,uniandes_cooking_005_4,Making Coffee latte,6.55,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8efe9efd-58b9-4c95-be38-0f238bdba4ee,uniandes_cooking_005_6,Making Coffee latte,5.35,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ea5d4f8b-050f-4652-a83a-498f97586d8d,uniandes_cooking_005_8,Cooking an Omelet,14.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a0bbdb8e-077b-4881-bbec-30331068a3a7,uniandes_cooking_006_10,Cooking Scrambled Eggs,9.71,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+658a6c36-f169-4d0c-9811-cbbc76393e07,uniandes_cooking_006_2,Cooking Scrambled Eggs,9.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ab4b4145-563f-42f9-bfb6-97b48bdaa2c7,uniandes_cooking_006_4,Making Coffee latte,4.39,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e420250d-b67f-4c46-bc40-31b8c9003d7e,uniandes_cooking_006_6,Cooking Scrambled Eggs,8.52,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+57efe7a9-0685-40b8-b076-51e59542c5d9,uniandes_cooking_006_8,Making Coffee latte,5.40,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a2526805-27bd-4d17-9325-d3bd1e291f91,uniandes_cooking_007_2,Making Coffee latte,4.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a3d933a1-26b2-4025-b136-3a9c2d40db4c,uniandes_cooking_007_6,Making Coffee latte,10.85,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4d799166-0362-4daa-9f26-72e27a4feb31,uniandes_cooking_007_8,Cooking Scrambled Eggs,14.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b008edb1-b0ab-4d8a-a303-5c09a6ecc790,uniandes_cooking_008_10,Making Coffee latte,4.44,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c8b9dc5b-8467-40d2-ab27-27923abcb054,uniandes_cooking_008_2,Making Milk Tea,5.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ba2086b2-f43f-4096-8b84-e9a3bfc0020b,uniandes_cooking_008_4,Cooking an Omelet,11.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+42e4f58c-bdc8-4294-966a-240a6367428a,uniandes_cooking_008_6,Making Coffee latte,7.17,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c9506871-9f9c-4e84-90f6-be2df27e9c14,uniandes_cooking_008_8,Cooking Scrambled Eggs,13.59,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e076b7e5-e67e-4452-8b00-83046dd85c62,uniandes_cooking_009_2,Making Coffee latte,11.31,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+eaa2ec3e-8c2b-47f5-8b63-8d64c6672d0b,upenn_0630_Cooking_4_2,Cooking Tomato & Eggs,10.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+92cd0d7e-2465-46fa-be63-30cfadc347e3,upenn_0630_Cooking_4_3,Making Cucumber & Tomato Salad,4.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6a1dac0d-5945-4a81-9259-ce49de3ecf79,upenn_0630_Cooking_4_4,Making Milk Tea,5.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7b819974-3c39-440c-bccd-d74fdd3fc9d1,upenn_0702_Cooking_1_3,Cooking Tomato & Eggs,13.92,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+aa6257e0-001a-422b-9935-2f9c2b5973e6,upenn_0702_Cooking_1_4,Making Cucumber & Tomato Salad,7.18,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6264ea0f-2023-4fbf-b898-5f7a13834be1,upenn_0702_Cooking_1_5,Making Milk Tea,3.52,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ea0b620a-6077-4e53-911b-34aa55ca6eeb,upenn_0702_Cooking_4_2,Cooking Tomato & Eggs,14.88,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f2628332-1196-47b2-a17a-6670055babb0,upenn_0702_Cooking_5_2,Cooking Noodles,14.77,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2d042a82-6409-4986-8bfb-af031f5e061e,upenn_0711_Cooking_2_2,Cooking Tomato & Eggs,12.46,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f2653b13-757b-456b-9000-67275edadb5f,upenn_0711_Cooking_2_3,Making Cucumber & Tomato Salad,5.37,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c9e0bbae-4092-4ab1-95cd-16b905709a0e,upenn_0711_Cooking_2_4,Making Milk Tea,4.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d6f0adfc-5c66-4c3e-95b0-902d12d7bb86,upenn_0711_Cooking_3_4,Making Cucumber & Tomato Salad,5.07,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3ca3a186-a650-4f8b-a9d0-f0bdb19bd860,upenn_0711_Cooking_3_5,Making Milk Tea,7.78,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3dda64b1-9a7c-47dc-8f64-c29b608addbe,upenn_0711_Cooking_5_4,Making Cucumber & Tomato Salad,7.06,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8192f44c-6159-473e-9885-704e7975830c,upenn_0711_Cooking_5_5,Making Milk Tea,6.33,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f1bdf9f3-4f65-4c70-b8ba-b3d4607c0cff,upenn_0711_Cooking_6_3,Cooking Tomato & Eggs,8.40,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3499e612-8ded-4c5d-a36e-c00111b2f417,upenn_0711_Cooking_6_4,Making Cucumber & Tomato Salad,5.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a95f74b8-d2af-496b-b40d-21db0afa2f5d,upenn_0711_Cooking_6_5,Making Milk Tea,4.11,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+247cde12-df65-4d59-ac01-449680e83871,upenn_0712_Cooking_2_3,Cooking Tomato & Eggs,13.44,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f09265f6-7b47-4f6f-9026-5a0a230dcbe2,upenn_0712_Cooking_3_2,Making Cucumber & Tomato Salad,10.28,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6b279bec-aab8-4696-bf5d-00f379925d1c,upenn_0712_Cooking_3_3,Making Milk Tea,9.13,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3745bd24-ceb7-4760-98ea-68b54de2141c,upenn_0713_Cooking_2_2,Making Sesame-Ginger Asian Salad,14.56,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+d1586c7d-29ba-4060-a828-02c162ba812d,upenn_0713_Cooking_2_3,Making Milk Tea,6.32,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e3b4afb7-d65c-4185-a038-9b9235caf342,upenn_0714_Cooking_1_3,Cooking Tomato & Eggs,11.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cb4333b3-c1d2-492a-81c0-3ca991190ebe,upenn_0714_Cooking_2_4,Cooking Tomato & Eggs,14.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b942e667-141c-49e7-8358-f1338e48982d,utokyo_omelet_11_1001_2,Cooking an Omelet,14.61,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0799d414-cb05-4424-a262-969dc17f26fb,utokyo_omelet_11_1001_4,Cooking an Omelet,11.08,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f1f1c625-48c9-4e7f-b3b8-f384f5cf2442,utokyo_omelet_12_1001_2,Cooking an Omelet,12.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+05e5f359-526d-4914-a86b-5a56cfcc0274,utokyo_omelet_12_1001_4,Cooking an Omelet,14.10,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a070974b-fc74-4f84-a450-5ed4eff4be63,utokyo_omelet_4_1001_4,Cooking an Omelet,12.50,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+acc8a39f-06f5-4792-8387-984ea6ae859c,utokyo_omelet_5_1001_2,Cooking an Omelet,14.57,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+849aaee0-866d-4b85-9775-39360e27fa90,utokyo_omelet_5_1001_4,Cooking an Omelet,11.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8634c58a-95ee-4aed-aa80-9392073815cf,utokyo_omelet_6_1001_2,Cooking an Omelet,13.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+515ec288-a236-4a94-9b3d-449667088c82,utokyo_omelet_6_1001_4,Cooking an Omelet,12.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+3abb475e-ce4a-4d30-a37f-af3df92e47bf,utokyo_omelet_9_1001_2,Cooking an Omelet,8.08,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9a62cbb8-081e-454a-8483-04ac8cfe6e63,utokyo_omelet_9_1001_4,Cooking an Omelet,8.52,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9855c5e6-273d-4e51-8633-3e439311028b,utokyo_pcr_2001_22_2,Covid-19 Rapid Antigen Test,5.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2a6fcab0-6de5-41f2-b7b7-07a4e386d926,utokyo_pcr_2001_22_4,Covid-19 Rapid Antigen Test,3.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6d4850c6-591c-4c11-810a-406116852c99,utokyo_pcr_2001_22_6,Covid-19 Rapid Antigen Test,6.31,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+30865771-4d6e-4738-ac51-7ea74f2c50f0,utokyo_pcr_2001_23_2,Covid-19 Rapid Antigen Test,2.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+38351533-771c-4867-af81-6b6831b46c46,utokyo_pcr_2001_23_4,Covid-19 Rapid Antigen Test,1.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f60d81f9-f333-44aa-8263-8e36b837c777,utokyo_pcr_2001_23_6,Covid-19 Rapid Antigen Test,4.31,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+45bc6f2a-5eef-4023-8173-4125cfceb8fd,utokyo_pcr_2001_24_2,Covid-19 Rapid Antigen Test,4.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+62386837-c837-4f48-9d6e-20450f207602,utokyo_pcr_2001_24_4,Covid-19 Rapid Antigen Test,2.23,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+02bfaec7-24d7-406d-992c-d42d4ded6bb6,utokyo_pcr_2001_24_6,Covid-19 Rapid Antigen Test,4.52,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1cb3fab6-8591-4e59-bc4c-fcb93b276d24,utokyo_pcr_2001_24_8,Covid-19 Rapid Antigen Test,6.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9b224756-0b70-4b7b-8e5d-b35c44b39dd9,utokyo_pcr_2001_25_2,Covid-19 Rapid Antigen Test,3.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cd733d09-1d06-48be-84a8-0d89eb42410b,utokyo_pcr_2001_25_4,Covid-19 Rapid Antigen Test,3.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8f2d56dd-4201-497d-b6a7-d896f50a0347,utokyo_pcr_2001_25_6,Covid-19 Rapid Antigen Test,4.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9bb45432-f379-43b6-9680-0d4010ed164a,utokyo_pcr_2001_27_2,Covid-19 Rapid Antigen Test,3.91,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+42c23175-3ee5-48a9-bd12-edbe21e67c9a,utokyo_pcr_2001_27_4,Covid-19 Rapid Antigen Test,3.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6b76af3c-54f0-4229-86f2-441277a9f42c,utokyo_pcr_2001_27_6,Covid-19 Rapid Antigen Test,4.66,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cfe591d1-79ad-4784-8d2b-429eabddf944,utokyo_pcr_2001_28_2,Covid-19 Rapid Antigen Test,3.60,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+88209dac-52cb-49e8-a7d8-a600506272de,utokyo_pcr_2001_28_4,Covid-19 Rapid Antigen Test,3.71,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ef7ec5fc-8762-4d1c-960e-f7497c3de4f7,utokyo_pcr_2001_28_6,Covid-19 Rapid Antigen Test,5.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8c6adb25-7608-42de-9801-5e00435f95a6,utokyo_pcr_2001_29_2,Covid-19 Rapid Antigen Test,3.63,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bf0d03c3-9e92-4c6d-864e-b9ebd66a73b8,utokyo_pcr_2001_29_4,Covid-19 Rapid Antigen Test,3.03,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5bfb3d76-a596-4535-8f46-7ac64b61bdf3,utokyo_pcr_2001_29_6,Covid-19 Rapid Antigen Test,3.95,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fffaa7ac-85a8-498c-b8d0-99d612e6d72c,utokyo_pcr_2001_30_2,Covid-19 Rapid Antigen Test,2.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b1e7db65-91dd-4143-951a-89427a6ac120,utokyo_pcr_2001_30_4,Covid-19 Rapid Antigen Test,2.22,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+29d521ba-0dd9-4c69-941f-4b04f2be8141,utokyo_pcr_2001_30_6,Covid-19 Rapid Antigen Test,5.11,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+9b2f66c3-029c-4d3e-88d0-1a52ce13bee5,utokyo_pcr_2001_30_8,Covid-19 Rapid Antigen Test,5.77,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8996af8f-201d-447e-8bde-e1a6b854751d,utokyo_pcr_2001_31_2,Covid-19 Rapid Antigen Test,4.69,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b34532fe-b935-4c1d-99bf-932fdee1d9cb,utokyo_pcr_2001_31_4,Covid-19 Rapid Antigen Test,3.40,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+35d732a8-f4ae-42d6-96ca-5ee7ef16639a,utokyo_pcr_2001_31_6,Covid-19 Rapid Antigen Test,6.26,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+99123c69-1b1a-421c-b1c7-3b81d7b1d3b0,utokyo_pcr_2001_31_8,Covid-19 Rapid Antigen Test,4.39,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6149a5db-0622-44d2-a56c-844867c76c2f,utokyo_pcr_2001_32_2,Covid-19 Rapid Antigen Test,4.39,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c78be98f-63dc-4130-a3dd-f109aac5c3ce,utokyo_pcr_2001_32_4,Covid-19 Rapid Antigen Test,3.63,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f476a576-43ad-4161-a95f-f94606b4695c,utokyo_pcr_2001_32_6,Covid-19 Rapid Antigen Test,6.24,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+deb827d6-1430-4650-a06a-014e67f904ea,utokyo_pcr_2001_32_8,Covid-19 Rapid Antigen Test,6.84,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8d05d96a-6f0e-4f6f-a220-315bbad173ce,utokyo_pcr_2001_33_2,Covid-19 Rapid Antigen Test,4.99,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+cb103624-e96d-4d52-bb78-27caefae10ad,utokyo_pcr_2001_33_4,Covid-19 Rapid Antigen Test,2.45,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f092deea-7c8b-4bee-bcd3-a7c22efc3eb3,utokyo_pcr_2001_33_6,Covid-19 Rapid Antigen Test,7.27,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+1e9ba9bd-7c8a-418e-a2e6-7d18fa7ae208,utokyo_pcr_2001_34_2,Covid-19 Rapid Antigen Test,4.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8b08ab18-7e42-462b-86c1-45f6a23a28ac,utokyo_pcr_2001_34_4,Covid-19 Rapid Antigen Test,2.96,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c553dda9-e344-425c-a10a-20bb8dc8f48f,utokyo_pcr_2001_34_6,Covid-19 Rapid Antigen Test,6.11,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fed78491-6136-4377-aac2-cba3e9bcd4ce,utokyo_pcr_2001_35_2,Covid-19 Rapid Antigen Test,4.67,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0fc077f4-37e0-45a0-902a-d72bc3a9ac0f,utokyo_pcr_2001_35_4,Covid-19 Rapid Antigen Test,1.31,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+6a3868c3-9d78-4ddc-abec-c779405b98ea,utokyo_pcr_2001_35_6,Covid-19 Rapid Antigen Test,6.00,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+868c7d7c-8c0e-41b4-ac16-279e969563d6,utokyo_pcr_2001_36_2,Covid-19 Rapid Antigen Test,7.11,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+eea5372d-3def-442b-9f3a-2b72f2d701fb,utokyo_pcr_2001_36_4,Covid-19 Rapid Antigen Test,3.45,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+91451e22-da2f-4e81-a6c1-49c89945e607,utokyo_pcr_2001_36_6,Covid-19 Rapid Antigen Test,6.19,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+e4d26f73-845c-4ec0-a0cf-2610c29680f8,utokyo_pcr_2001_37_2,Covid-19 Rapid Antigen Test,2.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4c9f0e2c-9c40-468e-beec-9173683d6b0c,utokyo_pcr_2001_37_4,Covid-19 Rapid Antigen Test,2.38,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+bdd39e2f-019a-4acd-8c50-86d8831a2a9e,utokyo_pcr_2001_37_6,Covid-19 Rapid Antigen Test,3.86,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+919edc15-276e-4a76-ace9-b01eec04d94b,utokyo_pcr_2001_38_2,Covid-19 Rapid Antigen Test,3.98,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+18b03995-c3b2-432b-8dc9-159cd183991a,utokyo_pcr_2001_38_4,Covid-19 Rapid Antigen Test,3.01,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+0123c4ef-3634-4421-a5e6-6a0ae624c2a3,utokyo_pcr_2001_38_6,Covid-19 Rapid Antigen Test,5.22,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+8c437105-67f4-43eb-a4ee-ef1a848074a7,utokyo_pcr_2001_38_8,Covid-19 Rapid Antigen Test,4.27,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+4fa6a825-a9d0-4235-b442-5d8c38ea657e,utokyo_salad_10_1018_2,Making White Radish & Lettuce & Tomato & Cucumber Salad,14.68,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ee7fcda4-66fb-4367-8d59-52e13409f965,utokyo_salad_10_1018_4,Making White Radish & Lettuce & Tomato & Cucumber Salad,13.35,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+7e1e4555-3c62-45bf-8c98-11b90a2370cb,utokyo_salad_11_1018_2,Making White Radish & Lettuce & Tomato & Cucumber Salad,11.07,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+5a5e69fc-1823-4ee4-adc6-451499728e0c,utokyo_salad_11_1018_4,Making White Radish & Lettuce & Tomato & Cucumber Salad,10.14,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c8501280-9342-4776-b5cf-79e2e02fea1e,utokyo_salad_12_1018_2,Making White Radish & Lettuce & Tomato & Cucumber Salad,12.30,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+01d41c37-4de8-4a56-94a2-df57a1bc5c95,utokyo_salad_12_1018_4,Making White Radish & Lettuce & Tomato & Cucumber Salad,10.04,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c3bb6a9f-fa27-4be2-a368-9fd694fc4231,utokyo_salad_4_1018_2,Making White Radish & Lettuce & Tomato & Cucumber Salad,10.05,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c9f0ec0e-2c5f-4350-a2f2-27877b56225f,utokyo_salad_4_1018_4,Making White Radish & Lettuce & Tomato & Cucumber Salad,7.29,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+212aa8c4-cb86-497c-a065-830a801c6e1c,utokyo_sushi_10_1008_2,Cooking Sushi Rolls,10.39,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+ea884aef-fa12-423c-ba16-531ad7173728,utokyo_sushi_10_1008_4,Cooking Sushi Rolls,9.68,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+b0e040f9-a84d-47cb-b6aa-64a85607b698,utokyo_sushi_12_1008_2,Cooking Sushi Rolls,9.71,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+79450571-16f3-463b-a0b5-a5ede1d3966b,utokyo_sushi_12_1008_4,Cooking Sushi Rolls,8.74,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c7645c22-e0e4-4318-bf60-569c37a4a3a2,utokyo_sushi_1_1008_2,Cooking Sushi Rolls,13.35,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+72998d7e-59c8-4042-9fb5-bf86513913c1,utokyo_sushi_1_1008_4,Cooking Sushi Rolls,9.19,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+2ef294b5-5d85-49f6-8816-ca4bd653957d,utokyo_sushi_4_1008_2,Cooking Sushi Rolls,10.27,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f05356c1-4fff-4024-a2e0-231910848516,utokyo_sushi_4_1008_4,Cooking Sushi Rolls,7.94,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+919b1c28-68b1-4f17-81a5-85fbda8eecd7,utokyo_sushi_6_1008_2,Cooking Sushi Rolls,11.12,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+fc938d8b-70ae-4ae9-82e7-b02e8f76e16c,utokyo_sushi_6_1008_4,Cooking Sushi Rolls,9.34,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+48de3f4e-c3b7-4990-9d57-517e96b65912,utokyo_sushi_8_1008_2,Cooking Sushi Rolls,13.51,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+c6717667-6605-4748-8a8e-81784fe0e18f,utokyo_sushi_8_1008_4,Cooking Sushi Rolls,13.54,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+a58a8078-a21f-47ab-bc47-0709d406709e,utokyo_sushi_9_1008_2,Cooking Sushi Rolls,10.92,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
+f1153847-d0ce-4c4d-86f3-e24e77bf80c8,utokyo_sushi_9_1008_4,Cooking Sushi Rolls,8.76,1,1,1,"trimmed_eye_gaze,trimmed_trajectory,trimmed_vrs",pending
