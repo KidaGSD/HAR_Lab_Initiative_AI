@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 Overview
+## Overview
 
 Self-supervised anomaly detection system that:
 - Processes egocentric IMU (25 Hz) and gaze (30 Hz) data from AR glasses
@@ -159,7 +159,7 @@ HIGH_THRESH = P99   # ~1% of training windows (target)
 
 ---
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Missing `candidate_takes.csv`
 ```bash
@@ -187,15 +187,6 @@ pip install -r requirements.txt
 
 ---
 
-## 📚 Documentation
-
-- **`docs/PIPELINE.md`**: Detailed pipeline workflow
-- **`docs/Train.md`**: Training process documentation
-- **`REFLECTION.md`**: Technical analysis (current vs proposed implementation)
-- **`PIPELINE_CLEANUP_SUMMARY.md`**: Recent code cleanup details
-
----
-
 ## ⚠️ Important Notes
 
 1. **Data not included**: Raw EgoExo4D data (~140GB) and runs (~260MB) are gitignored. You need to download data using Section 2 of the pipeline.
@@ -208,7 +199,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🔬 Model Architecture
+## Model Architecture
 
 ```
 Input: 3s window (50 timesteps)
@@ -227,7 +218,7 @@ Anomaly Detection:
 
 ---
 
-## 📄 Citation
+## Citation
 
 ```bibtex
 @misc{har_ar_glasses_2025,
