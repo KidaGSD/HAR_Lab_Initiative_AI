@@ -1,0 +1,40 @@
+{
+  "os": "macOS-10.16-x86_64-i386-64bit",
+  "python": "CPython 3.10.18",
+  "startedAt": "2025-11-21T18:46:30.798486Z",
+  "program": "/Users/leodas/Documents/ETHZ/Boston/Thesis/AI_and_Robotics_Harvard/AR_project/HAR_Lab_Initiative_AI/notebooks/10_training.ipynb",
+  "codePath": "/Users/leodas/Documents/ETHZ/Boston/Thesis/AI_and_Robotics_Harvard/AR_project/HAR_Lab_Initiative_AI/notebooks/10_training.ipynb",
+  "codePathLocal": "10_training.ipynb",
+  "git": {
+    "remote": "https://github.com/KidaGSD/HAR_Lab_Initiative_AI.git",
+    "commit": "cca3ba38495495f28b92831041b02fffbd5da458"
+  },
+  "email": "leodas92@gmail.com",
+  "root": "/Users/leodas/Documents/ETHZ/Boston/Thesis/AI_and_Robotics_Harvard/AR_project/HAR_Lab_Initiative_AI/notebooks",
+  "host": "morveux.local",
+  "executable": "/Users/leodas/miniconda3/envs/har/bin/python",
+  "cpu_count": 8,
+  "cpu_count_logical": 8,
+  "disk": {
+    "/": {
+      "total": "494384795648",
+      "used": "443517661184"
+    }
+  },
+  "memory": {
+    "total": "17179869184"
+  },
+  "apple": {
+    "name": "Unknown",
+    "ecpuCores": 4,
+    "pcpuCores": 4,
+    "gpuCores": 10,
+    "memoryGb": 16,
+    "swapTotalBytes": "18253611008",
+    "ramTotalBytes": "17179869184"
+  },
+  "slurm": {
+    "conf": "/home/sladmcv/slurm/slurm.conf"
+  },
+  "writerId": "rnt2l8n4hdeyjjv3xoanzodja7d0njn1"
+}

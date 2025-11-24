@@ -33,12 +33,12 @@ access_key.txt
 # === Personal/Local Config ===
 .claude/
 .config/
+*.md
 
 # === Archive (local only) ===
 /archive/
 
 # === Exceptions (DO commit these) ===
 !config/*.yaml
-!*.md
 !requirements.txt
 !README.md
