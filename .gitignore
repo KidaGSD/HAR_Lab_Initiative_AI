@@ -24,6 +24,10 @@ __pycache__/
 .ipynb_checkpoints/
 *.log
 
+# === Experiment Tracking ===
+wandb/
+*.wandb
+
 # === Credentials & Secrets ===
 access_key.txt
 *.key
