@@ -54,13 +54,12 @@ Scenarios must exhibit distinct motion signatures detectable by head-mounted IMU
 | Gardening | Moderate walking + bending | Variable | Digging/planting cycles | 101 videos |
 | Carpentry | Static positioning | Stable on workpiece | Sawing/hammering rhythm | 1,319 videos |
 | Walking Outdoors | Continuous locomotion | Forward gaze | Step frequency | 598 videos |
-| Fitness/Workout | High intensity | Variable | Exercise repetitions | 20 videos |
 | Cleaning | Intermittent walking | Downward + scanning | Wiping/sweeping cycles | 897 videos |
 | Desk Work | Stationary | Stable on screen | None | 228 videos |
 | Playing Instrument | Stationary | Stable on instrument | Musical rhythm | 698 videos |
 | Mechanical Repair | Static | Focused on object | Tool manipulation | 930 videos |
 
-**Total**: 6,147 videos across distinct motion profiles
+**Total**: 6,127 videos (8 Scenarios)
 
 ---
 

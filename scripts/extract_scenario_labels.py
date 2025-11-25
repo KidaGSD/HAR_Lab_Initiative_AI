@@ -59,7 +59,13 @@ def main():
     for video in videos:
         uid = video.get("video_uid")
         scenarios = video.get("scenarios", [])
-        split = video.get("subset", "unknown") # train/val/test
+        # Check for split in various task-specific fields
+        # Priority: av (Audio-Visual) -> fho (Hands/Objects) -> em (Episodic Memory) -> goalstep
+        split = video.get("split_av") or video.get("split_fho") or video.get("split_em") or video.get("split_goalstep") or "train" 
+        # Default to 'train' if completely unknown, or keep 'unknown'? 
+        # Let's default to 'train' to ensure we can use the data, or 'uncategorized'.
+        if not split:
+            split = "uncategorized"
         
         label = get_scenario_label(scenarios)
         
