@@ -84,7 +84,7 @@ Scenarios must exhibit distinct motion signatures detectable by head-mounted IMU
 
 **Challenge**: Narrations are timestamped at irregular intervals (mean ~7 seconds apart), while model requires dense 1-second labels.
 
-**Solution: Temporal Propagation**
+**Solution: Temporal Propagation(Could be better? we should review more video and think of the best strategy)**
 ```
 For each narration at timestamp t with label L:
   - Assign label L to all 1-second windows in range [t, t+δ]
