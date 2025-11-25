@@ -15,7 +15,6 @@ SCENARIO_MAPPING = {
     "Gardening": ["gardening", "garden", "plant", "weeding"],
     "Carpentry": ["carpenter", "construction", "woodworking", "carpentry", "building"],
     "Walking Outdoors": ["walking", "outdoors", "hike", "hiking", "street"],
-    "Fitness/Workout": ["fitness", "workout", "gym", "exercise", "yoga", "running"],
     "Cleaning": ["cleaning", "laundry", "washing", "housework", "vacuuming"],
     "Desk Work": ["office", "desk", "computer", "laptop", "study", "working"],
     "Playing Instrument": ["instrument", "music", "piano", "guitar", "drum", "playing"],

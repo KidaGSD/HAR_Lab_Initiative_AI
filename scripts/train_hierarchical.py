@@ -208,22 +208,39 @@ def train(args):
     df = pd.read_csv(args.target_uids_file)
     uids = df['video_uid'].tolist()
     
-    # Dataset
-    dataset = HierarchicalDataset(
-        uids, 
+    # Split based on 'split' column in scenario_labels.csv
+    # The dataset class already loaded the CSV, let's filter the indices.
+    
+    # We need to access the split info. 
+    # Option 1: Pass split to dataset and filter there.
+    # Option 2: Filter UIDs before creating dataset. <- Better
+    
+    scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+    
+    # Filter out 'test'
+    train_uids = scenario_df[scenario_df['split'] == 'train']['video_uid'].tolist()
+    val_uids = scenario_df[scenario_df['split'] == 'val']['video_uid'].tolist()
+    
+    # Intethe rsect with available UIDs (from target_uids.csv)
+    available_uids = set(uids)
+    train_uids = [u for u in train_uids if u in available_uids]
+    val_uids = [u for u in val_uids if u in available_uids]
+    
+    print(f"Split: Train={len(train_uids)}, Val={len(val_uids)}")
+    
+    train_ds = HierarchicalDataset(
+        train_uids, 
         args.processed_dir, 
         "data/labels/scenario_labels.csv", 
         "data/labels/master_annotations.csv"
     )
     
-    if len(dataset) == 0:
-        print("No data loaded. Check processed_dir and labels.")
-        return
-        
-    # Split
-    train_size = int(0.8 * len(dataset))
-    val_size = len(dataset) - train_size
-    train_ds, val_ds = torch.utils.data.random_split(dataset, [train_size, val_size])
+    val_ds = HierarchicalDataset(
+        val_uids, 
+        args.processed_dir, 
+        "data/labels/scenario_labels.csv", 
+        "data/labels/master_annotations.csv"
+    )
     
     train_loader = torch.utils.data.DataLoader(train_ds, batch_size=CONFIG['training']['batch_size'], shuffle=True)
     val_loader = torch.utils.data.DataLoader(val_ds, batch_size=CONFIG['training']['batch_size'], shuffle=False)
