@@ -121,7 +121,6 @@ video_uid,scenario,split
 056220c6-3c5c-419d-87b2-286e8a3c0706,Cooking,train
 05698eff-dd92-470c-8713-1019b764b5c3,Mechanical Repair,test
 056db3f1-f957-46c8-b16b-c8fce22e78f9,Cooking,val
-057670b3-f243-416c-b41b-82d309fd2b88,Fitness/Workout,test
 0579e306-7ba6-4be6-a071-e51920fa57c0,Mechanical Repair,train
 057bf03d-b337-475c-82a2-79f0b5b6637f,Walking Outdoors,train
 059e870d-60ea-46e9-86ee-fc6b1833f4f6,Mechanical Repair,train
@@ -342,10 +341,9 @@ video_uid,scenario,split
 0dcf7a01-8bbc-484a-b093-ff6d7095cfd4,Mechanical Repair,train
 0dd042a0-b5be-4057-b23e-13937480a759,Gardening,train
 0ddb9f0e-5f3d-4fba-9367-ba0db225f449,Carpentry,train
-0ddfd541-8b2a-45fe-b68e-bcea0d7d03b8,Fitness/Workout,multi
 0de39e75-fb19-47d4-818d-fff874b05ab9,Cleaning,train
 0dedbbb0-d1a4-4231-a980-2b43acc08cb2,Gardening,train
-0df89feb-74a6-48ca-9fe9-2c81fc1306e2,Fitness/Workout,train
+0df89feb-74a6-48ca-9fe9-2c81fc1306e2,Mechanical Repair,train
 0e0a1ed9-d7ca-4da0-9e65-b8096cba966e,Carpentry,val
 0e148bec-676d-495a-ba66-a74dd3c28961,Carpentry,train
 0e285926-42b9-4207-92ba-251c3b8988cd,Mechanical Repair,train
@@ -498,7 +496,6 @@ video_uid,scenario,split
 13dbccdf-ab84-42ee-ba1c-40cb158b8733,Carpentry,train
 13e62f3e-5586-4b8a-80ca-38903eeded3a,Mechanical Repair,train
 13e70b53-abc6-46d3-96da-d30b8327b223,Mechanical Repair,train
-140ca80c-39c0-4aae-a7f9-285431972107,Fitness/Workout,train
 14177ca9-924f-4e68-b218-6009dbddc7cc,Cooking,test
 141b24d2-2fc1-4f9d-89ef-8dc3055213f7,Cleaning,train
 141ce529-f793-48be-acde-24747af68b07,Gardening,train
@@ -824,7 +821,7 @@ video_uid,scenario,split
 2142bbd6-da88-4976-8668-8f21c27ed456,Carpentry,train
 214b62df-2fb1-4b0e-af9d-42b0dd37defb,Walking Outdoors,train
 214ea47c-afe7-4fa5-a914-8d7f659a2ff8,Cleaning,train
-2169dd3f-5c39-4275-90ce-71de950e8a09,Fitness/Workout,train
+2169dd3f-5c39-4275-90ce-71de950e8a09,Playing Instrument,train
 216c7a1a-7ec3-4aa0-a465-e37e7b5fd2f3,Cleaning,multi
 216e3f0e-ccb9-4d54-ba56-d275fedbf52f,Cooking,train
 217b513e-ce31-4118-875d-51393db09cfe,Cooking,train
@@ -1170,7 +1167,6 @@ video_uid,scenario,split
 2f6da5f6-e26c-4ac3-8f71-12386f7588e2,Cooking,val
 2f73e004-1738-44c6-953d-26222524931c,Cleaning,train
 2f749634-a362-4288-aad3-f27bfd34dd66,Mechanical Repair,train
-2f77c6e3-3751-44ea-887f-2c8caf9c6485,Fitness/Workout,multi
 2f9e8979-a4c2-4856-a148-85365f6028b5,Carpentry,train
 2f9e9555-3232-43de-9799-20476217ebea,Desk Work,train
 2fa72a4f-b318-4e04-97b8-efdc3b039258,Desk Work,train
@@ -2395,7 +2391,6 @@ video_uid,scenario,split
 6057cb6e-796b-40e4-83f3-a89651570ee1,Carpentry,train
 605a0255-9ce8-4d79-8889-f1209a60e616,Playing Instrument,train
 60619944-f982-4de1-b783-21d90f8833e7,Playing Instrument,train
-6070d9d1-9962-49f3-8ac7-4e29ca07e104,Fitness/Workout,multi
 6073bebd-0755-428d-a652-63efcdc4f4e5,Cooking,train
 60807cca-d8a3-4e5a-b1ad-3eef0f87e73e,Desk Work,test
 6087850d-c90a-47e0-b333-301203e84a54,Mechanical Repair,train
@@ -2495,7 +2490,7 @@ video_uid,scenario,split
 65117801-d058-4203-a72d-ac8ed4903405,Cleaning,train
 6511b790-f6a7-4cc4-a855-41bb2cb1d1fa,Cooking,val
 652816fb-2779-4e17-9972-fd0ad0e36229,Walking Outdoors,train
-652f0590-aab5-4de1-b578-238adb54fa0e,Fitness/Workout,train
+652f0590-aab5-4de1-b578-238adb54fa0e,Mechanical Repair,train
 653830b0-2c7b-45f1-9c4e-0313d377ec43,Cooking,train
 65403036-df60-4ccb-ac72-2808b841665c,Cooking,train
 6542887a-5ea3-41b4-b281-3f2b30ebb766,Walking Outdoors,train
@@ -2901,7 +2896,7 @@ video_uid,scenario,split
 76942e4e-f8de-4b7b-857c-adcc7d2c7872,Cooking,train
 7696b38a-59d3-4b85-966f-3522f9792966,Carpentry,train
 76fcf68f-05ee-4516-bce0-31935c8242e5,Cleaning,train
-770b0de4-9f4a-4c51-8b37-3c22fca3e6a6,Fitness/Workout,train
+770b0de4-9f4a-4c51-8b37-3c22fca3e6a6,Playing Instrument,train
 771c0ee1-06bd-470a-aacf-e8f425e80beb,Carpentry,train
 77362fa3-e23a-4942-bd53-7d58b23b979b,Cooking,test
 773d793d-f39d-4fe6-86fa-2c939164ae13,Playing Instrument,train
@@ -3245,7 +3240,7 @@ video_uid,scenario,split
 8681962d-9eef-482c-bed3-30c26cb75c3a,Walking Outdoors,multi
 8698a0ea-f434-49f9-a8e4-45220e5d4b2c,Cleaning,multi
 8699b71f-473c-491d-8417-a112ee200d97,Carpentry,train
-869a2290-5509-49d0-8cc6-e0a0230790d3,Fitness/Workout,train
+869a2290-5509-49d0-8cc6-e0a0230790d3,Playing Instrument,train
 869aa0d2-9557-4f3e-8bc9-c46ca5e2c8ff,Cooking,train
 86b7523e-94d1-4cd5-bc28-b5c2ed817163,Walking Outdoors,train
 86b7a8dc-e0ba-4b21-a097-eed463fb2747,Cooking,val
@@ -3462,7 +3457,6 @@ video_uid,scenario,split
 8fb142f0-8eb4-4c90-8e3d-08d1bcc2314b,Carpentry,multi
 8fc2c084-ff56-4112-af4a-dfa2609f17c3,Cooking,test
 8fca1865-7ce7-4a3e-8797-530f15d30bdf,Carpentry,test
-8fdc8697-27a3-4a1f-b4a0-fde63d4cfd48,Fitness/Workout,train
 8fe00ffe-29a6-4f9c-b80a-eaf2d1eb96b7,Walking Outdoors,train
 8fe27146-988e-4ed5-891d-1c128f601895,Desk Work,train
 8fe2d076-aef6-4093-9292-cf8afdd715d1,Carpentry,train
@@ -3543,7 +3537,7 @@ video_uid,scenario,split
 939b2e2b-39b8-4d4e-aeac-1b939840cfab,Cooking,train
 939dcf5d-c88c-4f93-b300-982adaff5ce3,Mechanical Repair,val
 93a39502-ab8f-4ded-9c84-e96527d68b67,Cleaning,train
-93a5f8cb-d7eb-4e5a-9913-77ef1487ce61,Fitness/Workout,train
+93a5f8cb-d7eb-4e5a-9913-77ef1487ce61,Desk Work,train
 93b3e3a0-df83-438e-9ca8-a472589ba30c,Walking Outdoors,train
 93b49229-b25a-4775-ab81-4922f61f8a22,Cooking,test
 93bd291b-a297-4f13-b4e3-6606caceacae,Carpentry,train
@@ -3707,7 +3701,6 @@ video_uid,scenario,split
 9a607b5c-d0cd-4d02-be3e-ad2d3e643f3c,Cooking,test
 9a622b20-b234-4237-a3aa-c76b350e82dd,Mechanical Repair,train
 9a63a726-df18-4114-9113-86e04fba8eff,Carpentry,train
-9a732221-3adb-4903-b61d-9b8097965fbf,Fitness/Workout,train
 9a75cf56-f670-42e3-9709-0f6b8c402368,Cooking,train
 9a968109-3a9e-4e6d-a0e8-fed2ec1128f8,Mechanical Repair,test
 9aa5f625-74f9-4b10-8d3b-a67a06646891,Cleaning,val
@@ -3769,7 +3762,6 @@ video_uid,scenario,split
 9d1f1f10-32fc-4d7d-8131-4254c68fb845,Cooking,train
 9d1f921b-2a42-4100-abbf-6be0a88fa7c2,Walking Outdoors,train
 9d26362a-4411-4d8b-b114-03f4f89928d7,Carpentry,train
-9d27c41b-d4d2-47a6-8334-1f930121e956,Fitness/Workout,train
 9d2ec4ad-945f-4614-b41f-24260de662f6,Mechanical Repair,multi
 9d3e9c1a-457e-4125-a847-a535a4c8311f,Playing Instrument,train
 9d5d8ff8-bb02-490d-aa5e-b462bdebc403,Cleaning,train
@@ -4275,7 +4267,6 @@ b2ed32a7-0cad-493d-b1d0-a9722b1fdbf9,Carpentry,train
 b2f0b38e-8d81-4209-a5d4-5dc179bc098b,Mechanical Repair,train
 b2f487cb-83b2-4e60-855d-1750938d0f1a,Walking Outdoors,train
 b2f72f82-4909-4175-a80b-48deeb6a2e44,Carpentry,train
-b2f87dfc-7da6-443a-b2f5-8630f9f9560c,Fitness/Workout,multi
 b30bf1cd-0b5c-4635-a3d8-9fede8fa3a33,Mechanical Repair,test
 b311fad7-8292-41d5-ad41-3693b4120bc8,Carpentry,train
 b3190c93-c6fc-4e3d-b6ca-41e7ea9fed3f,Playing Instrument,train
@@ -4591,7 +4582,6 @@ c04b682e-dcbd-4ce8-9b11-be01a0dfe858,Cleaning,train
 c05389ca-2d74-4889-a8dd-a0f89d28a4b7,Walking Outdoors,train
 c058dd9b-c4f5-4f0e-b08e-3b62ecdd1695,Carpentry,test
 c05fa645-0673-4a79-b6dc-7854f56f7d06,Cooking,train
-c06532d8-f1cd-477f-b9f3-e8e980d73b2e,Fitness/Workout,train
 c06a1dec-75b2-457c-b419-679eef4fcfc3,Mechanical Repair,train
 c06d400e-87b2-4d3b-903d-ae4609a00694,Playing Instrument,train
 c0701c74-4f73-4bbf-aac1-bfd72b6633c6,Carpentry,test
@@ -5074,7 +5064,6 @@ d389d8e2-5428-453f-a533-edcc2605e7ef,Playing Instrument,test
 d38f271c-53f3-4771-8c17-a5157e723067,Gardening,multi
 d392a2c0-7afb-436b-9233-08e3aa6ef741,Carpentry,train
 d3959f24-c1f2-4053-b4cd-f3b84b5c1eb0,Cleaning,test
-d3980f7e-2ef1-4b2b-b73a-2a7db7465660,Fitness/Workout,multi
 d3b8e1e2-4864-496e-ad71-550a0046b076,Carpentry,test
 d3dd9264-3fbc-468f-8c8f-433c3e804411,Walking Outdoors,train
 d3efcada-ea80-47e4-80a8-7b9699766269,Cleaning,train
@@ -5647,7 +5636,7 @@ ebbc3797-4f4a-4f41-81ef-907ed40ee450,Mechanical Repair,train
 ebc9f0f8-924b-47d1-a639-de4f2d6e6a4c,Cooking,val
 ebce88dd-4852-4506-9dcc-5f5798ce1cbf,Cooking,test
 ec02ed27-b697-44b0-ae18-a9275205bfee,Walking Outdoors,train
-ec143498-9db7-4ee7-a0cf-43538717e570,Fitness/Workout,train
+ec143498-9db7-4ee7-a0cf-43538717e570,Cleaning,train
 ec1aef62-c08f-4eca-adef-cb0cbc211a4d,Carpentry,train
 ec1b4e46-c533-4b77-8f80-533dd5934d14,Playing Instrument,train
 ec2d5748-62ee-498d-a735-e5392a73bcbf,Cooking,multi
@@ -5794,7 +5783,7 @@ f19d037c-2731-4f4f-a850-bfbcb20d6f68,Playing Instrument,multi
 f1a4d919-e56f-4268-a263-10b7d367c9e5,Playing Instrument,train
 f1aafb24-9715-4797-9b14-252624018191,Mechanical Repair,test
 f1b38f22-2e71-4417-a7b6-15f4cf91c26b,Playing Instrument,train
-f1b5ae1e-742c-4802-9e61-ff8aae83e12e,Fitness/Workout,train
+f1b5ae1e-742c-4802-9e61-ff8aae83e12e,Mechanical Repair,train
 f1ba41f8-c149-496e-bbbf-7a71da091e5b,Cooking,train
 f1d2b2ee-2e29-4d57-94a0-8875b70ccd34,Playing Instrument,train
 f1e74754-a895-4811-9dc2-6686c1cd5247,Playing Instrument,train
@@ -6130,7 +6119,6 @@ feab3395-e122-4d57-9503-f8976335b5db,Cooking,train
 fec1f883-fc5c-4257-985e-26efaec68ddc,Walking Outdoors,val
 fec55104-c8e2-4eae-93dc-26e5a929259e,Playing Instrument,train
 fee6098f-e4a0-417d-9d8a-edbb27d488cd,Mechanical Repair,train
-ff15140a-4747-4c45-b95f-ff2bd36ef178,Fitness/Workout,train
 ff425cc6-7577-444b-b6f7-e250c22a1ed5,Cleaning,train
 ff46d5f7-ef0d-4dea-b121-c04ca6ba5a42,Cleaning,test
 ff6cfcfc-0441-4963-9bab-9eca357470fa,Cooking,train
