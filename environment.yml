@@ -1,0 +1,17 @@
+name: ego4d_lab
+channels:
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.10
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pandas
+  - numpy
+  - scipy
+  - tqdm
+  - boto3
+  - pip
+  - pip:
+    - ego4d

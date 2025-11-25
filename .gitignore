@@ -1,44 +1,29 @@
-# === Data Files (Large) ===
-/runs/*/
-/egoexo_cache/
-/egoexo_cache_test/
-/data/raw/
-/data/processed/
-*.npz
-*.parquet
-Ego4d/
-docs/
-# === Large Media Files ===
-*.pdf
-*.zip
-*.tar.gz
-*.mp4
-*.avi
+# --- Data ---
+data/*
+!data/labels/
+!data/labels/*.csv
+!target_uids.csv
 
-# === Temporary/Build Files ===
+# Explicitly ignore large data folders
+data/ego4d_data/
+data/processed/
+
+# --- System & Cache ---
 .DS_Store
 .cache/
+.config/
+.claude/
 __pycache__/
 *.pyc
-*.pyo
 .ipynb_checkpoints/
-*.log
 
-# === Credentials & Secrets ===
-access_key.txt
-*.key
-*.pem
-*.env
+# --- Project Specific ---
+archive/
+docs/
+runs/
+checkpoints/
+state/
+img/
 
-# === Personal/Local Config ===
-.claude/
-.config/
-
-# === Archive (local only) ===
-/archive/
-
-# === Exceptions (DO commit these) ===
-!config/*.yaml
-!*.md
-!requirements.txt
-!README.md
+# --- Environment ---
+.env
