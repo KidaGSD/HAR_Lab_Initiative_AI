@@ -129,9 +129,14 @@ def main(args):
     BATCH_SIZE = 5000
     total_processed = 0
     
-    # Initialize output file with header if it doesn't exist
+    # Initialize output files with header if they don't exist
+    CLEAN_OUTPUT_PATH = OUTPUT_PATH.replace('.csv', '_clean.csv')
+    
     if not os.path.exists(OUTPUT_PATH):
         pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'thinking_process', 'llm_raw_output']).to_csv(OUTPUT_PATH, index=False)
+        
+    if not os.path.exists(CLEAN_OUTPUT_PATH):
+        pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning']).to_csv(CLEAN_OUTPUT_PATH, index=False)
     
     print(f"Processing in batches of {BATCH_SIZE}...")
     
@@ -234,10 +239,15 @@ def main(args):
                 'llm_raw_output': generated_text
             })
             
-        # Save Batch
+        # Save Batch (Full)
         df_batch = pd.DataFrame(results)
         df_batch.to_csv(OUTPUT_PATH, mode='a', header=False, index=False)
-        print(f"Saved batch to {OUTPUT_PATH}")
+        
+        # Save Batch (Clean/Lightweight - KEEPS UNKNOWNS)
+        df_clean_batch = df_batch[['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning']]
+        df_clean_batch.to_csv(CLEAN_OUTPUT_PATH, mode='a', header=False, index=False)
+        
+        print(f"Saved batch to {OUTPUT_PATH} and {CLEAN_OUTPUT_PATH}")
         total_processed += len(batch_data)
 
     print(f"\nDone! Processed {total_processed} items.")
