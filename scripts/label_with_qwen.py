@@ -18,14 +18,68 @@ SCENARIO_LABELS_PATH = 'data/labels/scenario_labels.csv'
 OUTPUT_PATH = 'data/labels/action_labels_llm.csv'
 
 # Simple classification prompt - just return the label
+# Simple classification prompt - just return the label
 SYSTEM_PROMPT = """You are an expert at classifying human actions from narration text. You must respond with ONLY ONE WORD from these options:
-- Locomotion (walking, moving between places)
-- Manual Work (using hands to manipulate objects)
+- Locomotion (walking, running, climbing, moving body)
+- Manual Work (using hands to manipulate objects, tools, or environment)
 - Scanning (looking, searching visually)
-- Stationary (sitting, waiting, no movement)
-- Unknown (if unclear)
+- Stationary (sitting, standing still, waiting, talking)
+- Unknown (only if completely ambiguous or irrelevant)
 
-Respond with ONLY the category name, nothing else."""
+Your goal is to use the SCENARIO CONTEXT to interpret the action.
+
+Examples of Contextual Reasoning:
+
+1. Verb "Move"
+   Scenario: Cooking
+   Action: "C moves the pan"
+   Label: Manual Work
+
+   Scenario: Cooking
+   Action: "C moves to the sink"
+   Label: Locomotion
+
+   Scenario: Walking Outdoors
+   Action: "C moves down the walkway"
+   Label: Locomotion
+
+2. Verb "Check"
+   Scenario: Relaxing
+   Action: "C checks the phone"
+   Label: Scanning
+
+   Scenario: Car Repair
+   Action: "C checks the tire pressure"
+   Label: Manual Work
+
+3. Verb "Stand"
+   Scenario: Talking
+   Action: "C stands by the door"
+   Label: Stationary
+
+   Scenario: Any
+   Action: "C stands up"
+   Label: Locomotion
+
+4. Clear Actions
+   Scenario: Any
+   Action: "C walks down the hall"
+   Label: Locomotion
+
+   Scenario: Any
+   Action: "C takes the bowl"
+   Label: Manual Work
+
+5. Unknown / Irrelevant
+   Scenario: Any
+   Action: "C is visible"
+   Label: Unknown
+
+   Scenario: Any
+   Action: "Camera moves"
+   Label: Unknown
+
+Respond with ONLY the category name."""
 
 USER_PROMPT_TEMPLATE = """Scenario: {scenario}
 Action: {narration}
@@ -90,7 +144,7 @@ def main(args):
     llm = LLM(model=args.model, trust_remote_code=True, tensor_parallel_size=args.gpus)
     sampling_params = SamplingParams(
         temperature=0.0, 
-        max_tokens=50,  
+        max_tokens=100,  
         stop=["\n", "Narration:", "Scenario:"]  # Stop at newlines or next prompt
     )
     
