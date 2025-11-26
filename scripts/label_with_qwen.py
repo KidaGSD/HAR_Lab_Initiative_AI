@@ -19,7 +19,7 @@ OUTPUT_PATH = 'data/labels/action_labels_llm.csv'
 
 # Simple classification prompt - just return the label
 # Simple classification prompt - just return the label
-SYSTEM_PROMPT = """You are an expert at classifying human actions from narration text. You must respond with ONLY ONE WORD from these options:
+SYSTEM_PROMPT = """You are an expert at classifying human actions from narration text. You must respond with ONLY ONE WORD from these options, and try your best to interpret the action. Only if there is no clear clues, you mark it as "Unknown":
 - Locomotion (walking, running, climbing, moving body)
 - Manual Work (using hands to manipulate objects, tools, or environment)
 - Scanning (looking, searching visually)
@@ -221,7 +221,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="Qwen/Qwen1.5-14B-Chat-AWQ", help="Model path (HuggingFace)")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen2.5-14B-Instruct-AWQ", help="Model path (HuggingFace)")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of samples for testing")
     parser.add_argument("--gpus", type=int, default=1, help="Number of GPUs to use")
     args = parser.parse_args()

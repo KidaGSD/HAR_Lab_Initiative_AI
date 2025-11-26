@@ -12,12 +12,12 @@ pip install vllm
 pip install huggingface_hub
 
 # 3. Download Qwen Model (Quantized for speed/memory)
-# We use Qwen1.5-14B-Chat-AWQ (4-bit quantized)
+# We use Qwen2.5-14B-Instruct-AWQ (4-bit quantized)
 # It fits easily on RTX 6000 (needs ~10GB VRAM) and is very fast.
-echo "Downloading Qwen1.5-14B-Chat-AWQ..."
-python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='Qwen/Qwen1.5-14B-Chat-AWQ')"
+echo "Downloading Qwen2.5-14B-Instruct-AWQ..."
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='Qwen/Qwen2.5-14B-Instruct-AWQ')"
 
 echo ""
 echo "=== Setup Complete! ==="
 echo "You can now run the labeling script:"
-echo "python scripts/label_with_qwen.py --model Qwen/Qwen1.5-14B-Chat-AWQ --gpus 1"
+echo "python scripts/label_with_qwen.py --model Qwen/Qwen2.5-14B-Instruct-AWQ --gpus 1"

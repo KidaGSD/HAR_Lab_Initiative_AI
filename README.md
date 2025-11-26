@@ -90,12 +90,12 @@ Final Project/
 To run the AI labeling pipeline (v3):
 
 ```bash
-# 1. Install dependencies and download model (Qwen-14B)
+# 1. Install dependencies and download model (Qwen2.5-14B)
 ./setup_llm.sh
 
 # 2. Run the labeling script (Labels all 300k narrations)
 # This takes ~2 hours on a single GPU
-python scripts/label_with_qwen.py --model Qwen/Qwen1.5-14B-Chat-AWQ
+python scripts/label_with_qwen.py --model Qwen/Qwen2.5-14B-Instruct-AWQ
 ```
 
 ### 5. Repository Structure
