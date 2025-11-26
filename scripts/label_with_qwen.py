@@ -131,7 +131,7 @@ def main(args):
     
     # Initialize output file with header if it doesn't exist
     if not os.path.exists(OUTPUT_PATH):
-        pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'llm_raw_output']).to_csv(OUTPUT_PATH, index=False)
+        pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'thinking_process', 'llm_raw_output']).to_csv(OUTPUT_PATH, index=False)
     
     print(f"Processing in batches of {BATCH_SIZE}...")
     
@@ -161,22 +161,63 @@ def main(args):
         for j, output in enumerate(outputs):
             generated_text = output.outputs[0].text.strip()
             
-            # Parse JSON (Robust Regex Method)
+            # Robust JSON Extraction
+            label = 'Unknown'
+            reasoning = ''
+            thinking_process = ''
+            
             try:
-                # 1. Try finding a code block first ```json ... ```
-                json_match = re.search(r'```json\s*(\{.*?\})\s*```', generated_text, re.DOTALL)
-                if not json_match:
-                    # 2. Try finding any JSON-like object { ... }
-                    json_match = re.search(r'(\{.*\})', generated_text, re.DOTALL)
-                
-                if json_match:
-                    json_str = json_match.group(1)
+                # 0. Extract Thinking Process (<think>...</think>)
+                think_match = re.search(r'<think>(.*?)</think>', generated_text, re.DOTALL)
+                if think_match:
+                    thinking_process = think_match.group(1).strip()
+                else:
+                    # Fallback: If no tags, assume everything before the first '{' is thinking
+                    first_brace = generated_text.find('{')
+                    if first_brace > 0:
+                        thinking_process = generated_text[:first_brace].strip()
+
+                # 1. Try extracting from code block first
+                code_block = re.search(r'```json\s*(\{.*?\})\s*```', generated_text, re.DOTALL)
+                if code_block:
+                    json_str = code_block.group(1)
                     data_dict = json.loads(json_str)
                     label = data_dict.get('label', 'Unknown')
                     reasoning = data_dict.get('reasoning', '')
                 else:
-                    raise ValueError("No JSON pattern found")
-                
+                    # 2. Scan for valid JSON objects using raw_decode
+                    decoder = json.JSONDecoder()
+                    valid_objs = []
+                    
+                    # Search for '{' characters
+                    for k in range(len(generated_text)):
+                        if generated_text[k] == '{':
+                            try:
+                                obj, idx = decoder.raw_decode(generated_text[k:])
+                                # Check if it looks like our label object
+                                if isinstance(obj, dict) and 'label' in obj:
+                                    valid_objs.append(obj)
+                            except json.JSONDecodeError:
+                                continue
+                    
+                    if valid_objs:
+                        # Take the last valid object found (likely the final answer)
+                        data_dict = valid_objs[-1]
+                        label = data_dict.get('label', 'Unknown')
+                        reasoning = data_dict.get('reasoning', '')
+                    else:
+                        # Fallback: Try to find just the label if JSON failed
+                        if '"label":' in generated_text:
+                            # Very hacky fallback for partial JSON
+                            label_match = re.search(r'"label":\s*"([^"]+)"', generated_text)
+                            if label_match:
+                                label = label_match.group(1)
+                                reasoning = "Extracted via regex fallback"
+                            else:
+                                raise ValueError("No JSON found")
+                        else:
+                            raise ValueError("No JSON found")
+
             except Exception as e:
                 label = 'Unknown'
                 reasoning = f"Error: {str(e)}"
@@ -189,6 +230,7 @@ def main(args):
                 'scenario': item['scenario'],
                 'action': label,
                 'reasoning': reasoning,
+                'thinking_process': thinking_process,
                 'llm_raw_output': generated_text
             })
             
