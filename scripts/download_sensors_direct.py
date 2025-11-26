@@ -22,11 +22,20 @@ def download_sensors_direct(target_uids_file, output_dir, manifest_dir=None):
     print(f"Targeting {len(target_uids)} videos.")
     
     # Setup S3 client
-    session = boto3.Session(
-        aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
-        aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
-        region_name="us-west-1"
-    )
+    # Use default credential chain (env vars, ~/.aws/credentials, IAM role)
+    aws_key = os.environ.get("AWS_ACCESS_KEY_ID")
+    aws_secret = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    
+    if aws_key and aws_secret:
+        session = boto3.Session(
+            aws_access_key_id=aws_key,
+            aws_secret_access_key=aws_secret,
+            region_name="us-west-1"
+        )
+    else:
+        # Let boto3 use default credential chain (~/.aws/credentials)
+        session = boto3.Session(region_name="us-west-1")
+    
     s3 = session.client('s3')
     
     datasets = ['imu', 'gaze']
