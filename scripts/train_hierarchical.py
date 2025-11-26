@@ -7,6 +7,12 @@ from pathlib import Path
 from tqdm import tqdm
 import argparse
 import os
+try:
+    import wandb
+    WANDB_AVAILABLE = True
+except ImportError:
+    WANDB_AVAILABLE = False
+    print("WARNING: wandb not installed. Run: pip install wandb")
 
 # --- Configuration ---
 CONFIG = {
@@ -253,6 +259,21 @@ def train(args):
     criterion_scenario = nn.CrossEntropyLoss()
     criterion_action = nn.CrossEntropyLoss(ignore_index=-1) # Masked Loss!
     
+    # Initialize W&B
+    if WANDB_AVAILABLE and not args.no_wandb:
+        wandb.init(
+            project="har-imu-training",
+            name=f"hierarchical-{args.run_name}" if args.run_name else None,
+            config={
+                **CONFIG,
+                "train_videos": len(train_uids),
+                "val_videos": len(val_uids),
+                "train_samples": len(train_ds),
+                "val_samples": len(val_ds),
+            }
+        )
+        wandb.watch(model, log='all', log_freq=100)
+    
     print("Starting training...")
     
     for epoch in range(CONFIG['training']['epochs']):
@@ -284,7 +305,8 @@ def train(args):
             
             total_loss += loss.item()
             
-        print(f"Epoch {epoch+1} Loss: {total_loss / len(train_loader):.4f}")
+        avg_train_loss = total_loss / len(train_loader)
+        print(f"Epoch {epoch+1} Loss: {avg_train_loss:.4f}")
         
         # Validation (Simple Accuracy)
         model.eval()
@@ -299,7 +321,16 @@ def train(args):
                 correct_s += (preds == labels).sum().item()
                 total_s += labels.size(0)
         
-        print(f"Val Scenario Acc: {correct_s / total_s:.4f}")
+        val_acc = correct_s / total_s
+        print(f"Val Scenario Acc: {val_acc:.4f}")
+        
+        # Log to W&B
+        if WANDB_AVAILABLE and not args.no_wandb:
+            wandb.log({
+                "epoch": epoch + 1,
+                "train_loss": avg_train_loss,
+                "val_accuracy": val_acc,
+            })
         
     # Save
     os.makedirs(args.output_dir, exist_ok=True)
@@ -311,5 +342,7 @@ if __name__ == "__main__":
     parser.add_argument("--target-uids-file", type=str, default="target_uids.csv")
     parser.add_argument("--processed-dir", type=str, default="data/processed_ego4d")
     parser.add_argument("--output-dir", type=str, default="checkpoints")
+    parser.add_argument("--run-name", type=str, default=None, help="W&B run name")
+    parser.add_argument("--no-wandb", action="store_true", help="Disable W&B logging")
     args = parser.parse_args()
     train(args)
