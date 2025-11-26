@@ -108,6 +108,10 @@ def main(args):
         
     # 4. Generate
     print("Generating labels...")
+    if len(prompts) > 0:
+        print(f"DEBUG: Type of first prompt: {type(prompts[0])}")
+        print(f"DEBUG: First prompt content: {prompts[0]!r}")
+        
     outputs = llm.generate(prompts, sampling_params)
     
     # 5. Parse Results
