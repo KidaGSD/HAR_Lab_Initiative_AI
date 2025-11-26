@@ -68,7 +68,43 @@ Action: {narration}
 Output JSON:"""
 
 def load_data():
-    # ... (same as before) ...
+    print("Loading metadata...")
+    # Load Scenarios (Context)
+    scenario_df = pd.read_csv(SCENARIO_LABELS_PATH).set_index('video_uid')
+    
+    # Load Narrations
+    print(f"Loading narrations from {NARRATIONS_PATH}...")
+    with open(NARRATIONS_PATH, 'r') as f:
+        all_narrations = json.load(f)
+        
+    # Filter for target videos
+    target_uids = set(scenario_df.index)
+    
+    data_to_process = []
+    
+    for uid, video_data in all_narrations.items():
+        if uid not in target_uids:
+            continue
+            
+        scenario = scenario_df.loc[uid, 'scenario']
+        
+        # Handle nested structure
+        if 'narration_pass_1' in video_data and 'narrations' in video_data['narration_pass_1']:
+            narr_list = video_data['narration_pass_1']['narrations']
+        elif 'narration_pass_2' in video_data and 'narrations' in video_data['narration_pass_2']:
+            narr_list = video_data['narration_pass_2']['narrations']
+        else:
+            continue
+            
+        for item in narr_list:
+            data_to_process.append({
+                'video_uid': uid,
+                'timestamp_sec': item['timestamp_sec'],
+                'narration_text': item['narration_text'],
+                'scenario': scenario
+            })
+            
+    print(f"Found {len(data_to_process)} narrations to label.")
     return data_to_process
 
 def main(args):
