@@ -146,15 +146,39 @@ def main(args):
         batch_data = data[i : i + BATCH_SIZE]
         print(f"Processing batch {i} to {i + len(batch_data)}...")
         
-        # Prepare Prompts
+        # Prepare Prompts using Chat Template (Critical for Qwen3 Thinking Mode)
         prompts = []
+        tokenizer = llm.get_tokenizer()
+        
         for item in batch_data:
-            prompt = f"""{SYSTEM_PROMPT}
-
-{USER_PROMPT_TEMPLATE.format(
-    narration=item['narration_text'],
-    scenario=item['scenario']
-)}"""
+            user_content = USER_PROMPT_TEMPLATE.format(
+                narration=item['narration_text'],
+                scenario=item['scenario']
+            )
+            
+            messages = [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": user_content}
+            ]
+            
+            # Use apply_chat_template to ensure <think> tokens are handled correctly
+            # enable_thinking=True is default for Qwen3, but explicit is safer if supported by template
+            try:
+                prompt = tokenizer.apply_chat_template(
+                    messages,
+                    tokenize=False,
+                    add_generation_prompt=True,
+                    # enable_thinking=True # Uncomment if tokenizer supports it explicitly in kwargs, 
+                                         # otherwise it's often default or part of the system prompt handling
+                )
+            except TypeError:
+                # Fallback if enable_thinking kwarg causes error in older transformers
+                prompt = tokenizer.apply_chat_template(
+                    messages,
+                    tokenize=False,
+                    add_generation_prompt=True
+                )
+                
             prompts.append(prompt)
             
         # Generate
@@ -254,8 +278,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="Qwen/Qwen3-14B", help="Model path (HuggingFace)")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3-8B", help="Model path (HuggingFace)")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of samples for testing")
-    parser.add_argument("--gpus", type=int, default=1, help="Number of GPUs to use")
+    parser.add_argument("--gpus", type=int, default=2, help="Number of GPUs to use")
     args = parser.parse_args()
     main(args)
