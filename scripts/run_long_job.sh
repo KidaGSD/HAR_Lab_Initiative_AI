@@ -17,9 +17,8 @@ if [ $? != 0 ]; then
   # tmux send-keys -t $SESSION_NAME "conda activate ego4d_lab" C-m
   
   # 2. Run the script
-  # You can change --gpus to 2 or 4 if you have multiple GPUs!
-  # You can change --limit to test, or remove it for full run.
-  tmux send-keys -t $SESSION_NAME "python scripts/label_with_qwen.py --gpus 2" C-m
+  # We explicitly target GPUs 2 and 3 because 0 and 1 are busy
+  tmux send-keys -t $SESSION_NAME "CUDA_VISIBLE_DEVICES=6,7 python scripts/label_with_qwen.py --gpus 2" C-m
   
   echo "Job started in background!"
   echo "To view the progress, run: tmux attach -t $SESSION_NAME"
