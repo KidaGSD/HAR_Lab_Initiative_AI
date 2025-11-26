@@ -17,34 +17,20 @@ NARRATIONS_PATH = 'data/ego4d_data/v2/annotations/narration.json'
 SCENARIO_LABELS_PATH = 'data/labels/scenario_labels.csv'
 OUTPUT_PATH = 'data/labels/action_labels_llm.csv'
 
-# Qwen Prompt Template
-PROMPT_TEMPLATE = """You are an expert annotator for IMU sensor data. Your job is to classify the user's action into a single category based on the narration and context.
+# Simple classification prompt - just return the label
+SYSTEM_PROMPT = """You are an expert at classifying human actions from narration text. You must respond with ONLY ONE WORD from these options:
+- Locomotion (walking, moving between places)
+- Manual Work (using hands to manipulate objects)
+- Scanning (looking, searching visually)
+- Stationary (sitting, waiting, no movement)
+- Unknown (if unclear)
 
-Categories:
-1. Locomotion: Global body movement (walking, stepping, standing up).
-2. Manual Work: Hand-object interaction (cutting, holding, typing).
-3. Scanning: Visual search ONLY (looking, checking). No hand interaction.
-4. Stationary: Passive posture (sitting, waiting). No movement.
-5. Unknown: Ambiguous or unclear.
+Respond with ONLY the category name, nothing else."""
 
-Rules:
-- "Move [object]" is Manual Work. "Move to [place]" is Locomotion.
-- "Check [object]" is Scanning unless it implies touching/fixing.
-- If the narration implies BOTH walking and carrying, prioritize Manual Work if the hand motion is dominant, or Unknown if unclear.
-- Be conservative. If unsure, output Unknown.
+USER_PROMPT_TEMPLATE = """Scenario: {scenario}
+Action: {narration}
 
-Examples:
-Narration: "C walks to the sink" (Context: Cooking) -> Locomotion
-Narration: "C cuts the carrot" (Context: Cooking) -> Manual Work
-Narration: "C moves the pan" (Context: Cooking) -> Manual Work
-Narration: "C looks for the salt" (Context: Cooking) -> Scanning
-Narration: "C waits for water to boil" (Context: Cooking) -> Stationary
-Narration: "C moves" (Context: Unknown) -> Unknown
-
-Task:
-Narration: "{narration}"
-Context: "{scenario}"
-Label:"""
+Category:"""
 
 def load_data():
     print("Loading metadata...")
@@ -102,16 +88,24 @@ def main(args):
     # 2. Initialize Model
     print(f"Initializing Qwen model: {args.model}")
     llm = LLM(model=args.model, trust_remote_code=True, tensor_parallel_size=args.gpus)
-    sampling_params = SamplingParams(temperature=0.0, max_tokens=10) # Deterministic
+    sampling_params = SamplingParams(
+        temperature=0.0, 
+        max_tokens=50,  # Increased from 10
+        stop=["\n", "Narration:", "Scenario:"]  # Stop at newlines or next prompt
+    )
     
-    # 3. Prepare Prompts
+    # 3. Prepare Prompts using Qwen chat template
     prompts = []
     for item in data:
-        prompt = PROMPT_TEMPLATE.format(
-            narration=item['narration_text'],
-            scenario=item['scenario']
-        )
-        prompts.append(prompt)
+        # Use Qwen's chat format
+        messages = [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": USER_PROMPT_TEMPLATE.format(
+                narration=item['narration_text'],
+                scenario=item['scenario']
+            )}
+        ]
+        prompts.append(messages)
         
     # 4. Generate
     print("Generating labels...")
