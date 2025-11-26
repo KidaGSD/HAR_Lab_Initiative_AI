@@ -90,22 +90,21 @@ def main(args):
     llm = LLM(model=args.model, trust_remote_code=True, tensor_parallel_size=args.gpus)
     sampling_params = SamplingParams(
         temperature=0.0, 
-        max_tokens=50,  # Increased from 10
+        max_tokens=50,  
         stop=["\n", "Narration:", "Scenario:"]  # Stop at newlines or next prompt
     )
     
-    # 3. Prepare Prompts using Qwen chat template
+    # 3. Prepare Prompts as simple strings
     prompts = []
     for item in data:
-        # Use Qwen's chat format
-        messages = [
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": USER_PROMPT_TEMPLATE.format(
-                narration=item['narration_text'],
-                scenario=item['scenario']
-            )}
-        ]
-        prompts.append(messages)
+        # Simple combined prompt
+        prompt = f"""{SYSTEM_PROMPT}
+
+{USER_PROMPT_TEMPLATE.format(
+    narration=item['narration_text'],
+    scenario=item['scenario']
+)}"""
+        prompts.append(prompt)
         
     # 4. Generate
     print("Generating labels...")
