@@ -1,28 +1,35 @@
 import pandas as pd
 import os
+import argparse
 
 # --- Configuration ---
-SCENARIO_LABELS_PATH = "data/labels/scenario_labels.csv"
-ACTION_LABELS_PATH = "data/labels/action_labels.csv"
-OUTPUT_MASTER_PATH = "data/labels/master_annotations.csv"
+DEFAULT_SCENARIO_PATH = "data/labels/scenario_labels.csv"
+DEFAULT_ACTION_PATH = "data/labels/action_labels.csv"
+DEFAULT_OUTPUT_PATH = "data/labels/master_annotations.csv"
 
 def main():
+    parser = argparse.ArgumentParser(description="Merge scenario and action labels into master annotations.")
+    parser.add_argument("--action-labels", default=DEFAULT_ACTION_PATH, help="Path to low-level action labels CSV")
+    parser.add_argument("--scenario-labels", default=DEFAULT_SCENARIO_PATH, help="Path to high-level scenario labels CSV")
+    parser.add_argument("--output", default=DEFAULT_OUTPUT_PATH, help="Path to output master CSV")
+    args = parser.parse_args()
+
     print("Loading labels...")
     
     # 1. Load Scenario Labels (The "Filter")
-    if not os.path.exists(SCENARIO_LABELS_PATH):
-        print(f"Error: {SCENARIO_LABELS_PATH} not found. Run extract_scenario_labels.py first.")
+    if not os.path.exists(args.scenario_labels):
+        print(f"Error: {args.scenario_labels} not found. Run extract_scenario_labels.py first.")
         return
     
-    df_scenarios = pd.read_csv(SCENARIO_LABELS_PATH)
+    df_scenarios = pd.read_csv(args.scenario_labels)
     print(f"Loaded {len(df_scenarios)} videos with scenario labels.")
     
     # 2. Load Action Labels (The "Bulk Data")
-    if not os.path.exists(ACTION_LABELS_PATH):
-        print(f"Error: {ACTION_LABELS_PATH} not found.")
+    if not os.path.exists(args.action_labels):
+        print(f"Error: {args.action_labels} not found.")
         return
         
-    df_actions = pd.read_csv(ACTION_LABELS_PATH)
+    df_actions = pd.read_csv(args.action_labels)
     print(f"Loaded {len(df_actions)} action windows.")
     
     # 3. Merge (Inner Join)
@@ -40,10 +47,9 @@ def main():
     
     # 4. Reorder Columns
     # video_uid, timestamp_sec, scenario, action_label, narration_text, split
-    cols = ["video_uid", "timestamp_sec", "scenario", "label", "narration_text", "split"]
-    # Rename 'label' to 'action' for clarity if preferred, but let's stick to 'label' or 'action_label'
-    # The current action_labels.csv has 'label'. Let's rename it to 'action' for clarity in master.
-    df_master = df_master.rename(columns={"label": "action"})
+    # Check if 'label' or 'action' column exists
+    if 'label' in df_master.columns:
+        df_master = df_master.rename(columns={"label": "action"})
     
     final_cols = ["video_uid", "timestamp_sec", "scenario", "action", "narration_text", "split"]
     # Ensure all cols exist
@@ -62,9 +68,9 @@ def main():
     print(df_master["action"].value_counts())
     
     # 6. Save
-    os.makedirs(os.path.dirname(OUTPUT_MASTER_PATH), exist_ok=True)
-    df_master.to_csv(OUTPUT_MASTER_PATH, index=False)
-    print(f"\nSaved master annotations to {OUTPUT_MASTER_PATH}")
+    os.makedirs(os.path.dirname(args.output), exist_ok=True)
+    df_master.to_csv(args.output, index=False)
+    print(f"\nSaved master annotations to {args.output}")
 
 if __name__ == "__main__":
     main()

@@ -18,14 +18,26 @@ pip install ego4d
 
 ### 2. Data Overview (Crucial for Partners)
 
+**Final Dataset:** 1,652 videos with IMU data from Ego4D
+
 We use two levels of labels for our **Semi-Supervised** approach:
 
 | File | Count | Description | Purpose |
 |:-----|:------|:------------|:--------|
-| `data/labels/scenario_labels.csv` | **6,147** videos | **Superset**: All videos matching our 8 scenarios (Cooking, Carpentry, etc.). | Validating the High-Level Classifier (HLA). |
-| `data/labels/master_annotations.csv` | **938** videos | **Subset**: Videos that *also* have Low-Level Action labels (Walking, Stationary) derived from narrations. | Training the Motion Encoder (LLE). |
+| `data/labels/scenario_labels.csv` | **1,652** videos | All videos with IMU data, labeled by scenario (Cooking, Carpentry, etc.). | Training High-Level Classifier (HLA). |
+| `data/labels/master_annotations.csv` | **1,485** videos<br/>**306,473** windows | Subset with Low-Level Action labels. Currently using **Improved Keyword Matching** (v2). | Training Motion Encoder (LLE) probes. |
 
-**Note**: The "Fitness/Workout" scenario was removed due to insufficient data.
+**Labeling Strategy:**
+- **v1 (Legacy)**: Simple keyword matching (Archived).
+- **v2 (Current)**: Context-aware keyword matching with expanded vocabulary and strict validation (no "Stationary" fallback).
+- **v3 (Planned)**: LLM-based labeling using Qwen-14B (`scripts/label_with_qwen.py`) for handling ambiguity.
+
+**Key Statistics (v2 Labels):**
+- **Scenario Distribution**: Cleaning (313), Mechanical Repair (294), Cooking (267), Walking (228), Carpentry (186), Instruments (158), Desk Work (150), Gardening (56)
+- **Train/Val/Test Split**: 1,112 / 184 / 180 videos (67% / 11% / 11%, plus 176 multi-task)
+- **Action Labels**: Manual Work (73%), Locomotion (15%), Scanning (6%), Stationary (6%)
+
+**Note**: Only videos with available IMU sensor data are included. The "Fitness/Workout" scenario was removed due to insufficient samples.
 
 ### 3. How to Download Data
 
@@ -36,9 +48,9 @@ We use two levels of labels for our **Semi-Supervised** approach:
 export AWS_ACCESS_KEY_ID="<your_key>"
 export AWS_SECRET_ACCESS_KEY="<your_secret>"
 
-# Step 2: Download the 6,147 target videos (~50 GB)
+# Step 2: Download the 1,652 target videos (~15 GB IMU data)
 # This script uses target_uids.csv to filter the download
-python scripts/download_sensors_direct.py --uids target_uids.csv --output data/ego4d_data/v2/imu
+python scripts/download_sensors_direct.py --target-uids-file target_uids.csv --output-dir data/ego4d_data/v2 --manifest-dir data/ego4d_data/v2
 ```
 
 ---
@@ -73,21 +85,41 @@ Since only 938 videos have action labels, we use a **Masked Loss** to train on t
 Final Project/
 ├── README.md                      # This file
 ├── RESEARCH_DESIGN.md             # Technical design document
-├── environment.yml                # Conda dependencies
-├── target_uids.csv                # List of 6,147 target videos
-│
-├── data/                          # All datasets
-│   ├── ego4d_data/v2/             # Raw Ego4D downloads (GITIGNORED)
-│   ├── labels/                    # Generated labels (SHARED IN GIT)
-│   │   ├── master_annotations.csv # Training data (Action + Scenario)
-│   │   └── scenario_labels.csv    # Full dataset (Scenario only)
-│   └── processed_ego4d/           # Aligned .npz files (GITIGNORED)
-│
-├── scripts/                       # Active scripts
-│   ├── process_imu_data.py        # Pre-processing (IMU -> .npz)
-│   ├── train_hierarchical.py      # Main training script
-│   ├── download_sensors_direct.py # Download utility
-│   └── ...
+### 4. LLM Labeling Setup (New)
+
+To run the AI labeling pipeline (v3):
+
+```bash
+# 1. Install dependencies and download model (Qwen-14B)
+./setup_llm.sh
+
+# 2. Run the labeling script (Labels all 300k narrations)
+# This takes ~2 hours on a single GPU
+python scripts/label_with_qwen.py --model Qwen/Qwen1.5-14B-Chat-AWQ
+```
+
+### 5. Repository Structure
+
+```
+├── data/
+│   ├── ego4d_data/       # Raw IMU/Gaze/Narrations
+│   ├── processed_ego4d/  # Processed .npz files (Windowed)
+│   ├── labels/           # Final CSVs for training
+│   │   ├── scenario_labels.csv      # High-Level Labels
+│   │   ├── master_annotations.csv   # Low-Level Labels (v2)
+│   │   ├── action_labels_llm.csv    # LLM Labels (v3 - Output)
+│   └── intermediate/     # Old/Backup files
+├── scripts/
+│   ├── download_sensors_direct.py   # Download IMU data
+│   ├── process_imu_data.py          # Process raw -> npz
+│   ├── train_hierarchical.py        # Main Training Script
+│   ├── label_with_qwen.py           # LLM Labeling Script
+│   ├── extract_scenario_labels.py   # (Setup) Extract scenarios
+│   ├── consolidate_labels.py        # (Setup) Merge labels
+│   └── utils/                       # Analysis & Helper scripts
+├── setup_server.sh       # Setup Conda Env
+├── setup_llm.sh          # Setup vLLM & Model
+└── environment.yml       # Dependencies
 ```
 
 ---

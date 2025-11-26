@@ -48,18 +48,18 @@ Scenarios must exhibit distinct motion signatures detectable by head-mounted IMU
 
 ### 3.2 Proposed 9-Class Taxonomy
 
-| Scenario | Locomotion | Head Motion | Periodicity | Data Availability |
+| Scenario | Locomotion | Head Motion | Periodicity | Videos (with IMU) |
 |:---------|:-----------|:------------|:------------|:------------------|
-| Cooking | Minimal | Focused downward | Episodic arm motion | 1,356 videos |
-| Gardening | Moderate walking + bending | Variable | Digging/planting cycles | 101 videos |
-| Carpentry | Static positioning | Stable on workpiece | Sawing/hammering rhythm | 1,319 videos |
-| Walking Outdoors | Continuous locomotion | Forward gaze | Step frequency | 598 videos |
-| Cleaning | Intermittent walking | Downward + scanning | Wiping/sweeping cycles | 897 videos |
-| Desk Work | Stationary | Stable on screen | None | 228 videos |
-| Playing Instrument | Stationary | Stable on instrument | Musical rhythm | 698 videos |
-| Mechanical Repair | Static | Focused on object | Tool manipulation | 930 videos |
+| Cleaning | Intermittent walking | Downward + scanning | Wiping/sweeping cycles | **313** videos |
+| Mechanical Repair | Static | Focused on object | Tool manipulation | **294** videos |
+| Cooking | Minimal | Focused downward | Episodic arm motion | **267** videos |
+| Walking Outdoors | Continuous locomotion | Forward gaze | Step frequency | **228** videos |
+| Carpentry | Static positioning | Stable on workpiece | Sawing/hammering rhythm | **186** videos |
+| Playing Instrument | Stationary | Stable on instrument | Musical rhythm | **158** videos |
+| Desk Work | Stationary | Stable on screen | None | **150** videos |
+| Gardening | Moderate walking + bending | Variable | Digging/planting cycles | **56** videos |
 
-**Total**: 6,127 videos (8 Scenarios)
+**Total**: 1,652 videos (8 Scenarios) with IMU sensor data
 
 ---
 

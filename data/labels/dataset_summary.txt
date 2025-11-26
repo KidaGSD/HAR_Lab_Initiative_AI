@@ -1,0 +1,17 @@
+FINAL DATASET SUMMARY (With IMU Data)
+============================================================
+
+Total Videos: 1,652
+Videos with Action Labels: 1485
+Total Labeled Windows: 306473
+
+Scenario Counts:
+scenario
+Cleaning              313
+Mechanical Repair     294
+Cooking               267
+Walking Outdoors      228
+Carpentry             186
+Playing Instrument    158
+Desk Work             150
+Gardening              56
