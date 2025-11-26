@@ -132,11 +132,34 @@ def main(args):
     # Initialize output files with header if they don't exist
     CLEAN_OUTPUT_PATH = OUTPUT_PATH.replace('.csv', '_clean.csv')
     
+    processed_keys = set()
+    if os.path.exists(OUTPUT_PATH):
+        try:
+            # Read existing file to find processed items
+            # We only need video_uid and timestamp_sec to identify unique items
+            df_existing = pd.read_csv(OUTPUT_PATH, usecols=['video_uid', 'timestamp_sec'])
+            for _, row in df_existing.iterrows():
+                key = f"{row['video_uid']}_{float(row['timestamp_sec']):.4f}"
+                processed_keys.add(key)
+            print(f"Found {len(processed_keys)} already processed items. Resuming...")
+        except Exception as e:
+            print(f"Warning: Could not read existing file to resume: {e}")
+
     if not os.path.exists(OUTPUT_PATH):
         pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'thinking_process', 'llm_raw_output']).to_csv(OUTPUT_PATH, index=False)
         
     if not os.path.exists(CLEAN_OUTPUT_PATH):
         pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning']).to_csv(CLEAN_OUTPUT_PATH, index=False)
+    
+    # Filter data to skip processed items
+    data_to_run = []
+    for item in data:
+        key = f"{item['video_uid']}_{float(item['timestamp_sec']):.4f}"
+        if key not in processed_keys:
+            data_to_run.append(item)
+            
+    print(f"Remaining items to process: {len(data_to_run)} (Skipped {len(data) - len(data_to_run)})")
+    data = data_to_run
     
     print(f"Processing in batches of {BATCH_SIZE}...")
     
