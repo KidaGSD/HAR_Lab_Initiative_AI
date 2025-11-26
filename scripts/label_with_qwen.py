@@ -18,210 +18,153 @@ SCENARIO_LABELS_PATH = 'data/labels/scenario_labels.csv'
 OUTPUT_PATH = 'data/labels/action_labels_llm.csv'
 
 # Simple classification prompt - just return the label
-# Simple classification prompt - just return the label
-SYSTEM_PROMPT = """You are an expert at classifying human actions from narration text. You must respond with ONLY ONE WORD from these options, and try your best to interpret the action. Only if there is no clear clues, you mark it as "Unknown":
-- Locomotion (walking, running, climbing, moving body)
-- Manual Work (using hands to manipulate objects, tools, or environment)
-- Scanning (looking, searching visually)
-- Stationary (sitting, standing still, waiting, talking)
-- Unknown (only if completely ambiguous or irrelevant)
+# IMU-Focused Low-Level Labeling Prompt
+SYSTEM_PROMPT = """You are an expert at analyzing human behavior from narration text. 
+Your goal is to classify the action into a category that corresponds to a distinct IMU/Motion signature.
 
-Your goal is to use the SCENARIO CONTEXT to interpret the action.
+Taxonomy (Choose exactly one):
+1. Locomotion: Body moving through space (walk, run, climb, stand up). High Body Accel.
+2. Essential Operation: Core manual task (cut, wash, mix, screw, type). High Hand Accel, Irregular.
+3. Object Transfer: Logistics (pick up, put down, open drawer, take). Short bursts of Hand Accel.
+4. Search: Visual search or monitoring (looking for item, checking time, inspecting). High Head Rotation, Low Hand Accel.
+5. Error / Correction: Explicit failure, fumbling, dropping, spilling. Jerky/Irregular motion.
+6. Stationary: Idle, waiting, talking, sitting. Low Energy.
 
-Examples of Contextual Reasoning:
+Respond with a JSON object:
+{
+  "label": "Category Name",
+  "reasoning": "Brief explanation"
+}
 
-1. Verb "Move"
-   Scenario: Cooking
-   Action: "C moves the pan"
-   Label: Manual Work
+Examples:
+Scenario: Cooking
+Action: "C cuts the carrot"
+Output: {"label": "Essential Operation", "reasoning": "Core task, high hand activity."}
 
-   Scenario: Cooking
-   Action: "C moves to the sink"
-   Label: Locomotion
+Scenario: Cooking
+Action: "C takes the knife from the drawer"
+Output: {"label": "Object Transfer", "reasoning": "Logistics/Setup step."}
 
-   Scenario: Walking Outdoors
-   Action: "C moves down the walkway"
-   Label: Locomotion
+Scenario: Cooking
+Action: "C looks for the salt"
+Output: {"label": "Search", "reasoning": "Head movement (visual search), hands mostly still."}
 
-2. Verb "Check"
-   Scenario: Relaxing
-   Action: "C checks the phone"
-   Label: Scanning
+Scenario: Any
+Action: "C checks the time"
+Output: {"label": "Search", "reasoning": "Head movement (checking), passive hands."}
 
-   Scenario: Car Repair
-   Action: "C checks the tire pressure"
-   Label: Manual Work
+Scenario: Cleaning
+Action: "C drops the bowl"
+Output: {"label": "Error / Correction", "reasoning": "Jerky/Failure motion."}
 
-3. Verb "Stand"
-   Scenario: Talking
-   Action: "C stands by the door"
-   Label: Stationary
-
-   Scenario: Any
-   Action: "C stands up"
-   Label: Locomotion
-
-4. Clear Actions
-   Scenario: Any
-   Action: "C walks down the hall"
-   Label: Locomotion
-
-   Scenario: Any
-   Action: "C takes the bowl"
-   Label: Manual Work
-
-5. Unknown / Irrelevant
-   Scenario: Any
-   Action: "C is visible"
-   Label: Unknown
-
-   Scenario: Any
-   Action: "Camera moves"
-   Label: Unknown
-
-Respond with ONLY the category name."""
+Scenario: Any
+Action: "C talks to X"
+Output: {"label": "Stationary", "reasoning": "Low body/hand motion."}
+"""
 
 USER_PROMPT_TEMPLATE = """Scenario: {scenario}
 Action: {narration}
 
-Category:"""
+Output JSON:"""
 
 def load_data():
-    print("Loading metadata...")
-    # Load Scenarios (Context)
-    scenario_df = pd.read_csv(SCENARIO_LABELS_PATH).set_index('video_uid')
-    
-    # Load Narrations
-    print(f"Loading narrations from {NARRATIONS_PATH}...")
-    with open(NARRATIONS_PATH, 'r') as f:
-        all_narrations = json.load(f)
-        
-    # Filter for target videos
-    target_uids = set(scenario_df.index)
-    
-    data_to_process = []
-    
-    for uid, video_data in all_narrations.items():
-        if uid not in target_uids:
-            continue
-            
-        scenario = scenario_df.loc[uid, 'scenario']
-        
-        # Handle nested structure
-        if 'narration_pass_1' in video_data and 'narrations' in video_data['narration_pass_1']:
-            narr_list = video_data['narration_pass_1']['narrations']
-        elif 'narration_pass_2' in video_data and 'narrations' in video_data['narration_pass_2']:
-            narr_list = video_data['narration_pass_2']['narrations']
-        else:
-            continue
-            
-        for item in narr_list:
-            data_to_process.append({
-                'video_uid': uid,
-                'timestamp_sec': item['timestamp_sec'],
-                'narration_text': item['narration_text'],
-                'scenario': scenario
-            })
-            
-    print(f"Found {len(data_to_process)} narrations to label.")
+    # ... (same as before) ...
     return data_to_process
 
 def main(args):
-    if not VLLM_AVAILABLE:
-        print("Error: vllm is not installed. Please install it on the GPU server:")
-        print("pip install vllm")
-        return
-
     # 1. Load Data
+    print("Loading data...")
     data = load_data()
-    
     if args.limit:
         data = data[:args.limit]
-        print(f"Limiting to first {args.limit} samples.")
-        
+    print(f"Loaded {len(data)} narrations.")
+
     # 2. Initialize Model
     print(f"Initializing Qwen model: {args.model}")
     llm = LLM(model=args.model, trust_remote_code=True, tensor_parallel_size=args.gpus)
     sampling_params = SamplingParams(
-        temperature=0.0, 
-        max_tokens=100,  
-        stop=["\n", "Narration:", "Scenario:"]  # Stop at newlines or next prompt
+        temperature=0.6, # Recommended for thinking mode
+        top_p=0.95,
+        max_tokens=1024,  # Increased for thinking content
+        stop=["\n\n", "Scenario:", "Action:"] 
     )
     
-    # 3. Prepare Prompts as simple strings
-    prompts = []
-    for item in data:
-        # Simple combined prompt
-        prompt = f"""{SYSTEM_PROMPT}
+    # 3. Process in Batches
+    BATCH_SIZE = 5000
+    total_processed = 0
+    
+    # Initialize output file with header if it doesn't exist
+    if not os.path.exists(OUTPUT_PATH):
+        pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'llm_raw_output']).to_csv(OUTPUT_PATH, index=False)
+    
+    print(f"Processing in batches of {BATCH_SIZE}...")
+    
+    for i in range(0, len(data), BATCH_SIZE):
+        batch_data = data[i : i + BATCH_SIZE]
+        print(f"Processing batch {i} to {i + len(batch_data)}...")
+        
+        # Prepare Prompts
+        prompts = []
+        for item in batch_data:
+            prompt = f"""{SYSTEM_PROMPT}
 
 {USER_PROMPT_TEMPLATE.format(
     narration=item['narration_text'],
     scenario=item['scenario']
 )}"""
-        prompts.append(prompt)
+            prompts.append(prompt)
+            
+        # Generate
+        outputs = llm.generate(prompts, sampling_params)
         
-    # 4. Generate
-    print("Generating labels...")
-    if len(prompts) > 0:
-        print(f"DEBUG: Type of first prompt: {type(prompts[0])}")
-        print(f"DEBUG: First prompt content: {prompts[0]!r}")
-        
-    outputs = llm.generate(prompts, sampling_params)
-    
-    # 5. Parse Results
-    results = []
-    valid_labels = {'Locomotion', 'Manual Work', 'Scanning', 'Stationary', 'Unknown'}
-    
-    for i, output in enumerate(outputs):
-        generated_text = output.outputs[0].text.strip()
-        
-        # Basic cleaning
-        label = generated_text.split('\n')[0].strip()
-        
-        # Validation
-        if label not in valid_labels:
-            # Try to find valid label in text
-            found = False
-            for v in valid_labels:
-                if v.lower() in label.lower():
-                    label = v
-                    found = True
-                    break
-            if not found:
+        # Parse Results
+        results = []
+        for j, output in enumerate(outputs):
+            generated_text = output.outputs[0].text.strip()
+            
+            # Parse JSON (robust to <think> blocks)
+            try:
+                # Find the LAST valid JSON block
+                end = generated_text.rfind('}') + 1
+                if end == 0:
+                    raise ValueError("No JSON end found")
+                
+                start = generated_text.rfind('{', 0, end)
+                if start == -1:
+                    raise ValueError("No JSON start found")
+                    
+                json_str = generated_text[start:end]
+                data_dict = json.loads(json_str)
+                
+                label = data_dict.get('label', 'Unknown')
+                reasoning = data_dict.get('reasoning', '')
+                
+            except Exception as e:
                 label = 'Unknown'
-        
-        item = data[i]
-        results.append({
-            'video_uid': item['video_uid'],
-            'timestamp_sec': item['timestamp_sec'],
-            'narration_text': item['narration_text'],
-            'scenario': item['scenario'],
-            'action': label,
-            'llm_raw_output': generated_text
-        })
-        
-    # 6. Save
-    df = pd.DataFrame(results)
-    
-    # Filter out Unknowns for the final dataset? 
-    # Or keep them for analysis? Let's keep them but save separate files.
-    
-    df.to_csv(OUTPUT_PATH, index=False)
-    print(f"Saved all labels to {OUTPUT_PATH}")
-    
-    # Clean version
-    df_clean = df[df['action'] != 'Unknown']
-    clean_path = OUTPUT_PATH.replace('.csv', '_clean.csv')
-    df_clean.to_csv(clean_path, index=False)
-    print(f"Saved clean labels ({len(df_clean)}) to {clean_path}")
-    
-    # Stats
-    print("\nLabel Distribution:")
-    print(df['action'].value_counts(normalize=True))
+                reasoning = f"Error: {str(e)}"
+            
+            item = batch_data[j]
+            results.append({
+                'video_uid': item['video_uid'],
+                'timestamp_sec': item['timestamp_sec'],
+                'narration_text': item['narration_text'],
+                'scenario': item['scenario'],
+                'action': label,
+                'reasoning': reasoning,
+                'llm_raw_output': generated_text
+            })
+            
+        # Save Batch
+        df_batch = pd.DataFrame(results)
+        df_batch.to_csv(OUTPUT_PATH, mode='a', header=False, index=False)
+        print(f"Saved batch to {OUTPUT_PATH}")
+        total_processed += len(batch_data)
+
+    print(f"\nDone! Processed {total_processed} items.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="Qwen/Qwen2.5-14B-Instruct-AWQ", help="Model path (HuggingFace)")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3-14B", help="Model path (HuggingFace)")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of samples for testing")
     parser.add_argument("--gpus", type=int, default=1, help="Number of GPUs to use")
     args = parser.parse_args()
