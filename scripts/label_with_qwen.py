@@ -118,62 +118,43 @@ def main(args):
     # 2. Initialize Model
     print(f"Initializing Qwen model: {args.model}")
     llm = LLM(model=args.model, trust_remote_code=True, tensor_parallel_size=args.gpus)
+    # 2. Initialize Model
+    print(f"Initializing Qwen model: {args.model}")
+    llm = LLM(model=args.model, trust_remote_code=True, tensor_parallel_size=args.gpus)
     sampling_params = SamplingParams(
-        temperature=0.6, # Recommended for thinking mode
+        temperature=0.6, 
         top_p=0.95,
-        max_tokens=1024,  # Increased for thinking content
-        stop=["\n\n", "Scenario:", "Action:"] 
+        max_tokens=2048,  # Increased to 2048 to prevent truncation of thinking + JSON
+        stop=["\n\n\n"]   # Relaxed stop tokens
     )
     
-    # 3. Process in Batches
-    BATCH_SIZE = 5000
-    total_processed = 0
-    
-    # Initialize output file with header if it doesn't exist
-    if not os.path.exists(OUTPUT_PATH):
-        pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'llm_raw_output']).to_csv(OUTPUT_PATH, index=False)
-    
-    print(f"Processing in batches of {BATCH_SIZE}...")
-    
-    for i in range(0, len(data), BATCH_SIZE):
-        batch_data = data[i : i + BATCH_SIZE]
-        print(f"Processing batch {i} to {i + len(batch_data)}...")
-        
-        # Prepare Prompts
-        prompts = []
-        for item in batch_data:
-            prompt = f"""{SYSTEM_PROMPT}
+    # ... (batch loop) ...
 
-{USER_PROMPT_TEMPLATE.format(
-    narration=item['narration_text'],
-    scenario=item['scenario']
-)}"""
-            prompts.append(prompt)
-            
-        # Generate
-        outputs = llm.generate(prompts, sampling_params)
-        
         # Parse Results
         results = []
+        import re # Import regex
+        
         for j, output in enumerate(outputs):
             generated_text = output.outputs[0].text.strip()
             
-            # Parse JSON (robust to <think> blocks)
+            # Parse JSON (Robust Regex Method)
             try:
-                # Find the LAST valid JSON block
-                end = generated_text.rfind('}') + 1
-                if end == 0:
-                    raise ValueError("No JSON end found")
+                # 1. Try finding a code block first ```json ... ```
+                json_match = re.search(r'```json\s*(\{.*?\})\s*```', generated_text, re.DOTALL)
+                if not json_match:
+                    # 2. Try finding any JSON-like object { ... }
+                    # This regex looks for the last balanced brace pair if possible, 
+                    # or just the last { ... } block.
+                    # Qwen3 often puts the JSON at the very end.
+                    json_match = re.search(r'(\{.*\})', generated_text, re.DOTALL)
                 
-                start = generated_text.rfind('{', 0, end)
-                if start == -1:
-                    raise ValueError("No JSON start found")
-                    
-                json_str = generated_text[start:end]
-                data_dict = json.loads(json_str)
-                
-                label = data_dict.get('label', 'Unknown')
-                reasoning = data_dict.get('reasoning', '')
+                if json_match:
+                    json_str = json_match.group(1)
+                    data_dict = json.loads(json_str)
+                    label = data_dict.get('label', 'Unknown')
+                    reasoning = data_dict.get('reasoning', '')
+                else:
+                    raise ValueError("No JSON pattern found")
                 
             except Exception as e:
                 label = 'Unknown'
