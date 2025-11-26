@@ -118,9 +118,6 @@ def main(args):
     # 2. Initialize Model
     print(f"Initializing Qwen model: {args.model}")
     llm = LLM(model=args.model, trust_remote_code=True, tensor_parallel_size=args.gpus)
-    # 2. Initialize Model
-    print(f"Initializing Qwen model: {args.model}")
-    llm = LLM(model=args.model, trust_remote_code=True, tensor_parallel_size=args.gpus)
     sampling_params = SamplingParams(
         temperature=0.6, 
         top_p=0.95,
@@ -128,11 +125,38 @@ def main(args):
         stop=["\n\n\n"]   # Relaxed stop tokens
     )
     
-    # ... (batch loop) ...
+    # 3. Process in Batches
+    BATCH_SIZE = 5000
+    total_processed = 0
+    
+    # Initialize output file with header if it doesn't exist
+    if not os.path.exists(OUTPUT_PATH):
+        pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'llm_raw_output']).to_csv(OUTPUT_PATH, index=False)
+    
+    print(f"Processing in batches of {BATCH_SIZE}...")
+    
+    import re # Import regex
+    
+    for i in range(0, len(data), BATCH_SIZE):
+        batch_data = data[i : i + BATCH_SIZE]
+        print(f"Processing batch {i} to {i + len(batch_data)}...")
+        
+        # Prepare Prompts
+        prompts = []
+        for item in batch_data:
+            prompt = f"""{SYSTEM_PROMPT}
 
+{USER_PROMPT_TEMPLATE.format(
+    narration=item['narration_text'],
+    scenario=item['scenario']
+)}"""
+            prompts.append(prompt)
+            
+        # Generate
+        outputs = llm.generate(prompts, sampling_params)
+        
         # Parse Results
         results = []
-        import re # Import regex
         
         for j, output in enumerate(outputs):
             generated_text = output.outputs[0].text.strip()
@@ -143,9 +167,6 @@ def main(args):
                 json_match = re.search(r'```json\s*(\{.*?\})\s*```', generated_text, re.DOTALL)
                 if not json_match:
                     # 2. Try finding any JSON-like object { ... }
-                    # This regex looks for the last balanced brace pair if possible, 
-                    # or just the last { ... } block.
-                    # Qwen3 often puts the JSON at the very end.
                     json_match = re.search(r'(\{.*\})', generated_text, re.DOTALL)
                 
                 if json_match:
