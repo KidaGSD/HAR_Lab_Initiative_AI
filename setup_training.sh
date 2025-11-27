@@ -7,10 +7,11 @@ set -e
 echo "=== 1. Setting up Environment ==="
 # Assuming conda is installed and environment 'ego4d_lab' exists or will be created
 # If not, uncomment:
-# conda env create -f environment.yml
+# conda env create# 1. Install Dependencies
+echo "Installing dependencies from environment.yml..."
+conda env update --file environment.yml --prune
 # conda activate ego4d_lab
 
-pip install -r requirements.txt
 pip install wandb scikit-learn
 
 echo "\n=== 2. Downloading Sensor Data ==="
@@ -31,6 +32,5 @@ python scripts/process_imu_data.py \
     --data-dir data/ego4d_data/v2 \
     --output-dir data/processed_ego4d
 
-echo "\n=== 4. Starting Training ==="
-echo "Run the following command to start training:"
-echo "python scripts/train_hierarchical.py --run-name final_run_v1"
+echo "\n=== 4. Setup Complete ==="
+echo "You can now run the training using ./run_training.sh"
