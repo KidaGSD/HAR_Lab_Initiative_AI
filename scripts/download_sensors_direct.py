@@ -37,6 +37,16 @@ def download_sensors_direct(target_uids_file, output_dir, manifest_dir=None):
         session = boto3.Session(region_name="us-west-1")
     
     s3 = session.client('s3')
+    sts = session.client('sts')
+    
+    try:
+        identity = sts.get_caller_identity()
+        print(f"Using AWS Identity: {identity['Arn']}")
+    except Exception as e:
+        print(f"ERROR: Could not verify AWS credentials: {e}")
+        print("Please check your AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.")
+        return
+
     
     datasets = ['imu', 'gaze']
     
