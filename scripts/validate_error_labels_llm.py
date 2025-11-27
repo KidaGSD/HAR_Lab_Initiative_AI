@@ -25,43 +25,53 @@ except ImportError:
     print("WARNING: vLLM not available. This script requires vLLM to run.")
 
 # --- Configuration ---
-INPUT_CSV = 'data/labels/action_labels_llm_clean.csv'
+INPUT_CSV = 'data/labels/action_labels_llm_clean_backup.csv'
 OUTPUT_CSV = 'data/labels/action_labels_llm_validated.csv'
 
 # Validation Prompt (Specialized for Error/Correction re-evaluation)
-VALIDATION_SYSTEM_PROMPT = """You are an expert at analyzing human actions from narration text.
+VALIDATION_SYSTEM_PROMPT = """You are an expert at analyzing human actions from narration text to determine the underlying intent.
+Your goal is to distinguish between INTENTIONAL actions (Object Transfer, Essential Operation) and UNINTENTIONAL errors (Error / Correction).
 
-Your task is to determine if an action labeled as "Error / Correction" is actually:
-1. **Object Transfer**: Intentional placement/movement of objects (e.g., "drops bowl on table")
-2. **Essential Operation**: Core manual task (e.g., "adjusts the cutting board")
-3. **Error / Correction**: Genuine accident/mistake (e.g., "spills water", "drops glass")
+**CRITICAL DISTINCTION: "DROPS"**
+The word "drops" is ambiguous. You must analyze the context:
+1.  **Intentional Disposal (Object Transfer)**: "Drops potato skin", "drops waste", "drops into trash".
+    *   Context: Discarding unwanted items.
+    *   Label: **Object Transfer**
+2.  **Intentional Placement (Object Transfer)**: "Drops keys on table", "drops bag on floor".
+    *   Context: Placing an item down, perhaps casually.
+    *   Label: **Object Transfer**
+3.  **Accidental Loss of Control (Error / Correction)**: "Drops knife", "drops glass", "drops the bowl".
+    *   Context: Fumbling, losing grip, often followed by picking it up or cleaning.
+    *   Label: **Error / Correction**
 
-Key Guidelines:
-- "drops X on [surface]" is usually INTENTIONAL placement → Object Transfer
-- "adjusts X" is usually deliberate → Object Transfer or Essential Operation
-- "spills", "fumbles", "accidentally" indicate genuine errors
-- Broken items (glass, plate) are usually errors unless placed intentionally
+**Taxonomy Definitions:**
+1.  **Object Transfer**: Intentional movement of objects (picking up, putting down, throwing away).
+2.  **Essential Operation**: Core task actions (cutting, washing, mixing).
+3.  **Error / Correction**: Unintended actions, accidents, fumbles, slips, falls.
 
-Respond with JSON:
+**Response Format (JSON):**
 {
   "is_error": true/false,
   "correct_label": "Object Transfer" | "Essential Operation" | "Error / Correction",
-  "reasoning": "Brief explanation"
+  "reasoning": "Clear explanation of why it is intentional or accidental."
 }
 
-Examples:
+**Examples:**
 
-Narration: "C drops the bowl on the table."
-Output: {"is_error": false, "correct_label": "Object Transfer", "reasoning": "Intentional placement on surface."}
+Narration: "C drops potato skin."
+Output: {"is_error": false, "correct_label": "Object Transfer", "reasoning": "Intentional disposal of waste (potato skin)."}
 
-Narration: "C adjusts the cutting board."
-Output: {"is_error": false, "correct_label": "Object Transfer", "reasoning": "Deliberate repositioning."}
+Narration: "C drops the knife."
+Output: {"is_error": true, "correct_label": "Error / Correction", "reasoning": "Accidental loss of control of a tool (knife)."}
 
 Narration: "C drops the glass cup."
-Output: {"is_error": true, "correct_label": "Error / Correction", "reasoning": "Fragile item dropped, likely accident."}
+Output: {"is_error": true, "correct_label": "Error / Correction", "reasoning": "Fragile item dropped, implies accident."}
 
-Narration: "C spills water on the counter."
-Output: {"is_error": true, "correct_label": "Error / Correction", "reasoning": "Spilling is unintentional."}
+Narration: "C drops the bag on the floor."
+Output: {"is_error": false, "correct_label": "Object Transfer", "reasoning": "Intentional placement of an object."}
+
+Narration: "C fumbles with the keys."
+Output: {"is_error": true, "correct_label": "Error / Correction", "reasoning": "Explicit fumble indicates error."}
 """
 
 USER_PROMPT_TEMPLATE = """Scenario: {scenario}
