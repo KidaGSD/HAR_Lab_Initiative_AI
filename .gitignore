@@ -23,7 +23,7 @@ docs/
 runs/
 checkpoints/
 state/
-img/
+
 
 # --- Environment ---
 .env
