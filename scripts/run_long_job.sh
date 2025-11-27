@@ -13,8 +13,8 @@ if [ $? != 0 ]; then
   tmux new-session -d -s $SESSION_NAME
   
   # Send commands to the session
-  # 1. Activate environment (if needed, assuming conda is auto-activated or in .bashrc)
-  # tmux send-keys -t $SESSION_NAME "conda activate ego4d_lab" C-m
+  # 1. Activate environment
+  tmux send-keys -t $SESSION_NAME "conda activate ego4d_lab" C-m
   
   # 2. Run the script
   # We explicitly target GPUs 2 and 3 because 0 and 1 are busy
