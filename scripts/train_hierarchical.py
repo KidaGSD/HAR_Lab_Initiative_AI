@@ -287,6 +287,11 @@ def train(args):
     
     # Model
     model = HierarchicalModel(CONFIG).to(device)
+    
+    if torch.cuda.device_count() > 1:
+        print(f"Using {torch.cuda.device_count()} GPUs!")
+        model = nn.DataParallel(model)
+        
     optimizer = torch.optim.Adam(model.parameters(), lr=CONFIG['training']['lr'])
     
     # Loss
