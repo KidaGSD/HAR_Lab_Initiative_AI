@@ -15,6 +15,4 @@ dependencies:
   - pip
   - pip:
     - ego4d
-    - wandb
-    - scikit-learn
 

@@ -8,8 +8,8 @@ echo "=== 1. Setting up Environment ==="
 # Assuming conda is installed and environment 'ego4d_lab' exists or will be created
 # If not, uncomment:
 # conda env create# 1. Install Dependencies
-echo "Installing dependencies from environment.yml..."
-conda env update --file environment.yml --prune
+echo "Installing specific dependencies..."
+pip install wandb scikit-learn tqdm pandas numpy scipy boto3
 # conda activate ego4d_lab
 
 pip install wandb scikit-learn
