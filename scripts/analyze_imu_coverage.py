@@ -21,8 +21,9 @@ sns.set_style('whitegrid')
 plt.rcParams['figure.figsize'] = (14, 6)
 
 # Paths
-LABELS_PATH = '../data/labels/action_labels_llm_clean.csv'
-IMU_DIR = Path('../data/ego4d_data/v2/imu')
+SCRIPT_DIR = Path(__file__).parent
+LABELS_PATH = SCRIPT_DIR / '../data/labels/action_labels_llm_validated.csv'
+IMU_DIR = SCRIPT_DIR / '../data/ego4d_data/v2/imu'
 
 def load_imu_data(video_uid):
     """

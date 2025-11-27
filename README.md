@@ -25,17 +25,18 @@ We use two levels of labels for our **Semi-Supervised** approach:
 | File | Count | Description | Purpose |
 |:-----|:------|:------------|:--------|
 | `data/labels/scenario_labels.csv` | **1,652** videos | All videos with IMU data, labeled by scenario (Cooking, Carpentry, etc.). | Training High-Level Classifier (HLA). |
-| `data/labels/master_annotations.csv` | **1,485** videos<br/>**306,473** windows | Subset with Low-Level Action labels. Currently using **Improved Keyword Matching** (v2). | Training Motion Encoder (LLE) probes. |
+| `data/labels/action_labels_llm_validated.csv` | **355,580** windows | **Final v3 Labels** (LLM-Validated). Includes error correction. | **Primary Training Target** |
+| `data/labels/action_labels_llm_clean.csv` | **355,580** windows | Intermediate v3 labels (before error validation). | Backup / Comparison |
 
 **Labeling Strategy:**
 - **v1 (Legacy)**: Simple keyword matching (Archived).
-- **v2 (Current)**: Context-aware keyword matching with expanded vocabulary and strict validation (no "Stationary" fallback).
-- **v3 (Planned)**: LLM-based labeling using Qwen-14B (`scripts/label_with_qwen.py`) for handling ambiguity.
+- **v2 (Keyword)**: Context-aware keyword matching.
+- **v3 (LLM-Based)**: Qwen-14B reasoning + Error Validation.
 
-**Key Statistics (v2 Labels):**
+**Key Statistics (v3 Validated):**
 - **Scenario Distribution**: Cleaning (313), Mechanical Repair (294), Cooking (267), Walking (228), Carpentry (186), Instruments (158), Desk Work (150), Gardening (56)
-- **Train/Val/Test Split**: 1,112 / 184 / 180 videos (67% / 11% / 11%, plus 176 multi-task)
-- **Action Labels**: Manual Work (73%), Locomotion (15%), Scanning (6%), Stationary (6%)
+- **Train/Val/Test Split**: 1,112 / 184 / 180 videos
+- **Action Labels**: Manual Work (70.3%), Stationary (12.9%), Locomotion (9.9%), Search (6.1%)
 
 **Note**: Only videos with available IMU sensor data are included. The "Fitness/Workout" scenario was removed due to insufficient samples.
 

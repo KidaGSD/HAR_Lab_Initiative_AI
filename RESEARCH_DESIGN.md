@@ -4,7 +4,7 @@
 
 Develop a hierarchical activity recognition system using head-mounted IMU data to classify:
 - **High-Level (HL)**: Scenario context (9 classes, 30-second windows)
-- **Low-Level (LL)**: Motion primitives (4 classes, 1-second windows)
+- **Low-Level (LL)**: Motion primitives (6 classes, 1-second windows)
 
 The system employs semi-supervised learning where both encoder levels train concurrently using only high-level scenario labels.
 
@@ -96,14 +96,30 @@ For each narration at timestamp t with label L:
 - Rely on LLE's semi-supervised learning to denoise patterns
 - Validate on manually annotated subset (10% of data, ~1,000 windows)
 
-**Label Distribution** (current keyword-based):
-- Manual Work: 50.3% (116,093 windows)
-- Stationary: 41.8% (96,397 windows)
-- Locomotion: 5.1% (11,733 windows)
-- Scanning: 2.7% (6,317 windows)
+**Label Distribution** (v3 LLM-Validated):
+- **Object Transfer**: 42.4% (150,726 windows) - *Logistics/Setup (pick up, put down)*
+- **Essential Operation**: 27.9% (99,260 windows) - *Core task (cut, wash, mix)*
+- **Stationary**: 12.9% (46,033 windows) - *Idle, waiting*
+- **Locomotion**: 9.9% (35,060 windows) - *Moving body through space*
+- **Search**: 6.1% (21,775 windows) - *Visual search or monitoring*
+- **Error / Correction**: 0.7% (2,513 windows) - *Explicit failure, fumbling*
 
-**Note on Labeling Strategy**:
-The distributions above reflect the **v2 (Keyword-based)** approach. We are currently transitioning to a **v3 (LLM-based)** strategy using Qwen-14B to improve handling of ambiguity and context, which may refine these distributions further.
+**Low-Level Taxonomy (6 Classes)**:
+1.  **Locomotion**: High body acceleration, rhythmic (walking, climbing).
+2.  **Essential Operation**: High hand acceleration, irregular/complex (cutting, mixing).
+3.  **Object Transfer**: Short bursts of hand acceleration (picking up, putting down).
+4.  **Search**: High head rotation (gyro), low hand acceleration (looking for item).
+5.  **Error / Correction**: Jerky/sudden motion, breaks in rhythm (fumbling, dropping).
+6.  **Stationary**: Low energy on all sensors (waiting, talking).
+
+**Evolution of Labeling Strategy**:
+1.  **v2 (Keyword-based)**: Relied on strict keyword matching. Resulted in high "Stationary" (41.8%) due to missing context.
+2.  **v3 (LLM-based)**: Used Qwen-14B to infer actions from full sentences. Drastically reduced "Stationary" to 12.9% by correctly identifying subtle manual work.
+3.  **Error Validation**: Specifically targeted "Error / Correction" labels.
+    -   Input: `data/labels/action_labels_llm_clean_before_error.csv`
+    -   Process: Re-verified 15,633 error labels with Qwen.
+    -   Result: 84% reclassified as "Object Transfer" (e.g., "dropping" an object intentionally).
+    -   Final Output: `data/labels/action_labels_llm_validated.csv`
 
 ---
 

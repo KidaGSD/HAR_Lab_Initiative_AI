@@ -7,6 +7,9 @@ from pathlib import Path
 from tqdm import tqdm
 import argparse
 import os
+import copy
+from sklearn.metrics import f1_score, confusion_matrix
+
 try:
     import wandb
     WANDB_AVAILABLE = True
@@ -27,17 +30,41 @@ CONFIG = {
     'hla': {
         'hidden_dim': 128,
         'num_layers': 2,
-        'num_classes': 8, # 8 Scenarios (Fitness removed)
+        'num_classes': 8, # 8 Scenarios
         'seq_len': 30 # 30 seconds context
     },
     'training': {
         'batch_size': 128,
         'lr': 1e-3,
-        'epochs': 20,
+        'epochs': 50, # Increased for early stopping
+        'patience': 10, # Early stopping patience
         'alpha': 1.0, # Weight for Scenario Loss
         'beta': 1.0   # Weight for Action Loss
     }
 }
+
+# --- Utils ---
+class EarlyStopping:
+    def __init__(self, patience=50, min_delta=0):
+        self.patience = patience
+        self.min_delta = min_delta
+        self.counter = 0
+        self.best_score = None
+        self.early_stop = False
+        self.best_model_state = None
+
+    def __call__(self, score, model):
+        if self.best_score is None:
+            self.best_score = score
+            self.best_model_state = copy.deepcopy(model.state_dict())
+        elif score < self.best_score + self.min_delta:
+            self.counter += 1
+            if self.counter >= self.patience:
+                self.early_stop = True
+        else:
+            self.best_score = score
+            self.best_model_state = copy.deepcopy(model.state_dict())
+            self.counter = 0
 
 # --- Dataset ---
 class HierarchicalDataset(torch.utils.data.Dataset):
@@ -50,12 +77,21 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         self.action_df = pd.read_csv(action_labels_path)
         
         # Map Scenario Names to Integers
-        self.scenario_map = {name: i for i, name in enumerate(self.scenario_df['scenario'].unique())}
+        self.scenario_map = {name: i for i, name in enumerate(sorted(self.scenario_df['scenario'].unique()))}
         self.num_scenarios = len(self.scenario_map)
+        self.idx_to_scenario = {v: k for k, v in self.scenario_map.items()}
         print(f"Scenarios: {self.scenario_map}")
         
-        # Map Action Names to Integers
-        self.action_map = {'Stationary': 0, 'Locomotion': 1, 'Manual Work': 2, 'Scanning': 3}
+        # Map Action Names to Integers (6 Classes)
+        self.action_map = {
+            'Stationary': 0, 
+            'Locomotion': 1, 
+            'Essential Operation': 2, 
+            'Object Transfer': 3,
+            'Search': 4,
+            'Error / Correction': 5
+        }
+        self.idx_to_action = {v: k for k, v in self.action_map.items()}
         
         # Iterate Videos
         for uid in tqdm(take_uids, desc='Loading Data'):
@@ -76,15 +112,13 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                     continue
                 scenario_name = self.scenario_df.loc[uid, 'scenario']
                 if scenario_name not in self.scenario_map:
-                    continue # Skip if scenario was filtered out (e.g. Fitness)
+                    continue 
                 scenario_label = self.scenario_map[scenario_name]
                 
                 # Get Action Labels for this video
                 video_actions = self.action_df[self.action_df['video_uid'] == uid]
                 
                 # Create Windows
-                # We need sequences of 30 windows for HLA
-                # Stride of 10 windows (overlap)
                 seq_len = CONFIG['hla']['seq_len']
                 stride = 10
                 
@@ -97,31 +131,34 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                     # Window Sequence
                     window_seq = traj[start_idx:end_idx] # (30, 50, 6)
                     
-                    # Timestamp Sequence (Center of each window)
-                    # timestamps is (N, 50), we take mean of each window
-                    ts_seq = timestamps[start_idx:end_idx].mean(axis=1) # (30,)
+                    # Timestamp Sequence (Start and End of each window)
+                    # timestamps is (N, 50)
+                    # We need strict containment: label_ts must be within [window_start, window_end]
                     
-                    # Align Action Labels
-                    # For each window in sequence, find if there is a matching action label
+                    ts_windows = timestamps[start_idx:end_idx] # (30, 50)
+                    
                     action_labels_seq = []
                     
-                    for ts in ts_seq:
-                        # Find action with closest timestamp (within 0.5s tolerance)
-                        # This is slow, can be optimized, but fine for now
+                    for w_idx in range(seq_len):
+                        w_ts = ts_windows[w_idx]
+                        w_start = w_ts[0]
+                        w_end = w_ts[-1]
+                        
+                        # Find action strictly within this window
                         match = video_actions[
-                            (video_actions['timestamp_sec'] >= ts - 0.5) & 
-                            (video_actions['timestamp_sec'] <= ts + 0.5)
+                            (video_actions['timestamp_sec'] >= w_start) & 
+                            (video_actions['timestamp_sec'] <= w_end)
                         ]
                         
                         if not match.empty:
-                            # Take first match
+                            # Take first match (or could use majority if multiple)
                             act_name = match.iloc[0]['action']
                             if act_name in self.action_map:
                                 action_labels_seq.append(self.action_map[act_name])
                             else:
-                                action_labels_seq.append(-1) # Unknown action class
+                                action_labels_seq.append(-1) # Unknown class
                         else:
-                            action_labels_seq.append(-1) # No label
+                            action_labels_seq.append(-1) # No label in this window
                             
                     self.samples.append({
                         'video_uid': uid,
@@ -181,7 +218,8 @@ class HierarchicalModel(nn.Module):
         self.hla = HLA(config['hla'], config['lle']['embedding_dim'])
         
         # Probing Head for LLE (Action Classification)
-        self.action_head = nn.Linear(config['lle']['embedding_dim'], 4) # 4 Actions
+        # 6 Classes now
+        self.action_head = nn.Linear(config['lle']['embedding_dim'], 6) 
         
     def forward(self, x):
         # x: (B, Seq, 50, 6)
@@ -194,8 +232,8 @@ class HierarchicalModel(nn.Module):
         embeddings = self.lle(x_flat) # (B*S, Emb)
         
         # Action Logits (for Probing/Auxiliary Loss)
-        action_logits = self.action_head(embeddings) # (B*S, 4)
-        action_logits = action_logits.view(b, s, 4)
+        action_logits = self.action_head(embeddings) # (B*S, 6)
+        action_logits = action_logits.view(b, s, 6)
         
         # Reshape for HLA
         embeddings_seq = embeddings.view(b, s, -1)
@@ -214,38 +252,34 @@ def train(args):
     df = pd.read_csv(args.target_uids_file)
     uids = df['video_uid'].tolist()
     
-    # Split based on 'split' column in scenario_labels.csv
-    # The dataset class already loaded the CSV, let's filter the indices.
-    
-    # We need to access the split info. 
-    # Option 1: Pass split to dataset and filter there.
-    # Option 2: Filter UIDs before creating dataset. <- Better
-    
     scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
     
     # Filter out 'test'
     train_uids = scenario_df[scenario_df['split'] == 'train']['video_uid'].tolist()
     val_uids = scenario_df[scenario_df['split'] == 'val']['video_uid'].tolist()
     
-    # Intethe rsect with available UIDs (from target_uids.csv)
+    # Intersect with available UIDs
     available_uids = set(uids)
     train_uids = [u for u in train_uids if u in available_uids]
     val_uids = [u for u in val_uids if u in available_uids]
     
     print(f"Split: Train={len(train_uids)}, Val={len(val_uids)}")
     
+    # Use validated labels
+    action_labels_path = "data/labels/action_labels_llm_validated.csv"
+    
     train_ds = HierarchicalDataset(
         train_uids, 
         args.processed_dir, 
         "data/labels/scenario_labels.csv", 
-        "data/labels/master_annotations.csv"
+        action_labels_path
     )
     
     val_ds = HierarchicalDataset(
         val_uids, 
         args.processed_dir, 
         "data/labels/scenario_labels.csv", 
-        "data/labels/master_annotations.csv"
+        action_labels_path
     )
     
     train_loader = torch.utils.data.DataLoader(train_ds, batch_size=CONFIG['training']['batch_size'], shuffle=True)
@@ -257,7 +291,10 @@ def train(args):
     
     # Loss
     criterion_scenario = nn.CrossEntropyLoss()
-    criterion_action = nn.CrossEntropyLoss(ignore_index=-1) # Masked Loss!
+    criterion_action = nn.CrossEntropyLoss(ignore_index=-1) # Masked Loss
+    
+    # Early Stopping
+    early_stopper = EarlyStopping(patience=CONFIG['training']['patience'])
     
     # Initialize W&B
     if WANDB_AVAILABLE and not args.no_wandb:
@@ -293,9 +330,7 @@ def train(args):
             loss_s = criterion_scenario(s_logits, scenario_labels)
             
             # Action Loss (Flatten)
-            # a_logits: (B, S, 4) -> (B*S, 4)
-            # action_labels: (B, S) -> (B*S)
-            loss_a = criterion_action(a_logits.view(-1, 4), action_labels.view(-1))
+            loss_a = criterion_action(a_logits.view(-1, 6), action_labels.view(-1))
             
             # Combined Loss
             loss = CONFIG['training']['alpha'] * loss_s + CONFIG['training']['beta'] * loss_a
@@ -308,34 +343,89 @@ def train(args):
         avg_train_loss = total_loss / len(train_loader)
         print(f"Epoch {epoch+1} Loss: {avg_train_loss:.4f}")
         
-        # Validation (Simple Accuracy)
+        # --- Validation ---
         model.eval()
-        correct_s = 0
-        total_s = 0
+        
+        # Scenario Metrics
+        all_s_preds = []
+        all_s_labels = []
+        
+        # Action Metrics
+        all_a_preds = []
+        all_a_labels = []
+        
         with torch.no_grad():
             for batch in val_loader:
                 inputs = batch['inputs'].to(device)
-                labels = batch['scenario_label'].to(device)
-                s_logits, _ = model(inputs)
-                preds = torch.argmax(s_logits, dim=1)
-                correct_s += (preds == labels).sum().item()
-                total_s += labels.size(0)
+                s_labels = batch['scenario_label'].to(device)
+                a_labels = batch['action_labels'].to(device)
+                
+                s_logits, a_logits = model(inputs)
+                
+                # Scenario Preds
+                s_preds = torch.argmax(s_logits, dim=1)
+                all_s_preds.extend(s_preds.cpu().numpy())
+                all_s_labels.extend(s_labels.cpu().numpy())
+                
+                # Action Preds (Flatten and filter ignore_index)
+                a_preds = torch.argmax(a_logits, dim=2).view(-1)
+                a_labels_flat = a_labels.view(-1)
+                
+                mask = a_labels_flat != -1
+                all_a_preds.extend(a_preds[mask].cpu().numpy())
+                all_a_labels.extend(a_labels_flat[mask].cpu().numpy())
         
-        val_acc = correct_s / total_s
-        print(f"Val Scenario Acc: {val_acc:.4f}")
+        # Calculate Metrics
+        val_s_f1 = f1_score(all_s_labels, all_s_preds, average='macro')
+        val_s_acc = (np.array(all_s_preds) == np.array(all_s_labels)).mean()
+        
+        val_a_f1 = 0
+        val_a_acc = 0
+        if len(all_a_labels) > 0:
+            val_a_f1 = f1_score(all_a_labels, all_a_preds, average='macro')
+            val_a_acc = (np.array(all_a_preds) == np.array(all_a_labels)).mean()
+            
+        print(f"Val Scenario F1: {val_s_f1:.4f} | Acc: {val_s_acc:.4f}")
+        print(f"Val Action F1: {val_a_f1:.4f} | Acc: {val_a_acc:.4f}")
         
         # Log to W&B
         if WANDB_AVAILABLE and not args.no_wandb:
             wandb.log({
                 "epoch": epoch + 1,
                 "train_loss": avg_train_loss,
-                "val_accuracy": val_acc,
+                "val_scenario_f1": val_s_f1,
+                "val_scenario_acc": val_s_acc,
+                "val_action_f1": val_a_f1,
+                "val_action_acc": val_a_acc,
             })
+            
+            # Confusion Matrix (Every 5 epochs)
+            if (epoch + 1) % 5 == 0:
+                wandb.log({
+                    "conf_mat_scenario": wandb.plot.confusion_matrix(
+                        probs=None,
+                        y_true=all_s_labels,
+                        preds=all_s_preds,
+                        class_names=list(train_ds.scenario_map.keys())
+                    )
+                })
         
-    # Save
+        # Early Stopping check
+        early_stopper(val_s_f1, model)
+        
+        if early_stopper.early_stop:
+            print("Early stopping triggered!")
+            break
+            
+    # Save Best Model
     os.makedirs(args.output_dir, exist_ok=True)
-    torch.save(model.state_dict(), Path(args.output_dir) / "hierarchical_model.pth")
-    print("Model saved.")
+    if early_stopper.best_model_state:
+        torch.save(early_stopper.best_model_state, Path(args.output_dir) / "best_model.pth")
+        print(f"Best model saved (Scenario F1: {early_stopper.best_score:.4f})")
+    
+    # Save Last Model
+    torch.save(model.state_dict(), Path(args.output_dir) / "last_model.pth")
+    print("Last model saved.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

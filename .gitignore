@@ -3,11 +3,16 @@ data/*
 !data/labels/
 !data/labels/*.csv
 !target_uids.csv
-
+data/labels/action_labels_llm_beforeerror.csv
+data/labels/action_labels_llm_clean_before_error.csv
+data/labels/action_labels_legacy.csv
 # Explicitly ignore large data folders
 data/ego4d_data/
 data/processed/
-
+data/labels/action_labels_llm.csv
+data/labels/action_labels_llm_clean_backup.csv
+data/labels/action_labels_llm_validated.csv
+data/labels/action_labels_llm.csv
 # --- System & Cache ---
 .DS_Store
 .cache/
