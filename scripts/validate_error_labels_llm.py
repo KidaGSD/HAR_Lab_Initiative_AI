@@ -104,12 +104,24 @@ def main(args):
     
     # 2. Initialize Model
     print(f"Initializing Qwen model: {args.model}")
-    llm = LLM(model=args.model, trust_remote_code=True, tensor_parallel_size=args.gpus)
+    try:
+        llm = LLM(
+            model=args.model,
+            trust_remote_code=True,
+            tensor_parallel_size=args.gpus,
+            gpu_memory_utilization=args.gpu_memory_utilization,
+            max_model_len=args.max_model_len
+        )
+    except Exception as e:
+        print(f"Error initializing LLM: {e}")
+        print("Try lowering --gpu_memory_utilization or --max_model_len")
+        return
+
     sampling_params = SamplingParams(
         temperature=0.6,
         top_p=0.95,
         max_tokens=1024,  # Shorter since we just need validation
-        stop=["\\n\\n\\n"]
+        stop=["\n\n\n"]
     )
     
     # 3. Process in Batches
@@ -313,6 +325,18 @@ if __name__ == "__main__":
         type=int,
         default=2,
         help="Number of GPUs to use"
+    )
+    parser.add_argument(
+        "--gpu_memory_utilization",
+        type=float,
+        default=0.9,
+        help="Fraction of GPU memory to use (default: 0.9). Lower this if OOM occurs."
+    )
+    parser.add_argument(
+        "--max_model_len",
+        type=int,
+        default=8192,
+        help="Maximum context length (default: 8192). Lower this (e.g., 4096) to save memory."
     )
     
     args = parser.parse_args()

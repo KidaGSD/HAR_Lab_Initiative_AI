@@ -102,6 +102,9 @@ For each narration at timestamp t with label L:
 - Locomotion: 5.1% (11,733 windows)
 - Scanning: 2.7% (6,317 windows)
 
+**Note on Labeling Strategy**:
+The distributions above reflect the **v2 (Keyword-based)** approach. We are currently transitioning to a **v3 (LLM-based)** strategy using Qwen-14B to improve handling of ambiguity and context, which may refine these distributions further.
+
 ---
 
 ## 5. Baseline Models
