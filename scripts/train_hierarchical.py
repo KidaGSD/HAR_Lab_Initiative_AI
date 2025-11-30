@@ -94,9 +94,13 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         self.idx_to_action = {v: k for k, v in self.action_map.items()}
         
         # Iterate Videos
+        missing_count = 0
         for uid in tqdm(take_uids, desc='Loading Data'):
             seq_path = Path(processed_dir) / uid / 'seq.npz'
             if not seq_path.exists():
+                missing_count += 1
+                if missing_count <= 5:
+                    print(f"DEBUG: Missing file {seq_path}")
                 continue
                 
             try:
@@ -169,12 +173,19 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                     
             except Exception as e:
                 print(f"Error loading {uid}: {e}")
+        
+        self._check_empty()
                 
     def __len__(self):
         return len(self.samples)
     
     def __getitem__(self, idx):
         return self.samples[idx]
+
+    def _check_empty(self):
+        if len(self.samples) == 0:
+            raise ValueError(f"Dataset is empty! Found 0 samples from {len(self.scenario_df)} potential videos. Check if 'data/processed_ego4d' contains 'seq.npz' files.")
+
 
 # --- Models ---
 class LLE(nn.Module):

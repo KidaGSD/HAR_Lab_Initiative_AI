@@ -41,6 +41,9 @@ def align_and_resample(imu_df, gaze_df=None, target_fps=50):
     # Sort by timestamp
     imu_df = imu_df.sort_values(imu_ts_col)
     
+    # Drop duplicate timestamps to prevent divide-by-zero in interpolation
+    imu_df = imu_df.drop_duplicates(subset=[imu_ts_col], keep='first')
+    
     t_start = imu_df[imu_ts_col].min()
     t_end = imu_df[imu_ts_col].max()
     
@@ -80,6 +83,18 @@ def align_and_resample(imu_df, gaze_df=None, target_fps=50):
         fill_value="extrapolate"
     )
     aligned_imu = imu_interp(target_times)
+    
+    # Check for NaNs
+    if np.isnan(aligned_imu).any():
+        # Forward fill then backward fill
+        df_tmp = pd.DataFrame(aligned_imu)
+        df_tmp = df_tmp.ffill().bfill()
+        aligned_imu = df_tmp.values
+        
+        # If still NaNs (empty sequence?), return None
+        if np.isnan(aligned_imu).any():
+            return None
+
     
     aligned_gaze = None
     valid_gaze_cols = []
