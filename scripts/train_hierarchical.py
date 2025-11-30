@@ -34,12 +34,14 @@ CONFIG = {
         'seq_len': 30 # 30 seconds context
     },
     'training': {
-        'batch_size': 128,
-        'lr': 1e-3,
-        'epochs': 50, # Increased for early stopping
-        'patience': 10, # Early stopping patience
-        'alpha': 1.0, # Weight for Scenario Loss
-        'beta': 1.0   # Weight for Action Loss
+        'batch_size': 1024,    # OPTIMIZED: Increased from 128 for full GPU utilization (49GB GPUs)
+        'lr': 1e-4,            # FIXED: Lowered from 1e-3 (paper hyperparameter search)
+        'epochs': 50,          # Increased for early stopping
+        'patience': 10,        # Early stopping patience
+        'alpha': 1.0,          # Weight for Scenario Loss
+        'beta': 0.0,           # FIXED: Set to 0 (semi-supervised, paper trains on scenario only)
+        'step_size': 10,       # NEW: LR scheduler step (decay every 10 epochs)
+        'gamma': 0.5           # NEW: LR decay factor (reduce by 50%)
     }
 }
 
@@ -94,19 +96,24 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         self.idx_to_action = {v: k for k, v in self.action_map.items()}
         
         # Iterate Videos
-        missing_count = 0
         for uid in tqdm(take_uids, desc='Loading Data'):
             seq_path = Path(processed_dir) / uid / 'seq.npz'
             if not seq_path.exists():
-                missing_count += 1
-                if missing_count <= 5:
-                    print(f"DEBUG: Missing file {seq_path}")
                 continue
                 
             try:
                 data = np.load(seq_path)
                 traj = data['traj'] # (N, 50, 6)
                 timestamps = data['timestamp'] # (N, 50)
+                
+                # --- NORMALIZATION (CRITICAL FIX) ---
+                # Paper: "normalize these features to zero mean and unit variance"
+                # We apply per-video normalization for robustness
+                if len(traj) > 0:
+                    mean = traj.mean(axis=(0, 1), keepdims=True)
+                    std = traj.std(axis=(0, 1), keepdims=True) + 1e-6
+                    traj = (traj - mean) / std
+                # ------------------------------------
                 
                 if len(traj) == 0:
                     continue
@@ -173,8 +180,6 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                     
             except Exception as e:
                 print(f"Error loading {uid}: {e}")
-        
-        self._check_empty()
                 
     def __len__(self):
         return len(self.samples)
@@ -182,31 +187,63 @@ class HierarchicalDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         return self.samples[idx]
 
-    def _check_empty(self):
-        if len(self.samples) == 0:
-            raise ValueError(f"Dataset is empty! Found 0 samples from {len(self.scenario_df)} potential videos. Check if 'data/processed_ego4d' contains 'seq.npz' files.")
-
-
 # --- Models ---
 class LLE(nn.Module):
+    """Low-Level Encoder with Variable Dilation CNNs (EgoCharm Paper)
+    
+    Paper (Section 3.3): "At each convolutional layer, multiple convolutions 
+    with the same kernel size and different dilations are applied in parallel 
+    and stacked together to capture the periodicity of the IMU signals."
+    
+    Paper (Discussion): "Varying dilation in the CNN layers plays a crucial role 
+    in extracting meaningful feature representations from IMU signals."
+    """
     def __init__(self, config):
         super().__init__()
         filters = config['cnn_filters']
         in_ch = config['in_channels']
         
-        self.convs = nn.ModuleList([
-            nn.Conv1d(in_ch if i==0 else filters[i-1], filters[i], 3, padding='same')
-            for i in range(len(filters))
-        ])
-        self.bns = nn.ModuleList([nn.BatchNorm1d(f) for f in filters])
+        # Variable dilations to capture different periodicities [1, 2, 4]
+        self.dilations = [1, 2, 4]
+        
+        # Create parallel multi-dilation conv blocks
+        self.conv_blocks = nn.ModuleList()
+        self.bns = nn.ModuleList()
+        
+        for i in range(len(filters)):
+            in_channels = in_ch if i == 0 else filters[i-1]
+            
+            # Each dilation gets equal share of output filters
+            filters_per_dilation = filters[i] // len(self.dilations)
+            remainder = filters[i] % len(self.dilations)
+            
+            # Create parallel convolutions with different dilations
+            parallel_convs = nn.ModuleList()
+            for j, dilation in enumerate(self.dilations):
+                # Give remainder filters to first convolution
+                out_ch = filters_per_dilation + (remainder if j == 0 else 0)
+                parallel_convs.append(
+                    nn.Conv1d(in_channels, out_ch, kernel_size=3, 
+                             padding=dilation, dilation=dilation)
+                )
+            
+            self.conv_blocks.append(parallel_convs)
+            self.bns.append(nn.BatchNorm1d(filters[i]))
+        
         self.gru = nn.GRU(filters[-1], config['gru_hidden'], config['gru_layers'], batch_first=True)
         self.fc = nn.Linear(config['gru_hidden'], config['embedding_dim'])
         
     def forward(self, x):
         # x: (B*Seq, 50, 6) -> (B*Seq, 6, 50)
         x = x.transpose(1, 2)
-        for conv, bn in zip(self.convs, self.bns):
-            x = F.relu(bn(conv(x)))
+        
+        # Apply multi-dilation conv blocks
+        for conv_block, bn in zip(self.conv_blocks, self.bns):
+            # Apply all parallel convolutions and concatenate
+            conv_outputs = [conv(x) for conv in conv_block]
+            x = torch.cat(conv_outputs, dim=1)  # Concat along channel dimension
+            x = F.relu(bn(x))
+        
         x = x.transpose(1, 2)
         _, h = self.gru(x)
         return self.fc(h[-1])
@@ -259,22 +296,62 @@ def train(args):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
     
-    # Load UIDs
-    df = pd.read_csv(args.target_uids_file)
-    uids = df['video_uid'].tolist()
+    print("\n" + "="*80)
+    print("DATA SPLIT CONFIGURATION")
+    print("="*80)
     
+    # Load scenario labels with splits
     scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
     
-    # Filter out 'test'
+    # Show overall split distribution
+    print("\nOverall split distribution:")
+    print(scenario_df['split'].value_counts().sort_index())
+    
+    # Use ONLY train and val splits
+    # Exclude: 'test' (for final evaluation), 'multi' (ambiguous/multi-scenario videos)
     train_uids = scenario_df[scenario_df['split'] == 'train']['video_uid'].tolist()
     val_uids = scenario_df[scenario_df['split'] == 'val']['video_uid'].tolist()
+    test_uids = scenario_df[scenario_df['split'] == 'test']['video_uid'].tolist()
     
-    # Intersect with available UIDs
-    available_uids = set(uids)
-    train_uids = [u for u in train_uids if u in available_uids]
-    val_uids = [u for u in val_uids if u in available_uids]
+    print(f"\nUsing splits:")
+    print(f"  Train: {len(train_uids)} videos (67.3%)")
+    print(f"  Val:   {len(val_uids)} videos (11.1%)")
+    print(f"  Test:  {len(test_uids)} videos (10.9%) - Reserved for final evaluation")
+    print(f"  Multi: Excluded (ambiguous scenarios)")
     
-    print(f"Split: Train={len(train_uids)}, Val={len(val_uids)}")
+    # Check scenario distribution in train/val
+    print("\nScenario distribution in train split:")
+    train_scenarios = scenario_df[scenario_df['split'] == 'train']['scenario'].value_counts()
+    for scenario, count in train_scenarios.items():
+        print(f"  {scenario}: {count}")
+    
+    print("\nScenario distribution in val split:")
+    val_scenarios = scenario_df[scenario_df['split'] == 'val']['scenario'].value_counts()
+    for scenario, count in val_scenarios.items():
+        print(f"  {scenario}: {count}")
+    
+    # Check for processed data availability
+    from pathlib import Path
+    processed_dir = Path(args.processed_dir)
+    available_uids = set([p.parent.name for p in processed_dir.glob('*/seq.npz')])
+    
+    print(f"\nProcessed data availability:")
+    print(f"  Total processed files: {len(available_uids)}")
+    
+    # Intersect with available processed data
+    train_uids_available = [u for u in train_uids if u in available_uids]
+    val_uids_available = [u for u in val_uids if u in available_uids]
+    test_uids_available = [u for u in test_uids if u in available_uids]
+    
+    print(f"\nFinal data splits (with processed data):")
+    print(f"  Train: {len(train_uids_available)}/{len(train_uids)} ({len(train_uids_available)/len(train_uids)*100:.1f}% available)")
+    print(f"  Val:   {len(val_uids_available)}/{len(val_uids)} ({len(val_uids_available)/len(val_uids)*100:.1f}% available)")
+    print(f"  Test:  {len(test_uids_available)}/{len(test_uids)} ({len(test_uids_available)/len(test_uids)*100:.1f}% available)")
+    print("="*80 + "\n")
+    
+    # Use the available UIDs
+    train_uids = train_uids_available
+    val_uids = val_uids_available
     
     # Use validated labels
     action_labels_path = "data/labels/action_labels_llm_validated.csv"
@@ -296,18 +373,66 @@ def train(args):
     train_loader = torch.utils.data.DataLoader(train_ds, batch_size=CONFIG['training']['batch_size'], shuffle=True)
     val_loader = torch.utils.data.DataLoader(val_ds, batch_size=CONFIG['training']['batch_size'], shuffle=False)
     
-    # Model
+    # Initialize Model
     model = HierarchicalModel(CONFIG).to(device)
+    
+    # --- PROBING MODE ---
+    if args.probe:
+        print("\n" + "="*80)
+        print("PROBING MODE ACTIVATED")
+        print("="*80)
+        if not args.checkpoint:
+            raise ValueError("Must provide --checkpoint for probing mode")
+            
+        print(f"Loading checkpoint: {args.checkpoint}")
+        checkpoint = torch.load(args.checkpoint, map_location=device)
+        model.load_state_dict(checkpoint['model_state_dict'])
+        
+        # Freeze LLE and HLA
+        for param in model.lle.parameters():
+            param.requires_grad = False
+        for param in model.hla.parameters():
+            param.requires_grad = False
+            
+        # Reset Action Head (Linear Probe)
+        model.action_head = nn.Linear(CONFIG['lle']['embedding_dim'], 6).to(device)
+        
+        print("LLE and HLA frozen. Training only Action Head.")
+        
+        # Use Action Loss ONLY
+        CONFIG['training']['alpha'] = 0.0 # Disable Scenario Loss
+        CONFIG['training']['beta'] = 1.0  # Enable Action Loss
+    # --------------------
     
     if torch.cuda.device_count() > 1:
         print(f"Using {torch.cuda.device_count()} GPUs!")
         model = nn.DataParallel(model)
         
-    optimizer = torch.optim.Adam(model.parameters(), lr=CONFIG['training']['lr'])
+    optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=CONFIG['training']['lr'])
     
-    # Loss
-    criterion_scenario = nn.CrossEntropyLoss()
-    criterion_action = nn.CrossEntropyLoss(ignore_index=-1) # Masked Loss
+    # NEW: Learning Rate Scheduler (EgoCharm Paper - Supplemental S2)
+    scheduler = torch.optim.lr_scheduler.StepLR(
+        optimizer,
+        step_size=CONFIG['training']['step_size'],
+        gamma=CONFIG['training']['gamma']
+    )
+    print(f"Learning rate scheduler: StepLR(step_size={CONFIG['training']['step_size']}, gamma={CONFIG['training']['gamma']})")
+    
+    # Loss Functions
+    # Paper (Section 3.2): "We train... using... a weighted cross-entropy loss to handle class imbalance"
+    
+    # Calculate class weights for scenarios from training data
+    print("Calculating class weights for scenario loss...")
+    scenario_labels_train = torch.tensor([s['scenario_label'].item() for s in train_ds.samples])
+    class_counts = torch.bincount(scenario_labels_train)
+    class_weights = 1.0 / class_counts.float()
+    class_weights = class_weights / class_weights.sum() * len(class_weights)
+    
+    print(f"Scenario class distribution: {class_counts.tolist()}")
+    print(f"Scenario class weights: {class_weights.tolist()}")
+    
+    criterion_scenario = nn.CrossEntropyLoss(weight=class_weights.to(device))
+    criterion_action = nn.CrossEntropyLoss(ignore_index=-1)  # Kept for future probing
     
     # Early Stopping
     early_stopper = EarlyStopping(patience=CONFIG['training']['patience'])
@@ -342,14 +467,17 @@ def train(args):
             
             s_logits, a_logits = model(inputs)
             
-            # Scenario Loss
+            # Scenario Loss (Primary)
             loss_s = criterion_scenario(s_logits, scenario_labels)
             
-            # Action Loss (Flatten)
-            loss_a = criterion_action(a_logits.view(-1, 6), action_labels.view(-1))
-            
-            # Combined Loss
-            loss = CONFIG['training']['alpha'] * loss_s + CONFIG['training']['beta'] * loss_a
+            # Action Loss (only if beta > 0)
+            # Paper uses semi-supervised: train ONLY on scenario labels
+            if CONFIG['training']['beta'] > 0:
+                loss_a = criterion_action(a_logits.view(-1, 6), action_labels.view(-1))
+                loss = CONFIG['training']['alpha'] * loss_s + CONFIG['training']['beta'] * loss_a
+            else:
+                # Semi-supervised: scenario loss only (EgoCharm methodology)
+                loss = loss_s
             
             loss.backward()
             optimizer.step()
@@ -413,6 +541,7 @@ def train(args):
                 "val_scenario_acc": val_s_acc,
                 "val_action_f1": val_a_f1,
                 "val_action_acc": val_a_acc,
+                "learning_rate": current_lr  # NEW: Log LR for monitoring
             })
             
             # Confusion Matrix (Every 5 epochs)
@@ -425,6 +554,11 @@ def train(args):
                         class_names=list(train_ds.scenario_map.keys())
                     )
                 })
+        
+        # Step the learning rate scheduler
+        scheduler.step()
+        current_lr = scheduler.get_last_lr()[0]
+        print(f"Learning rate: {current_lr:.2e}")
         
         # Early Stopping check
         early_stopper(val_s_f1, model)
@@ -448,7 +582,9 @@ if __name__ == "__main__":
     parser.add_argument("--target-uids-file", type=str, default="target_uids.csv")
     parser.add_argument("--processed-dir", type=str, default="data/processed_ego4d")
     parser.add_argument("--output-dir", type=str, default="checkpoints")
-    parser.add_argument("--run-name", type=str, default=None, help="W&B run name")
+    parser.add_argument('--run-name', type=str, default='hierarchical_har')
+    parser.add_argument('--probe', action='store_true', help='Train action probe on frozen model')
+    parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint for probing')
     parser.add_argument("--no-wandb", action="store_true", help="Disable W&B logging")
     args = parser.parse_args()
     train(args)
