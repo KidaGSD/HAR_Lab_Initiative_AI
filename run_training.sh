@@ -23,6 +23,9 @@ else
     conda activate ego4d_lab
 fi
 
+# Ensure local src is importable
+export PYTHONPATH="$(pwd):$PYTHONPATH"
+
 # ===========================
 # 2. WandB Setup
 # ===========================
@@ -75,7 +78,7 @@ echo "=== Step 5: Cross Validation Training ==="
 echo "This will run 4-fold CV (~8-10 hours)"
 echo ""
 
-python scripts/train_hierarchical.py \
+python train.py \
     --cv \
     --n-folds 4 \
     --processed-dir "$PROCESSED_DIR" \
@@ -90,36 +93,6 @@ echo "Logs saved to: training_cv.log"
 echo ""
 
 # ===========================
-# 6. Action Probing (Optional)
-# ===========================
-echo "=== Step 6: Action Probing ==="
-
-read -p "Do you want to train action probe? (y/n) " -n 1 -r
-echo ""
-
-# Auto probe: train action head on frozen encoder if checkpoint exists
-echo ""
-echo "Auto action probe training (if checkpoint available)..."
-
-BEST_CHECKPOINT=$(ls -t $OUTPUT_DIR/best_model.pth 2>/dev/null | head -1)
-
-if [ -z "$BEST_CHECKPOINT" ]; then
-    echo "Warning: No checkpoint found in $OUTPUT_DIR; skipping probe."
-else
-    echo "Using checkpoint: $BEST_CHECKPOINT"
-    
-    python scripts/train_hierarchical.py \
-        --probe \
-        --checkpoint "$BEST_CHECKPOINT" \
-        --processed-dir "$PROCESSED_DIR" \
-        --output-dir "${OUTPUT_DIR}_probe" \
-        --run-name "${RUN_NAME}_probe" \
-        2>&1 | tee training_probe.log || echo "Probe training failed; see training_probe.log"
-    
-    echo "Probe training complete (if no errors above)."
-fi
-
-# ===========================
 # 7. Summary
 # ===========================
 echo ""
@@ -130,10 +103,6 @@ echo ""
 echo "Results:"
 echo "  - CV checkpoints: $OUTPUT_DIR"
 echo "  - CV logs: training_cv.log"
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "  - Probe checkpoints: ${OUTPUT_DIR}_probe"
-    echo "  - Probe logs: training_probe.log"
-fi
 echo ""
 echo "WandB Dashboard: https://wandb.ai/wandbleo/har-imu-training"
 echo ""
@@ -141,5 +110,5 @@ echo "Next steps:"
 echo "  1. Review WandB dashboard for CV results"
 echo "  2. Compare fold performances"
 echo "  3. Analyze confusion matrices"
-echo "  4. Run final test set evaluation (if needed)"
+echo "  4. Run action probe (if needed) via: python scripts/train_entry.py --probe --checkpoint <best_model.pth> --processed-dir $PROCESSED_DIR --output-dir ${OUTPUT_DIR}_probe --run-name ${RUN_NAME}_probe"
 echo ""
