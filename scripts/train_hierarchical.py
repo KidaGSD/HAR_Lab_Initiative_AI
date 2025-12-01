@@ -22,18 +22,22 @@ except ImportError:
 # --- Configuration ---
 CONFIG = {
     'lle': {
-        'in_channels': 6,
+        'in_channels': 8,  # 6 raw + accel/gyro norms
         'cnn_filters': [32, 64, 128],
         'gru_hidden': 256,
         'gru_layers': 2,
         'embedding_dim': 128,
-        'window_size': 50 # 1 second at 50Hz
+        'window_size': 50, # 1 second at 50Hz
+        'se_reduction': 8   # SE channel attention reduction
     },
     'hla': {
         'hidden_dim': 128,
         'num_layers': 2,
         'num_classes': 8, # 8 Scenarios
-        'seq_len': 30 # 30 seconds context
+        'seq_len': 30,    # 30 seconds context (can test 20 for latency tradeoff)
+        'nhead': 4,
+        'dropout': 0.1,
+        'type': 'transformer' # transformer encoder for long-range modeling
     },
     'training': {
         'batch_size': 256,
@@ -45,6 +49,11 @@ CONFIG = {
         'weight_decay': 1e-5,
         'grad_clip': 1.0,
         'warmup_epochs': 5     # Warmup then cosine anneal
+    },
+    'data': {
+        'action_label_pad': 0.5,   # seconds to expand action labels on each side
+        'per_video_center': True,  # subtract per-video mean after global z-score
+        'add_norm_features': True  # add accel/gyro norms as extra channels
     }
 }
 
@@ -99,12 +108,11 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         self.idx_to_action = {v: k for k, v in self.action_map.items()}
         # Keep only clean action labels (drop Unknown/Uncertain)
         self.action_df = self.action_df[self.action_df['action'].isin(self.action_map.keys())]
-        
-        # === CRITICAL FIX: GLOBAL NORMALIZATION ===
-        # Paper (Section 3.2): "We apply normalization across all windows of raw data,
-        # specifically along each of the 6 IMU channels."
-        # This means GLOBAL normalization, NOT per-video!
-        
+        self.action_pad = CONFIG['data'].get('action_label_pad', 0.5)
+        self.per_video_center = CONFIG['data'].get('per_video_center', True)
+        self.add_norm_features = CONFIG['data'].get('add_norm_features', True)
+
+        # === GLOBAL NORMALIZATION (with optional feature augmentation) ===
         print("\nComputing global normalization statistics...")
         all_data = []
         valid_uids = []
@@ -115,19 +123,20 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                 continue
             try:
                 data = np.load(seq_path)
-                traj = data['traj']
+                traj = data['traj']  # (N, 50, 6)
+                traj = self._augment_traj(traj)  # add norms if enabled
                 if len(traj) > 0 and uid in self.scenario_df.index:
                     all_data.append(traj)
                     valid_uids.append(uid)
-            except Exception as e:
+            except Exception:
                 continue
         
         if len(all_data) == 0:
             raise ValueError("No valid data found for normalization!")
             
-        all_data = np.concatenate(all_data, axis=0)  # (Total_Windows, 50, 6)
-        self.global_mean = all_data.mean(axis=(0, 1))  # (6,) - mean per channel
-        self.global_std = all_data.std(axis=(0, 1)) + 1e-6  # (6,) - std per channel
+        all_data = np.concatenate(all_data, axis=0)  # (Total_Windows, 50, C)
+        self.global_mean = all_data.mean(axis=(0, 1))  # (C,) - mean per channel
+        self.global_std = all_data.std(axis=(0, 1)) + 1e-6  # (C,) - std per channel
         
         print(f"Global statistics computed from {len(valid_uids)} videos:")
         print(f"  Mean: {self.global_mean}")
@@ -144,13 +153,14 @@ class HierarchicalDataset(torch.utils.data.Dataset):
             try:
                 data = np.load(seq_path)
                 traj = data['traj'] # (N, 50, 6)
+                traj = self._augment_traj(traj)
                 timestamps = data['timestamp'] # (N, 50)
                 
-                # === CRITICAL FIX: GLOBAL NORMALIZATION ===
-                # Apply GLOBAL normalization (not per-video!)
+                # GLOBAL normalization + optional per-video centering
                 if len(traj) > 0:
                     traj = (traj - self.global_mean) / self.global_std
-                # ==========================================
+                    if self.per_video_center:
+                        traj = traj - traj.mean(axis=(0, 1), keepdims=True)
                 
                 if len(traj) == 0:
                     continue
@@ -171,54 +181,66 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                 stride = 5  # denser stride for more supervision
                 
                 num_seqs = (len(traj) - seq_len) // stride + 1
+                if num_seqs <= 0:
+                    continue
                 
                 for i in range(num_seqs):
                     start_idx = i * stride
                     end_idx = start_idx + seq_len
                     
                     # Window Sequence
-                    window_seq = traj[start_idx:end_idx] # (30, 50, 6)
+                    window_seq = traj[start_idx:end_idx] # (Seq, 50, C)
+                    ts_windows = timestamps[start_idx:end_idx] # (Seq, 50)
                     
-                    # Timestamp Sequence (Start and End of each window)
-                    # timestamps is (N, 50)
-                    # We need strict containment: label_ts must be within [window_start, window_end]
+                    action_labels_seq = []
                     
-                ts_windows = timestamps[start_idx:end_idx] # (30, 50)
-                
-                action_labels_seq = []
-                
-                for w_idx in range(seq_len):
-                    w_ts = ts_windows[w_idx]
-                    w_start = w_ts[0]
-                    w_end = w_ts[-1]
-                    
-                    # Find actions within this window
-                    match = video_actions[
-                        (video_actions['timestamp_sec'] >= w_start) & 
-                        (video_actions['timestamp_sec'] <= w_end)
-                    ]
-                    
-                    if not match.empty:
-                        # Majority vote within the window
-                        counts = match['action'].value_counts()
-                        act_name = counts.idxmax()
-                        if act_name in self.action_map:
-                            action_labels_seq.append(self.action_map[act_name])
+                    for w_idx in range(seq_len):
+                        w_ts = ts_windows[w_idx]
+                        w_start = w_ts[0]
+                        w_end = w_ts[-1]
+                        pad = self.action_pad
+                        
+                        # Find actions within padded window
+                        match = video_actions[
+                            (video_actions['timestamp_sec'] >= w_start - pad) & 
+                            (video_actions['timestamp_sec'] <= w_end + pad)
+                        ]
+                        
+                        if not match.empty:
+                            # Majority vote within the window
+                            counts = match['action'].value_counts()
+                            act_name = counts.idxmax()
+                            if act_name in self.action_map:
+                                action_labels_seq.append(self.action_map[act_name])
+                            else:
+                                action_labels_seq.append(-1) # Unknown class
                         else:
-                            action_labels_seq.append(-1) # Unknown class
-                    else:
-                        action_labels_seq.append(-1) # No label in this window
-                            
+                            action_labels_seq.append(-1) # No label in this window
+                    
+                    # Guard against variable-length windows
+                    if window_seq.shape[0] != seq_len or len(action_labels_seq) != seq_len:
+                        continue
+                    
                     self.samples.append({
                         'video_uid': uid,
                         # Ensure contiguous, resizable tensors to avoid DataLoader storage resize errors
-                        'inputs': torch.tensor(np.ascontiguousarray(window_seq), dtype=torch.float32), # (30, 50, 6)
+                        'inputs': torch.tensor(np.ascontiguousarray(window_seq), dtype=torch.float32), # (Seq, 50, C)
                         'scenario_label': torch.tensor(scenario_label, dtype=torch.long),
-                        'action_labels': torch.tensor(action_labels_seq, dtype=torch.long) # (30,)
+                        'action_labels': torch.tensor(action_labels_seq, dtype=torch.long) # (Seq,)
                     })
-                    
+                
             except Exception as e:
                 print(f"Error loading {uid}: {e}")
+
+    def _augment_traj(self, traj):
+        # traj: (N, 50, 6)
+        if not self.add_norm_features:
+            return traj
+        accel = traj[..., :3]
+        gyro = traj[..., 3:6]
+        accel_norm = np.linalg.norm(accel, axis=2, keepdims=True)
+        gyro_norm = np.linalg.norm(gyro, axis=2, keepdims=True)
+        return np.concatenate([traj, accel_norm, gyro_norm], axis=2)
                 
     def __len__(self):
         return len(self.samples)
@@ -227,20 +249,27 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         return self.samples[idx]
 
 # --- Models ---
+class SqueezeExcite(nn.Module):
+    def __init__(self, channels, reduction=8):
+        super().__init__()
+        self.fc1 = nn.Linear(channels, channels // reduction)
+        self.fc2 = nn.Linear(channels // reduction, channels)
+
+    def forward(self, x):
+        # x: (B, C, T)
+        b, c, t = x.shape
+        se = x.mean(dim=2)  # (B, C)
+        se = F.relu(self.fc1(se))
+        se = torch.sigmoid(self.fc2(se)).view(b, c, 1)
+        return x * se
+
 class LLE(nn.Module):
-    """Low-Level Encoder with Variable Dilation CNNs (EgoCharm Paper)
-    
-    Paper (Section 3.3): "At each convolutional layer, multiple convolutions 
-    with the same kernel size and different dilations are applied in parallel 
-    and stacked together to capture the periodicity of the IMU signals."
-    
-    Paper (Discussion): "Varying dilation in the CNN layers plays a crucial role 
-    in extracting meaningful feature representations from IMU signals."
-    """
+    """Low-Level Encoder with Variable Dilation CNNs + SE channel attention."""
     def __init__(self, config):
         super().__init__()
         filters = config['cnn_filters']
         in_ch = config['in_channels']
+        self.se_reduction = config.get('se_reduction', 8)
         
         # Variable dilations to capture different periodicities [1, 2, 4]
         self.dilations = [1, 2, 4]
@@ -248,6 +277,7 @@ class LLE(nn.Module):
         # Create parallel multi-dilation conv blocks
         self.conv_blocks = nn.ModuleList()
         self.bns = nn.ModuleList()
+        self.se_blocks = nn.ModuleList()
         
         for i in range(len(filters)):
             in_channels = in_ch if i == 0 else filters[i-1]
@@ -268,6 +298,7 @@ class LLE(nn.Module):
             
             self.conv_blocks.append(parallel_convs)
             self.bns.append(nn.BatchNorm1d(filters[i]))
+            self.se_blocks.append(SqueezeExcite(filters[i], reduction=self.se_reduction))
         
         self.gru = nn.GRU(filters[-1], config['gru_hidden'], config['gru_layers'], batch_first=True)
         self.fc = nn.Linear(config['gru_hidden'], config['embedding_dim'])
@@ -276,12 +307,12 @@ class LLE(nn.Module):
         # x: (B*Seq, 50, 6) -> (B*Seq, 6, 50)
         x = x.transpose(1, 2)
         
-        # Apply multi-dilation conv blocks
-        for conv_block, bn in zip(self.conv_blocks, self.bns):
-            # Apply all parallel convolutions and concatenate
+        # Apply multi-dilation conv blocks + SE channel attention
+        for conv_block, bn, se in zip(self.conv_blocks, self.bns, self.se_blocks):
             conv_outputs = [conv(x) for conv in conv_block]
             x = torch.cat(conv_outputs, dim=1)  # Concat along channel dimension
             x = F.relu(bn(x))
+            x = se(x)
         
         x = x.transpose(1, 2)
         _, h = self.gru(x)
@@ -290,13 +321,34 @@ class LLE(nn.Module):
 class HLA(nn.Module):
     def __init__(self, config, input_dim):
         super().__init__()
-        self.gru = nn.GRU(input_dim, config['hidden_dim'], config['num_layers'], batch_first=True)
-        self.fc = nn.Linear(config['hidden_dim'], config['num_classes'])
+        self.config = config
+        if config.get('type', 'transformer') == 'transformer':
+            encoder_layer = nn.TransformerEncoderLayer(
+                d_model=input_dim,
+                nhead=config['nhead'],
+                dim_feedforward=config['hidden_dim'] * 4,
+                dropout=config.get('dropout', 0.1),
+                batch_first=True
+            )
+            self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=config['num_layers'])
+            self.pos_embed = nn.Parameter(torch.zeros(config['seq_len'], input_dim))
+            self.head = nn.Linear(input_dim, config['num_classes'])
+        else:
+            self.gru = nn.GRU(input_dim, config['hidden_dim'], config['num_layers'], batch_first=True)
+            self.head = nn.Linear(config['hidden_dim'], config['num_classes'])
         
     def forward(self, x):
         # x: (B, Seq, Emb)
-        _, h = self.gru(x)
-        return self.fc(h[-1])
+        if hasattr(self, 'encoder'):
+            seq_len = x.size(1)
+            pos = self.pos_embed[:seq_len, :].unsqueeze(0).to(x.device)
+            x = x + pos
+            enc = self.encoder(x)  # (B, Seq, Emb)
+            pooled = enc.mean(dim=1)
+            return self.head(pooled)
+        else:
+            _, h = self.gru(x)
+            return self.head(h[-1])
 
 class HierarchicalModel(nn.Module):
     def __init__(self, config):
