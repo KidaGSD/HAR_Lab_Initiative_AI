@@ -486,7 +486,8 @@ def train(args):
         num_workers=8,
         pin_memory=True,
         persistent_workers=True,
-        prefetch_factor=2
+        prefetch_factor=2,
+        pin_memory_device="cuda"
     )
     val_loader = torch.utils.data.DataLoader(
         val_ds,
@@ -495,7 +496,8 @@ def train(args):
         num_workers=4,
         pin_memory=True,
         persistent_workers=True,
-        prefetch_factor=2
+        prefetch_factor=2,
+        pin_memory_device="cuda"
     )
     
     # Initialize Model
