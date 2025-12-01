@@ -323,6 +323,7 @@ class HLA(nn.Module):
         super().__init__()
         self.config = config
         if config.get('type', 'transformer') == 'transformer':
+            self.cls_token = nn.Parameter(torch.zeros(1, 1, input_dim))
             encoder_layer = nn.TransformerEncoderLayer(
                 d_model=input_dim,
                 nhead=config['nhead'],
@@ -331,7 +332,7 @@ class HLA(nn.Module):
                 batch_first=True
             )
             self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=config['num_layers'])
-            self.pos_embed = nn.Parameter(torch.zeros(config['seq_len'], input_dim))
+            self.pos_embed = nn.Parameter(torch.zeros(config['seq_len'] + 1, input_dim))
             self.head = nn.Linear(input_dim, config['num_classes'])
         else:
             self.gru = nn.GRU(input_dim, config['hidden_dim'], config['num_layers'], batch_first=True)
@@ -341,11 +342,13 @@ class HLA(nn.Module):
         # x: (B, Seq, Emb)
         if hasattr(self, 'encoder'):
             seq_len = x.size(1)
-            pos = self.pos_embed[:seq_len, :].unsqueeze(0).to(x.device)
+            cls_tokens = self.cls_token.expand(x.size(0), -1, -1)  # (B,1,E)
+            x = torch.cat([cls_tokens, x], dim=1)  # (B, Seq+1, E)
+            pos = self.pos_embed[:seq_len + 1, :].unsqueeze(0).to(x.device)
             x = x + pos
-            enc = self.encoder(x)  # (B, Seq, Emb)
-            pooled = enc.mean(dim=1)
-            return self.head(pooled)
+            enc = self.encoder(x)  # (B, Seq+1, Emb)
+            cls_out = enc[:, 0, :]
+            return self.head(cls_out)
         else:
             _, h = self.gru(x)
             return self.head(h[-1])
@@ -467,18 +470,16 @@ def train(args):
         action_labels_path
     )
     
-    # Scenario imbalance handling via weighted sampling
+    # Scenario imbalance handling: use class weights (no sampler to match val distribution)
     scenario_labels_train = torch.tensor([s['scenario_label'].item() for s in train_ds.samples])
     class_counts = torch.bincount(scenario_labels_train)
     class_weights = 1.0 / class_counts.float()
     class_weights = class_weights / class_weights.sum() * len(class_weights)
-    sample_weights = class_weights[scenario_labels_train]
-    sampler = WeightedRandomSampler(weights=sample_weights, num_samples=len(sample_weights), replacement=True)
     
     train_loader = torch.utils.data.DataLoader(
         train_ds,
         batch_size=CONFIG['training']['batch_size'],
-        sampler=sampler,
+        shuffle=True,
         num_workers=8,
         pin_memory=True,
         persistent_workers=True,
@@ -673,9 +674,7 @@ def train(args):
                 "train_loss": avg_train_loss,
                 "val_scenario_f1": val_s_f1,
                 "val_scenario_acc": val_s_acc,
-                "val_action_f1": val_a_f1,
-                "val_action_acc": val_a_acc,
-                "learning_rate": current_lr  # NEW: Log LR for monitoring
+                "learning_rate": current_lr  # Log LR for monitoring
             })
             
             # Confusion Matrix (Every 5 epochs)

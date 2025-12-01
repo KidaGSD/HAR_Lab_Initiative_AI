@@ -30,8 +30,12 @@ echo ""
 echo "=== Step 2: WandB Configuration ==="
 
 export WANDB_API_KEY=e83326e014ad7a27c2a538f4e38b95bd11a161a0
-wandb login $WANDB_API_KEY
-echo "WandB logged in successfully"
+if [ -z "$WANDB_API_KEY" ]; then
+    echo "WARNING: WANDB_API_KEY not set; will proceed without WandB logging if unavailable."
+else
+    wandb login $WANDB_API_KEY || echo "WandB login failed, continuing without WandB."
+    echo "WandB login attempted"
+fi
 
 # ===========================
 # 3. GPU Configuration
@@ -70,7 +74,7 @@ echo ""
 
 python scripts/train_hierarchical.py \
     --cv \
-    --n-folds 2 \
+    --n-folds 4 \
     --processed-dir "$PROCESSED_DIR" \
     --output-dir "$OUTPUT_DIR" \
     --run-name "$RUN_NAME" \
@@ -90,18 +94,15 @@ echo "=== Step 6: Action Probing ==="
 read -p "Do you want to train action probe? (y/n) " -n 1 -r
 echo ""
 
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Training action probe on frozen embeddings..."
-    
-    # Find best checkpoint from CV
-    BEST_CHECKPOINT=$(ls -t $OUTPUT_DIR/best_model.pth 2>/dev/null | head -1)
-    
-    if [ -z "$BEST_CHECKPOINT" ]; then
-        echo "Warning: No checkpoint found in $OUTPUT_DIR"
-        echo "Please specify checkpoint path:"
-        read -p "Checkpoint path: " BEST_CHECKPOINT
-    fi
-    
+# Auto probe: train action head on frozen encoder if checkpoint exists
+echo ""
+echo "Auto action probe training (if checkpoint available)..."
+
+BEST_CHECKPOINT=$(ls -t $OUTPUT_DIR/best_model.pth 2>/dev/null | head -1)
+
+if [ -z "$BEST_CHECKPOINT" ]; then
+    echo "Warning: No checkpoint found in $OUTPUT_DIR; skipping probe."
+else
     echo "Using checkpoint: $BEST_CHECKPOINT"
     
     python scripts/train_hierarchical.py \
@@ -110,11 +111,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
         --processed-dir "$PROCESSED_DIR" \
         --output-dir "${OUTPUT_DIR}_probe" \
         --run-name "${RUN_NAME}_probe" \
-        2>&1 | tee training_probe.log
+        2>&1 | tee training_probe.log || echo "Probe training failed; see training_probe.log"
     
-    echo "Probe training complete!"
-else
-    echo "Skipping probe training"
+    echo "Probe training complete (if no errors above)."
 fi
 
 # ===========================
