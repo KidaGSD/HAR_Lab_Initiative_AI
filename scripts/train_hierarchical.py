@@ -41,7 +41,7 @@ CONFIG = {
         'epochs': 50,
         'patience': 15,
         'alpha': 1.0,
-        'beta': 0.3,           # Enable auxiliary action loss
+        'beta': 0.0,           # Default: focus on scenario; action loss used in probe or if explicitly enabled
         'weight_decay': 1e-5,
         'grad_clip': 1.0,
         'warmup_epochs': 5     # Warmup then cosine anneal
@@ -168,7 +168,7 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                 
                 # Create Windows
                 seq_len = CONFIG['hla']['seq_len']
-                stride = 10
+                stride = 5  # denser stride for more supervision
                 
                 num_seqs = (len(traj) - seq_len) // stride + 1
                 
@@ -183,30 +183,31 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                     # timestamps is (N, 50)
                     # We need strict containment: label_ts must be within [window_start, window_end]
                     
-                    ts_windows = timestamps[start_idx:end_idx] # (30, 50)
+                ts_windows = timestamps[start_idx:end_idx] # (30, 50)
+                
+                action_labels_seq = []
+                
+                for w_idx in range(seq_len):
+                    w_ts = ts_windows[w_idx]
+                    w_start = w_ts[0]
+                    w_end = w_ts[-1]
                     
-                    action_labels_seq = []
+                    # Find actions within this window
+                    match = video_actions[
+                        (video_actions['timestamp_sec'] >= w_start) & 
+                        (video_actions['timestamp_sec'] <= w_end)
+                    ]
                     
-                    for w_idx in range(seq_len):
-                        w_ts = ts_windows[w_idx]
-                        w_start = w_ts[0]
-                        w_end = w_ts[-1]
-                        
-                        # Find action strictly within this window
-                        match = video_actions[
-                            (video_actions['timestamp_sec'] >= w_start) & 
-                            (video_actions['timestamp_sec'] <= w_end)
-                        ]
-                        
-                        if not match.empty:
-                            # Take first match (or could use majority if multiple)
-                            act_name = match.iloc[0]['action']
-                            if act_name in self.action_map:
-                                action_labels_seq.append(self.action_map[act_name])
-                            else:
-                                action_labels_seq.append(-1) # Unknown class
+                    if not match.empty:
+                        # Majority vote within the window
+                        counts = match['action'].value_counts()
+                        act_name = counts.idxmax()
+                        if act_name in self.action_map:
+                            action_labels_seq.append(self.action_map[act_name])
                         else:
-                            action_labels_seq.append(-1) # No label in this window
+                            action_labels_seq.append(-1) # Unknown class
+                    else:
+                        action_labels_seq.append(-1) # No label in this window
                             
                     self.samples.append({
                         'video_uid': uid,
@@ -484,11 +485,12 @@ def train(args):
     # Learning Rate Scheduler: Warmup then Cosine Annealing
     warmup_epochs = CONFIG['training']['warmup_epochs']
     total_epochs = CONFIG['training']['epochs']
+    min_factor = 0.2  # do not decay below 20% of base LR
     def lr_lambda(epoch):
         if epoch < warmup_epochs:
             return float(epoch + 1) / float(warmup_epochs)
         progress = (epoch - warmup_epochs) / max(1, total_epochs - warmup_epochs)
-        return 0.5 * (1.0 + math.cos(math.pi * progress))
+        return min_factor + (1.0 - min_factor) * 0.5 * (1.0 + math.cos(math.pi * progress))
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lr_lambda)
     print(f"Learning rate scheduler: Warmup {warmup_epochs} epochs -> Cosine annealing")
     
@@ -506,19 +508,24 @@ def train(args):
     early_stopper = EarlyStopping(patience=CONFIG['training']['patience'])
     
     # Initialize W&B
+    wandb_run = None
     if WANDB_AVAILABLE and not args.no_wandb:
-        wandb.init(
-            project="har-imu-training",
-            name=f"hierarchical-{args.run_name}" if args.run_name else None,
-            config={
-                **CONFIG,
-                "train_videos": len(train_uids),
-                "val_videos": len(val_uids),
-                "train_samples": len(train_ds),
-                "val_samples": len(val_ds),
-            }
-        )
-        wandb.watch(model, log='all', log_freq=100)
+        try:
+            wandb_run = wandb.init(
+                project="har-imu-training",
+                name=f"hierarchical-{args.run_name}" if args.run_name else None,
+                config={
+                    **CONFIG,
+                    "train_videos": len(train_uids),
+                    "val_videos": len(val_uids),
+                    "train_samples": len(train_ds),
+                    "val_samples": len(val_ds),
+                }
+            )
+            wandb.watch(model, log='all', log_freq=100)
+        except Exception as e:
+            print(f"W&B init failed ({e}); continuing without W&B logging.")
+            wandb_run = None
     
     print("Starting training...")
     current_lr = optimizer.param_groups[0]['lr']
@@ -607,7 +614,7 @@ def train(args):
         print(f"Val Action F1: {val_a_f1:.4f} | Acc: {val_a_acc:.4f}")
         
         # Log to W&B
-        if WANDB_AVAILABLE and not args.no_wandb:
+        if wandb_run is not None:
             wandb.log({
                 "epoch": epoch + 1,
                 "train_loss": avg_train_loss,
