@@ -40,7 +40,7 @@ CONFIG = {
         'type': 'transformer' # transformer encoder for long-range modeling
     },
     'training': {
-        'batch_size': 192,     # safer default to mitigate OOM
+        'batch_size': 256,     # default; override with BATCH_SIZE env on larger GPUs
         'lr': 1e-4,            # Base LR (will warmup then cosine)
         'epochs': 50,
         'patience': 15,
@@ -388,6 +388,8 @@ class HierarchicalModel(nn.Module):
 # --- Training ---
 def train(args):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    if device.type == 'cuda':
+        torch.backends.cudnn.benchmark = True
     print(f"Using device: {device}")
     
     print("\n" + "="*80)

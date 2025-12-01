@@ -43,8 +43,11 @@ fi
 echo ""
 echo "=== Step 3: GPU Configuration ==="
 
-# Use a single GPU (adjust index as needed)
-export CUDA_VISIBLE_DEVICES=6
+# Use a single GPU; auto-pick the freest if not set
+if [ -z "$CUDA_VISIBLE_DEVICES" ]; then
+    FREE_GPU=$(nvidia-smi --query-gpu=memory.free,index --format=csv,noheader,nounits | sort -nr | head -1 | awk -F',' '{print $2}' | xargs)
+    export CUDA_VISIBLE_DEVICES=${FREE_GPU:-0}
+fi
 echo "Using GPU: $CUDA_VISIBLE_DEVICES"
 
 # Display GPU info
