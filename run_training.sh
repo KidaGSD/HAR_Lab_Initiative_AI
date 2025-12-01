@@ -39,9 +39,9 @@ echo "WandB logged in successfully"
 echo ""
 echo "=== Step 3: GPU Configuration ==="
 
-# Use BOTH GPUs for maximum utilization
-export CUDA_VISIBLE_DEVICES=6,7
-echo "Using GPUs: $CUDA_VISIBLE_DEVICES"
+# Use a single GPU (adjust index as needed)
+export CUDA_VISIBLE_DEVICES=6
+echo "Using GPU: $CUDA_VISIBLE_DEVICES"
 
 # Display GPU info
 nvidia-smi --query-gpu=index,name,memory.total,memory.free --format=csv
