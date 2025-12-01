@@ -1,0 +1,1 @@
+{"val/loss":NaN,"epoch":2,"val/loss_scenario":NaN,"learning_rate":0.001,"val/loss_action":NaN,"train/loss_scenario":0.2116137778525259,"train/loss_action":0.1255601808604072,"train/loss":0.33717395782470705,"train/accuracy":0.38536844135802467,"_timestamp":1.7641992530023723e+09,"_step":1,"_wandb":{"runtime":836},"val/accuracy":0,"_runtime":836}

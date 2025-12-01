@@ -1,0 +1,49 @@
+Loading label files...
+Scenarios (Fitness excluded): {'Carpentry': 0, 'Cleaning': 1, 'Cooking': 2, 'Desk Work': 3, 'Gardening': 4, 'Mechanical Repair': 5, 'Playing Instrument': 6, 'Walking Outdoors': 7}
+Number of scenario classes: 8
+Loading Data: 100%|███████████████████████████████████████████| 6147/6147 [12:29<00:00,  8.20it/s]
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 539, in <module>
+    train(args)
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 264, in train
+    model = HierarchicalModel(CONFIG).to(device)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1371, in to
+    return self._apply(convert)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 957, in _apply
+    param_applied = fn(param)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1357, in convert
+    return t.to(
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 539, in <module>
+    train(args)
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 264, in train
+    model = HierarchicalModel(CONFIG).to(device)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1371, in to
+    return self._apply(convert)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 957, in _apply
+    param_applied = fn(param)
+  File "/shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1357, in convert
+    return t.to(
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.

@@ -1,0 +1,3684 @@
+Loading label files...
+Scenarios (Fitness excluded): {'Carpentry': 0, 'Cleaning': 1, 'Cooking': 2, 'Desk Work': 3, 'Gardening': 4, 'Mechanical Repair': 5, 'Playing Instrument': 6, 'Walking Outdoors': 7}
+Number of scenario classes: 8
+Loading Data: 100%|███████████████████████████████████████████| 6147/6147 [12:39<00:00,  8.09it/s]
+Starting training...
+
+=== DIAGNOSING NaN ISSUES ===
+Batch 0: scenario_loss = nan
+Batch 0: action_loss = 1.3673
+Batch 1: scenario_loss = nan
+Batch 1: action_loss = 1.3754
+Batch 2: scenario_loss = nan
+Batch 2: action_loss = nan
+Batch 3: scenario_loss = nan
+Batch 3: action_loss = nan
+Batch 4: scenario_loss = nan
+Batch 4: action_loss = 1.3662
+
+=== DIAGNOSIS SUMMARY ===
+Scenario Labels:
+  Min across batches: 0
+  Max across batches: 7
+  Expected range: [0, 7]
+
+Action Labels:
+  Batches with all ignored (-1): 0
+  Batches with some valid: 5
+  Batches with all valid: 0
+
+Model Outputs:
+  Scenario logits with NaN: 5
+  Scenario logits with Inf: 0
+  Action logits with NaN: 5
+  Action logits with Inf: 0
+==================================================
+Epoch 1:   2%|█▏                                                | 29/1275 [00:00<00:19, 62.80it/s]
+
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Epoch 1 Train Loss: 0.3657 (S: 0.2356, A: 0.1302) Acc: 0.3231
+
+=== VALIDATION DEBUG ===
+Sample scenario labels: min=0, max=7, unique=tensor([0, 1, 2, 3, 4, 5, 6, 7])
+Sample action labels: shape=torch.Size([128, 30]), valid_count=54, total=3840
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: No valid validation batches processed!
+Epoch 1 Val Loss: nan (S: nan, A: nan) Acc: 0.0000
+Epoch 2:   2%|▉                                                 | 25/1275 [00:00<00:16, 77.64it/s]
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Epoch 2 Train Loss: 0.3372 (S: 0.2116, A: 0.1256) Acc: 0.3854
+
+=== VALIDATION DEBUG ===
+Sample scenario labels: min=0, max=7, unique=tensor([0, 1, 2, 3, 4, 5, 6, 7])
+Sample action labels: shape=torch.Size([128, 30]), valid_count=54, total=3840
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: NaN scenario loss in validation. Skipping batch.
+Warning: No valid validation batches processed!
+Epoch 2 Val Loss: nan (S: nan, A: nan) Acc: 0.0000
+Epoch 3:   3%|█▎                                                | 33/1275 [00:00<00:15, 79.99it/s]
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Warning: NaN loss detected. Skipping batch.
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 539, in <module>
+    train(args)
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 390, in train
+    loss_a = torch.tensor(0.0, device=device)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 539, in <module>
+    train(args)
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 390, in train
+    loss_a = torch.tensor(0.0, device=device)
+KeyboardInterrupt

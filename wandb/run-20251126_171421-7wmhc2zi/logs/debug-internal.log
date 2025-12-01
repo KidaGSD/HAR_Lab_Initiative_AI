@@ -1,0 +1,14 @@
+{"time":"2025-11-26T17:14:21.77950437-05:00","level":"INFO","msg":"stream: starting","core version":"0.23.0"}
+{"time":"2025-11-26T17:14:52.033732008-05:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2025-11-26T17:14:54.221119415-05:00","level":"INFO","msg":"stream: created new stream","id":"7wmhc2zi"}
+{"time":"2025-11-26T17:14:54.224121033-05:00","level":"INFO","msg":"handler: started","stream_id":"7wmhc2zi"}
+{"time":"2025-11-26T17:14:54.224392499-05:00","level":"INFO","msg":"stream: started","id":"7wmhc2zi"}
+{"time":"2025-11-26T17:14:54.224458188-05:00","level":"INFO","msg":"writer: started","stream_id":"7wmhc2zi"}
+{"time":"2025-11-26T17:14:54.224476285-05:00","level":"INFO","msg":"sender: started","stream_id":"7wmhc2zi"}
+{"time":"2025-11-26T17:24:09.549517179-05:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/wandbleo/AR_Glasses_Anomaly_Detection/7wmhc2zi/file_stream\": dial tcp 35.186.228.49:443: connect: connection timed out"}
+{"time":"2025-11-26T17:28:17.357552581-05:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/wandbleo/AR_Glasses_Anomaly_Detection/7wmhc2zi/file_stream\": dial tcp 35.186.228.49:443: connect: connection timed out"}
+{"time":"2025-11-26T17:28:42.840371809-05:00","level":"INFO","msg":"stream: closing","id":"7wmhc2zi"}
+{"time":"2025-11-26T17:28:43.186341503-05:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-11-26T17:28:43.360181892-05:00","level":"INFO","msg":"handler: closed","stream_id":"7wmhc2zi"}
+{"time":"2025-11-26T17:28:43.360358306-05:00","level":"INFO","msg":"sender: closed","stream_id":"7wmhc2zi"}
+{"time":"2025-11-26T17:28:43.360373479-05:00","level":"INFO","msg":"stream: closed","id":"7wmhc2zi"}

@@ -1,0 +1,134 @@
+_wandb:
+    value:
+        cli_version: 0.23.0
+        e:
+            n1d58k4dpavsvubxiz9aiqvk6h04g46z:
+                args:
+                    - --processed-dir
+                    - data/processed_ego4d
+                codePath: scripts/train_hierarchical.py
+                codePathLocal: scripts/train_hierarchical.py
+                cpu_count: 128
+                cpu_count_logical: 256
+                cudaVersion: "12.3"
+                disk:
+                    /:
+                        total: "1967279984640"
+                        used: "608434741248"
+                email: leodas92@gmail.com
+                executable: /shared/ssd_14T/home/leopolddas/miniconda3/envs/har_ssh/bin/python
+                git:
+                    commit: 506447ceb4def0dd5e7d7bc189f350060efa3b73
+                    remote: https://github.com/KidaGSD/HAR_Lab_Initiative_AI.git
+                gpu: NVIDIA RTX 6000 Ada Generation
+                gpu_count: 8
+                gpu_nvidia:
+                    - architecture: Ada
+                      cudaCores: 18176
+                      memoryTotal: "51527024640"
+                      name: NVIDIA RTX 6000 Ada Generation
+                      uuid: GPU-c916c446-7ed7-c8d3-9842-bb1028a9aadf
+                    - architecture: Ada
+                      cudaCores: 18176
+                      memoryTotal: "51527024640"
+                      name: NVIDIA RTX 6000 Ada Generation
+                      uuid: GPU-7972ddf1-78b9-ff67-c13b-aaaa6f9f5e57
+                    - architecture: Ada
+                      cudaCores: 18176
+                      memoryTotal: "51527024640"
+                      name: NVIDIA RTX 6000 Ada Generation
+                      uuid: GPU-16b40df4-c8ef-04d3-e8a5-054f40cf5ec7
+                    - architecture: Ada
+                      cudaCores: 18176
+                      memoryTotal: "51527024640"
+                      name: NVIDIA RTX 6000 Ada Generation
+                      uuid: GPU-07f5cef9-a5d1-052e-6b9c-d7792fd42eb0
+                    - architecture: Ada
+                      cudaCores: 18176
+                      memoryTotal: "51527024640"
+                      name: NVIDIA RTX 6000 Ada Generation
+                      uuid: GPU-7d78717a-0797-ee9b-9ff7-1af3203ce04e
+                    - architecture: Ada
+                      cudaCores: 18176
+                      memoryTotal: "51527024640"
+                      name: NVIDIA RTX 6000 Ada Generation
+                      uuid: GPU-c4ff2462-a3be-2b80-ed48-7fce108ec35d
+                    - architecture: Ada
+                      cudaCores: 18176
+                      memoryTotal: "51527024640"
+                      name: NVIDIA RTX 6000 Ada Generation
+                      uuid: GPU-ab1015a0-7c1d-77c9-fbdf-738bbf32f3eb
+                    - architecture: Ada
+                      cudaCores: 18176
+                      memoryTotal: "51527024640"
+                      name: NVIDIA RTX 6000 Ada Generation
+                      uuid: GPU-df09dc6f-c851-343b-7a73-73f3f34b0107
+                host: dl
+                memory:
+                    total: "1081824505856"
+                os: Linux-6.5.0-15-generic-x86_64-with-glibc2.35
+                program: /shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py
+                python: CPython 3.10.19
+                root: /shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI
+                startedAt: "2025-11-26T23:35:34.713202Z"
+                writerId: n1d58k4dpavsvubxiz9aiqvk6h04g46z
+        m: []
+        python_version: 3.10.19
+        t:
+            "1":
+                - 1
+            "2":
+                - 1
+            "3":
+                - 16
+            "4": 3.10.19
+            "5": 0.23.0
+            "12": 0.23.0
+            "13": linux-x86_64
+alpha:
+    value: 1
+batch_size:
+    value: 32
+beta:
+    value: 1
+cnn_filters:
+    value:
+        - 32
+        - 64
+        - 128
+device:
+    value: cuda
+embedding_dim:
+    value: 128
+epochs:
+    value: 20
+gru_hidden:
+    value: 256
+gru_layers:
+    value: 2
+hidden_dim:
+    value: 128
+in_channels:
+    value: 6
+lr:
+    value: 0.001
+num_classes:
+    value: 8
+num_layers:
+    value: 2
+num_scenarios:
+    value: 8
+processed_dir:
+    value: data/processed_ego4d
+seq_len:
+    value: 30
+target_uids_file:
+    value: target_uids.csv
+total_samples:
+    value: 203946
+train_samples:
+    value: 163156
+val_samples:
+    value: 40790
+window_size:
+    value: 50

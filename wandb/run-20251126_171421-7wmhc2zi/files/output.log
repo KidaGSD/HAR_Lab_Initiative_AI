@@ -1,0 +1,20 @@
+Loading label files...
+Scenarios (Fitness excluded): {'Carpentry': 0, 'Cleaning': 1, 'Cooking': 2, 'Desk Work': 3, 'Gardening': 4, 'Mechanical Repair': 5, 'Playing Instrument': 6, 'Walking Outdoors': 7}
+Number of scenario classes: 8
+Loading Data: 100%|███████████████████████████████████████████| 6147/6147 [13:05<00:00,  7.82it/s]
+Starting training...
+Epoch 1: 100%|████████████████████████████████████████████████| 1275/1275 [00:38<00:00, 33.22it/s]
+Epoch 1 Loss: nan
+Val Scenario Acc: 0.0600
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 347, in <module>
+    train(args)
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 322, in train
+    'train/loss': train_loss,
+NameError: name 'train_loss' is not defined. Did you mean: 'train_ds'?
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 347, in <module>
+    train(args)
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 322, in train
+    'train/loss': train_loss,
+NameError: name 'train_loss' is not defined. Did you mean: 'train_ds'?

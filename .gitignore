@@ -21,6 +21,8 @@ data/labels/action_labels_llm.csv
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+*.wandb
+notebooks/wandb/s
 
 # --- Project Specific ---
 archive/
@@ -28,6 +30,7 @@ docs/
 runs/
 checkpoints/
 state/
+wandb/
 
 
 # --- Environment ---

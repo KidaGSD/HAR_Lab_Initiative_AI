@@ -1,0 +1,26 @@
+Loading label files...
+Scenarios: {'Carpentry': 0, 'Mechanical Repair': 1, 'Cleaning': 2, 'Cooking': 3, 'Gardening': 4, 'Playing Instrument': 5, 'Walking Outdoors': 6, 'Desk Work': 7, 'Fitness/Workout': 8}
+Loading Data: 100%|███████████████████████████| 6147/6147 [12:40<00:00,  8.08it/s]
+Starting training...
+Epoch 1:   0%|                                                           | 0/1293 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 339, in <module>
+    train(args)
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 287, in train
+    loss = CONFIG['training']['alpha'] * loss_s + CONFIG['training']['beta'] * loss_a
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 339, in <module>
+    train(args)
+  File "/shared/ssd_14T/home/leopolddas/HAR_Lab_Initiative_AI/scripts/train_hierarchical.py", line 287, in train
+    loss = CONFIG['training']['alpha'] * loss_s + CONFIG['training']['beta'] * loss_a
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
