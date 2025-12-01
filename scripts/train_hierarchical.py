@@ -211,7 +211,8 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                             
                     self.samples.append({
                         'video_uid': uid,
-                        'inputs': torch.FloatTensor(window_seq), # (30, 50, 6)
+                        # Ensure contiguous, resizable tensors to avoid DataLoader storage resize errors
+                        'inputs': torch.tensor(np.ascontiguousarray(window_seq), dtype=torch.float32), # (30, 50, 6)
                         'scenario_label': torch.tensor(scenario_label, dtype=torch.long),
                         'action_labels': torch.tensor(action_labels_seq, dtype=torch.long) # (30,)
                     })
