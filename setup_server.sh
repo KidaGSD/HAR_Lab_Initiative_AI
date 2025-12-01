@@ -35,7 +35,14 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 # Install other pip packages
 echo "Installing additional packages..."
-pip install boto3 ego4d
+pip install boto3 ego4d wandb scikit-learn
+
+# Setup WandB
+echo ""
+echo "=== Setting up WandB ===\"
+echo "WandB API Key: e83326e014ad7a27c2a538f4e38b95bd11a161a0"
+export WANDB_API_KEY=e83326e014ad7a27c2a538f4e38b95bd11a161a0
+wandb login $WANDB_API_KEY
 
 # Verify installation
 echo ""

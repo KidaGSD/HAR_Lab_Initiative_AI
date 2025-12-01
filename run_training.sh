@@ -1,39 +1,143 @@
 #!/bin/bash
-# Training script for GPU server
+# Complete Training Pipeline for Hierarchical HAR
 # Usage: ./run_training.sh
 
 set -e
 
-echo "=== Starting Hierarchical IMU Training ==="
+echo "=========================================="
+echo "  Hierarchical HAR Training Pipeline"
+echo "=========================================="
 
-# OPTIMIZED: Use single GPU (much faster than DataParallel with small model)
-export CUDA_VISIBLE_DEVICES=6  # Use GPU 6 (or change to 7)
+# ===========================
+# 1. Environment Setup
+# ===========================
+echo ""
+echo "=== Step 1: Environment Setup ==="
 
-echo "GPU Configuration: Using GPU ${CUDA_VISIBLE_DEVICES}"
-nvidia-smi --query-gpu=index,name,memory.total --format=csv
+# Activate conda environment
+if [ -n "$CONDA_PREFIX" ]; then
+    echo "Conda already activated: $CONDA_PREFIX"
+else
+    echo "Activating ego4d_lab environment..."
+    source ~/miniconda3/etc/profile.d/conda.sh
+    conda activate ego4d_lab
+fi
 
-# Activate environment
-source ego4d_lab/bin/activate  # or: conda activate ego4d_lab
+# ===========================
+# 2. WandB Setup
+# ===========================
+echo ""
+echo "=== Step 2: WandB Configuration ==="
 
-# Run training with optimized settings
-python scripts/train_hierarchical.py \
-    --target-uids-file target_uids.csv \
-    --processed-dir data/processed_ego4d \
-    --output-dir checkpoints \
-    --run-name egocharm_optimized
+export WANDB_API_KEY=e83326e014ad7a27c2a538f4e38b95bd11a161a0
+wandb login $WANDB_API_KEY
+echo "WandB logged in successfully"
 
-echo "=== Training Complete ==="
-echo "Check checkpoints/best_model.pth for best model"
-echo "Check wandb for training metrics"
-# Script to run training on GPUs 6 and 7
-# Usage: ./run_training.sh
+# ===========================
+# 3. GPU Configuration
+# ===========================
+echo ""
+echo "=== Step 3: GPU Configuration ==="
 
-echo "Starting training on GPUs 6 and 7..."
-echo "Ideally, run this inside a tmux session!"
-
-# Set CUDA devices
+# Use BOTH GPUs for maximum utilization
 export CUDA_VISIBLE_DEVICES=6,7
+echo "Using GPUs: $CUDA_VISIBLE_DEVICES"
 
-# Run training
-# Using nohup is optional if inside tmux, but good for safety
-python scripts/train_hierarchical.py --run-name final_run_v1
+# Display GPU info
+nvidia-smi --query-gpu=index,name,memory.total,memory.free --format=csv
+echo ""
+
+# ===========================
+# 4. Training Configuration
+# ===========================
+echo "=== Step 4: Training Configuration ==="
+
+PROCESSED_DIR="data/processed_ego4d"
+OUTPUT_DIR="checkpoints"
+RUN_NAME="hierarchical_cv_$(date +%Y%m%d_%H%M%S)"
+
+echo "Processed data dir: $PROCESSED_DIR"
+echo "Output dir: $OUTPUT_DIR"
+echo "Run name: $RUN_NAME"
+echo ""
+
+# ===========================
+# 5. Main Training (CV Mode)
+# ===========================
+echo "=== Step 5: Cross Validation Training ==="
+echo "This will run 4-fold CV (~8-10 hours)"
+echo ""
+
+python scripts/train_hierarchical.py \
+    --cv \
+    --n-folds 4 \
+    --processed-dir "$PROCESSED_DIR" \
+    --output-dir "$OUTPUT_DIR" \
+    --run-name "$RUN_NAME" \
+    2>&1 | tee training_cv.log
+
+echo ""
+echo "CV Training complete!"
+echo "Results saved to: $OUTPUT_DIR"
+echo "Logs saved to: training_cv.log"
+echo ""
+
+# ===========================
+# 6. Action Probing (Optional)
+# ===========================
+echo "=== Step 6: Action Probing ==="
+
+read -p "Do you want to train action probe? (y/n) " -n 1 -r
+echo ""
+
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Training action probe on frozen embeddings..."
+    
+    # Find best checkpoint from CV
+    BEST_CHECKPOINT=$(ls -t $OUTPUT_DIR/best_model.pth 2>/dev/null | head -1)
+    
+    if [ -z "$BEST_CHECKPOINT" ]; then
+        echo "Warning: No checkpoint found in $OUTPUT_DIR"
+        echo "Please specify checkpoint path:"
+        read -p "Checkpoint path: " BEST_CHECKPOINT
+    fi
+    
+    echo "Using checkpoint: $BEST_CHECKPOINT"
+    
+    python scripts/train_hierarchical.py \
+        --probe \
+        --checkpoint "$BEST_CHECKPOINT" \
+        --processed-dir "$PROCESSED_DIR" \
+        --output-dir "${OUTPUT_DIR}_probe" \
+        --run-name "${RUN_NAME}_probe" \
+        2>&1 | tee training_probe.log
+    
+    echo "Probe training complete!"
+else
+    echo "Skipping probe training"
+fi
+
+# ===========================
+# 7. Summary
+# ===========================
+echo ""
+echo "=========================================="
+echo "  Training Pipeline Complete!"
+echo "=========================================="
+echo ""
+echo "Results:"
+echo "  - CV checkpoints: $OUTPUT_DIR"
+echo "  - CV logs: training_cv.log"
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "  - Probe checkpoints: ${OUTPUT_DIR}_probe"
+    echo "  - Probe logs: training_probe.log"
+fi
+echo ""
+echo "WandB Dashboard: https://wandb.ai/wandbleo/har-imu-training"
+echo ""
+echo "Next steps:"
+echo "  1. Review WandB dashboard for CV results"
+echo "  2. Compare fold performances"
+echo "  3. Analyze confusion matrices"
+echo "  4. Run final test set evaluation (if needed)"
+echo ""

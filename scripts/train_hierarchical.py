@@ -34,14 +34,16 @@ CONFIG = {
         'seq_len': 30 # 30 seconds context
     },
     'training': {
-        'batch_size': 1024,    # OPTIMIZED: Increased from 128 for full GPU utilization (49GB GPUs)
-        'lr': 1e-4,            # FIXED: Lowered from 1e-3 (paper hyperparameter search)
-        'epochs': 50,          # Increased for early stopping
-        'patience': 10,        # Early stopping patience
-        'alpha': 1.0,          # Weight for Scenario Loss
-        'beta': 0.0,           # FIXED: Set to 0 (semi-supervised, paper trains on scenario only)
-        'step_size': 10,       # NEW: LR scheduler step (decay every 10 epochs)
-        'gamma': 0.5           # NEW: LR decay factor (reduce by 50%)
+        'batch_size': 256,     # FIXED: Reduced from 1024 (too large, poor gradient estimates)
+        'lr': 1.4e-4,          # FIXED: Scaled LR for larger batch (1e-4 × √2)
+        'epochs': 50,
+        'patience': 15,        # FIXED: Increased from 10 (allow more training)
+        'alpha': 1.0,
+        'beta': 0.0,
+        'step_size': 10,
+        'gamma': 0.5,
+        'weight_decay': 1e-5,  # NEW: L2 regularization
+        'grad_clip': 1.0       # NEW: Gradient clipping (paper uses this)
     }
 }
 
@@ -95,6 +97,41 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         }
         self.idx_to_action = {v: k for k, v in self.action_map.items()}
         
+        # === CRITICAL FIX: GLOBAL NORMALIZATION ===
+        # Paper (Section 3.2): "We apply normalization across all windows of raw data,
+        # specifically along each of the 6 IMU channels."
+        # This means GLOBAL normalization, NOT per-video!
+        
+        print("\nComputing global normalization statistics...")
+        all_data = []
+        valid_uids = []
+        
+        for uid in tqdm(take_uids, desc='Collecting normalization data'):
+            seq_path = Path(processed_dir) / uid / 'seq.npz'
+            if not seq_path.exists():
+                continue
+            try:
+                data = np.load(seq_path)
+                traj = data['traj']
+                if len(traj) > 0 and uid in self.scenario_df.index:
+                    all_data.append(traj)
+                    valid_uids.append(uid)
+            except Exception as e:
+                continue
+        
+        if len(all_data) == 0:
+            raise ValueError("No valid data found for normalization!")
+            
+        all_data = np.concatenate(all_data, axis=0)  # (Total_Windows, 50, 6)
+        self.global_mean = all_data.mean(axis=(0, 1))  # (6,) - mean per channel
+        self.global_std = all_data.std(axis=(0, 1)) + 1e-6  # (6,) - std per channel
+        
+        print(f"Global statistics computed from {len(valid_uids)} videos:")
+        print(f"  Mean: {self.global_mean}")
+        print(f"  Std:  {self.global_std}")
+        print(f"  Data range: [{all_data.min():.2f}, {all_data.max():.2f}]")
+        # ==========================================
+        
         # Iterate Videos
         for uid in tqdm(take_uids, desc='Loading Data'):
             seq_path = Path(processed_dir) / uid / 'seq.npz'
@@ -106,14 +143,11 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                 traj = data['traj'] # (N, 50, 6)
                 timestamps = data['timestamp'] # (N, 50)
                 
-                # --- NORMALIZATION (CRITICAL FIX) ---
-                # Paper: "normalize these features to zero mean and unit variance"
-                # We apply per-video normalization for robustness
+                # === CRITICAL FIX: GLOBAL NORMALIZATION ===
+                # Apply GLOBAL normalization (not per-video!)
                 if len(traj) > 0:
-                    mean = traj.mean(axis=(0, 1), keepdims=True)
-                    std = traj.std(axis=(0, 1), keepdims=True) + 1e-6
-                    traj = (traj - mean) / std
-                # ------------------------------------
+                    traj = (traj - self.global_mean) / self.global_std
+                # ==========================================
                 
                 if len(traj) == 0:
                     continue
@@ -408,7 +442,11 @@ def train(args):
         print(f"Using {torch.cuda.device_count()} GPUs!")
         model = nn.DataParallel(model)
         
-    optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=CONFIG['training']['lr'])
+    optimizer = torch.optim.Adam(
+        filter(lambda p: p.requires_grad, model.parameters()), 
+        lr=CONFIG['training']['lr'],
+        weight_decay=CONFIG['training']['weight_decay']  # NEW: L2 regularization
+    )
     
     # NEW: Learning Rate Scheduler (EgoCharm Paper - Supplemental S2)
     scheduler = torch.optim.lr_scheduler.StepLR(
@@ -480,6 +518,11 @@ def train(args):
                 loss = loss_s
             
             loss.backward()
+            
+            # NEW: Gradient Clipping (Paper: Supplemental S2)
+            if CONFIG['training']['grad_clip'] > 0:
+                torch.nn.utils.clip_grad_norm_(model.parameters(), CONFIG['training']['grad_clip'])
+            
             optimizer.step()
             
             total_loss += loss.item()
@@ -585,6 +628,86 @@ if __name__ == "__main__":
     parser.add_argument('--run-name', type=str, default='hierarchical_har')
     parser.add_argument('--probe', action='store_true', help='Train action probe on frozen model')
     parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint for probing')
+    parser.add_argument('--cv', action='store_true', help='Use K-fold cross validation')
+    parser.add_argument('--n-folds', type=int, default=4, help='Number of CV folds (default: 4)')
     parser.add_argument("--no-wandb", action="store_true", help="Disable W&B logging")
     args = parser.parse_args()
-    train(args)
+    
+    # Cross Validation Mode
+    if args.cv:
+        from sklearn.model_selection import StratifiedKFold
+        import json
+        
+        print("=" * 80)
+        print(f"{args.n_folds}-FOLD CROSS VALIDATION MODE")
+        print("=" * 80)
+        
+        # Load scenario labels
+        scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+        usable_df = scenario_df[scenario_df['split'].isin(['train', 'val'])].copy()
+        
+        print(f"\nUsing {len(usable_df)} videos for {args.n_folds}-fold CV")
+        print(f"Excluded: test={len(scenario_df[scenario_df['split']=='test'])}, multi={len(scenario_df[scenario_df['split']=='multi'])}")
+        
+        # Create stratified folds
+        video_scenarios = usable_df[['video_uid', 'scenario']].copy()
+        skf = StratifiedKFold(n_splits=args.n_folds, shuffle=True, random_state=42)
+        
+        fold_results = []
+        
+        for fold_idx, (train_idx, val_idx) in enumerate(skf.split(video_scenarios['video_uid'], video_scenarios['scenario'])):
+            print(f"\n{'='*80}")
+            print(f"FOLD {fold_idx + 1}/{args.n_folds}")
+            print(f"{'='*80}")
+            
+            # Get fold-specific UIDs
+            fold_train_uids = video_scenarios.iloc[train_idx]['video_uid'].tolist()
+            fold_val_uids = video_scenarios.iloc[val_idx]['video_uid'].tolist()
+            
+            # Create fold-specific args
+            fold_args = argparse.Namespace(**vars(args))
+            fold_args.cv = False  # Disable CV for individual fold
+            fold_args.run_name = f"{args.run_name}_fold{fold_idx+1}" if not args.no_wandb else None
+            
+            # Temporarily override train function to use fold UIDs
+            # We do this by modifying the scenario_df before passing to train
+            original_scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+            
+            # Mark fold UIDs appropriately
+            temp_scenario_df = original_scenario_df.copy()
+            temp_scenario_df.loc[temp_scenario_df['video_uid'].isin(fold_train_uids), 'split'] = 'train'
+            temp_scenario_df.loc[temp_scenario_df['video_uid'].isin(fold_val_uids), 'split'] = 'val'
+            temp_scenario_df.loc[~temp_scenario_df['video_uid'].isin(fold_train_uids + fold_val_uids), 'split'] = 'excluded'
+            
+            # Save temporarily
+            temp_scenario_df.to_csv("data/labels/scenario_labels_temp.csv", index=False)
+            
+            # Modify args to use temp file
+            original_labels_path = "data/labels/scenario_labels.csv"
+            os.rename("data/labels/scenario_labels.csv", "data/labels/scenario_labels_backup.csv")
+            os.rename("data/labels/scenario_labels_temp.csv", "data/labels/scenario_labels.csv")
+            
+            try:
+                # Train this fold
+                train(fold_args)
+                
+                # Record results (would need to modify train() to return metrics)
+                # For now, we'll just print completion
+                print(f"Fold {fold_idx+1} training complete")
+                
+            finally:
+                # Restore original file
+                os.rename("data/labels/scenario_labels.csv", "data/labels/scenario_labels_temp.csv")
+                os.rename("data/labels/scenario_labels_backup.csv", "data/labels/scenario_labels.csv")
+                os.remove("data/labels/scenario_labels_temp.csv")
+        
+        print("\n" + "=" * 80)
+        print("CROSS VALIDATION COMPLETE")
+        print("=" * 80)
+        print(f"\nAll {args.n_folds} folds completed. Check WandB for detailed results.")
+        print("You can compare fold performances in the WandB dashboard.")
+        
+    else:
+        # Standard single train/val split
+        train(args)
+
