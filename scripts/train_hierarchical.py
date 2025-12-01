@@ -377,10 +377,16 @@ def train(args):
     val_uids_available = [u for u in val_uids if u in available_uids]
     test_uids_available = [u for u in test_uids if u in available_uids]
     
+    def format_availability(label, available, total):
+        if total == 0:
+            return f"  {label}: 0/0 (no {label.lower()} split in this run)"
+        pct = available / total * 100
+        return f"  {label}: {available}/{total} ({pct:.1f}% available)"
+
     print(f"\nFinal data splits (with processed data):")
-    print(f"  Train: {len(train_uids_available)}/{len(train_uids)} ({len(train_uids_available)/len(train_uids)*100:.1f}% available)")
-    print(f"  Val:   {len(val_uids_available)}/{len(val_uids)} ({len(val_uids_available)/len(val_uids)*100:.1f}% available)")
-    print(f"  Test:  {len(test_uids_available)}/{len(test_uids)} ({len(test_uids_available)/len(test_uids)*100:.1f}% available)")
+    print(format_availability("Train", len(train_uids_available), len(train_uids)))
+    print(format_availability("Val", len(val_uids_available), len(val_uids)))
+    print(format_availability("Test", len(test_uids_available), len(test_uids)))
     print("="*80 + "\n")
     
     # Use the available UIDs
@@ -491,6 +497,7 @@ def train(args):
         wandb.watch(model, log='all', log_freq=100)
     
     print("Starting training...")
+    current_lr = optimizer.param_groups[0]['lr']
     
     for epoch in range(CONFIG['training']['epochs']):
         model.train()
@@ -668,6 +675,7 @@ if __name__ == "__main__":
             fold_args = argparse.Namespace(**vars(args))
             fold_args.cv = False  # Disable CV for individual fold
             fold_args.run_name = f"{args.run_name}_fold{fold_idx+1}" if not args.no_wandb else None
+            fold_args.output_dir = str(Path(args.output_dir) / f"fold{fold_idx+1}")
             
             # Temporarily override train function to use fold UIDs
             # We do this by modifying the scenario_df before passing to train
@@ -675,9 +683,10 @@ if __name__ == "__main__":
             
             # Mark fold UIDs appropriately
             temp_scenario_df = original_scenario_df.copy()
+            # Preserve original test/multi labels; exclude other non-fold rows
+            temp_scenario_df.loc[~temp_scenario_df['split'].isin(['test', 'multi']), 'split'] = 'excluded'
             temp_scenario_df.loc[temp_scenario_df['video_uid'].isin(fold_train_uids), 'split'] = 'train'
             temp_scenario_df.loc[temp_scenario_df['video_uid'].isin(fold_val_uids), 'split'] = 'val'
-            temp_scenario_df.loc[~temp_scenario_df['video_uid'].isin(fold_train_uids + fold_val_uids), 'split'] = 'excluded'
             
             # Save temporarily
             temp_scenario_df.to_csv("data/labels/scenario_labels_temp.csv", index=False)
@@ -710,4 +719,3 @@ if __name__ == "__main__":
     else:
         # Standard single train/val split
         train(args)
-
