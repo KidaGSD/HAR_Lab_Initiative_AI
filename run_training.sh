@@ -70,7 +70,7 @@ echo ""
 
 python scripts/train_hierarchical.py \
     --cv \
-    --n-folds 4 \
+    --n-folds 2 \
     --processed-dir "$PROCESSED_DIR" \
     --output-dir "$OUTPUT_DIR" \
     --run-name "$RUN_NAME" \

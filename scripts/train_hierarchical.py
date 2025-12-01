@@ -8,7 +8,9 @@ from tqdm import tqdm
 import argparse
 import os
 import copy
+import math
 from sklearn.metrics import f1_score, confusion_matrix
+from torch.utils.data import WeightedRandomSampler
 
 try:
     import wandb
@@ -34,16 +36,15 @@ CONFIG = {
         'seq_len': 30 # 30 seconds context
     },
     'training': {
-        'batch_size': 256,     # FIXED: Reduced from 1024 (too large, poor gradient estimates)
-        'lr': 1.4e-4,          # FIXED: Scaled LR for larger batch (1e-4 × √2)
+        'batch_size': 256,
+        'lr': 1e-4,            # Base LR (will warmup then cosine)
         'epochs': 50,
-        'patience': 15,        # FIXED: Increased from 10 (allow more training)
+        'patience': 15,
         'alpha': 1.0,
-        'beta': 0.0,
-        'step_size': 10,
-        'gamma': 0.5,
-        'weight_decay': 1e-5,  # NEW: L2 regularization
-        'grad_clip': 1.0       # NEW: Gradient clipping (paper uses this)
+        'beta': 0.3,           # Enable auxiliary action loss
+        'weight_decay': 1e-5,
+        'grad_clip': 1.0,
+        'warmup_epochs': 5     # Warmup then cosine anneal
     }
 }
 
@@ -96,6 +97,8 @@ class HierarchicalDataset(torch.utils.data.Dataset):
             'Error / Correction': 5
         }
         self.idx_to_action = {v: k for k, v in self.action_map.items()}
+        # Keep only clean action labels (drop Unknown/Uncertain)
+        self.action_df = self.action_df[self.action_df['action'].isin(self.action_map.keys())]
         
         # === CRITICAL FIX: GLOBAL NORMALIZATION ===
         # Paper (Section 3.2): "We apply normalization across all windows of raw data,
@@ -410,8 +413,32 @@ def train(args):
         action_labels_path
     )
     
-    train_loader = torch.utils.data.DataLoader(train_ds, batch_size=CONFIG['training']['batch_size'], shuffle=True)
-    val_loader = torch.utils.data.DataLoader(val_ds, batch_size=CONFIG['training']['batch_size'], shuffle=False)
+    # Scenario imbalance handling via weighted sampling
+    scenario_labels_train = torch.tensor([s['scenario_label'].item() for s in train_ds.samples])
+    class_counts = torch.bincount(scenario_labels_train)
+    class_weights = 1.0 / class_counts.float()
+    class_weights = class_weights / class_weights.sum() * len(class_weights)
+    sample_weights = class_weights[scenario_labels_train]
+    sampler = WeightedRandomSampler(weights=sample_weights, num_samples=len(sample_weights), replacement=True)
+    
+    train_loader = torch.utils.data.DataLoader(
+        train_ds,
+        batch_size=CONFIG['training']['batch_size'],
+        sampler=sampler,
+        num_workers=8,
+        pin_memory=True,
+        persistent_workers=True,
+        prefetch_factor=2
+    )
+    val_loader = torch.utils.data.DataLoader(
+        val_ds,
+        batch_size=CONFIG['training']['batch_size'],
+        shuffle=False,
+        num_workers=4,
+        pin_memory=True,
+        persistent_workers=True,
+        prefetch_factor=2
+    )
     
     # Initialize Model
     model = HierarchicalModel(CONFIG).to(device)
@@ -454,24 +481,21 @@ def train(args):
         weight_decay=CONFIG['training']['weight_decay']  # NEW: L2 regularization
     )
     
-    # NEW: Learning Rate Scheduler (EgoCharm Paper - Supplemental S2)
-    scheduler = torch.optim.lr_scheduler.StepLR(
-        optimizer,
-        step_size=CONFIG['training']['step_size'],
-        gamma=CONFIG['training']['gamma']
-    )
-    print(f"Learning rate scheduler: StepLR(step_size={CONFIG['training']['step_size']}, gamma={CONFIG['training']['gamma']})")
+    # Learning Rate Scheduler: Warmup then Cosine Annealing
+    warmup_epochs = CONFIG['training']['warmup_epochs']
+    total_epochs = CONFIG['training']['epochs']
+    def lr_lambda(epoch):
+        if epoch < warmup_epochs:
+            return float(epoch + 1) / float(warmup_epochs)
+        progress = (epoch - warmup_epochs) / max(1, total_epochs - warmup_epochs)
+        return 0.5 * (1.0 + math.cos(math.pi * progress))
+    scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lr_lambda)
+    print(f"Learning rate scheduler: Warmup {warmup_epochs} epochs -> Cosine annealing")
     
     # Loss Functions
     # Paper (Section 3.2): "We train... using... a weighted cross-entropy loss to handle class imbalance"
     
     # Calculate class weights for scenarios from training data
-    print("Calculating class weights for scenario loss...")
-    scenario_labels_train = torch.tensor([s['scenario_label'].item() for s in train_ds.samples])
-    class_counts = torch.bincount(scenario_labels_train)
-    class_weights = 1.0 / class_counts.float()
-    class_weights = class_weights / class_weights.sum() * len(class_weights)
-    
     print(f"Scenario class distribution: {class_counts.tolist()}")
     print(f"Scenario class weights: {class_weights.tolist()}")
     
