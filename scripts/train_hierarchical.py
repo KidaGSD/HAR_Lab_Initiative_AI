@@ -40,7 +40,7 @@ CONFIG = {
         'type': 'transformer' # transformer encoder for long-range modeling
     },
     'training': {
-        'batch_size': 256,
+        'batch_size': 192,     # safer default to mitigate OOM
         'lr': 1e-4,            # Base LR (will warmup then cosine)
         'epochs': 50,
         'patience': 15,
@@ -476,9 +476,12 @@ def train(args):
     class_weights = 1.0 / class_counts.float()
     class_weights = class_weights / class_weights.sum() * len(class_weights)
     
+    # Allow overriding batch size via env
+    bs = int(os.environ.get("BATCH_SIZE", CONFIG['training']['batch_size']))
+
     train_loader = torch.utils.data.DataLoader(
         train_ds,
-        batch_size=CONFIG['training']['batch_size'],
+        batch_size=bs,
         shuffle=True,
         num_workers=8,
         pin_memory=True,
@@ -487,7 +490,7 @@ def train(args):
     )
     val_loader = torch.utils.data.DataLoader(
         val_ds,
-        batch_size=CONFIG['training']['batch_size'],
+        batch_size=bs,
         shuffle=False,
         num_workers=4,
         pin_memory=True,
