@@ -46,10 +46,23 @@ fi
 echo ""
 echo "=== Step 3: GPU Configuration ==="
 
-# Use a single GPU; auto-pick the freest if not set
+# Use a single GPU; auto-pick the freest meeting a min free threshold if not set
 if [ -z "$CUDA_VISIBLE_DEVICES" ]; then
-    FREE_GPU=$(nvidia-smi --query-gpu=memory.free,index --format=csv,noheader,nounits | sort -nr | head -1 | awk -F',' '{print $2}' | xargs)
-    export CUDA_VISIBLE_DEVICES=${FREE_GPU:-0}
+    MIN_FREE_MB=${MIN_FREE_MB:-20000}
+    PICKED=""
+    while IFS=, read -r FREE IDX; do
+        FREE=$(echo "$FREE" | xargs)
+        IDX=$(echo "$IDX" | xargs)
+        if [ "$FREE" -ge "$MIN_FREE_MB" ]; then
+            PICKED=$IDX
+            break
+        fi
+    done < <(nvidia-smi --query-gpu=memory.free,index --format=csv,noheader,nounits | sort -nr)
+    if [ -z "$PICKED" ]; then
+        PICKED=$(nvidia-smi --query-gpu=memory.free,index --format=csv,noheader,nounits | sort -nr | head -1 | awk -F',' '{print $2}' | xargs)
+        echo "Warning: no GPU meets MIN_FREE_MB=${MIN_FREE_MB}MB, picking best available: $PICKED"
+    fi
+    export CUDA_VISIBLE_DEVICES=${PICKED:-0}
 fi
 echo "Using GPU: $CUDA_VISIBLE_DEVICES"
 
