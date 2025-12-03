@@ -1,5 +1,6 @@
 import os
 import traceback
+import wandb
 
 def init(enable=True, **kwargs):
     if not enable:
