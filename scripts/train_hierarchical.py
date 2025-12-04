@@ -11,6 +11,8 @@ import copy
 import math
 from sklearn.metrics import f1_score, confusion_matrix
 from torch.utils.data import WeightedRandomSampler
+import hashlib
+import pickle
 
 try:
     import wandb
@@ -34,26 +36,34 @@ CONFIG = {
         'hidden_dim': 128,
         'num_layers': 2,
         'num_classes': 8, # 8 Scenarios
-        'seq_len': 30,    # 30 seconds context (can test 20 for latency tradeoff)
+        'seq_len': 20,    # 30 seconds context (can test 20 for latency tradeoff)
         'nhead': 4,
         'dropout': 0.1,
         'type': 'transformer' # transformer encoder for long-range modeling
     },
     'training': {
-        'batch_size': 192,     # safer default to mitigate OOM
-        'lr': 1e-4,            # Base LR (will warmup then cosine)
+        'batch_size': 256,     # safer default to mitigate OOM
+        'lr': 0.0001,            # Base LR (will warmup then cosine)
         'epochs': 50,
-        'patience': 15,
+        'patience': 20,
         'alpha': 1.0,
-        'beta': 0.0,           # Default: focus on scenario; action loss used in probe or if explicitly enabled
+        'beta': 0,           # Default: focus on scenario; action loss used in probe or if explicitly enabled
         'weight_decay': 1e-5,
         'grad_clip': 1.0,
-        'warmup_epochs': 5     # Warmup then cosine anneal
+        'warmup_epochs': 5,     # Warmup then cosine anneal
+        'gradient_accumulation_steps': 1,  # 1 = no accumulation, 2+ = accumulate
+        'use_focal_loss': True,  # enable focal loss
+        'focal_gamma': 2.0,      # focusing parameter
+        'focal_alpha': 1.0,      # class weighting (1.0 = no weighting, or use class_weights)
+        'label_smoothing': 0.1,  # label smoothing amount
+
     },
     'data': {
         'action_label_pad': 0.5,   # seconds to expand action labels on each side
         'per_video_center': True,  # subtract per-video mean after global z-score
-        'add_norm_features': True  # add accel/gyro norms as extra channels
+        'add_norm_features': True,  # add accel/gyro norms as extra channels
+        'stride': 5,
+        'augment': True
     }
 }
 
@@ -80,10 +90,90 @@ class EarlyStopping:
             self.best_model_state = copy.deepcopy(model.state_dict())
             self.counter = 0
 
+# --- Dataset Caching ---
+def get_dataset_cache_key(processed_dir, uids, seq_len, stride, 
+                         per_video_center, add_norm_features, action_pad):
+    """Generate unique cache key for dataset configuration"""
+    config_str = f"{seq_len}_{stride}_{per_video_center}_{add_norm_features}_{action_pad}"
+    uids_str = "_".join(sorted(uids))[:100]  # Truncate for hash
+    cache_key = hashlib.md5(f"{config_str}_{uids_str}".encode()).hexdigest()[:16]
+    return cache_key
+
+def save_cached_dataset(dataset, cache_path):
+    """Save dataset to disk (exclude large objects that can be reloaded)"""
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(cache_path, 'wb') as f:
+        pickle.dump({
+            'samples': dataset.samples,
+            'global_mean': dataset.global_mean,
+            'global_std': dataset.global_std,
+            'scenario_map': dataset.scenario_map,
+            'action_map': dataset.action_map,
+            'num_scenarios': dataset.num_scenarios,
+            'idx_to_scenario': dataset.idx_to_scenario,
+            'idx_to_action': dataset.idx_to_action,
+        }, f)
+    print(f"✅ Cached dataset ({len(dataset.samples):,} samples) to {cache_path.name}")
+
+def load_cached_dataset(cache_path, scenario_labels_path, action_labels_path):
+    """Load dataset from cache"""
+    with open(cache_path, 'rb') as f:
+        cached = pickle.load(f)
+    
+    # Create minimal dataset
+    dataset = HierarchicalDataset.__new__(HierarchicalDataset)
+    dataset.samples = cached['samples']
+    dataset.global_mean = cached['global_mean']
+    dataset.global_std = cached['global_std']
+    dataset.scenario_map = cached['scenario_map']
+    dataset.action_map = cached['action_map']
+    dataset.num_scenarios = cached['num_scenarios']
+    dataset.idx_to_scenario = cached['idx_to_scenario']
+    dataset.idx_to_action = cached['idx_to_action']
+    dataset.training = False
+    
+    # Reload labels (lightweight)
+    dataset.scenario_df = pd.read_csv(scenario_labels_path).set_index('video_uid')
+    dataset.action_df = pd.read_csv(action_labels_path)
+    dataset.action_df = dataset.action_df[dataset.action_df['action'].isin(dataset.action_map.keys())]
+    
+    # Set config flags
+    dataset.action_pad = CONFIG['data'].get('action_label_pad', 0.5)
+    dataset.per_video_center = CONFIG['data'].get('per_video_center', True)
+    dataset.add_norm_features = CONFIG['data'].get('add_norm_features', True)
+    
+    return dataset
+
 # --- Dataset ---
 class HierarchicalDataset(torch.utils.data.Dataset):
-    def __init__(self, take_uids, processed_dir, scenario_labels_path, action_labels_path):
+    def __init__(self, take_uids, processed_dir, scenario_labels_path, action_labels_path,
+             cache_dir=None, use_cache=True):
         self.samples = []
+        self.training = False
+        
+        # Check cache first
+        if cache_dir and use_cache:
+            seq_len = CONFIG['hla']['seq_len']
+            stride = CONFIG['data'].get('stride', 5)
+            per_video_center = CONFIG['data'].get('per_video_center', True)
+            add_norm_features = CONFIG['data'].get('add_norm_features', True)
+            action_pad = CONFIG['data'].get('action_label_pad', 0.5)
+            
+            cache_key = get_dataset_cache_key(
+                processed_dir, take_uids, seq_len, stride,
+                per_video_center, add_norm_features, action_pad
+            )
+            cache_path = Path(cache_dir) / f"dataset_{cache_key}.pkl"
+            
+            if cache_path.exists():
+                print(f"📦 Loading cached dataset: {cache_path.name}")
+                cached_dataset = load_cached_dataset(cache_path, scenario_labels_path, action_labels_path)
+                self.__dict__.update(cached_dataset.__dict__)
+                print(f"   Loaded {len(self.samples):,} samples in <1s")
+                self.training = False 
+                return  # Skip expensive loading!
+            else:
+                print(f"💾 Cache not found, creating new dataset (will cache to {cache_path.name})")
         
         # Load Labels
         print("Loading label files...")
@@ -116,7 +206,8 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         print("\nComputing global normalization statistics...")
         all_data = []
         valid_uids = []
-        
+        skipped_nan = []
+
         for uid in tqdm(take_uids, desc='Collecting normalization data'):
             seq_path = Path(processed_dir) / uid / 'seq.npz'
             if not seq_path.exists():
@@ -125,23 +216,45 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                 data = np.load(seq_path)
                 traj = data['traj']  # (N, 50, 6)
                 traj = self._augment_traj(traj)  # add norms if enabled
+                
+                # Check for NaN/Inf BEFORE adding to normalization stats
+                if np.isnan(traj).any() or np.isinf(traj).any():
+                    skipped_nan.append(uid)
+                    continue  # Skip videos with NaN for normalization stats
+                
                 if len(traj) > 0 and uid in self.scenario_df.index:
                     all_data.append(traj)
                     valid_uids.append(uid)
             except Exception:
                 continue
-        
+
         if len(all_data) == 0:
             raise ValueError("No valid data found for normalization!")
+
+        if skipped_nan:
+            print(f"⚠️ Skipped {len(skipped_nan)} videos with NaN/Inf for normalization stats")
+            if len(skipped_nan) <= 10:
+                print(f"   Skipped UIDs: {skipped_nan}")
             
         all_data = np.concatenate(all_data, axis=0)  # (Total_Windows, 50, C)
-        self.global_mean = all_data.mean(axis=(0, 1))  # (C,) - mean per channel
-        self.global_std = all_data.std(axis=(0, 1)) + 1e-6  # (C,) - std per channel
-        
+
+        # Compute statistics with NaN-safe operations
+        self.global_mean = np.nanmean(all_data, axis=(0, 1))  # (C,) - NaN-safe mean
+        self.global_std = np.nanstd(all_data, axis=(0, 1)) + 1e-6  # (C,) - NaN-safe std
+
+        # Double-check for NaN in statistics
+        if np.isnan(self.global_mean).any() or np.isnan(self.global_std).any():
+            print(f"⚠️ WARNING: NaN detected in normalization statistics!")
+            print(f"   Mean: {self.global_mean}")
+            print(f"   Std: {self.global_std}")
+            # Replace NaN with 0 for mean, 1 for std
+            self.global_mean = np.nan_to_num(self.global_mean, nan=0.0)
+            self.global_std = np.nan_to_num(self.global_std, nan=1.0)
+
         print(f"Global statistics computed from {len(valid_uids)} videos:")
         print(f"  Mean: {self.global_mean}")
         print(f"  Std:  {self.global_std}")
-        print(f"  Data range: [{all_data.min():.2f}, {all_data.max():.2f}]")
+        print(f"  Data range: [{np.nanmin(all_data):.2f}, {np.nanmax(all_data):.2f}]")
         # ==========================================
         
         # Iterate Videos
@@ -161,6 +274,11 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                     traj = (traj - self.global_mean) / self.global_std
                     if self.per_video_center:
                         traj = traj - traj.mean(axis=(0, 1), keepdims=True)
+                    
+                    # Check for NaN after normalization and skip this video if found
+                    if np.isnan(traj).any() or np.isinf(traj).any():
+                        print(f"⚠️ Skipping {uid}: NaN/Inf after normalization")
+                        continue
                 
                 if len(traj) == 0:
                     continue
@@ -178,7 +296,7 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                 
                 # Create Windows
                 seq_len = CONFIG['hla']['seq_len']
-                stride = 5  # denser stride for more supervision
+                stride = CONFIG['data'].get('stride', 5)  # denser stride for more supervision
                 
                 num_seqs = (len(traj) - seq_len) // stride + 1
                 if num_seqs <= 0:
@@ -231,6 +349,12 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                 
             except Exception as e:
                 print(f"Error loading {uid}: {e}")
+            
+        # Save to cache after loading
+        if cache_dir and use_cache:
+            cache_path = Path(cache_dir) / f"dataset_{cache_key}.pkl"
+            print(f"💾 Caching dataset...")
+            save_cached_dataset(self, cache_path)
 
     def _augment_traj(self, traj):
         # traj: (N, 50, 6)
@@ -246,7 +370,32 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         return len(self.samples)
     
     def __getitem__(self, idx):
-        return self.samples[idx]
+        sample = self.samples[idx]
+        inputs = sample['inputs'].clone()  # (Seq, 50, C)
+        
+        # Add augmentation during training
+        if getattr(self, 'training', False) and CONFIG['data'].get('augment', False):
+            # Gaussian noise (small)
+            if np.random.rand() < 0.5:
+                noise = torch.randn_like(inputs) * 0.02
+                inputs = inputs + noise
+            
+            # Random scaling (preserve relative magnitudes)
+            if np.random.rand() < 0.5:
+                scale = 1.0 + (torch.rand(1).item() - 0.5) * 0.1  # ±5%
+                inputs = inputs * scale
+            
+            # Time masking (mask random timesteps)
+            if np.random.rand() < 0.3:
+                mask_len = np.random.randint(1, 5)  # Mask 1-4 timesteps
+                mask_start = np.random.randint(0, inputs.shape[1] - mask_len)
+                inputs[:, mask_start:mask_start+mask_len, :] = 0
+        
+        return {
+            'inputs': inputs,
+            'scenario_label': sample['scenario_label'],
+            'action_labels': sample['action_labels']
+        }
 
 # --- Models ---
 class SqueezeExcite(nn.Module):
@@ -385,9 +534,79 @@ class HierarchicalModel(nn.Module):
         
         return scenario_logits, action_logits
 
+
+class FocalLoss(nn.Module):
+    """
+    Focal Loss with support for label smoothing and class weights.
+    
+    Focal Loss: FL(p_t) = -alpha * (1 - p_t)^gamma * log(p_t)
+    - gamma: focusing parameter (higher = more focus on hard examples)
+    - alpha: class weighting (can be per-class or scalar)
+    - label_smoothing: smooths target distribution
+    """
+    def __init__(self, alpha=1.0, gamma=2.0, weight=None, label_smoothing=0.0, reduction='mean'):
+        super().__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+        self.weight = weight  # Class weights
+        self.label_smoothing = label_smoothing
+        self.reduction = reduction
+    
+    def forward(self, inputs, targets):
+        """
+        Args:
+            inputs: (B, num_classes) - logits
+            targets: (B,) - class indices
+        """
+        num_classes = inputs.size(1)
+        log_probs = F.log_softmax(inputs, dim=1)
+        
+        # Handle label smoothing
+        if self.label_smoothing > 0:
+            # Create smoothed target distribution
+            confidence = 1.0 - self.label_smoothing
+            smooth_value = self.label_smoothing / (num_classes - 1)
+            
+            # One-hot encoding
+            true_dist = torch.zeros_like(log_probs)
+            true_dist.fill_(smooth_value)
+            true_dist.scatter_(1, targets.unsqueeze(1), confidence)
+            
+            # For focal loss with label smoothing, we compute focal term on true class
+            # but use smoothed distribution for cross-entropy
+            ce_loss = -(true_dist * log_probs).sum(dim=1)
+            
+            # Get predicted probability for true class (for focal term)
+            probs = F.softmax(inputs, dim=1)
+            p_t = probs.gather(1, targets.unsqueeze(1)).squeeze(1)
+        else:
+            # Standard focal loss without smoothing
+            ce_loss = F.cross_entropy(inputs, targets, weight=None, reduction='none')
+            probs = F.softmax(inputs, dim=1)
+            p_t = probs.gather(1, targets.unsqueeze(1)).squeeze(1)
+        
+        # Focal term: (1 - p_t)^gamma
+        focal_weight = (1 - p_t) ** self.gamma
+        
+        # Apply class weights if provided
+        if self.weight is not None:
+            if self.weight.device != inputs.device:
+                self.weight = self.weight.to(inputs.device)
+            weight_t = self.weight.gather(0, targets)
+            focal_loss = self.alpha * weight_t * focal_weight * ce_loss
+        else:
+            focal_loss = self.alpha * focal_weight * ce_loss
+        
+        if self.reduction == 'mean':
+            return focal_loss.mean()
+        elif self.reduction == 'sum':
+            return focal_loss.sum()
+        else:
+            return focal_loss
+
 # --- Training ---
 def train(args):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:2' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
     
     print("\n" + "="*80)
@@ -456,19 +675,90 @@ def train(args):
     # Use validated labels
     action_labels_path = "data/labels/action_labels_llm_validated.csv"
     
+    # Create cache directory
+    cache_dir = Path("data/cache")
+    cache_dir.mkdir(parents=True, exist_ok=True)
+
     train_ds = HierarchicalDataset(
         train_uids, 
         args.processed_dir, 
         "data/labels/scenario_labels.csv", 
-        action_labels_path
+        action_labels_path,
+        cache_dir=cache_dir,
+        use_cache=True  # Set to False to force reload
     )
-    
+    train_ds.training = True
+
     val_ds = HierarchicalDataset(
         val_uids, 
         args.processed_dir, 
         "data/labels/scenario_labels.csv", 
-        action_labels_path
+        action_labels_path,
+        cache_dir=cache_dir,
+        use_cache=True
     )
+    val_ds.training = False
+
+
+
+    # ===== DATASET STATISTICS =====
+    print("\n" + "="*80)
+    print("DATASET STATISTICS (After NaN Filtering)")
+    print("="*80)
+
+    train_samples = len(train_ds)
+    val_samples = len(val_ds)
+    total_samples = train_samples + val_samples
+
+    print(f"\n📊 Dataset Sizes:")
+    print(f"  Train samples: {train_samples:,}")
+    print(f"  Val samples:   {val_samples:,}")
+    print(f"  Total samples: {total_samples:,}")
+
+    # Videos used
+    train_videos_used = len(set([s['video_uid'] for s in train_ds.samples]))
+    val_videos_used = len(set([s['video_uid'] for s in val_ds.samples]))
+
+    print(f"\n📹 Videos Used:")
+    print(f"  Train videos: {train_videos_used}")
+    print(f"  Val videos:   {val_videos_used}")
+    print(f"  Total videos: {train_videos_used + val_videos_used}")
+
+    # Samples per video
+    if train_videos_used > 0:
+        avg_train = train_samples / train_videos_used
+        print(f"\n📊 Samples per Video:")
+        print(f"  Train: {avg_train:.1f} samples/video")
+    if val_videos_used > 0:
+        avg_val = val_samples / val_videos_used
+        print(f"  Val:   {avg_val:.1f} samples/video")
+
+    # Videos skipped
+    train_videos_requested = len(train_uids)
+    val_videos_requested = len(val_uids)
+    train_skipped = train_videos_requested - train_videos_used
+    val_skipped = val_videos_requested - val_videos_used
+
+    if train_skipped > 0 or val_skipped > 0:
+        print(f"\n⚠️ Videos Skipped (NaN/filtering):")
+        print(f"  Train: {train_skipped}/{train_videos_requested} skipped ({train_skipped/train_videos_requested*100:.1f}%)")
+        print(f"  Val:   {val_skipped}/{val_videos_requested} skipped ({val_skipped/val_videos_requested*100:.1f}%)")
+
+    # Batch statistics
+    bs = int(os.environ.get("BATCH_SIZE", CONFIG['training']['batch_size']))
+    train_batches = (train_samples + bs - 1) // bs
+    val_batches = (val_samples + bs - 1) // bs
+
+    print(f"\n🔄 Training Configuration:")
+    print(f"  Batch size: {bs}")
+    print(f"  Train batches/epoch: {train_batches}")
+    print(f"  Val batches/epoch: {val_batches}")
+    print(f"  Steps per epoch: {train_batches}")
+
+    print("="*80 + "\n")
+
+    # Continue with existing code...
+    # Scenario imbalance handling: use class weights...
     
     # Scenario imbalance handling: use class weights (no sampler to match val distribution)
     scenario_labels_train = torch.tensor([s['scenario_label'].item() for s in train_ds.samples])
@@ -499,7 +789,12 @@ def train(args):
     )
     
     # Initialize Model
-    model = HierarchicalModel(CONFIG).to(device)
+    if args.baseline:
+        from baseline_models import create_baseline_model
+        model = create_baseline_model(args.baseline, CONFIG).to(device)
+        print(f"Using baseline model: {args.baseline}")
+    else:
+        model = HierarchicalModel(CONFIG).to(device)
     
     # --- PROBING MODE ---
     if args.probe:
@@ -511,7 +806,49 @@ def train(args):
             
         print(f"Loading checkpoint: {args.checkpoint}")
         checkpoint = torch.load(args.checkpoint, map_location=device)
-        model.load_state_dict(checkpoint['model_state_dict'])
+        
+        # Handle both formats: direct state_dict or wrapped in dict
+        if isinstance(checkpoint, dict):
+            if 'model_state_dict' in checkpoint:
+                state_dict = checkpoint['model_state_dict']
+            elif 'state_dict' in checkpoint:
+                state_dict = checkpoint['state_dict']
+            else:
+                # Assume the dict itself is the state_dict
+                state_dict = checkpoint
+        else:
+            # Direct state_dict (OrderedDict)
+            state_dict = checkpoint
+        
+        # Strip 'module.' prefix if present (from DataParallel)
+        if any(k.startswith('module.') for k in state_dict.keys()):
+            print("⚠️  Detected 'module.' prefix in checkpoint (from DataParallel). Stripping...")
+            new_state_dict = {}
+            for k, v in state_dict.items():
+                if k.startswith('module.'):
+                    new_state_dict[k[7:]] = v  # Remove 'module.' prefix (7 chars)
+                else:
+                    new_state_dict[k] = v
+            state_dict = new_state_dict
+        
+        # Load with strict=False to allow missing keys (in case architecture changed)
+        missing_keys, unexpected_keys = model.load_state_dict(state_dict, strict=False)
+        
+        if missing_keys:
+            print(f"⚠️  Missing keys (will use random initialization): {len(missing_keys)}")
+            if len(missing_keys) <= 10:
+                for key in missing_keys:
+                    print(f"   - {key}")
+            else:
+                print(f"   (showing first 10 of {len(missing_keys)})")
+                for key in missing_keys[:10]:
+                    print(f"   - {key}")
+        
+        if unexpected_keys:
+            print(f"⚠️  Unexpected keys (ignored): {len(unexpected_keys)}")
+            if len(unexpected_keys) <= 10:
+                for key in unexpected_keys:
+                    print(f"   - {key}")
         
         # Freeze LLE and HLA
         for param in model.lle.parameters():
@@ -531,7 +868,11 @@ def train(args):
     
     if torch.cuda.device_count() > 1:
         print(f"Using {torch.cuda.device_count()} GPUs!")
-        model = nn.DataParallel(model)
+        # Specify device_ids to match the actual device
+        model = nn.DataParallel(model, device_ids=[device.index] if device.index is not None else None)
+    else:
+        # Single GPU - ensure model is on the correct device
+        model = model.to(device)
         
     optimizer = torch.optim.Adam(
         filter(lambda p: p.requires_grad, model.parameters()), 
@@ -558,7 +899,31 @@ def train(args):
     print(f"Scenario class distribution: {class_counts.tolist()}")
     print(f"Scenario class weights: {class_weights.tolist()}")
     
-    criterion_scenario = nn.CrossEntropyLoss(weight=class_weights.to(device))
+    label_smoothing = CONFIG['training'].get('label_smoothing', 0.0)
+    use_focal = CONFIG['training'].get('use_focal_loss', False)
+
+    if use_focal:
+        focal_gamma = CONFIG['training'].get('focal_gamma', 2.0)
+        focal_alpha = CONFIG['training'].get('focal_alpha', 1.0)
+        
+        # Use class weights as alpha if provided, otherwise use scalar
+        alpha = class_weights.to(device) if isinstance(focal_alpha, (list, torch.Tensor)) else focal_alpha
+        
+        criterion_scenario = FocalLoss(
+            alpha=alpha,
+            gamma=focal_gamma,
+            weight=None,  # We use alpha for class weighting instead
+            label_smoothing=label_smoothing,
+            reduction='mean'
+        )
+        print(f"Using Focal Loss: gamma={focal_gamma}, alpha={focal_alpha}, label_smoothing={label_smoothing}")
+    else:
+        criterion_scenario = nn.CrossEntropyLoss(
+            weight=class_weights.to(device),
+            label_smoothing=label_smoothing
+        )
+        print(f"Using CrossEntropyLoss: label_smoothing={label_smoothing}")
+
     criterion_action = nn.CrossEntropyLoss(ignore_index=-1)  # Kept for future probing
     
     # Early Stopping
@@ -590,13 +955,20 @@ def train(args):
     for epoch in range(CONFIG['training']['epochs']):
         model.train()
         total_loss = 0
-        
-        for batch in tqdm(train_loader, desc=f"Epoch {epoch+1}"):
+
+        # Get accumulation steps
+        accumulation_steps = CONFIG['training'].get('gradient_accumulation_steps', 1)
+
+        # Zero gradients at start of epoch
+        optimizer.zero_grad()
+
+        # Track batches processed for accumulation
+        batches_processed = 0       
+
+        for batch_idx, batch in enumerate(tqdm(train_loader, desc=f"Epoch {epoch+1}")):
             inputs = batch['inputs'].to(device)
             scenario_labels = batch['scenario_label'].to(device)
             action_labels = batch['action_labels'].to(device) # (B, S)
-            
-            optimizer.zero_grad()
             
             s_logits, a_logits = model(inputs)
             
@@ -604,7 +976,6 @@ def train(args):
             loss_s = criterion_scenario(s_logits, scenario_labels)
             
             # Action Loss (only if beta > 0)
-            # Paper uses semi-supervised: train ONLY on scenario labels
             if CONFIG['training']['beta'] > 0:
                 loss_a = criterion_action(a_logits.view(-1, 6), action_labels.view(-1))
                 loss = CONFIG['training']['alpha'] * loss_s + CONFIG['training']['beta'] * loss_a
@@ -612,16 +983,32 @@ def train(args):
                 # Semi-supervised: scenario loss only (EgoCharm methodology)
                 loss = loss_s
             
+            # Scale loss by accumulation steps (important!)
+            loss = loss / accumulation_steps
+            
+            # Backward pass (accumulates gradients)
             loss.backward()
             
-            # NEW: Gradient Clipping (Paper: Supplemental S2)
+            batches_processed += 1
+            total_loss += loss.item() * accumulation_steps  # Unscale for logging
+            
+            # Update weights only after accumulating enough gradients
+            if batches_processed % accumulation_steps == 0:
+                # Gradient clipping before update
+                if CONFIG['training']['grad_clip'] > 0:
+                    torch.nn.utils.clip_grad_norm_(model.parameters(), CONFIG['training']['grad_clip'])
+                
+                # Update weights
+                optimizer.step()
+                optimizer.zero_grad()  # Clear gradients for next accumulation
+        
+        # Handle remaining gradients if batch count isn't divisible by accumulation_steps
+        if batches_processed % accumulation_steps != 0:
             if CONFIG['training']['grad_clip'] > 0:
                 torch.nn.utils.clip_grad_norm_(model.parameters(), CONFIG['training']['grad_clip'])
-            
             optimizer.step()
-            
-            total_loss += loss.item()
-            
+            optimizer.zero_grad()
+        
         avg_train_loss = total_loss / len(train_loader)
         print(f"Epoch {epoch+1} Loss: {avg_train_loss:.4f}")
         
@@ -670,26 +1057,37 @@ def train(args):
         print(f"Val Scenario F1: {val_s_f1:.4f} | Acc: {val_s_acc:.4f}")
         print(f"Val Action F1: {val_a_f1:.4f} | Acc: {val_a_acc:.4f}")
         
+
         # Log to W&B
         if wandb_run is not None:
-            wandb.log({
-                "epoch": epoch + 1,
-                "train_loss": avg_train_loss,
-                "val_scenario_f1": val_s_f1,
-                "val_scenario_acc": val_s_acc,
-                "learning_rate": current_lr  # Log LR for monitoring
-            })
+            try:
+                log_dict = {
+                    "epoch": epoch + 1,
+                    "train_loss": avg_train_loss,
+                    "val_scenario_f1": val_s_f1,
+                    "val_scenario_acc": val_s_acc,
+                    "val_action_f1": val_a_f1,
+                    "val_action_acc": val_a_acc,
+                    "learning_rate": current_lr
+                }
+                
+                wandb.log(log_dict)
+            except Exception as e:
+                print(f"⚠️ WandB logging failed (continuing training): {e}")
             
             # Confusion Matrix (Every 5 epochs)
             if (epoch + 1) % 5 == 0:
-                wandb.log({
-                    "conf_mat_scenario": wandb.plot.confusion_matrix(
-                        probs=None,
-                        y_true=all_s_labels,
-                        preds=all_s_preds,
-                        class_names=list(train_ds.scenario_map.keys())
-                    )
-                })
+                try:
+                    wandb.log({
+                        "conf_mat_scenario": wandb.plot.confusion_matrix(
+                            probs=None,
+                            y_true=all_s_labels,
+                            preds=all_s_preds,
+                            class_names=list(train_ds.scenario_map.keys())
+                        )
+                    })
+                except Exception as e:
+                    print(f"⚠️ WandB confusion matrix logging failed (continuing training): {e}")
         
         # Step the learning rate scheduler
         scheduler.step()
@@ -724,6 +1122,8 @@ if __name__ == "__main__":
     parser.add_argument('--cv', action='store_true', help='Use K-fold cross validation')
     parser.add_argument('--n-folds', type=int, default=4, help='Number of CV folds (default: 4)')
     parser.add_argument("--no-wandb", action="store_true", help="Disable W&B logging")
+    parser.add_argument('--baseline', type=str, choices=['cnn_mlp', 'egocharm', 'cnn_lstm_gru'], 
+                   help='Use baseline model instead of default')
     args = parser.parse_args()
     
     # Cross Validation Mode
