@@ -36,13 +36,13 @@ CONFIG = {
         'hidden_dim': 128,
         'num_layers': 2,
         'num_classes': 8, # 8 Scenarios
-        'seq_len': 20,    # 30 seconds context (can test 20 for latency tradeoff)
+        'seq_len': 30,    # 30 seconds context (can test 20 for latency tradeoff)
         'nhead': 4,
         'dropout': 0.1,
         'type': 'transformer' # transformer encoder for long-range modeling
     },
     'training': {
-        'batch_size': 256,     # safer default to mitigate OOM
+        'batch_size': 128,     # safer default to mitigate OOM
         'lr': 0.0001,            # Base LR (will warmup then cosine)
         'epochs': 50,
         'patience': 20,
@@ -51,7 +51,7 @@ CONFIG = {
         'weight_decay': 1e-5,
         'grad_clip': 1.0,
         'warmup_epochs': 5,     # Warmup then cosine anneal
-        'gradient_accumulation_steps': 1,  # 1 = no accumulation, 2+ = accumulate
+        'gradient_accumulation_steps': 4,  # 1 = no accumulation, 2+ = accumulate
         'use_focal_loss': True,  # enable focal loss
         'focal_gamma': 2.0,      # focusing parameter
         'focal_alpha': 1.0,      # class weighting (1.0 = no weighting, or use class_weights)
@@ -866,6 +866,33 @@ def train(args):
         CONFIG['training']['beta'] = 1.0  # Enable Action Loss
     # --------------------
     
+    # Count parameters BEFORE DataParallel wrapping
+    def count_parameters(model):
+        """Count trainable parameters in a model"""
+        return sum(p.numel() for p in model.parameters() if p.requires_grad)
+    
+    def count_module_parameters(model, module_name):
+        """Count parameters in a specific module"""
+        module = getattr(model, module_name, None)
+        if module is None:
+            return 0
+        return sum(p.numel() for p in module.parameters() if p.requires_grad)
+    
+    # Count parameters
+    total_params = count_parameters(model)
+    lle_params = count_module_parameters(model, 'lle')
+    hla_params = count_module_parameters(model, 'hla')
+    action_head_params = count_module_parameters(model, 'action_head')
+    
+    print("\n" + "="*80)
+    print("MODEL PARAMETERS")
+    print("="*80)
+    print(f"  LLE (Low-Level Encoder):     {lle_params:,} parameters")
+    print(f"  HLA (High-Level Architecture): {hla_params:,} parameters")
+    print(f"  Action Head:                 {action_head_params:,} parameters")
+    print(f"  Total Trainable:             {total_params:,} parameters")
+    print("="*80 + "\n")
+    
     if torch.cuda.device_count() > 1:
         print(f"Using {torch.cuda.device_count()} GPUs!")
         # Specify device_ids to match the actual device
@@ -936,6 +963,7 @@ def train(args):
             wandb_run = wandb.init(
                 project="har-imu-training",
                 name=f"hierarchical-{args.run_name}" if args.run_name else None,
+                reinit=True,  # Allow reinitializing if run name exists
                 config={
                     **CONFIG,
                     "train_videos": len(train_uids),
@@ -1110,6 +1138,11 @@ def train(args):
     # Save Last Model
     torch.save(model.state_dict(), Path(args.output_dir) / "last_model.pth")
     print("Last model saved.")
+    
+    # Finish WandB run
+    if wandb_run is not None:
+        wandb.finish()
+        print("WandB run finished.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -1122,7 +1155,7 @@ if __name__ == "__main__":
     parser.add_argument('--cv', action='store_true', help='Use K-fold cross validation')
     parser.add_argument('--n-folds', type=int, default=4, help='Number of CV folds (default: 4)')
     parser.add_argument("--no-wandb", action="store_true", help="Disable W&B logging")
-    parser.add_argument('--baseline', type=str, choices=['cnn_mlp', 'egocharm', 'cnn_lstm_gru'], 
+    parser.add_argument('--baseline', type=str, choices=['cnn_mlp', 'imu2clip', 'mlp_mlp', 'cnn_lstm_gru'], 
                    help='Use baseline model instead of default')
     args = parser.parse_args()
     
