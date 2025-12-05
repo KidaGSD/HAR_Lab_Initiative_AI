@@ -9,7 +9,7 @@ lle:
 hla:
   hidden_dim: 128
   num_layers: 2
-  num_classes: 8
+  num_classes: 7  # 8 - 1 (Gardening excluded)
   seq_len: 30
   nhead: 4
   dropout: 0.1
@@ -28,3 +28,5 @@ data:
   action_label_pad: 0.5
   per_video_center: true
   add_norm_features: true
+  excluded_scenarios:
+    - Gardening  # Only 25 training videos, 97% misclassification rate

@@ -139,3 +139,52 @@ We implemented and validated **Layer 1 (IMU+Gaze Trigger)** across single-scenar
 **Technical contribution**: Demonstrated unsupervised, sensor-only anomaly detection on AR glasses achieves sub-2.0/hour false positive rate with 0.093% camera duty cycle, validating privacy-preserving, low-power intent detection for wearable AI.
 
 **Next phase**: Gold label collection (human + VLM), temporal modeling fixes, and per-scenario breakdown to validate cross-task generalization claims.
+
+---
+
+## 项目简要说明（中文）
+
+### 项目目标
+
+本项目开发一个**层级式 IMU 活动识别系统**，用于 AR 眼镜的智能触发机制。核心思想是：通过头戴式 IMU（惯性测量单元）传感器数据，在不依赖摄像头的情况下，判断用户何时需要视觉辅助。
+
+### 技术架构
+
+系统采用两层半监督学习架构：
+
+1. **低层编码器 (LLE - Low-Level Encoder)**
+   - 输入：1秒的 IMU 数据窗口（6通道 × 50Hz = 300特征）
+   - 架构：多尺度膨胀卷积 (CNN) + SE注意力机制 + GRU
+   - 输出：32维运动特征向量
+   - 用于学习6类基本动作原语（静止、移动、核心操作、物体转移、搜索、错误纠正）
+
+2. **高层架构 (HLA - High-Level Architecture)**
+   - 输入：30个连续的 LLE 嵌入向量（代表30秒时间跨度）
+   - 架构：Transformer 或 GRU
+   - 输出：8类场景分类（清洁、机械维修、烹饪、户外行走、木工、演奏乐器、桌面工作、园艺）
+
+### 训练策略
+
+**半监督学习**：系统仅使用高层场景标签进行端到端训练，低层动作模式作为副产品自动学习。训练完成后，冻结 LLE，通过线性探测层评估其学习到的低层动作表示质量。
+
+### 数据来源
+
+使用 **Ego4D** 数据集，包含约1,652个带有 IMU 传感器数据的第一人称视频。通过 LLM（Qwen-14B）对文本描述进行语义分类，生成约35万个1秒窗口的动作标签。
+
+### 核心创新
+
+- **隐私保护**：仅依赖 IMU 时序信号检测行为异常，减少摄像头使用
+- **能效优化**：实现 0.093% 的摄像头占空比，大幅节省 AR 眼镜电量
+- **无监督异常检测**：使用 Deep SVDD 学习"正常行为"流形，自动识别偏离模式
+
+### 当前进展
+
+- 10场景模型达到 1.12 次/小时的高级警报率（满足目标）
+- 相比单场景模型，误报率降低 87%
+- 发现时序建模不足问题（均值重建损失无法捕捉时序动态）
+
+### 待改进
+
+1. 引入时序对比学习增强时间依赖性建模
+2. 收集人工标注的金标准数据进行精度验证
+3. 分场景性能分析

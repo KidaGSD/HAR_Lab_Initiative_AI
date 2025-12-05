@@ -15,12 +15,19 @@ class HierarchicalDataset(Dataset):
         print("Loading label files...")
         self.scenario_df = pd.read_csv(scenario_labels_path).set_index('video_uid')
         self.action_df = pd.read_csv(action_labels_path)
-        
-        # Map Scenario Names to Integers
-        self.scenario_map = {name: i for i, name in enumerate(sorted(self.scenario_df['scenario'].unique()))}
+
+        # Scenarios to exclude (e.g., insufficient training data)
+        self.excluded_scenarios = set(config['data'].get('excluded_scenarios', []))
+        if self.excluded_scenarios:
+            print(f"Excluding scenarios: {self.excluded_scenarios}")
+
+        # Map Scenario Names to Integers (excluding specified scenarios)
+        all_scenarios = sorted(self.scenario_df['scenario'].unique())
+        valid_scenarios = [s for s in all_scenarios if s not in self.excluded_scenarios]
+        self.scenario_map = {name: i for i, name in enumerate(valid_scenarios)}
         self.num_scenarios = len(self.scenario_map)
         self.idx_to_scenario = {v: k for k, v in self.scenario_map.items()}
-        print(f"Scenarios: {self.scenario_map}")
+        print(f"Scenarios ({self.num_scenarios} classes): {self.scenario_map}")
         
         # Map Action Names to Integers (6 Classes)
         self.action_map = {
