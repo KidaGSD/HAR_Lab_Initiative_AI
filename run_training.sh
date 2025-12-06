@@ -1,8 +1,9 @@
 #!/bin/bash
 # Multi-Config Training Pipeline for Hierarchical HAR (Parallel Multi-GPU)
 # Runs multiple beta configurations (0.0, 0.1, 0.3) in PARALLEL on separate GPUs
-# Each config trains, then runs probe evaluation
-# Results are logged to W&B for comparison
+# Usage: ./run_training.sh [GPU_ID_1] [GPU_ID_2] [GPU_ID_3]
+# Example: ./run_training.sh 0 1 2
+# If no GPUs provided, tries to auto-detect 3 GPUs with >20GB free.
 
 set -e
 
@@ -10,6 +11,9 @@ echo "==========================================="
 echo "  Multi-Config Parallel Training Pipeline"
 echo "  Beta values: 0.0, 0.1, 0.3"
 echo "==========================================="
+
+# Parse optional GPU arguments
+MANUAL_GPUS=("$@")
 
 # ===========================
 # 1. Environment Setup
@@ -52,10 +56,11 @@ BASE_OUTPUT_DIR="checkpoints/sweep_${TIMESTAMP}"
 
 # Beta values to sweep
 BETAS=("0.0" "0.1" "0.3")
+NUM_EXPERIMENTS=${#BETAS[@]}
 
 echo "Base output dir: $BASE_OUTPUT_DIR"
 echo "Timestamp: $TIMESTAMP"
-echo "Configs to run: ${BETAS[*]}"
+echo "Configs to run: ${BETAS[*]} ($NUM_EXPERIMENTS experiments)"
 echo ""
 
 mkdir -p "$BASE_OUTPUT_DIR"
@@ -95,6 +100,7 @@ run_experiment() {
         if [ -f "${OUTPUT_DIR}/best_model.pth" ]; then
             echo ">> [GPU $GPU_ID] Running probe for beta=$BETA"
             local PROBE_OUTPUT_DIR="${OUTPUT_DIR}/probe"
+            mkdir -p "$PROBE_OUTPUT_DIR"
             local PROBE_RUN_NAME="probe_${RUN_NAME}"
             
             CUDA_VISIBLE_DEVICES=$GPU_ID python train.py \
@@ -117,67 +123,122 @@ run_experiment() {
 }
 
 # ===========================
-# 5. Parallel Execution
+# 5. GPU Selection
 # ===========================
-echo "=== Step 4: Launching Parallel Jobs ==="
+echo "=== Step 4: GPU Selection ==="
 
-# Get available GPUs
-# This gets a comma-separated list of indices, e.g. "0, 1, 2"
-AVAILABLE_GPUS=($(nvidia-smi --query-gpu=index --format=csv,noheader | tr -d ','))
+AVAILABLE_GPUS=()
+
+if [ ${#MANUAL_GPUS[@]} -gt 0 ]; then
+    echo "Using manually specified GPUs: ${MANUAL_GPUS[*]}"
+    AVAILABLE_GPUS=("${MANUAL_GPUS[@]}")
+else
+    # Auto-detect GPUs with >20GB free memory
+    echo "Auto-detecting GPUs with >20GB free memory..."
+    echo ""
+    echo "Current GPU status:"
+    nvidia-smi --query-gpu=index,name,memory.free,memory.total --format=csv
+    echo ""
+    
+    while IFS=, read -r FREE IDX; do
+        FREE=$(echo "$FREE" | xargs)
+        IDX=$(echo "$IDX" | xargs)
+        if [ "$FREE" -ge "20000" ]; then
+            AVAILABLE_GPUS+=("$IDX")
+            echo "  GPU $IDX: ${FREE}MB free - SELECTED"
+        else
+            echo "  GPU $IDX: ${FREE}MB free - skipped (need >20GB)"
+        fi
+    done < <(nvidia-smi --query-gpu=memory.free,index --format=csv,noheader,nounits)
+fi
+
 NUM_GPUS=${#AVAILABLE_GPUS[@]}
+echo ""
+echo "Found $NUM_GPUS GPUs with sufficient memory: ${AVAILABLE_GPUS[*]}"
 
-echo "Detected ${NUM_GPUS} GPUs: ${AVAILABLE_GPUS[*]}"
+# ===========================
+# 6. Execution Mode Decision
+# ===========================
+echo ""
+echo "=== Step 5: Execution Mode ==="
 
-if [ $NUM_GPUS -lt 1 ]; then
-    echo "Error: No GPUs detected!"
+if [ $NUM_GPUS -ge $NUM_EXPERIMENTS ]; then
+    echo "MODE: PARALLEL (each experiment gets its own GPU)"
+    PARALLEL_MODE=true
+elif [ $NUM_GPUS -ge 1 ]; then
+    echo "MODE: SEQUENTIAL (not enough GPUs for parallel, will run one-by-one on GPU ${AVAILABLE_GPUS[0]})"
+    PARALLEL_MODE=false
+else
+    echo "ERROR: No GPUs with >20GB free memory found!"
+    echo "Please specify GPU IDs manually: ./run_training.sh 0 1 2"
     exit 1
 fi
 
+# ===========================
+# 7. Launch Experiments
+# ===========================
+echo ""
+echo "=== Step 6: Launching Experiments ==="
+
 PIDS=()
 
-for i in "${!BETAS[@]}"; do
-    BETA=${BETAS[$i]}
-    # Round-robin assignment if fewer GPUs than jobs
-    GPU_IDX=$((i % NUM_GPUS))
-    GPU_ID=${AVAILABLE_GPUS[$GPU_IDX]}
+if [ "$PARALLEL_MODE" = true ]; then
+    # Parallel execution
+    for i in "${!BETAS[@]}"; do
+        BETA=${BETAS[$i]}
+        GPU_ID=${AVAILABLE_GPUS[$i]}
+        
+        echo "Launching beta=$BETA on GPU $GPU_ID"
+        
+        run_experiment "$BETA" "$GPU_ID" &
+        PID=$!
+        PIDS+=($PID)
+        echo "  PID: $PID"
+        
+        # Stagger starts slightly
+        sleep 5
+    done
     
-    echo "Assigning beta=$BETA to GPU $GPU_ID"
+    echo ""
+    echo "All $NUM_EXPERIMENTS jobs launched in parallel."
+    echo "Tail logs with:"
+    for BETA in "${BETAS[@]}"; do
+        echo "  tail -f ${BASE_OUTPUT_DIR}/beta_${BETA}/training.log"
+    done
+    echo ""
+    echo "Waiting for all jobs to complete..."
     
-    run_experiment "$BETA" "$GPU_ID" &
-    PID=$!
-    PIDS+=($PID)
-    echo "Job launched with PID $PID"
-    
-    # stagger starts slightly to avoid race conditions on file creation etc
-    sleep 5
-done
-
-echo ""
-echo "All jobs launched. Waiting for completion..."
-echo "Tail logs with:"
-for BETA in "${BETAS[@]}"; do
-    echo "  tail -f ${BASE_OUTPUT_DIR}/beta_${BETA}/training.log"
-done
-echo ""
-
-# Wait for all background jobs
-for PID in "${PIDS[@]}"; do
-    wait $PID
-done
+    # Wait for all background jobs
+    for PID in "${PIDS[@]}"; do
+        wait $PID
+    done
+else
+    # Sequential execution
+    GPU_ID=${AVAILABLE_GPUS[0]}
+    for BETA in "${BETAS[@]}"; do
+        echo "Running beta=$BETA on GPU $GPU_ID (sequential)"
+        run_experiment "$BETA" "$GPU_ID"
+        echo ""
+    done
+fi
 
 # ===========================
-# 6. Summary
+# 8. Summary
 # ===========================
 echo ""
 echo "==========================================="
-echo "  Multi-Config Parallel Training Complete!"
+echo "  Multi-Config Training Complete!"
 echo "==========================================="
 echo ""
 echo "Results saved to: $BASE_OUTPUT_DIR"
 echo ""
 echo "Checkpoints:"
 for BETA in "${BETAS[@]}"; do
-    echo "  beta=$BETA: ${BASE_OUTPUT_DIR}/beta_${BETA}/best_model.pth"
+    if [ -f "${BASE_OUTPUT_DIR}/beta_${BETA}/best_model.pth" ]; then
+        echo "  ✓ beta=$BETA: ${BASE_OUTPUT_DIR}/beta_${BETA}/best_model.pth"
+    else
+        echo "  ✗ beta=$BETA: FAILED (check log)"
+    fi
 done
 echo ""
 echo "W&B Dashboard: https://wandb.ai/wandbleo/har-imu-training"
