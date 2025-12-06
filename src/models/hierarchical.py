@@ -117,7 +117,9 @@ class HierarchicalModel(nn.Module):
         self.hla = HLA(config['hla'], config['lle']['embedding_dim'])
         
         # Probing Head for LLE (Action Classification)
-        self.action_head = nn.Linear(config['lle']['embedding_dim'], 6) 
+        # Default to 4 classes (4-class motion-based taxonomy)
+        self.num_action_classes = config.get('lla', {}).get('num_classes', 4)
+        self.action_head = nn.Linear(config['lle']['embedding_dim'], self.num_action_classes) 
         
     def forward(self, x):
         # x: (B, Seq, 50, C)
@@ -130,8 +132,8 @@ class HierarchicalModel(nn.Module):
         embeddings = self.lle(x_flat) # (B*S, Emb)
         
         # Action Logits (for Probing/Auxiliary Loss)
-        action_logits = self.action_head(embeddings) # (B*S, 6)
-        action_logits = action_logits.view(b, s, 6)
+        action_logits = self.action_head(embeddings) # (B*S, num_action_classes)
+        action_logits = action_logits.view(b, s, self.num_action_classes)
         
         # Reshape for HLA
         embeddings_seq = embeddings.view(b, s, -1)

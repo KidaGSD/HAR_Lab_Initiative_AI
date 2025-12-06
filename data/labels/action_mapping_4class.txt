@@ -1,0 +1,15 @@
+# 4-Class Motion-Based Action Mapping
+
+## Class Indices
+  0: Stationary
+  1: Locomotion
+  2: Manipulation
+  3: Search_Interrupt
+
+## Original -> New Mapping
+  Stationary -> Stationary
+  Locomotion -> Locomotion
+  Object Transfer -> Manipulation
+  Essential Operation -> Manipulation
+  Search -> Search_Interrupt
+  Error / Correction -> Search_Interrupt

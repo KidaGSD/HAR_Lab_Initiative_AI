@@ -49,14 +49,14 @@ def build_loaders(config, train_uids, val_uids, processed_dir):
         train_uids,
         processed_dir,
         "data/labels/scenario_labels.csv",
-        "data/labels/action_labels_llm_validated.csv",
+        "data/labels/action_labels_4class.csv",
         config
     )
     val_ds = HierarchicalDataset(
         val_uids,
         processed_dir,
         "data/labels/scenario_labels.csv",
-        "data/labels/action_labels_llm_validated.csv",
+        "data/labels/action_labels_4class.csv",
         config
     )
     bs = int(os.environ.get("BATCH_SIZE", config['training']['batch_size']))
@@ -140,7 +140,15 @@ def train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=
     class_weights = 1.0 / class_counts.float()
     class_weights = class_weights / class_weights.sum() * len(class_weights)
     criterion_scenario = nn.CrossEntropyLoss(weight=class_weights.to(device))
-    criterion_action = nn.CrossEntropyLoss(ignore_index=-1)
+    
+    # Action loss with optional class weights
+    num_action_classes = train_ds.num_action_classes
+    if config['training'].get('use_action_class_weights', False):
+        # Weights inversely proportional to class frequency (4-class: Manipulation 70%, Stationary 13%, Locomotion 10%, Search_Interrupt 7%)
+        action_weights = torch.tensor([1.0, 1.3, 0.2, 1.8]).to(device)  # Stationary, Locomotion, Manipulation, Search_Interrupt
+        criterion_action = nn.CrossEntropyLoss(weight=action_weights, ignore_index=-1)
+    else:
+        criterion_action = nn.CrossEntropyLoss(ignore_index=-1)
 
     early_stopper = EarlyStopping(patience=config['training']['patience'])
 
@@ -178,7 +186,7 @@ def train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=
                 s_logits, a_logits = model(inputs)
                 loss_s = criterion_scenario(s_logits, scenario_labels)
                 if config['training']['beta'] > 0:
-                    loss_a = criterion_action(a_logits.view(-1, 6), action_labels.view(-1))
+                    loss_a = criterion_action(a_logits.view(-1, num_action_classes), action_labels.view(-1))
                     loss = config['training']['alpha'] * loss_s + config['training']['beta'] * loss_a
                 else:
                     loss = loss_s
@@ -196,27 +204,50 @@ def train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=
         # Validation
         model.eval()
         all_s_preds, all_s_labels = [], []
+        all_a_preds, all_a_labels = [], []
         with torch.no_grad():
             for batch in val_loader:
                 inputs = batch['inputs'].to(device)
                 s_labels = batch['scenario_label'].to(device)
-                s_logits, _ = model(inputs)
+                a_labels = batch['action_labels'].to(device)
+                s_logits, a_logits = model(inputs)
                 s_preds = torch.argmax(s_logits, dim=1)
                 all_s_preds.extend(s_preds.cpu().numpy())
                 all_s_labels.extend(s_labels.cpu().numpy())
+                
+                # Action predictions (if beta > 0)
+                if config['training']['beta'] > 0:
+                    a_preds = torch.argmax(a_logits, dim=-1).view(-1)
+                    a_labels_flat = a_labels.view(-1)
+                    # Filter out ignore_index (-1)
+                    valid_mask = a_labels_flat != -1
+                    all_a_preds.extend(a_preds[valid_mask].cpu().numpy())
+                    all_a_labels.extend(a_labels_flat[valid_mask].cpu().numpy())
+                    
         val_s_f1 = f1_score(all_s_labels, all_s_preds, average='macro')
         val_s_acc = (np.array(all_s_preds) == np.array(all_s_labels)).mean()
         print(f"Val Scenario F1: {val_s_f1:.4f} | Acc: {val_s_acc:.4f}")
+        
+        # Action metrics
+        val_a_f1, val_a_acc = 0.0, 0.0
+        if config['training']['beta'] > 0 and len(all_a_labels) > 0:
+            val_a_f1 = f1_score(all_a_labels, all_a_preds, average='macro')
+            val_a_acc = (np.array(all_a_preds) == np.array(all_a_labels)).mean()
+            print(f"Val Action F1: {val_a_f1:.4f} | Acc: {val_a_acc:.4f}")
 
         # Log with fold prefix
         if wandb_run is not None:
-            wandb_safe.log(wandb_run, {
+            log_dict = {
                 f"{prefix}epoch": epoch + 1,
                 f"{prefix}train_loss": avg_train_loss,
                 f"{prefix}val_scenario_f1": val_s_f1,
                 f"{prefix}val_scenario_acc": val_s_acc,
                 f"{prefix}learning_rate": current_lr
-            })
+            }
+            if config['training']['beta'] > 0:
+                log_dict[f"{prefix}val_action_f1"] = val_a_f1
+                log_dict[f"{prefix}val_action_acc"] = val_a_acc
+            wandb_safe.log(wandb_run, log_dict)
             # Log confusion matrix every 5 epochs
             if (epoch + 1) % 5 == 0:
                 wandb_safe.log_confmat(

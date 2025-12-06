@@ -29,15 +29,15 @@ class HierarchicalDataset(Dataset):
         self.idx_to_scenario = {v: k for k, v in self.scenario_map.items()}
         print(f"Scenarios ({self.num_scenarios} classes): {self.scenario_map}")
         
-        # Map Action Names to Integers (6 Classes)
+        # Map Action Names to Integers (4 Classes - Motion-based)
+        # Remapped from 6 semantic classes to 4 IMU-distinguishable classes
         self.action_map = {
             'Stationary': 0, 
             'Locomotion': 1, 
-            'Essential Operation': 2, 
-            'Object Transfer': 3,
-            'Search': 4,
-            'Error / Correction': 5
+            'Manipulation': 2, 
+            'Search_Interrupt': 3,
         }
+        self.num_action_classes = len(self.action_map)
         self.idx_to_action = {v: k for k, v in self.action_map.items()}
         # Keep only clean action labels (drop Unknown/Uncertain)
         self.action_df = self.action_df[self.action_df['action'].isin(self.action_map.keys())]
