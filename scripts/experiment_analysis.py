@@ -3,6 +3,7 @@
 Experiment Analysis & Report Generator
 Auto-collects W&B results, generates visualizations, and builds report.
 Run after experiments complete or periodically during training.
+Includes baseline model comparison.
 """
 
 import wandb
@@ -23,24 +24,38 @@ def setup_dirs():
     OUTPUT_DIR.mkdir(exist_ok=True)
     FIGURES_DIR.mkdir(exist_ok=True)
 
-def fetch_recent_runs(n_runs=20, filter_prefix="beta_"):
+def fetch_recent_runs(n_runs=50, filter_prefix=None):
     """Fetch recent runs from W&B"""
     api = wandb.Api()
     runs = api.runs(WANDB_PROJECT, order="-created_at")
     
     results = []
     for run in runs[:n_runs]:
-        if filter_prefix and filter_prefix not in run.name:
-            continue
-            
         config = run.config
         summary = run.summary
+        
+        # Determine model type
+        if "baseline" in run.name:
+            model_type = "baseline"
+            baseline_name = config.get("baseline_name", "unknown")
+        elif "hierarchical" in run.name.lower() or "beta_" in run.name:
+            model_type = "hierarchical"
+            baseline_name = None
+        else:
+            model_type = "other"
+            baseline_name = None
+        
+        # Apply filter if specified
+        if filter_prefix and filter_prefix not in run.name:
+            continue
         
         results.append({
             "run_id": run.id,
             "name": run.name,
             "state": run.state,
             "created": run.created_at,
+            "model_type": model_type,
+            "baseline_name": baseline_name,
             "beta": config.get("training", {}).get("beta", "N/A"),
             "alpha": config.get("training", {}).get("alpha", "N/A"),
             "lr": config.get("training", {}).get("lr", "N/A"),
@@ -50,6 +65,7 @@ def fetch_recent_runs(n_runs=20, filter_prefix="beta_"):
             "val_action_f1": summary.get("val_action_f1", None),
             "val_action_acc": summary.get("val_action_acc", None),
             "train_loss": summary.get("train_loss", None),
+            "num_params": config.get("num_params", None),
         })
     
     return pd.DataFrame(results)

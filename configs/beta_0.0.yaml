@@ -1,4 +1,5 @@
-# Baseline: Scenario-only training (beta=0)
+# Final Training Config: Scenario-Only (Phase 1)
+# Train backbone with scenario labels only, then probe for action
 lle:
   in_channels: 8
   cnn_filters: [32, 64, 128]
@@ -10,27 +11,30 @@ lle:
 hla:
   hidden_dim: 128
   num_layers: 2
-  num_classes: 7  # 8 - 1 (Gardening excluded)
+  num_classes: 7
   seq_len: 30
   nhead: 4
-  dropout: 0.1
+  dropout: 0.15
   type: transformer
 lla:
-  num_classes: 4  # 4-class motion-based action
+  num_classes: 4
 training:
   batch_size: 256
   lr: 1.0e-4
-  epochs: 50
-  patience: 15
+  epochs: 60
+  patience: 20
   alpha: 1.0
-  beta: 0.0       # Scenario-only (no action loss)
+  beta: 0.0  # Scenario-only for backbone training
   weight_decay: 1.0e-5
   grad_clip: 1.0
   warmup_epochs: 5
-  use_action_class_weights: false
+  label_smoothing: 0.1
+  use_action_class_weights: true
+  use_focal_loss: true  # Use Focal Loss for action classification
 data:
   action_label_pad: 0.5
   per_video_center: true
   add_norm_features: true
+  augmentation: true  # Enable data augmentation
   excluded_scenarios:
     - Gardening

@@ -11,6 +11,7 @@ from sklearn.metrics import f1_score
 
 from src.data.hierarchical_dataset import HierarchicalDataset
 from src.models.hierarchical import HierarchicalModel
+from src.training.losses import FocalLoss
 from src import wandb_safe
 
 
@@ -50,14 +51,16 @@ def build_loaders(config, train_uids, val_uids, processed_dir):
         processed_dir,
         "data/labels/scenario_labels.csv",
         "data/labels/action_labels_4class.csv",
-        config
+        config,
+        training=True  # Enable augmentation for training
     )
     val_ds = HierarchicalDataset(
         val_uids,
         processed_dir,
         "data/labels/scenario_labels.csv",
         "data/labels/action_labels_4class.csv",
-        config
+        config,
+        training=False  # Disable augmentation for validation
     )
     bs = int(os.environ.get("BATCH_SIZE", config['training']['batch_size']))
     train_loader = torch.utils.data.DataLoader(
@@ -139,16 +142,28 @@ def train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=
     class_counts = torch.bincount(scenario_labels_train)
     class_weights = 1.0 / class_counts.float()
     class_weights = class_weights / class_weights.sum() * len(class_weights)
-    criterion_scenario = nn.CrossEntropyLoss(weight=class_weights.to(device))
+    label_smoothing = config['training'].get('label_smoothing', 0.0)
+    criterion_scenario = nn.CrossEntropyLoss(
+        weight=class_weights.to(device),
+        label_smoothing=label_smoothing
+    )
     
-    # Action loss with optional class weights
+    # Action loss with Focal Loss for class imbalance
     num_action_classes = train_ds.num_action_classes
+    use_focal_loss = config['training'].get('use_focal_loss', True)
+    
     if config['training'].get('use_action_class_weights', False):
-        # Weights inversely proportional to class frequency (4-class: Manipulation 70%, Stationary 13%, Locomotion 10%, Search_Interrupt 7%)
-        action_weights = torch.tensor([1.0, 1.3, 0.2, 1.8]).to(device)  # Stationary, Locomotion, Manipulation, Search_Interrupt
-        criterion_action = nn.CrossEntropyLoss(weight=action_weights, ignore_index=-1)
+        # Aggressive inverse-frequency weights (4-class distribution: Manipulation ~70%, Stationary ~13%, Locomotion ~10%, Search ~7%)
+        # Higher weights for minority classes to force model to learn them
+        action_weights = torch.tensor([5.0, 7.0, 0.5, 10.0]).to(device)  # Stationary, Locomotion, Manipulation, Search_Interrupt
     else:
-        criterion_action = nn.CrossEntropyLoss(ignore_index=-1)
+        action_weights = None
+    
+    if use_focal_loss:
+        criterion_action = FocalLoss(gamma=2.0, alpha=action_weights, ignore_index=-1)
+        print(f"Using Focal Loss (gamma=2.0) with weights: {action_weights}")
+    else:
+        criterion_action = nn.CrossEntropyLoss(weight=action_weights, ignore_index=-1)
 
     early_stopper = EarlyStopping(patience=config['training']['patience'])
 

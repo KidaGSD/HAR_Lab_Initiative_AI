@@ -9,6 +9,7 @@ from sklearn.metrics import f1_score
 
 from src.data.hierarchical_dataset import HierarchicalDataset
 from src.models.hierarchical import HierarchicalModel
+from src.training.losses import FocalLoss
 from src import wandb_safe
 
 
@@ -57,7 +58,12 @@ def train_probe(args, config):
 
     # Only train action head
     optimizer = torch.optim.Adam(model.action_head.parameters(), lr=config['training']['lr'], weight_decay=config['training']['weight_decay'])
-    criterion_action = nn.CrossEntropyLoss(ignore_index=-1)
+    
+    # Focal Loss with aggressive class weights for 4-class action
+    # Weights: Stationary(13%)->5.0, Locomotion(10%)->7.0, Manipulation(70%)->0.5, Search(7%)->10.0
+    action_weights = torch.tensor([5.0, 7.0, 0.5, 10.0]).to(device)
+    criterion_action = FocalLoss(gamma=2.0, alpha=action_weights, ignore_index=-1)
+    print(f"Probe using Focal Loss (gamma=2.0) with weights: {action_weights}")
 
     wandb_run = None
     if not args.no_wandb:

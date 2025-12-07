@@ -1,15 +1,18 @@
 import numpy as np
 import pandas as pd
 import torch
+import random
 from pathlib import Path
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
 
 class HierarchicalDataset(Dataset):
-    def __init__(self, take_uids, processed_dir, scenario_labels_path, action_labels_path, config):
+    def __init__(self, take_uids, processed_dir, scenario_labels_path, action_labels_path, config, training=True):
         self.samples = []
         self.config = config
+        self.training = training  # For augmentation
+        self.augmentation_enabled = config['data'].get('augmentation', False)
         
         # Load Labels
         print("Loading label files...")
@@ -174,8 +177,39 @@ class HierarchicalDataset(Dataset):
         gyro_norm = np.linalg.norm(gyro, axis=2, keepdims=True)
         return np.concatenate([traj, accel_norm, gyro_norm], axis=2)
     
+    def _apply_augmentation(self, x):
+        """Apply time-series augmentation during training.
+        x: Tensor of shape (seq_len, window_size, channels)
+        """
+        if not self.training or not self.augmentation_enabled:
+            return x
+        
+        # Jittering: add small random noise
+        if random.random() < 0.5:
+            noise = torch.randn_like(x) * 0.02
+            x = x + noise
+        
+        # Scaling: random magnitude scaling
+        if random.random() < 0.5:
+            scale = random.uniform(0.9, 1.1)
+            x = x * scale
+        
+        return x
+    
     def __len__(self):
         return len(self.samples)
     
     def __getitem__(self, idx):
-        return self.samples[idx]
+        sample = self.samples[idx]
+        
+        # Apply augmentation if enabled
+        if self.training and self.augmentation_enabled:
+            inputs = self._apply_augmentation(sample['inputs'].clone())
+            return {
+                'inputs': inputs,
+                'scenario_label': sample['scenario_label'],
+                'action_labels': sample['action_labels'],
+            }
+        
+        return sample
+
