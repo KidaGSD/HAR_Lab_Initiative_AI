@@ -42,7 +42,7 @@ find_available_gpus() {
     while IFS=, read -r FREE IDX; do
         FREE=$(echo "$FREE" | xargs)
         IDX=$(echo "$IDX" | xargs)
-        if [ "$FREE" -ge "20000" ]; then
+        if [ "$FREE" -ge "30000" ]; then
             AVAILABLE_GPUS+=("$IDX")
         fi
     done < <(nvidia-smi --query-gpu=memory.free,index --format=csv,noheader,nounits 2>/dev/null)
