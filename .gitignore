@@ -26,9 +26,9 @@ __pycache__/
 archive/
 docs/
 runs/
-checkpoints/
 state/
 
 
 # --- Environment ---
 .env
+report

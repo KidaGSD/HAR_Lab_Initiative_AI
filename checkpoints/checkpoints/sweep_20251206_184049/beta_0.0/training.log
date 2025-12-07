@@ -1,0 +1,33 @@
+Using device: cuda
+Loading label files...
+Excluding scenarios: {'Gardening'}
+Scenarios (7 classes): {'Carpentry': 0, 'Cleaning': 1, 'Cooking': 2, 'Desk Work': 3, 'Mechanical Repair': 4, 'Playing Instrument': 5, 'Walking Outdoors': 6}
+
+Computing global normalization statistics...
+Collecting normalization data:   0%|          | 0/1112 [00:00<?, ?it/s]Collecting normalization data:   1%|▏         | 15/1112 [00:00<00:07, 137.84it/s]Collecting normalization data:   3%|▎         | 32/1112 [00:00<00:07, 146.49it/s]Collecting normalization data:   5%|▍         | 52/1112 [00:00<00:06, 166.70it/s]Collecting normalization data:   6%|▋         | 70/1112 [00:00<00:06, 171.35it/s]Collecting normalization data:   8%|▊         | 88/1112 [00:00<00:06, 168.43it/s]Collecting normalization data:  10%|▉         | 108/1112 [00:00<00:05, 172.86it/s]Collecting normalization data:  12%|█▏        | 128/1112 [00:00<00:05, 178.59it/s]Collecting normalization data:  14%|█▍        | 155/1112 [00:00<00:05, 182.97it/s]
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/kidahuang/meta_project/train.py", line 33, in <module>
+    main()
+  File "/shared/ssd_14T/home/kidahuang/meta_project/train.py", line 29, in main
+    train_one_split(args, config)
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/training/loop.py", line 294, in train_one_split
+    return train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=None)
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/training/loop.py", line 109, in train_one_fold
+    train_loader, val_loader, train_ds, val_ds = build_loaders(
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/training/loop.py", line 48, in build_loaders
+    train_ds = HierarchicalDataset(
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/data/hierarchical_dataset.py", line 59, in __init__
+    traj = data['traj']  # (N, 50, 6)
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/site-packages/numpy/lib/_npyio_impl.py", line 254, in __getitem__
+    return format.read_array(bytes,
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/site-packages/numpy/lib/format.py", line 851, in read_array
+    data = _read_bytes(fp, read_size, "array data")
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/site-packages/numpy/lib/format.py", line 986, in _read_bytes
+    r = fp.read(size - len(data))
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/zipfile.py", line 946, in read
+    data = self._read1(n)
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/zipfile.py", line 1036, in _read1
+    self._update_crc(data)
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/zipfile.py", line 961, in _update_crc
+    self._running_crc = crc32(newdata, self._running_crc)
+KeyboardInterrupt

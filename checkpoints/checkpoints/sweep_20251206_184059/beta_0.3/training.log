@@ -1,0 +1,25 @@
+Using device: cuda
+Loading label files...
+Excluding scenarios: {'Gardening'}
+Scenarios (7 classes): {'Carpentry': 0, 'Cleaning': 1, 'Cooking': 2, 'Desk Work': 3, 'Mechanical Repair': 4, 'Playing Instrument': 5, 'Walking Outdoors': 6}
+
+Computing global normalization statistics...
+Collecting normalization data:   0%|          | 0/1112 [00:00<?, ?it/s]Collecting normalization data:   1%|▏         | 15/1112 [00:00<00:07, 139.03it/s]Collecting normalization data:   3%|▎         | 32/1112 [00:00<00:07, 148.49it/s]Collecting normalization data:   5%|▍         | 55/1112 [00:00<00:05, 182.91it/s]Collecting normalization data:   7%|▋         | 74/1112 [00:00<00:06, 161.85it/s]Collecting normalization data:   9%|▊         | 95/1112 [00:00<00:05, 175.27it/s]Collecting normalization data:  10%|█         | 113/1112 [00:00<00:05, 170.77it/s]Collecting normalization data:  12%|█▏        | 136/1112 [00:00<00:05, 187.93it/s]Collecting normalization data:  15%|█▍        | 162/1112 [00:00<00:04, 206.40it/s]Collecting normalization data:  16%|█▋        | 183/1112 [00:00<00:04, 205.00it/s]Collecting normalization data:  18%|█▊        | 196/1112 [00:01<00:04, 184.43it/s]
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/kidahuang/meta_project/train.py", line 33, in <module>
+    main()
+  File "/shared/ssd_14T/home/kidahuang/meta_project/train.py", line 29, in main
+    train_one_split(args, config)
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/training/loop.py", line 294, in train_one_split
+    return train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=None)
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/training/loop.py", line 109, in train_one_fold
+    train_loader, val_loader, train_ds, val_ds = build_loaders(
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/training/loop.py", line 48, in build_loaders
+    train_ds = HierarchicalDataset(
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/data/hierarchical_dataset.py", line 60, in __init__
+    traj = self._augment_traj(traj)  # add norms if enabled
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/data/hierarchical_dataset.py", line 173, in _augment_traj
+    accel_norm = np.linalg.norm(accel, axis=2, keepdims=True)
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/site-packages/numpy/linalg/_linalg.py", line 2781, in norm
+    return sqrt(add.reduce(s, axis=axis, keepdims=keepdims))
+KeyboardInterrupt

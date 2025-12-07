@@ -1,0 +1,40 @@
+Using device: cuda
+Loading label files...
+Excluding scenarios: {'Gardening'}
+Scenarios (7 classes): {'Carpentry': 0, 'Cleaning': 1, 'Cooking': 2, 'Desk Work': 3, 'Mechanical Repair': 4, 'Playing Instrument': 5, 'Walking Outdoors': 6}
+
+Computing global normalization statistics...
+Collecting normalization data:   0%|          | 0/1112 [00:00<?, ?it/s]Collecting normalization data:   1%|▏         | 15/1112 [00:00<00:07, 138.97it/s]Collecting normalization data:   3%|▎         | 32/1112 [00:00<00:07, 149.11it/s]Collecting normalization data:   5%|▍         | 52/1112 [00:00<00:06, 168.90it/s]Collecting normalization data:   6%|▋         | 70/1112 [00:00<00:06, 172.99it/s]Collecting normalization data:   8%|▊         | 88/1112 [00:00<00:06, 169.55it/s]Collecting normalization data:  10%|▉         | 108/1112 [00:00<00:05, 173.37it/s]Collecting normalization data:  12%|█▏        | 128/1112 [00:00<00:05, 179.67it/s]Collecting normalization data:  14%|█▍        | 156/1112 [00:00<00:04, 209.17it/s]Collecting normalization data:  16%|█▌        | 178/1112 [00:00<00:04, 199.77it/s]Collecting normalization data:  18%|█▊        | 199/1112 [00:01<00:04, 193.98it/s]Collecting normalization data:  20%|█▉        | 219/1112 [00:01<00:04, 182.68it/s]Collecting normalization data:  21%|██▏       | 238/1112 [00:01<00:05, 173.63it/s]Collecting normalization data:  23%|██▎       | 257/1112 [00:01<00:04, 176.25it/s]Collecting normalization data:  25%|██▌       | 279/1112 [00:01<00:04, 186.95it/s]Collecting normalization data:  27%|██▋       | 298/1112 [00:01<00:04, 185.75it/s]Collecting normalization data:  29%|██▊       | 317/1112 [00:01<00:04, 166.01it/s]Collecting normalization data:  31%|███       | 345/1112 [00:01<00:03, 195.09it/s]Collecting normalization data:  33%|███▎      | 366/1112 [00:02<00:04, 177.42it/s]Collecting normalization data:  35%|███▍      | 385/1112 [00:02<00:04, 149.98it/s]Collecting normalization data:  37%|███▋      | 407/1112 [00:02<00:04, 163.41it/s]Collecting normalization data:  38%|███▊      | 425/1112 [00:02<00:04, 165.61it/s]Collecting normalization data:  40%|████      | 446/1112 [00:02<00:03, 175.56it/s]Collecting normalization data:  42%|████▏     | 468/1112 [00:02<00:03, 185.43it/s]Collecting normalization data:  44%|████▍     | 489/1112 [00:02<00:03, 191.53it/s]Collecting normalization data:  46%|████▌     | 512/1112 [00:02<00:02, 201.00it/s]Collecting normalization data:  48%|████▊     | 538/1112 [00:02<00:02, 215.35it/s]Collecting normalization data:  50%|█████     | 560/1112 [00:03<00:02, 198.41it/s]Collecting normalization data:  53%|█████▎    | 584/1112 [00:03<00:02, 209.12it/s]Collecting normalization data:  54%|█████▍    | 606/1112 [00:03<00:02, 179.94it/s]Collecting normalization data:  57%|█████▋    | 630/1112 [00:03<00:02, 194.93it/s]Collecting normalization data:  59%|█████▊    | 651/1112 [00:03<00:02, 196.62it/s]Collecting normalization data:  60%|██████    | 672/1112 [00:03<00:02, 185.72it/s]Collecting normalization data:  62%|██████▏   | 693/1112 [00:03<00:02, 185.09it/s]Collecting normalization data:  64%|██████▍   | 714/1112 [00:03<00:02, 191.13it/s]Collecting normalization data:  66%|██████▌   | 736/1112 [00:03<00:01, 197.43it/s]Collecting normalization data:  68%|██████▊   | 760/1112 [00:04<00:01, 209.30it/s]Collecting normalization data:  70%|███████   | 782/1112 [00:04<00:01, 198.24it/s]Collecting normalization data:  72%|███████▏  | 803/1112 [00:04<00:01, 178.01it/s]Collecting normalization data:  74%|███████▍  | 822/1112 [00:04<00:01, 172.00it/s]Collecting normalization data:  76%|███████▋  | 848/1112 [00:04<00:01, 187.02it/s]Collecting normalization data:  78%|███████▊  | 868/1112 [00:04<00:01, 183.85it/s]Collecting normalization data:  80%|███████▉  | 887/1112 [00:04<00:01, 179.29it/s]Collecting normalization data:  82%|████████▏ | 907/1112 [00:04<00:01, 183.96it/s]Collecting normalization data:  84%|████████▎ | 931/1112 [00:05<00:00, 198.13it/s]Collecting normalization data:  86%|████████▌ | 952/1112 [00:05<00:00, 185.18it/s]Collecting normalization data:  87%|████████▋ | 972/1112 [00:05<00:00, 187.87it/s]Collecting normalization data:  89%|████████▉ | 994/1112 [00:05<00:00, 187.84it/s]Collecting normalization data:  91%|█████████ | 1013/1112 [00:05<00:00, 184.92it/s]Collecting normalization data:  93%|█████████▎| 1032/1112 [00:05<00:00, 182.23it/s]Collecting normalization data:  95%|█████████▍| 1054/1112 [00:05<00:00, 190.24it/s]Collecting normalization data:  97%|█████████▋| 1074/1112 [00:05<00:00, 184.05it/s]Collecting normalization data:  98%|█████████▊| 1093/1112 [00:05<00:00, 177.53it/s]Collecting normalization data: 100%|█████████▉| 1111/1112 [00:06<00:00, 171.05it/s]Collecting normalization data: 100%|██████████| 1112/1112 [00:06<00:00, 183.59it/s]
+Global statistics computed from 1112 videos:
+  Mean: [ 1.08256372e-03 -2.96135566e-03 -4.19623965e-04  3.38241541e+00
+  2.27158912e-01  7.50345404e+00  3.81660954e-01  9.99257315e+00]
+  Std:  [0.33045903 0.30735789 0.47225095 4.08441723 1.94665805 3.7356299
+ 0.53012912 1.53931661]
+  Data range: [-78.52, 108.14]
+Loading Data:   0%|          | 0/1112 [00:00<?, ?it/s]Loading Data:   0%|          | 1/1112 [00:00<03:21,  5.52it/s]Loading Data:   0%|          | 2/1112 [00:01<12:15,  1.51it/s]Loading Data:   0%|          | 3/1112 [00:05<42:25,  2.30s/it]Loading Data:   0%|          | 5/1112 [00:07<27:19,  1.48s/it]Loading Data:   0%|          | 5/1112 [00:10<36:59,  2.01s/it]
+Traceback (most recent call last):
+  File "/shared/ssd_14T/home/kidahuang/meta_project/train.py", line 33, in <module>
+    main()
+  File "/shared/ssd_14T/home/kidahuang/meta_project/train.py", line 29, in main
+    train_one_split(args, config)
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/training/loop.py", line 294, in train_one_split
+    return train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=None)
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/training/loop.py", line 109, in train_one_fold
+    train_loader, val_loader, train_ds, val_ds = build_loaders(
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/training/loop.py", line 48, in build_loaders
+    train_ds = HierarchicalDataset(
+  File "/shared/ssd_14T/home/kidahuang/meta_project/src/data/hierarchical_dataset.py", line 137, in __init__
+    match = video_actions[
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/site-packages/pandas/core/frame.py", line 4104, in __getitem__
+    return self._getitem_bool_array(key)
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/site-packages/pandas/core/frame.py", line 4166, in _getitem_bool_array
+    return self._take_with_is_copy(indexer, axis=0)
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/site-packages/pandas/core/generic.py", line 4175, in _take_with_is_copy
+    result = self.take(indices=indices, axis=axis)
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/site-packages/pandas/core/generic.py", line 4155, in take
+    new_data = self._mgr.take(
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/site-packages/pandas/core/internals/managers.py", line 913, in take
+    return self.reindex_indexer(
+  File "/shared/ssd_14T/home/kidahuang/miniconda3/envs/ego4d_lab/lib/python3.10/site-packages/pandas/core/internals/managers.py", line 723, in reindex_indexer
+    new_mgr._blknos = self.blknos.copy()
+KeyboardInterrupt

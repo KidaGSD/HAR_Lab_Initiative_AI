@@ -1,0 +1,2 @@
+model,best_scenario_f1,final_action_f1,num_params
+cnn_mlp,0.5831721574057802,0.2872129366534844,1066283

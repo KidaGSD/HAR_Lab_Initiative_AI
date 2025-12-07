@@ -1,222 +1,300 @@
-# Research Design: Hierarchical IMU Activity Recognition
+# Research Design: Hierarchical IMU-Based Human Activity Recognition
 
 ## 1. Objective
 
-Develop a hierarchical activity recognition system using head-mounted IMU data to classify:
-- **High-Level (HL)**: Scenario context (9 classes, 30-second windows)
-- **Low-Level (LL)**: Motion primitives (6 classes, 1-second windows)
+Develop a **hierarchical activity recognition system** using head-mounted IMU data that jointly learns:
+- **High-Level (Scenario)**: Activity context classification (7 classes, 30-second windows)
+- **Low-Level (Action)**: Motion primitive classification (4 classes, 1-second windows)
 
-The system employs semi-supervised learning where both encoder levels train concurrently using only high-level scenario labels.
+The system employs a **semi-supervised approach** where low-level motion representations emerge as a byproduct of scenario classification, eliminating the need for dense action annotations.
 
 ---
 
 ## 2. Architecture
 
-### 2.1 Hierarchical Model Design
+### 2.1 Model Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    HIERARCHICAL MODEL                            │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   IMU Input (1s window)                                         │
+│   [8 channels × 50 Hz = 400 features]                           │
+│           │                                                      │
+│           ▼                                                      │
+│   ┌───────────────────────┐                                     │
+│   │  Low-Level Encoder    │  CNN-GRU with SE Attention          │
+│   │  (LLE)                │  [32→64→128] conv + 256 GRU         │
+│   │  ~85k params          │                                     │
+│   └───────────┬───────────┘                                     │
+│               │ 128-dim embedding                                │
+│               ▼                                                  │
+│   ┌───────────────────────┐                                     │
+│   │  30 × LLE embeddings  │  Sequence of 30 seconds             │
+│   └───────────┬───────────┘                                     │
+│               │                                                  │
+│               ▼                                                  │
+│   ┌───────────────────────┐                                     │
+│   │  High-Level Arch      │  Transformer (4 heads, 2 layers)    │
+│   │  (HLA)                │                                     │
+│   │  ~200k params         │                                     │
+│   └───────────┬───────────┘                                     │
+│               │                                                  │
+│       ┌───────┴───────┐                                         │
+│       ▼               ▼                                         │
+│   ┌────────┐    ┌──────────┐                                    │
+│   │Scenario│    │  Action  │  (via probe or joint training)     │
+│   │ Head   │    │   Head   │                                    │
+│   │7 class │    │ 4 class  │                                    │
+│   └────────┘    └──────────┘                                    │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 2.2 Component Details
 
 **Low-Level Encoder (LLE)**
-- Input: 1-second IMU window (6 channels × 50 Hz = 300 features)
-- Architecture: CNN-GRU with variable dilation convolutions
-- Output: 32-dimensional motion embedding
-- Parameters: ~22,000
+- Input: 1-second IMU window (8 channels × 50 Hz)
+  - 6 raw channels: accelerometer (x,y,z) + gyroscope (x,y,z)
+  - 2 derived channels: acceleration norm + rotation norm
+- CNN: 3-layer [32→64→128] with Squeeze-and-Excitation attention
+- GRU: 2-layer, 256 hidden units
+- Output: 128-dimensional motion embedding
+- Parameters: ~85,000
 
 **High-Level Architecture (HLA)**
-- Input: Sequence of 30 LLE embeddings (representing 30 seconds)
-- Architecture: 2-layer GRU
-- Output: 9-class scenario prediction
-- Parameters: ~63,000
+- Input: Sequence of 30 LLE embeddings (30-second window)
+- Architecture: 2-layer Transformer with 4 attention heads
+- Dropout: 0.15
+- Output: 7-class scenario prediction
+- Parameters: ~200,000
 
-### 2.2 Training Strategy
+### 2.3 Training Strategies
 
-Both LLE and HLA train concurrently using only high-level scenario labels. The LLE learns generalizable low-level motion patterns as a byproduct of optimizing for scenario classification. This semi-supervised approach eliminates the need for extensive low-level annotation.
-
-**Loss Function**: Weighted cross-entropy on scenario predictions
-**Backpropagation**: Gradients flow through both HLA and LLE
-**Post-Training**: LLE is frozen and probed with a linear layer for low-level classification
-
----
-
-## 3. Scenario Selection
-
-### 3.1 Selection Criteria
-
-Scenarios must exhibit distinct motion signatures detectable by head-mounted IMU:
-1. **Locomotion intensity**: Static to continuous movement
-2. **Head motion patterns**: Stable gaze vs. active scanning
-3. **Periodicity**: Rhythmic vs. aperiodic
-4. **Vertical motion**: Sitting, standing, jumping
-
-### 3.2 Proposed 9-Class Taxonomy
-
-| Scenario | Locomotion | Head Motion | Periodicity | Videos (with IMU) |
-|:---------|:-----------|:------------|:------------|:------------------|
-| Cleaning | Intermittent walking | Downward + scanning | Wiping/sweeping cycles | **313** videos |
-| Mechanical Repair | Static | Focused on object | Tool manipulation | **294** videos |
-| Cooking | Minimal | Focused downward | Episodic arm motion | **267** videos |
-| Walking Outdoors | Continuous locomotion | Forward gaze | Step frequency | **228** videos |
-| Carpentry | Static positioning | Stable on workpiece | Sawing/hammering rhythm | **186** videos |
-| Playing Instrument | Stationary | Stable on instrument | Musical rhythm | **158** videos |
-| Desk Work | Stationary | Stable on screen | None | **150** videos |
-| Gardening | Moderate walking + bending | Variable | Digging/planting cycles | **56** videos |
-
-**Total**: 1,652 videos (8 Scenarios) with IMU sensor data
+| Strategy | β Value | Description |
+|----------|---------|-------------|
+| **Backbone (β=0.0)** | 0.0 | Train on scenario labels only, probe for action |
+| **Joint (β=0.3)** | 0.3 | Train with combined loss: L = α·L_scenario + β·L_action |
 
 ---
 
-## 4. Data Processing Pipeline
+## 3. Classification Taxonomy
 
-### 4.1 High-Level Label Extraction
+### 3.1 High-Level Scenarios (7 Classes)
 
-**Source**: Ego4D activity summaries (30-second annotations)
-**Method**:
-1. Parse `narration_pass_1.summaries` from `narration.json`
-2. Classify summaries using semantic similarity (SentenceTransformer embeddings)
-3. Match to 9 scenario templates with cosine similarity threshold > 0.7
-4. Propagate labels to constituent 1-second windows
+| Scenario | Motion Signature | Data Available |
+|:---------|:-----------------|:---------------|
+| Cleaning | Intermittent walking, downward gaze, wiping cycles | 313 videos |
+| Mechanical Repair | Static positioning, focused gaze, tool manipulation | 294 videos |
+| Cooking | Minimal locomotion, downward focus, episodic arm motion | 267 videos |
+| Walking Outdoors | Continuous locomotion, forward gaze, step periodicity | 228 videos |
+| Carpentry | Static stance, stable gaze, sawing/hammering rhythm | 186 videos |
+| Playing Instrument | Stationary, instrument focus, musical rhythm | 158 videos |
+| Desk Work | Stationary, screen focus, minimal motion | 150 videos |
 
-**Window Specifications**:
-- Duration: 30 seconds (aligned with Ego4D annotation standard)
-- Stride: 10 seconds (50% overlap for data augmentation)
-- Sampling rate: 50 Hz (Nyquist-compliant for 25 Hz motion signals)
+**Note**: Gardening (56 videos) excluded due to insufficient data.
 
-### 4.2 Low-Level Label Alignment
+### 3.2 Low-Level Actions (4 Classes)
 
-**Challenge**: Narrations are timestamped at irregular intervals (mean ~7 seconds apart), while model requires dense 1-second labels.
+| Action | Motion Characteristics | Distribution |
+|:-------|:-----------------------|:-------------|
+| **Stationary** | Low energy on all sensors | ~13% |
+| **Locomotion** | High body acceleration, rhythmic step pattern | ~10% |
+| **Manipulation** | Hand acceleration, irregular/complex patterns | ~70% |
+| **Search/Interrupt** | High head rotation, low hand acceleration | ~7% |
 
-**Solution: Temporal Propagation**
+---
+
+## 4. Training Pipeline
+
 ```
-For each narration at timestamp t with label L:
-  - Assign label L to all 1-second windows in range [t, t+δ]
-  - δ = min(next_narration_time - t, 5 seconds)
-  - Overlapping windows use majority vote
+┌──────────────────────────────────────────────────────────────┐
+│                   TRAINING PIPELINE                          │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  Phase 1: Backbone Training (β=0.0)                         │
+│  ├─ Train LLE + HLA on scenario labels only                 │
+│  ├─ Data augmentation: Jittering + Scaling                  │
+│  ├─ Label smoothing: 0.1                                    │
+│  └─ Output: backbone_model.pth                              │
+│                        ↓                                     │
+│  Phase 2: Probe Training                                    │
+│  ├─ Freeze LLE + HLA                                        │
+│  ├─ Train linear action head                                │
+│  ├─ Focal Loss (γ=2.0) for class imbalance                 │
+│  ├─ Class weights: [5, 7, 0.5, 10]                         │
+│  └─ Output: action probe metrics                            │
+│                        ↓                                     │
+│  Phase 3: Joint Training (β=0.3)                            │
+│  ├─ Train all components with combined loss                 │
+│  ├─ L = 1.0·L_scenario + 0.3·L_action                      │
+│  └─ Output: joint_model.pth                                 │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-**Alternative: Weak Supervision**
-- Use keyword-matched labels as noisy initialization
-- Rely on LLE's semi-supervised learning to denoise patterns
-- Validate on manually annotated subset (10% of data, ~1,000 windows)
+### 4.1 Training Techniques
 
-**Label Distribution** (v3 LLM-Validated):
-- **Object Transfer**: 42.4% (150,726 windows) - *Logistics/Setup (pick up, put down)*
-- **Essential Operation**: 27.9% (99,260 windows) - *Core task (cut, wash, mix)*
-- **Stationary**: 12.9% (46,033 windows) - *Idle, waiting*
-- **Locomotion**: 9.9% (35,060 windows) - *Moving body through space*
-- **Search**: 6.1% (21,775 windows) - *Visual search or monitoring*
-- **Error / Correction**: 0.7% (2,513 windows) - *Explicit failure, fumbling*
+| Technique | Implementation | Purpose |
+|-----------|----------------|---------|
+| **Data Augmentation** | Jittering (σ=0.02, p=0.5), Scaling (0.9-1.1x, p=0.5) | Regularization |
+| **Focal Loss** | γ=2.0, α=class_weights | Handle class imbalance |
+| **Label Smoothing** | 0.1 | Prevent overconfidence |
+| **Warmup** | 5 epochs | Stable initial training |
+| **Gradient Clipping** | 1.0 | Training stability |
 
-**Low-Level Taxonomy (6 Classes)**:
-1.  **Locomotion**: High body acceleration, rhythmic (walking, climbing).
-2.  **Essential Operation**: High hand acceleration, irregular/complex (cutting, mixing).
-3.  **Object Transfer**: Short bursts of hand acceleration (picking up, putting down).
-4.  **Search**: High head rotation (gyro), low hand acceleration (looking for item).
-5.  **Error / Correction**: Jerky/sudden motion, breaks in rhythm (fumbling, dropping).
-6.  **Stationary**: Low energy on all sensors (waiting, talking).
+### 4.2 Class Weights (Action)
 
-**Evolution of Labeling Strategy**:
-1.  **v2 (Keyword-based)**: Relied on strict keyword matching. Resulted in high "Stationary" (41.8%) due to missing context.
-2.  **v3 (LLM-based)**: Used Qwen-14B to infer actions from full sentences. Drastically reduced "Stationary" to 12.9% by correctly identifying subtle manual work.
-3.  **Error Validation**: Specifically targeted "Error / Correction" labels.
-    -   Input: `data/labels/action_labels_llm_clean_before_error.csv`
-    -   Process: Re-verified 15,633 error labels with Qwen.
-    -   Result: 84% reclassified as "Object Transfer" (e.g., "dropping" an object intentionally).
-    -   Final Output: `data/labels/action_labels_llm_validated.csv`
+| Class | Distribution | Weight | Rationale |
+|-------|--------------|--------|-----------|
+| Stationary | 13% | 5.0 | Minority, upweight |
+| Locomotion | 10% | 7.0 | Minority, upweight |
+| Manipulation | 70% | 0.5 | Majority, downweight |
+| Search/Interrupt | 7% | 10.0 | Rarest, highest weight |
 
 ---
 
-## 5. Baseline Models
+## 5. Experimental Design
 
-### 5.1 Comparison Targets
+### 5.1 Evaluation Protocol
 
-| Model | LLE Architecture | HLA Architecture | Parameters (L/H) | Reference |
-|:------|:-----------------|:-----------------|:-----------------|:----------|
-| MLP-MLP | Hand-picked features + MLP | MLP | 5k / 314k | EgoCHARM Table 2 |
-| CNN-MLP | 1D-CNN | MLP | 18k / 36k | EgoCHARM Table 2 |
-| IMU2CLIP | CNN-GRU (large) | MLP | 27k / 191k | Moon et al. 2022 |
-| CNN-LSTM-GRU | CNN-LSTM | GRU | 26k / 225k | EgoCHARM Table 2 |
-| **EgoCHARM (Target)** | CNN-GRU | GRU | 22k / 63k | Padmanabha et al. 2024 |
+**4-Fold Cross-Validation**
+- Split by video to prevent data leakage
+- Report mean ± std across folds
+- Final model trained on train+val combined
 
-### 5.2 Additional Ablations
+### 5.2 Baseline Comparisons
 
-1. **Sampling Frequency**: 15 Hz, 25 Hz, 50 Hz, 75 Hz
-2. **Window Size**: 5s, 10s, 15s, 20s, 25s, 30s
-3. **Label Noise**: Train on keyword labels vs. LLM-refined labels
-4. **Architecture Variants**: LSTM vs. GRU for HLA
+| Model | LLE Architecture | HLA Architecture | Reference |
+|:------|:-----------------|:-----------------|:----------|
+| MLP-MLP | Hand-picked features + MLP | MLP | EgoCHARM Table 2 |
+| CNN-MLP | 1D-CNN | MLP | EgoCHARM Table 2 |
+| IMU2CLIP | CNN-GRU (large) | MLP | Moon et al. 2022 |
+| CNN-LSTM-GRU | CNN-LSTM | GRU | EgoCHARM Table 2 |
+| **Ours (β=0.0)** | CNN-GRU-SE | Transformer | Backbone only |
+| **Ours (β=0.3)** | CNN-GRU-SE | Transformer | Joint training |
+
+### 5.3 Key Research Questions
+
+1. **Semi-Supervised Learning**: Can scenario-only training produce useful action representations?
+2. **Joint vs. Probe**: Does joint training (β=0.3) outperform linear probing (β=0.0)?
+3. **Architecture**: Do Transformer attention mechanisms improve temporal modeling over GRU?
 
 ---
 
-## 6. Evaluation Metrics
+## 6. Hyperparameters
 
-### 6.1 High-Level Scenario Classification
-- **Macro F1-score**: Average F1 across 9 classes (handles class imbalance)
-- **Micro Accuracy**: Overall classification rate
+### 6.1 Model Configuration
+
+```yaml
+# Low-Level Encoder
+lle:
+  in_channels: 8        # 6 raw + 2 norms
+  cnn_filters: [32, 64, 128]
+  gru_hidden: 256
+  gru_layers: 2
+  embedding_dim: 128
+  se_reduction: 8       # SE attention reduction ratio
+
+# High-Level Architecture
+hla:
+  hidden_dim: 128
+  num_layers: 2
+  num_classes: 7
+  seq_len: 30
+  nhead: 4              # Transformer heads
+  dropout: 0.15
+  type: transformer
+```
+
+### 6.2 Training Configuration
+
+```yaml
+training:
+  batch_size: 256
+  lr: 1.0e-4
+  epochs: 60
+  patience: 20          # Early stopping
+  weight_decay: 1.0e-5
+  grad_clip: 1.0
+  warmup_epochs: 5
+  label_smoothing: 0.1
+  use_focal_loss: true
+  use_action_class_weights: true
+
+data:
+  per_video_center: true    # Normalize per video
+  add_norm_features: true   # Add magnitude channels
+  augmentation: true
+```
+
+---
+
+## 7. Data Processing
+
+### 7.1 Input Features
+
+| Channel | Description | Preprocessing |
+|---------|-------------|---------------|
+| acc_x, acc_y, acc_z | Accelerometer | Per-video centering |
+| gyro_x, gyro_y, gyro_z | Gyroscope | Per-video centering |
+| acc_norm | √(ax² + ay² + az²) | Derived |
+| gyro_norm | √(gx² + gy² + gz²) | Derived |
+
+### 7.2 Window Specifications
+
+| Level | Window Size | Stride | Sampling Rate |
+|-------|-------------|--------|---------------|
+| Low-Level (Action) | 1 second | 1 second | 50 Hz |
+| High-Level (Scenario) | 30 seconds | N/A | 1 embedding/sec |
+
+### 7.3 Label Sources
+
+- **Scenario Labels**: Extracted from Ego4D activity summaries (30s annotations)
+- **Action Labels**: LLM-validated (Qwen-14B) from narration timestamps
+  - v3 labeling strategy reduces false "Stationary" labels
+  - Error validation reclassified 84% of false "Error" labels
+
+---
+
+## 8. Metrics
+
+### 8.1 Scenario Classification
+- **Macro F1-score**: Primary metric (handles class imbalance)
 - **Per-class Recall**: Identify weak scenario detection
 - **Confusion Matrix**: Analyze cross-scenario errors
 
-**Target**: F1 > 0.80 (EgoCHARM achieved 0.826)
-
-### 6.2 Low-Level Action Classification (Probing)
+### 8.2 Action Classification (Probe)
 - **Macro F1-score**: Average across 4 classes
-- **4-fold Cross-Validation**: Account for participant variability
-- **Per-class Precision/Recall**: Validate label quality
+- **Per-class Precision/Recall**: Validate minority class performance
 
-**Target**: F1 > 0.75 (EgoCHARM achieved 0.855 on 3 classes)
+### 8.3 Targets
 
----
-
-## 7. Implementations
-
-**1. Data Preparation**
-- Filter 4,141 videos for 9 scenarios
-- Extract scenario labels from summaries
-- Align low-level labels via temporal propagation
-- Download IMU CSVs (requires AWS credentials)
-- Process into model-ready tensors
-
-**2. Model Training**
-- Implement CNN-GRU LLE and GRU HLA
-- Train concurrently on scenario task
-- Hyperparameter search (learning rate, dropout, embedding dimension)
-- Validate on held-out scenarios
-
-**3. Probing & Baselines**
-- Freeze LLE, train probing layer on low-level labels
-- Implement 5 baseline models for comparison
-- Ablation studies (sampling rate, window size, label noise)
-
-**4. Analysis & Documentation**
-- Confusion matrix analysis
-- Error case visualization
-- Performance vs. parameter trade-off curves
-- Final research report
+| Task | Baseline | Target |
+|------|----------|--------|
+| Scenario F1 | 0.57 | 0.60+ |
+| Action F1 (Probe) | 0.26 | 0.40+ |
+| Action F1 (Joint) | 0.38 | 0.45+ |
 
 ---
 
-## 8. Open Research Questions
+## 9. Scripts Reference
 
-1. **Label Noise Tolerance**: How robust is semi-supervised LLE to noisy keyword labels (60-70% accuracy)?
-2. **Cross-Domain Transfer**: Can LLE trained on 9 scenarios generalize to new unseen scenarios?
+| Script | Purpose |
+|--------|---------|
+| `run_backbone.sh` | Train backbone (β=0.0) and joint (β=0.3) models in parallel |
+| `run_baselines.sh` | Train all 4 baseline models sequentially |
+| `run_cv_final.sh` | 4-fold CV + final model + probe |
+| `configs/beta_0.0.yaml` | Backbone training configuration |
+| `configs/beta_0.3.yaml` | Joint training configuration |
 
 ---
 
-## 9. Expected Outputs
+## 10. Key Innovations
 
-1. **Trained Models**:
-   - LLE checkpoint (~22k params, <100 KB)
-   - HLA checkpoint (~63k params, <300 KB)
-   - Probing layer checkpoint (~400 params, <2 KB)
-
-2. **Datasets**:
-   - `scenario_labels.csv`: ~4,141 videos with 9-class labels
-   - `action_labels_aligned.csv`: ~230k 1-second windows with 4-class labels
-   - IMU tensors: Preprocessed numpy arrays (6 × 50 per window)
-
-3. **Analysis**:
-   - Baseline comparison table
-   - Confusion matrices (HL and LL)
-   - Ablation study results
-   - Sample efficiency curves
-
-4. **Code**:
-   - Training scripts (LLE+HLA concurrent, probing)
-   - Evaluation scripts (metrics, visualization)
-   - Data processing pipeline (alignment, windowing)
+1. **Hierarchical Semi-Supervised Learning**: Action representations emerge from scenario supervision
+2. **Squeeze-and-Excitation CNN**: Channel attention for IMU feature recalibration
+3. **Transformer HLA**: Self-attention captures long-range temporal dependencies
+4. **Focal Loss + Aggressive Weights**: Combat severe class imbalance (70% manipulation)
+5. **Multi-Phase Training**: Backbone → Probe → Joint allows controlled comparison

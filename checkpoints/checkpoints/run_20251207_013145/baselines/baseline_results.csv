@@ -1,0 +1,2 @@
+model,best_scenario_f1,final_action_f1,num_params
+cnn_lstm_gru,0.570512437032133,0.32019422812100135,1186219

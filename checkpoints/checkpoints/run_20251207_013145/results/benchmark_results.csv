@@ -1,0 +1,9 @@
+Model,Scenario_F1,Action_F1,Params,Training_Time
+Backbone (β=0.0),0.5725,N/A,~1.5M,-
+Backbone + Probe,N/A,N/A,~1.5M,-
+Joint (β=0.3),N/A,N/A,~1.5M,-
+Joint + Probe,N/A,N/A,~1.5M,-
+MLP-MLP,N/A,N/A,~1.5M,-
+CNN-MLP,N/A,N/A,~1.5M,-
+IMU2CLIP,N/A,N/A,~1.5M,-
+CNN-LSTM-GRU,N/A,N/A,~1.5M,-

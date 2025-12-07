@@ -1,0 +1,2 @@
+backbone_beta0_duration=8253s
+joint_beta03_duration=5593s
