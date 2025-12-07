@@ -88,6 +88,14 @@ fi
 
 if [ $EXIT_BETA03 -eq 0 ] && [ -f "${OUTPUT_BASE}/beta03/best_model.pth" ]; then
     echo "✓ β=0.3 Training: SUCCESS"
+    echo ">> Running Probe on β=0.3 joint model..."
+    CUDA_VISIBLE_DEVICES=$GPU1 python train.py \
+        --probe \
+        --checkpoint "${OUTPUT_BASE}/beta03/best_model.pth" \
+        --config configs/beta_0.3.yaml \
+        --output-dir "${OUTPUT_BASE}/beta03_probe" \
+        2>&1 | tee "${LOG_DIR}/beta03_probe.log"
+    echo "✓ Probe complete"
 else
     echo "✗ β=0.3 Training: FAILED"
 fi
