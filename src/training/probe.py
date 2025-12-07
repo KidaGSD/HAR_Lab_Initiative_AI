@@ -28,16 +28,19 @@ def train_probe(args, config):
         train_uids,
         args.processed_dir,
         "data/labels/scenario_labels.csv",
-        "data/labels/action_labels_llm_validated.csv",
+        "data/labels/action_labels_4class.csv",
         config
     )
     val_ds = HierarchicalDataset(
         val_uids,
         args.processed_dir,
         "data/labels/scenario_labels.csv",
-        "data/labels/action_labels_llm_validated.csv",
+        "data/labels/action_labels_4class.csv",
         config
     )
+    
+    # Get num_action_classes from dataset
+    num_action_classes = train_ds.num_action_classes
 
     bs = int(os.environ.get("BATCH_SIZE", config['training']['batch_size']))
     train_loader = DataLoader(train_ds, batch_size=bs, shuffle=True, num_workers=8, pin_memory=True)
@@ -74,9 +77,9 @@ def train_probe(args, config):
             inputs = batch['inputs'].to(device)
             action_labels = batch['action_labels'].to(device)
             optimizer.zero_grad(set_to_none=True)
-            with torch.cuda.amp.autocast(enabled=(device.type == 'cuda')):
+            with torch.amp.autocast('cuda', enabled=(device.type == 'cuda')):
                 _, a_logits = model(inputs)
-                loss = criterion_action(a_logits.view(-1, 6), action_labels.view(-1))
+                loss = criterion_action(a_logits.view(-1, num_action_classes), action_labels.view(-1))
             loss.backward()
             optimizer.step()
             total_loss += loss.item()

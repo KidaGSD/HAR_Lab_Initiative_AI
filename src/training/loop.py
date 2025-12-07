@@ -247,8 +247,24 @@ def train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=
             if config['training']['beta'] > 0:
                 log_dict[f"{prefix}val_action_f1"] = val_a_f1
                 log_dict[f"{prefix}val_action_acc"] = val_a_acc
+            
+            # Per-class F1 for detailed analysis
+            scenario_f1_per_class = f1_score(all_s_labels, all_s_preds, average=None)
+            scenario_names = list(train_ds.scenario_map.keys())
+            for i, name in enumerate(scenario_names):
+                if i < len(scenario_f1_per_class):
+                    log_dict[f"{prefix}scenario_f1_{name}"] = scenario_f1_per_class[i]
+            
+            if config['training']['beta'] > 0 and len(all_a_labels) > 0:
+                action_f1_per_class = f1_score(all_a_labels, all_a_preds, average=None)
+                action_names = list(train_ds.action_map.keys())
+                for i, name in enumerate(action_names):
+                    if i < len(action_f1_per_class):
+                        log_dict[f"{prefix}action_f1_{name}"] = action_f1_per_class[i]
+            
             wandb_safe.log(wandb_run, log_dict)
-            # Log confusion matrix every 5 epochs
+            
+            # Log confusion matrices every 5 epochs
             if (epoch + 1) % 5 == 0:
                 wandb_safe.log_confmat(
                     wandb_run,
@@ -257,6 +273,15 @@ def train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=
                     class_names=list(train_ds.scenario_map.keys()),
                     key=f"{prefix}conf_mat_scenario"
                 )
+                # Action confusion matrix
+                if config['training']['beta'] > 0 and len(all_a_labels) > 0:
+                    wandb_safe.log_confmat(
+                        wandb_run,
+                        y_true=all_a_labels,
+                        preds=all_a_preds,
+                        class_names=list(train_ds.action_map.keys()),
+                        key=f"{prefix}conf_mat_action"
+                    )
 
         scheduler.step()
         current_lr = scheduler.get_last_lr()[0]
