@@ -35,7 +35,7 @@ CONFIG = {
     'hla': {
         'hidden_dim': 128,
         'num_layers': 2,
-        'num_classes': 8, # 8 Scenarios
+        'num_classes': 7, # 7 Scenarios (Gardening excluded)
         'seq_len': 30,    # 30 seconds context (can test 20 for latency tradeoff)
         'nhead': 4,
         'dropout': 0.1,
@@ -47,7 +47,7 @@ CONFIG = {
         'epochs': 50,
         'patience': 20,
         'alpha': 1.0,
-        'beta': 0,           # Default: focus on scenario; action loss used in probe or if explicitly enabled
+        'beta': 1.0,           # Default: focus on scenario; action loss used in probe or if explicitly enabled
         'weight_decay': 1e-5,
         'grad_clip': 1.0,
         'warmup_epochs': 5,     # Warmup then cosine anneal
@@ -125,16 +125,61 @@ def load_cached_dataset(cache_path, scenario_labels_path, action_labels_path):
     dataset.samples = cached['samples']
     dataset.global_mean = cached['global_mean']
     dataset.global_std = cached['global_std']
-    dataset.scenario_map = cached['scenario_map']
-    dataset.action_map = cached['action_map']
-    dataset.num_scenarios = cached['num_scenarios']
-    dataset.idx_to_scenario = cached['idx_to_scenario']
-    dataset.idx_to_action = cached['idx_to_action']
-    dataset.training = False
     
     # Reload labels (lightweight)
     dataset.scenario_df = pd.read_csv(scenario_labels_path).set_index('video_uid')
+    
+    # Exclude Gardening scenario (not enough samples) - MUST DO THIS BEFORE REBUILDING scenario_map
+    excluded_scenarios = ['Gardening']
+    before_count = len(dataset.scenario_df)
+    dataset.scenario_df = dataset.scenario_df[~dataset.scenario_df['scenario'].isin(excluded_scenarios)]
+    after_count = len(dataset.scenario_df)
+    if before_count > after_count:
+        print(f"⚠️  Excluded scenarios from cached dataset: {excluded_scenarios} ({before_count - after_count} videos removed)")
+    
     dataset.action_df = pd.read_csv(action_labels_path)
+    
+    # REBUILD scenario_map from current scenario_df (handles Gardening exclusion)
+    dataset.scenario_map = {name: i for i, name in enumerate(sorted(dataset.scenario_df['scenario'].unique()))}
+    dataset.num_scenarios = len(dataset.scenario_map)
+    dataset.idx_to_scenario = {v: k for k, v in dataset.scenario_map.items()}
+    
+    # REMAP scenario labels in samples if scenario_map changed
+    old_scenario_map = cached.get('scenario_map', {})
+    if old_scenario_map != dataset.scenario_map:
+        print(f"⚠️  Scenario map changed! Remapping labels...")
+        print(f"   Old map: {old_scenario_map}")
+        print(f"   New map: {dataset.scenario_map}")
+        
+        # Create mapping from old indices to new indices
+        old_idx_to_scenario = {v: k for k, v in old_scenario_map.items()}
+        old_to_new_idx = {}
+        for old_idx, scenario_name in old_idx_to_scenario.items():
+            if scenario_name in dataset.scenario_map:
+                old_to_new_idx[old_idx] = dataset.scenario_map[scenario_name]
+            # If scenario not in new map (e.g., Gardening), skip it
+        
+        # Remap labels in samples
+        remapped_count = 0
+        skipped_count = 0
+        for sample in dataset.samples:
+            old_label = sample['scenario_label'].item()
+            if old_label in old_to_new_idx:
+                sample['scenario_label'] = torch.tensor(old_to_new_idx[old_label], dtype=torch.long)
+                remapped_count += 1
+            else:
+                # This sample belongs to excluded scenario (e.g., Gardening)
+                skipped_count += 1
+        
+        # Remove samples with excluded scenarios
+        if skipped_count > 0:
+            dataset.samples = [s for s in dataset.samples if s['scenario_label'].item() in old_to_new_idx]
+            print(f"   Removed {skipped_count} samples with excluded scenarios")
+        
+        print(f"   Remapped {remapped_count} samples")
+    
+    dataset.action_map = cached['action_map']
+    dataset.idx_to_action = cached['idx_to_action']
     dataset.action_df = dataset.action_df[dataset.action_df['action'].isin(dataset.action_map.keys())]
     
     # Set config flags
@@ -178,6 +223,15 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         # Load Labels
         print("Loading label files...")
         self.scenario_df = pd.read_csv(scenario_labels_path).set_index('video_uid')
+        
+        # Exclude Gardening scenario (not enough samples)
+        excluded_scenarios = ['Gardening']
+        before_count = len(self.scenario_df)
+        self.scenario_df = self.scenario_df[~self.scenario_df['scenario'].isin(excluded_scenarios)]
+        after_count = len(self.scenario_df)
+        if before_count > after_count:
+            print(f"Excluded scenarios: {excluded_scenarios} ({before_count - after_count} videos removed)")
+        
         self.action_df = pd.read_csv(action_labels_path)
         
         # Map Scenario Names to Integers
@@ -288,7 +342,7 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                     continue
                 scenario_name = self.scenario_df.loc[uid, 'scenario']
                 if scenario_name not in self.scenario_map:
-                    continue 
+                    continue  # Skip excluded scenarios (e.g., Gardening)
                 scenario_label = self.scenario_map[scenario_name]
                 
                 # Get Action Labels for this video
@@ -338,7 +392,7 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                     # Guard against variable-length windows
                     if window_seq.shape[0] != seq_len or len(action_labels_seq) != seq_len:
                         continue
-                    
+                            
                     self.samples.append({
                         'video_uid': uid,
                         # Ensure contiguous, resizable tensors to avoid DataLoader storage resize errors
@@ -346,7 +400,7 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                         'scenario_label': torch.tensor(scenario_label, dtype=torch.long),
                         'action_labels': torch.tensor(action_labels_seq, dtype=torch.long) # (Seq,)
                     })
-                
+                    
             except Exception as e:
                 print(f"Error loading {uid}: {e}")
             
@@ -616,6 +670,16 @@ def train(args):
     # Load scenario labels with splits
     scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
     
+    # Exclude Gardening scenario (not enough samples)
+    excluded_scenarios = ['Gardening']
+    before_count = len(scenario_df)
+    scenario_df = scenario_df[~scenario_df['scenario'].isin(excluded_scenarios)].copy()
+    after_count = len(scenario_df)
+    if before_count > after_count:
+        print(f"\nExcluded scenarios: {excluded_scenarios}")
+        print(f"  Removed {before_count - after_count} videos with Gardening scenario")
+        print(f"  Remaining videos: {after_count}")
+    
     # Show overall split distribution
     print("\nOverall split distribution:")
     print(scenario_df['split'].value_counts().sort_index())
@@ -699,7 +763,30 @@ def train(args):
     )
     val_ds.training = False
 
-
+    # VALIDATION: Check dataset scenario labels
+    print("\n" + "="*80)
+    print("VALIDATING DATASET LABELS")
+    print("="*80)
+    
+    train_label_values = [s['scenario_label'].item() for s in train_ds.samples[:1000]]  # Sample first 1000
+    val_label_values = [s['scenario_label'].item() for s in val_ds.samples[:100]]  # Sample first 100
+    
+    print(f"Train dataset:")
+    print(f"  num_scenarios: {train_ds.num_scenarios}")
+    print(f"  scenario_map: {train_ds.scenario_map}")
+    print(f"  Label range in samples: [{min(train_label_values)}, {max(train_label_values)}]")
+    print(f"  Unique labels: {sorted(set(train_label_values))}")
+    
+    print(f"\nVal dataset:")
+    print(f"  num_scenarios: {val_ds.num_scenarios}")
+    print(f"  scenario_map: {val_ds.scenario_map}")
+    print(f"  Label range in samples: [{min(val_label_values)}, {max(val_label_values)}]")
+    print(f"  Unique labels: {sorted(set(val_label_values))}")
+    
+    if max(train_label_values) >= train_ds.num_scenarios or max(val_label_values) >= val_ds.num_scenarios:
+        raise ValueError(f"Dataset labels out of range! Expected 0-{train_ds.num_scenarios-1}")
+    
+    print("="*80 + "\n")
 
     # ===== DATASET STATISTICS =====
     print("\n" + "="*80)
@@ -983,7 +1070,7 @@ def train(args):
     for epoch in range(CONFIG['training']['epochs']):
         model.train()
         total_loss = 0
-
+        
         # Get accumulation steps
         accumulation_steps = CONFIG['training'].get('gradient_accumulation_steps', 1)
 
@@ -999,6 +1086,20 @@ def train(args):
             action_labels = batch['action_labels'].to(device) # (B, S)
             
             s_logits, a_logits = model(inputs)
+            
+            # VALIDATION: Check for label mismatch
+            max_label = scenario_labels.max().item()
+            min_label = scenario_labels.min().item()
+            num_classes_model = s_logits.size(1)
+            
+            if max_label >= num_classes_model or min_label < 0:
+                print(f"\n❌ LABEL MISMATCH DETECTED!")
+                print(f"   Model output classes: {num_classes_model}")
+                print(f"   Label range: [{min_label}, {max_label}]")
+                print(f"   Dataset num_scenarios: {train_ds.num_scenarios}")
+                print(f"   Dataset scenario_map: {train_ds.scenario_map}")
+                print(f"   CONFIG num_classes: {CONFIG['hla']['num_classes']}")
+                raise ValueError(f"Labels out of range! Model expects 0-{num_classes_model-1}, got [{min_label}, {max_label}]")
             
             # Scenario Loss (Primary)
             loss_s = criterion_scenario(s_logits, scenario_labels)
@@ -1170,6 +1271,17 @@ if __name__ == "__main__":
         
         # Load scenario labels
         scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+        
+        # Exclude Gardening scenario (not enough samples)
+        excluded_scenarios = ['Gardening']
+        before_count = len(scenario_df)
+        scenario_df = scenario_df[~scenario_df['scenario'].isin(excluded_scenarios)].copy()
+        after_count = len(scenario_df)
+        if before_count > after_count:
+            print(f"\nExcluded scenarios: {excluded_scenarios}")
+            print(f"  Removed {before_count - after_count} videos with Gardening scenario")
+            print(f"  Remaining videos: {after_count}")
+        
         usable_df = scenario_df[scenario_df['split'].isin(['train', 'val'])].copy()
         
         print(f"\nUsing {len(usable_df)} videos for {args.n_folds}-fold CV")
