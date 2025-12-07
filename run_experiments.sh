@@ -59,7 +59,7 @@ detect_gpus() {
     while IFS=, read -r FREE IDX; do
         FREE=$(echo "$FREE" | xargs)
         IDX=$(echo "$IDX" | xargs)
-        if [ "$FREE" -ge "15000" ]; then
+        if [ "$FREE" -ge "30000" ]; then
             AVAILABLE_GPUS+=("$IDX")
             echo "  GPU $IDX: ${FREE}MB free - AVAILABLE"
         else
