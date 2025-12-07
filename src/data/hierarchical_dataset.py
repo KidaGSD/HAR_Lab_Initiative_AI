@@ -168,15 +168,16 @@ class HierarchicalDataset(Dataset):
                 print(f"Error loading {uid}: {e}")
                 
     def _augment_traj(self, traj):
-        """Add EgoCHARM-style statistical features to trajectory.
+        """Add norm features to trajectory.
         
         Input: traj (N, 50, 6) - raw accel (3) + gyro (3)
-        Output: (N, 50, C) where C includes:
+        Output: (N, 50, 8) where:
             - Original 6 channels
-            - Accel/Gyro norms (2 channels)
-            - Window-level variance broadcast (6 channels) - EgoCHARM inspired
+            - Accel norm (1 channel)  
+            - Gyro norm (1 channel)
         
-        Total: 14 channels (if all enabled)
+        Note: Variance broadcast was tested but caused 2% F1 drop.
+        Keeping simple 8-channel config that achieved 0.5725 F1.
         """
         if not self.add_norm_features:
             return traj
@@ -185,48 +186,32 @@ class HierarchicalDataset(Dataset):
         accel = traj[..., :3]  # (N, 50, 3)
         gyro = traj[..., 3:6]  # (N, 50, 3)
         
-        # Norm features (existing)
+        # Norm features (proven effective)
         accel_norm = np.linalg.norm(accel, axis=2, keepdims=True)  # (N, 50, 1)
         gyro_norm = np.linalg.norm(gyro, axis=2, keepdims=True)    # (N, 50, 1)
         
-        # EgoCHARM statistical features: variance per window (broadcast to all timesteps)
-        # This helps distinguish static vs dynamic activities
-        var_per_window = traj.var(axis=1, keepdims=True)  # (N, 1, 6)
-        var_broadcast = np.broadcast_to(var_per_window, traj.shape)  # (N, 50, 6)
-        
-        # Concatenate all features: 6 + 2 + 6 = 14 channels
-        return np.concatenate([traj, accel_norm, gyro_norm, var_broadcast], axis=2)
+        # 6 + 2 = 8 channels (proven config)
+        return np.concatenate([traj, accel_norm, gyro_norm], axis=2)
     
     def _apply_augmentation(self, x):
-        """Apply comprehensive time-series augmentation during training.
+        """Apply proven time-series augmentation during training.
         x: Tensor of shape (seq_len, window_size, channels)
         
-        Augmentation techniques (Tier 2 improvements):
-        1. Jittering - add random noise
-        2. Scaling - random magnitude scaling  
-        3. Time Warping - slight temporal distortion
-        4. Rotation - rotate accel/gyro vectors (first 6 channels only)
+        Note: Time Warping and Rotation were tested but may have contributed
+        to performance regression. Keeping simple proven methods only.
         """
         if not self.training or not self.augmentation_enabled:
             return x
         
-        # 1. Jittering: add small random noise
+        # 1. Jittering: add small random noise (proven effective)
         if random.random() < 0.5:
             noise = torch.randn_like(x) * 0.02
             x = x + noise
         
-        # 2. Scaling: random magnitude scaling
+        # 2. Scaling: random magnitude scaling (proven effective)
         if random.random() < 0.5:
             scale = random.uniform(0.9, 1.1)
             x = x * scale
-        
-        # 3. Time Warping: slightly stretch/compress time axis
-        if random.random() < 0.3:
-            x = self._time_warp(x)
-        
-        # 4. Rotation: apply small rotation to IMU vectors (first 6 channels)
-        if random.random() < 0.3:
-            x = self._rotate_imu(x)
         
         return x
     
