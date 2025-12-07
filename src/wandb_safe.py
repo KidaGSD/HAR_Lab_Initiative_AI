@@ -1,11 +1,34 @@
 """
 Safe WandB wrapper that handles errors gracefully without crashing training.
 """
+import os
 import traceback
+
+# Global experiment group (set via environment or auto-generated)
+_EXPERIMENT_GROUP = None
+
+
+def set_group(group_name):
+    """Set the experiment group for all subsequent runs."""
+    global _EXPERIMENT_GROUP
+    _EXPERIMENT_GROUP = group_name
+    print(f"W&B group set to: {group_name}")
+
+
+def get_group():
+    """Get current experiment group."""
+    global _EXPERIMENT_GROUP
+    if _EXPERIMENT_GROUP is None:
+        # Check environment variable
+        _EXPERIMENT_GROUP = os.environ.get('WANDB_RUN_GROUP', None)
+    return _EXPERIMENT_GROUP
 
 
 def init(enable=True, **kwargs):
-    """Initialize WandB run with error handling."""
+    """Initialize WandB run with error handling.
+    
+    Automatically adds group if set via set_group() or WANDB_RUN_GROUP env var.
+    """
     if not enable:
         print("W&B disabled; proceeding without logging.")
         return None
@@ -14,6 +37,13 @@ def init(enable=True, **kwargs):
     except ImportError:
         print("W&B not installed; proceeding without logging.")
         return None
+    
+    # Auto-add group if set and not already specified
+    group = get_group()
+    if group and 'group' not in kwargs:
+        kwargs['group'] = group
+        print(f"W&B run grouped under: {group}")
+    
     try:
         return wandb.init(**kwargs)
     except Exception as e:

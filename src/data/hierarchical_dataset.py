@@ -168,33 +168,114 @@ class HierarchicalDataset(Dataset):
                 print(f"Error loading {uid}: {e}")
                 
     def _augment_traj(self, traj):
-        # traj: (N, 50, 6)
+        """Add EgoCHARM-style statistical features to trajectory.
+        
+        Input: traj (N, 50, 6) - raw accel (3) + gyro (3)
+        Output: (N, 50, C) where C includes:
+            - Original 6 channels
+            - Accel/Gyro norms (2 channels)
+            - Window-level variance broadcast (6 channels) - EgoCHARM inspired
+        
+        Total: 14 channels (if all enabled)
+        """
         if not self.add_norm_features:
             return traj
-        accel = traj[..., :3]
-        gyro = traj[..., 3:6]
-        accel_norm = np.linalg.norm(accel, axis=2, keepdims=True)
-        gyro_norm = np.linalg.norm(gyro, axis=2, keepdims=True)
-        return np.concatenate([traj, accel_norm, gyro_norm], axis=2)
+        
+        # Original IMU data
+        accel = traj[..., :3]  # (N, 50, 3)
+        gyro = traj[..., 3:6]  # (N, 50, 3)
+        
+        # Norm features (existing)
+        accel_norm = np.linalg.norm(accel, axis=2, keepdims=True)  # (N, 50, 1)
+        gyro_norm = np.linalg.norm(gyro, axis=2, keepdims=True)    # (N, 50, 1)
+        
+        # EgoCHARM statistical features: variance per window (broadcast to all timesteps)
+        # This helps distinguish static vs dynamic activities
+        var_per_window = traj.var(axis=1, keepdims=True)  # (N, 1, 6)
+        var_broadcast = np.broadcast_to(var_per_window, traj.shape)  # (N, 50, 6)
+        
+        # Concatenate all features: 6 + 2 + 6 = 14 channels
+        return np.concatenate([traj, accel_norm, gyro_norm, var_broadcast], axis=2)
     
     def _apply_augmentation(self, x):
-        """Apply time-series augmentation during training.
+        """Apply comprehensive time-series augmentation during training.
         x: Tensor of shape (seq_len, window_size, channels)
+        
+        Augmentation techniques (Tier 2 improvements):
+        1. Jittering - add random noise
+        2. Scaling - random magnitude scaling  
+        3. Time Warping - slight temporal distortion
+        4. Rotation - rotate accel/gyro vectors (first 6 channels only)
         """
         if not self.training or not self.augmentation_enabled:
             return x
         
-        # Jittering: add small random noise
+        # 1. Jittering: add small random noise
         if random.random() < 0.5:
             noise = torch.randn_like(x) * 0.02
             x = x + noise
         
-        # Scaling: random magnitude scaling
+        # 2. Scaling: random magnitude scaling
         if random.random() < 0.5:
             scale = random.uniform(0.9, 1.1)
             x = x * scale
         
+        # 3. Time Warping: slightly stretch/compress time axis
+        if random.random() < 0.3:
+            x = self._time_warp(x)
+        
+        # 4. Rotation: apply small rotation to IMU vectors (first 6 channels)
+        if random.random() < 0.3:
+            x = self._rotate_imu(x)
+        
         return x
+    
+    def _time_warp(self, x, sigma=0.1):
+        """Apply smooth time warping to the sequence."""
+        seq_len, window_size, channels = x.shape
+        
+        # Create smooth warping curve using cumulative sum of random values
+        warp_steps = torch.cumsum(torch.abs(torch.randn(window_size)) + 1, dim=0)
+        warp_steps = warp_steps / warp_steps[-1] * (window_size - 1)
+        warp_steps = warp_steps.clamp(0, window_size - 1).long()
+        
+        # Apply warping to each sequence in the batch
+        warped = x.clone()
+        for s in range(seq_len):
+            warped[s] = x[s, warp_steps]
+        
+        return warped
+    
+    def _rotate_imu(self, x, max_angle_deg=10):
+        """Apply small 3D rotation to accelerometer and gyroscope channels."""
+        # Only rotate the first 6 channels (accel + gyro in raw form)
+        # Derived features (norms, variance) are rotation-invariant or recomputed
+        
+        angle = random.uniform(-max_angle_deg, max_angle_deg) * (3.14159 / 180)
+        
+        # Simple rotation around Z-axis for efficiency  
+        cos_a, sin_a = np.cos(angle), np.sin(angle)
+        rot_matrix = torch.tensor([
+            [cos_a, -sin_a, 0],
+            [sin_a, cos_a, 0],
+            [0, 0, 1]
+        ], dtype=x.dtype)
+        
+        rotated = x.clone()
+        seq_len, window_size, channels = x.shape
+        
+        # Rotate accel (channels 0-2) and gyro (channels 3-5)
+        if channels >= 6:
+            for i in range(seq_len):
+                for j in range(window_size):
+                    # Rotate accelerometer
+                    accel = x[i, j, :3]
+                    rotated[i, j, :3] = rot_matrix @ accel
+                    # Rotate gyroscope
+                    gyro = x[i, j, 3:6]
+                    rotated[i, j, 3:6] = rot_matrix @ gyro
+        
+        return rotated
     
     def __len__(self):
         return len(self.samples)

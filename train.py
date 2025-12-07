@@ -14,10 +14,17 @@ def main():
     parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint for probing')
     parser.add_argument('--cv', action='store_true', help='Use K-fold cross validation')
     parser.add_argument('--n-folds', type=int, default=4, help='Number of CV folds (default: 4)')
+    parser.add_argument('--use-all-data', action='store_true', help='Train on combined train+val for final model')
     parser.add_argument("--no-wandb", action="store_true", help="Disable W&B logging")
+    parser.add_argument("--epochs", type=int, default=None, help="Override epochs (for quick testing)")
     args = parser.parse_args()
 
     config = load_config(args.config)
+    
+    # Override epochs if specified
+    if args.epochs is not None:
+        config['training']['epochs'] = args.epochs
+        print(f"Epochs overridden to: {args.epochs}")
 
     if args.probe:
         if not args.checkpoint:

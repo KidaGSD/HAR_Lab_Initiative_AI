@@ -32,11 +32,11 @@ class FocalLoss(nn.Module):
             inputs: Predictions of shape (N, C) where C is num classes
             targets: Ground truth of shape (N,)
         """
-        # Filter out ignored indices
-        if self.ignore_index >= 0:
-            mask = targets != self.ignore_index
-            inputs = inputs[mask]
-            targets = targets[mask]
+        # Filter out ignored indices (always filter, including -1)
+        # BUG FIX: Original condition `>= 0` was False when ignore_index=-1
+        mask = targets != self.ignore_index
+        inputs = inputs[mask]
+        targets = targets[mask]
         
         if inputs.numel() == 0:
             return torch.tensor(0.0, device=inputs.device, requires_grad=True)

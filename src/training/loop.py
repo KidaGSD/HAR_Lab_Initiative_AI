@@ -325,11 +325,22 @@ def train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=
 
 
 def train_one_split(args, config):
-    """Train on predefined train/val split (legacy interface)."""
+    """Train on predefined train/val split (or combined train+val for final model)."""
     import pandas as pd
     scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
-    train_uids = scenario_df[scenario_df['split'] == 'train']['video_uid'].tolist()
-    val_uids = scenario_df[scenario_df['split'] == 'val']['video_uid'].tolist()
+    
+    # Check if we should use all data (train+val combined)
+    use_all = getattr(args, 'use_all_data', False)
+    
+    if use_all:
+        # Combine train and val for final model training
+        train_uids = scenario_df[scenario_df['split'].isin(['train', 'val'])]['video_uid'].tolist()
+        # Use a small holdout from train for monitoring (not for early stopping)
+        val_uids = train_uids[:int(len(train_uids) * 0.05)]  # 5% for monitoring
+        print(f"Final model training on {len(train_uids)} videos (train+val combined)")
+    else:
+        train_uids = scenario_df[scenario_df['split'] == 'train']['video_uid'].tolist()
+        val_uids = scenario_df[scenario_df['split'] == 'val']['video_uid'].tolist()
 
     return train_one_fold(args, config, train_uids, val_uids, fold_idx=None, wandb_run=None)
 

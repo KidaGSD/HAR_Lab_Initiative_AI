@@ -205,9 +205,15 @@ def main():
     parser.add_argument("--output-dir", type=str, default="checkpoints/baselines")
     parser.add_argument("--run-suffix", type=str, default="", help="Suffix for W&B run name")
     parser.add_argument("--no-wandb", action="store_true")
+    parser.add_argument("--epochs", type=int, default=None, help="Override epochs (for quick testing)")
     args = parser.parse_args()
     
     config = load_config(args.config)
+    
+    # Override epochs if specified
+    if args.epochs is not None:
+        config['training']['epochs'] = args.epochs
+        print(f"Epochs overridden to: {args.epochs}")
     
     models_to_train = []
     if args.all:

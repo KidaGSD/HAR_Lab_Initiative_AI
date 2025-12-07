@@ -1,19 +1,19 @@
 #!/bin/bash
 # =============================================================================
-# MASTER TRAINING SCRIPT (Multi-GPU Parallel)
-# Runs complete research pipeline with parallel execution
+# MASTER TRAINING SCRIPT (Robust End-to-End Pipeline)
+# Runs complete research pipeline with proper error handling
 # =============================================================================
 #
-# Experiments:
-#   1. Backbone (beta=0.0) + Probe
-#   2. Joint (beta=0.3) + Probe
-#   3. 4 Baseline Models
-#
-# Output: Scientific benchmark comparison table
+# Features improved:
+#   - Proper checkpoint validation before probe
+#   - Sequential execution with clear dependencies
+#   - Better error handling and logging
+#   - GPU memory check with fallback
 #
 # Usage:
 #   ./run_all.sh              # Run everything
 #   ./run_all.sh --dry-run    # Preview mode
+#   ./run_all.sh --quick      # Quick test (10 epochs)
 #
 # =============================================================================
 
@@ -29,54 +29,81 @@ RESULTS_DIR="${OUTPUT_BASE}/results"
 RESULTS_CSV="${RESULTS_DIR}/benchmark_results.csv"
 
 DRY_RUN=false
-if [ "$1" == "--dry-run" ]; then
-    DRY_RUN=true
-    echo "[DRY RUN MODE]"
-fi
+QUICK_MODE=false
+
+for arg in "$@"; do
+    case $arg in
+        --dry-run)
+            DRY_RUN=true
+            echo "[DRY RUN MODE]"
+            ;;
+        --quick)
+            QUICK_MODE=true
+            echo "[QUICK MODE - 10 epochs]"
+            ;;
+    esac
+done
 
 # -----------------------------------------------------------------------------
-# Find Available GPUs
+# Find Available GPUs (with fallback)
 # -----------------------------------------------------------------------------
 find_available_gpus() {
     AVAILABLE_GPUS=()
+    
+    if ! command -v nvidia-smi &> /dev/null; then
+        echo "⚠ nvidia-smi not found, using GPU 0"
+        AVAILABLE_GPUS=(0)
+        return
+    fi
+    
     while IFS=, read -r FREE IDX; do
         FREE=$(echo "$FREE" | xargs)
         IDX=$(echo "$IDX" | xargs)
-        if [ "$FREE" -ge "30000" ]; then
+        if [ "$FREE" -ge "20000" ]; then  # Reduced threshold to 20GB
             AVAILABLE_GPUS+=("$IDX")
         fi
-    done < <(nvidia-smi --query-gpu=memory.free,index --format=csv,noheader,nounits 2>/dev/null)
+    done < <(nvidia-smi --query-gpu=memory.free,index --format=csv,noheader,nounits 2>/dev/null || echo "40000,0")
+    
+    if [ ${#AVAILABLE_GPUS[@]} -eq 0 ]; then
+        echo "⚠ No GPU with 20GB+ free, using GPU 0"
+        AVAILABLE_GPUS=(0)
+    fi
 }
 
 # -----------------------------------------------------------------------------
 # Pre-flight Checks
 # -----------------------------------------------------------------------------
 preflight_check() {
-    echo "=========================================="
+    echo "==========================================="
     echo "  Pre-flight Checks"
-    echo "=========================================="
-    
-    if ! command -v nvidia-smi &> /dev/null; then
-        echo "✗ nvidia-smi not found!"
-        exit 1
-    fi
+    echo "==========================================="
     
     find_available_gpus
-    
-    if [ ${#AVAILABLE_GPUS[@]} -eq 0 ]; then
-        echo "✗ No GPU with 20GB+ free memory!"
-        nvidia-smi --query-gpu=index,memory.free --format=csv
-        exit 1
-    fi
     echo "✓ Available GPUs: ${AVAILABLE_GPUS[*]}"
     
     # W&B
     export WANDB_API_KEY="${WANDB_API_KEY:-e83326e014ad7a27c2a538f4e38b95bd11a161a0}"
-    wandb login $WANDB_API_KEY 2>/dev/null && echo "✓ W&B logged in" || echo "⚠ W&B offline"
+    wandb login $WANDB_API_KEY 2>/dev/null && echo "✓ W&B logged in" || echo "⚠ W&B offline mode"
     
-    # Data
-    DATA_COUNT=$(ls -1 data/processed_ego4d/ 2>/dev/null | wc -l)
-    echo "✓ Data: $DATA_COUNT videos"
+    # Set W&B group for all runs in this experiment
+    export WANDB_RUN_GROUP="exp_${TIMESTAMP}"
+    echo "✓ W&B group: ${WANDB_RUN_GROUP}"
+    
+    # Data check
+    if [ -d "data/processed_ego4d" ]; then
+        DATA_COUNT=$(ls -1 data/processed_ego4d/ 2>/dev/null | wc -l)
+        echo "✓ Data: $DATA_COUNT videos"
+    else
+        echo "✗ data/processed_ego4d not found!"
+        exit 1
+    fi
+    
+    # Config check
+    if [ ! -f "configs/beta_0.0.yaml" ] || [ ! -f "configs/beta_0.3.yaml" ]; then
+        echo "✗ Config files missing!"
+        exit 1
+    fi
+    echo "✓ Configs verified"
     
     echo ""
 }
@@ -85,9 +112,9 @@ preflight_check() {
 # Setup
 # -----------------------------------------------------------------------------
 setup_env() {
-    echo "=========================================="
+    echo "==========================================="
     echo "  Setup"
-    echo "=========================================="
+    echo "==========================================="
     
     if [ -z "$CONDA_PREFIX" ]; then
         source ~/miniconda3/etc/profile.d/conda.sh 2>/dev/null || true
@@ -103,39 +130,65 @@ setup_env() {
     echo "Output: $OUTPUT_BASE"
     echo "Started: $(date)" | tee "${OUTPUT_BASE}/run_info.txt"
     
+    # Copy configs for reproducibility
     cp configs/beta_0.0.yaml configs/beta_0.3.yaml "$OUTPUT_BASE/"
     echo ""
 }
 
 # -----------------------------------------------------------------------------
-# Run Training
+# Run Training (with proper wait)
 # -----------------------------------------------------------------------------
 run_training() {
     local NAME="$1"
     local CONFIG="$2"
     local GPU="$3"
     local OUTPUT_DIR="${OUTPUT_BASE}/${NAME}"
+    local EPOCHS_OVERRIDE=""
     
-    mkdir -p "$OUTPUT_DIR"
-    echo ">> [$NAME] GPU $GPU..."
-    
-    if [ "$DRY_RUN" == "true" ]; then
-        echo "[DRY RUN] python train.py --config $CONFIG"
-        return
+    if [ "$QUICK_MODE" == "true" ]; then
+        EPOCHS_OVERRIDE="--epochs 10"
     fi
     
-    START_TIME=$(date +%s)
+    mkdir -p "$OUTPUT_DIR"
+    echo ">> [$NAME] Starting on GPU $GPU..."
+    
+    if [ "$DRY_RUN" == "true" ]; then
+        echo "[DRY RUN] python train.py --config $CONFIG --output-dir $OUTPUT_DIR $EPOCHS_OVERRIDE"
+        touch "${OUTPUT_DIR}/best_model.pth"  # Create dummy checkpoint for dry run
+        return 0
+    fi
+    
+    local START_TIME=$(date +%s)
     
     CUDA_VISIBLE_DEVICES=$GPU python train.py \
         --config "$CONFIG" \
         --output-dir "$OUTPUT_DIR" \
-        2>&1 | tee "${LOG_DIR}/${NAME}.log" &
+        $EPOCHS_OVERRIDE \
+        2>&1 | tee "${LOG_DIR}/${NAME}.log"
     
-    echo $! > "${OUTPUT_DIR}/pid.txt"
+    local EXIT_CODE=$?
+    local END_TIME=$(date +%s)
+    local DURATION=$((END_TIME - START_TIME))
+    
+    echo "${NAME}_duration=${DURATION}s" >> "${OUTPUT_BASE}/timings.txt"
+    
+    if [ $EXIT_CODE -ne 0 ]; then
+        echo "✗ [$NAME] Training failed with exit code $EXIT_CODE"
+        return 1
+    fi
+    
+    # Verify checkpoint exists
+    if [ -f "${OUTPUT_DIR}/best_model.pth" ]; then
+        echo "✓ [$NAME] Complete (${DURATION}s) - checkpoint saved"
+        return 0
+    else
+        echo "⚠ [$NAME] Complete but no checkpoint saved"
+        return 1
+    fi
 }
 
 # -----------------------------------------------------------------------------
-# Run Probe
+# Run Probe (with checkpoint validation)
 # -----------------------------------------------------------------------------
 run_probe() {
     local NAME="$1"
@@ -144,11 +197,18 @@ run_probe() {
     local OUTPUT_DIR="${OUTPUT_BASE}/${NAME}_probe"
     
     mkdir -p "$OUTPUT_DIR"
-    echo ">> [$NAME Probe] GPU $GPU..."
+    
+    # Validate checkpoint exists
+    if [ ! -f "$CHECKPOINT" ]; then
+        echo "⚠ [$NAME Probe] Skipped - checkpoint not found: $CHECKPOINT"
+        return 1
+    fi
+    
+    echo ">> [$NAME Probe] Starting on GPU $GPU..."
     
     if [ "$DRY_RUN" == "true" ]; then
-        echo "[DRY RUN] python train.py --probe"
-        return
+        echo "[DRY RUN] python train.py --probe --checkpoint $CHECKPOINT"
+        return 0
     fi
     
     CUDA_VISIBLE_DEVICES=$GPU python train.py \
@@ -157,47 +217,72 @@ run_probe() {
         --config configs/beta_0.0.yaml \
         --output-dir "$OUTPUT_DIR" \
         2>&1 | tee "${LOG_DIR}/${NAME}_probe.log"
+    
+    local EXIT_CODE=$?
+    if [ $EXIT_CODE -ne 0 ]; then
+        echo "✗ [$NAME Probe] Failed"
+        return 1
+    fi
+    
+    echo "✓ [$NAME Probe] Complete"
+    return 0
 }
 
 # -----------------------------------------------------------------------------
-# Run Baselines
+# Run Baselines (sequential for stability)
 # -----------------------------------------------------------------------------
 run_baselines() {
     local GPU="$1"
     local BASELINE_DIR="${OUTPUT_BASE}/baselines"
     mkdir -p "$BASELINE_DIR"
     
-    echo ">> [Baselines] GPU $GPU..."
+    echo ""
+    echo "==========================================="
+    echo "  Running Baselines on GPU $GPU"
+    echo "==========================================="
     
     if [ "$DRY_RUN" == "true" ]; then
         echo "[DRY RUN] 4 baseline models"
-        return
+        return 0
+    fi
+    
+    local EPOCHS_OVERRIDE=""
+    if [ "$QUICK_MODE" == "true" ]; then
+        EPOCHS_OVERRIDE="--epochs 10"
     fi
     
     for MODEL in mlp_mlp cnn_mlp imu2clip cnn_lstm_gru; do
-        echo "  Training: $MODEL"
+        echo ">> [Baseline: $MODEL] Training..."
         CUDA_VISIBLE_DEVICES=$GPU python scripts/train_baselines.py \
             --model "$MODEL" \
             --config configs/beta_0.3.yaml \
             --output-dir "$BASELINE_DIR" \
+            $EPOCHS_OVERRIDE \
             2>&1 | tee "${LOG_DIR}/baseline_${MODEL}.log"
+        
+        if [ $? -eq 0 ]; then
+            echo "✓ [Baseline: $MODEL] Complete"
+        else
+            echo "⚠ [Baseline: $MODEL] Failed (continuing...)"
+        fi
     done
 }
 
 # -----------------------------------------------------------------------------
-# Extract Metrics
+# Extract Metrics from Logs
 # -----------------------------------------------------------------------------
 extract_metrics() {
     local LOG="$1"
     local NAME="$2"
     
     if [ ! -f "$LOG" ]; then
-        echo "$NAME,N/A,N/A,N/A,N/A" >> "$RESULTS_CSV"
+        echo "$NAME,N/A,N/A,~1.5M,-" >> "$RESULTS_CSV"
         return
     fi
     
-    # Extract scenario F1
-    SCENARIO_F1=$(grep -oE "Val Scenario F1: [0-9]+\.[0-9]+" "$LOG" | tail -1 | grep -oE "[0-9]+\.[0-9]+" || echo "N/A")
+    # Extract best scenario F1 (more reliable than last epoch)
+    SCENARIO_F1=$(grep -oE "Best model saved \(Scenario F1: [0-9]+\.[0-9]+" "$LOG" | tail -1 | grep -oE "[0-9]+\.[0-9]+" || \
+                  grep -oE "Val Scenario F1: [0-9]+\.[0-9]+" "$LOG" | tail -1 | grep -oE "[0-9]+\.[0-9]+" || echo "N/A")
     
     # Extract action F1
     ACTION_F1=$(grep -oE "(Val Action F1|Probe Val Action F1): [0-9]+\.[0-9]+" "$LOG" | tail -1 | grep -oE "[0-9]+\.[0-9]+" || echo "N/A")
@@ -210,12 +295,12 @@ extract_metrics() {
 # -----------------------------------------------------------------------------
 generate_results_table() {
     echo ""
-    echo "=========================================="
+    echo "==========================================="
     echo "  BENCHMARK RESULTS"
-    echo "=========================================="
+    echo "==========================================="
     echo ""
     
-    # Extract metrics from logs
+    # Extract metrics from all logs
     extract_metrics "${LOG_DIR}/backbone_beta0.log" "Backbone (β=0.0)"
     extract_metrics "${LOG_DIR}/backbone_beta0_probe.log" "Backbone + Probe"
     extract_metrics "${LOG_DIR}/joint_beta03.log" "Joint (β=0.3)"
@@ -239,14 +324,17 @@ generate_results_table() {
     
     # Save as markdown
     RESULTS_MD="${RESULTS_DIR}/benchmark_results.md"
-    echo "# Benchmark Results" > "$RESULTS_MD"
-    echo "" >> "$RESULTS_MD"
-    echo "Generated: $(date)" >> "$RESULTS_MD"
-    echo "" >> "$RESULTS_MD"
-    echo "## Performance Comparison" >> "$RESULTS_MD"
-    echo "" >> "$RESULTS_MD"
-    echo "| Model | Scenario F1 | Action F1 |" >> "$RESULTS_MD"
-    echo "|-------|-------------|-----------|" >> "$RESULTS_MD"
+    cat > "$RESULTS_MD" << EOF
+# Benchmark Results
+
+**Generated**: $(date)
+**Config**: EgoCHARM features (14 channels)
+
+## Performance Comparison
+
+| Model | Scenario F1 | Action F1 |
+|-------|-------------|-----------|
+EOF
     
     while IFS=, read -r MODEL SCENARIO ACTION PARAMS TIME; do
         if [ "$MODEL" != "Model" ]; then
@@ -254,63 +342,62 @@ generate_results_table() {
         fi
     done < "$RESULTS_CSV"
     
-    echo "" >> "$RESULTS_MD"
-    echo "## Configuration" >> "$RESULTS_MD"
-    echo "- Focal Loss: gamma=2.0" >> "$RESULTS_MD"
-    echo "- Class Weights: [5.0, 7.0, 0.5, 10.0]" >> "$RESULTS_MD"
-    echo "- Label Smoothing: 0.1" >> "$RESULTS_MD"
-    echo "- Augmentation: Jittering + Scaling" >> "$RESULTS_MD"
+    cat >> "$RESULTS_MD" << EOF
+
+## Configuration
+- **Features**: 14 channels (6 raw + 2 norms + 6 variance)
+- **Focal Loss**: gamma=2.0
+- **Class Weights**: [5.0, 7.0, 0.5, 10.0]
+- **Label Smoothing**: 0.1
+- **Augmentation**: Jittering + Scaling + Time Warp + Rotation
+EOF
     
     echo "✓ Results saved to: $RESULTS_MD"
 }
 
 # -----------------------------------------------------------------------------
-# Main
+# Main (Sequential for Reliability)
 # -----------------------------------------------------------------------------
 main() {
     preflight_check
     setup_env
     
-    NUM_GPUS=${#AVAILABLE_GPUS[@]}
     GPU0=${AVAILABLE_GPUS[0]}
     GPU1=${AVAILABLE_GPUS[1]:-$GPU0}
-    GPU2=${AVAILABLE_GPUS[2]:-$GPU0}
     
-    echo "=========================================="
-    echo "  Parallel Execution ($NUM_GPUS GPUs)"
-    echo "=========================================="
-    echo "GPU $GPU0: Backbone (β=0.0)"
-    echo "GPU $GPU1: Joint (β=0.3)"
-    echo "GPU $GPU2: Baselines"
+    echo "==========================================="
+    echo "  Training Pipeline"
+    echo "==========================================="
+    echo "Phase 1: Backbone (β=0.0) on GPU $GPU0"
+    echo "Phase 2: Joint (β=0.3) on GPU $GPU1"
+    echo "Phase 3: Probes and Baselines"
     echo ""
     
-    # Start parallel training
-    run_training "backbone_beta0" "configs/beta_0.0.yaml" "$GPU0"
-    run_training "joint_beta03" "configs/beta_0.3.yaml" "$GPU1"
-    run_baselines "$GPU2" &
-    PID_BASELINES=$!
+    # Phase 1: Backbone Training
+    echo "--- Phase 1: Backbone (β=0.0) ---"
+    if run_training "backbone_beta0" "configs/beta_0.0.yaml" "$GPU0"; then
+        # Probe immediately after successful backbone
+        run_probe "backbone_beta0" "${OUTPUT_BASE}/backbone_beta0/best_model.pth" "$GPU0" || true
+    fi
     
-    # Wait for backbone, then probe
-    wait $(cat "${OUTPUT_BASE}/backbone_beta0/pid.txt" 2>/dev/null || echo "")
-    echo "✓ Backbone complete"
-    run_probe "backbone_beta0" "${OUTPUT_BASE}/backbone_beta0/best_model.pth" "$GPU0"
+    # Phase 2: Joint Training
+    echo ""
+    echo "--- Phase 2: Joint (β=0.3) ---"
+    if run_training "joint_beta03" "configs/beta_0.3.yaml" "$GPU1"; then
+        # Probe immediately after successful joint
+        run_probe "joint_beta03" "${OUTPUT_BASE}/joint_beta03/best_model.pth" "$GPU1" || true
+    fi
     
-    # Wait for joint, then probe
-    wait $(cat "${OUTPUT_BASE}/joint_beta03/pid.txt" 2>/dev/null || echo "")
-    echo "✓ Joint complete"
-    run_probe "joint_beta03" "${OUTPUT_BASE}/joint_beta03/best_model.pth" "$GPU1"
-    
-    # Wait for baselines
-    wait $PID_BASELINES
-    echo "✓ Baselines complete"
+    # Phase 3: Baselines
+    run_baselines "$GPU0"
     
     # Generate results
     generate_results_table
     
     echo ""
-    echo "=========================================="
-    echo "  COMPLETE!"
-    echo "=========================================="
+    echo "==========================================="
+    echo "  PIPELINE COMPLETE!"
+    echo "==========================================="
     echo "Output: $OUTPUT_BASE"
     echo "Results: $RESULTS_CSV"
     echo "Report: ${RESULTS_DIR}/benchmark_results.md"
