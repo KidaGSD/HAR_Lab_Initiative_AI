@@ -186,29 +186,24 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"📍 Device: {device}")
     
-    # Load Data using current HierarchicalDataset structure
+    # Load Data using same approach as training
     print(f"Loading {args.split} data...")
     
-    # Load split file to get UIDs
+    # Load split UIDs
     split_file = f"data/splits/{args.split}_uids.txt"
-    if not os.path.exists(split_file):
-        print(f"⚠️  Split file not found: {split_file}")
-        print("Looking for UIDs in scenario_labels.csv...")
-        scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
-        take_uids = scenario_df['video_uid'].tolist()
-    else:
-        with open(split_file, 'r') as f:
-            take_uids = [line.strip() for line in f if line.strip()]
+    with open(split_file, 'r') as f:
+        uids = [line.strip() for line in f if line.strip()]
     
-    print(f"Found {len(take_uids)} videos in {args.split} split")
+    print(f"Found {len(uids)} videos in {args.split} split")
     
+    # Create dataset with same args as training loop
     dataset = HierarchicalDataset(
-        take_uids=take_uids,
-        processed_dir="data/processed",
-        scenario_labels_path="data/labels/scenario_labels.csv",
-        action_labels_path="data/labels/action_labels_4class.csv",
-        config=config,
-        training=False  # No augmentation for visualization
+        uids,
+        "data/processed_ego4d",  # Same as training
+        "data/labels/scenario_labels.csv",
+        "data/labels/action_labels_4class.csv",
+        config,
+        training=False
     )
     
     loader = DataLoader(
