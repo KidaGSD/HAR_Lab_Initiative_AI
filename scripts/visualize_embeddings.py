@@ -33,40 +33,46 @@ def extract_embeddings(model, loader, device):
     scenario_feats = []
     action_feats = []
     scenario_labels = []
-    action_labels = [] # Flattened
+    action_labels = []
     
-    # Register hooks to capture inputs to classification heads
-    # Input to hla.head is the High-Level Embedding (Video/Scenario level)
-    # Input to action_head is the Low-Level Embedding (Window/Action level)
-    
+    # Register hooks to capture embeddings before classification heads
     def hla_hook(module, input, output):
-        # input is a tuple (tensor,), shape (B, HiddenDim)
-        scenario_feats.append(input[0].detach().cpu().numpy())
+        # Capture HLA output (high-level embeddings)
+        scenario_feats.append(output.detach().cpu().numpy())
         
-    def action_hook(module, input, output):
-        # input is a tuple (tensor,), shape (B*Seq, EmbeddingDim)
-        action_feats.append(input[0].detach().cpu().numpy())
+    def lle_hook(module, input, output):
+        # Capture LLE output (low-level embeddings) 
+        # output shape: (B, Seq, EmbeddingDim)
+        batch_size, seq_len, emb_dim = output.shape
+        # Flatten to (B*Seq, EmbeddingDim)
+        action_feats.append(output.reshape(-1, emb_dim).detach().cpu().numpy())
 
-    handle_hla = model.hla.head.register_forward_hook(hla_hook)
-    handle_action = model.action_head.register_forward_hook(action_hook)
+    # Register hooks at the embedding layers (before heads)
+    handle_hla = model.hla.register_forward_hook(hla_hook)
+    handle_lle = model.lle.register_forward_hook(lle_hook)
     
     model.eval()
     with torch.no_grad():
         for batch in tqdm(loader):
-            inputs = batch['inputs'].to(device)
+            sequences = batch['sequence'].to(device)  # Fixed: was 'inputs'
             s_label = batch['scenario_label']  # (B,)
-            a_label = batch['action_labels']   # (B, Seq)
+            a_label = batch['action_label']    # Fixed: was 'action_labels'
             
             # Forward pass triggers hooks
-            model(inputs)
+            model(sequences)
             
             # Store labels
             scenario_labels.append(s_label.numpy())
-            action_labels.append(a_label.view(-1).numpy())
+            # Action labels need to be expanded to match flattened embeddings
+            # a_label is (B,) but we have (B*Seq,) embeddings
+            # For now, repeat each action label seq_len times
+            batch_size = len(s_label)
+            seq_len = sequences.shape[1]
+            action_labels.append(np.repeat(a_label.numpy(), seq_len))
             
     # Cleanup hooks
     handle_hla.remove()
-    handle_action.remove()
+    handle_lle.remove()
     
     # Concatenate all
     S_feats = np.concatenate(scenario_feats, axis=0)
@@ -160,9 +166,11 @@ def plot_embedding(features, labels, label_map, title, save_path_base, method='p
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", type=str, default="configs/beta_0.3.yaml")
+    parser.add_argument("--config", type=str, required=True, help="Path to model config (e.g., configs/beta_0.5.yaml)")
     parser.add_argument("--checkpoint", type=str, required=True, help="Path to best_model.pth")
     parser.add_argument("--output-dir", type=str, default="outputs/plots")
+    parser.add_argument("--split", type=str, default="val", choices=['train', 'val', 'test'],
+                       help="Which split to visualize")
     parser.add_argument("--use-tsne", action="store_true", help="Use t-SNE instead of PCA")
     args = parser.parse_args()
     
@@ -170,28 +178,32 @@ def main():
     config = load_config(args.config)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
-    # Load Data (Use ALL data as requested)
-    print("Loading ALL data...")
-    scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
-    all_uids = scenario_df['video_uid'].tolist()
-    
+    # Load Data using current HierarchicalDataset structure
+    print(f"Loading {args.split} data...")
     dataset = HierarchicalDataset(
-        all_uids,
-        "data/processed_ego4d",
-        "data/labels/scenario_labels.csv",
-        "data/labels/action_labels_4class.csv",
-        config,
-        training=False  # No augmentation for visualization
+        data_dir="data/processed",
+        split=args.split,
+        config=config,
+        augment=False  # No augmentation for visualization
     )
     
-    loader = DataLoader(dataset, batch_size=config['training']['batch_size'], 
-                       shuffle=False, num_workers=4)
+    loader = DataLoader(
+        dataset, 
+        batch_size=config['training']['batch_size'], 
+        shuffle=False, 
+        num_workers=4
+    )
     
     # Load Model
     print(f"Loading model from {args.checkpoint}...")
     model = HierarchicalModel(config).to(device)
-    state_dict = torch.load(args.checkpoint, map_location=device)
-    model.load_state_dict(state_dict)
+    checkpoint = torch.load(args.checkpoint, map_location=device)
+    
+    # Handle different checkpoint formats
+    if 'model_state_dict' in checkpoint:
+        model.load_state_dict(checkpoint['model_state_dict'])
+    else:
+        model.load_state_dict(checkpoint)
     
     # Extract
     S_feats, S_labels, A_feats, A_labels = extract_embeddings(model, loader, device)
@@ -201,22 +213,26 @@ def main():
     
     # Plot Method
     method = 'tsne' if args.use_tsne else 'pca'
+    model_name = Path(args.checkpoint).parent.name
     
     # Plot Scenario Features (High Level)
     plot_embedding(
         S_feats, S_labels, dataset.scenario_map, 
-        "Scenario (High-Level)", 
-        f"{args.output_dir}/scenario_features_{method}",
+        f"Scenario (High-Level) - {args.split.upper()}", 
+        f"{args.output_dir}/{model_name}_scenario_{args.split}_{method}",
         method
     )
     
     # Plot Action Features (Low Level)
     plot_embedding(
         A_feats, A_labels, dataset.action_map, 
-        "Action (Low-Level)", 
-        f"{args.output_dir}/action_features_{method}",
+        f"Action (Low-Level) - {args.split.upper()}", 
+        f"{args.output_dir}/{model_name}_action_{args.split}_{method}",
         method
     )
+    
+    print(f"\n✓ Visualization complete! Plots saved to {args.output_dir}/")
+
 
 if __name__ == "__main__":
     main()
