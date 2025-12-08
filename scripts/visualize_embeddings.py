@@ -191,10 +191,16 @@ def main():
     
     # Load split UIDs
     split_file = f"data/splits/{args.split}_uids.txt"
-    with open(split_file, 'r') as f:
-        uids = [line.strip() for line in f if line.strip()]
+    if not os.path.exists(split_file):
+        print(f"⚠️  Split file not found: {split_file}")
+        print(f"Loading all UIDs from scenario_labels.csv instead...")
+        scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+        uids = scenario_df['video_uid'].tolist()
+    else:
+        with open(split_file, 'r') as f:
+            uids = [line.strip() for line in f if line.strip()]
     
-    print(f"Found {len(uids)} videos in {args.split} split")
+    print(f"Found {len(uids)} videos for visualization")
     
     # Create dataset with same args as training loop
     dataset = HierarchicalDataset(
