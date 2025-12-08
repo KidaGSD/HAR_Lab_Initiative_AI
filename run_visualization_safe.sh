@@ -62,7 +62,7 @@ fi
 # Configuration
 MODEL_NAME="beta_1.0"
 CHECKPOINT="checkpoints/checkpoints/experiments_20251206_224347/beta_1.0/best_model.pth"
-CONFIG="configs/hierarchical.yaml"
+CONFIG="configs/beta_1.0.yaml"  # Use matching config for the checkpoint
 OUTPUT_DIR="outputs/embeddings_viz"
 BATCH_SIZE=8  # Reduced for safety
 
@@ -78,33 +78,27 @@ echo ""
 echo "📊 Configuration:"
 echo "  Model: $MODEL_NAME"
 echo "  Device: $DEVICE_INFO"
-echo "  Batch size: $BATCH_SIZE"
+echo "  Checkpoint: $CHECKPOINT"
 echo "  Output: $OUTPUT_DIR"
 echo ""
 
-# Temporarily modify config for smaller batch size
-echo "🔧 Creating temporary config with batch_size=$BATCH_SIZE..."
-cat $CONFIG | sed "s/batch_size: [0-9]*/batch_size: $BATCH_SIZE/" > /tmp/viz_config.yaml
-
-echo ""
-echo "1️⃣ Generating PCA plots..."
+echo "1️⃣ Generating PCA plots (fast, global structure)..."
+# NOTE: No --use-tsne flag = uses PCA by default
 python scripts/visualize_embeddings.py \
-    --config /tmp/viz_config.yaml \
+    --config $CONFIG \
     --checkpoint $CHECKPOINT \
     --split val \
     --output-dir $OUTPUT_DIR
 
 echo ""
-echo "2️⃣ Generating t-SNE plots (slower)..."
+echo "2️⃣ Generating t-SNE plots (slower, better clustering)..."
+# NOTE: --use-tsne flag enables t-SNE instead of PCA
 python scripts/visualize_embeddings.py \
-    --config /tmp/viz_config.yaml \
+    --config $CONFIG \
     --checkpoint $CHECKPOINT \
     --split val \
     --use-tsne \
     --output-dir $OUTPUT_DIR
-
-# Cleanup
-rm /tmp/viz_config.yaml
 
 echo ""
 echo "✅ Visualization complete!"

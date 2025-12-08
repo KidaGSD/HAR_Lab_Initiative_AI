@@ -172,11 +172,19 @@ def main():
     parser.add_argument("--split", type=str, default="val", choices=['train', 'val', 'test'],
                        help="Which split to visualize")
     parser.add_argument("--use-tsne", action="store_true", help="Use t-SNE instead of PCA")
+    parser.add_argument("--gpu", type=int, default=None, help="GPU ID to use (e.g., 0, 1, 2). If not specified, uses CUDA_VISIBLE_DEVICES or auto-detects")
     args = parser.parse_args()
+    
+    # Manual GPU assignment if specified
+    if args.gpu is not None:
+        import os
+        os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
+        print(f"🎯 Using manually specified GPU {args.gpu}")
     
     # Config
     config = load_config(args.config)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(f"📍 Device: {device}")
     
     # Load Data using current HierarchicalDataset structure
     print(f"Loading {args.split} data...")
