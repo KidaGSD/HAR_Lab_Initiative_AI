@@ -54,9 +54,9 @@ def extract_embeddings(model, loader, device):
     model.eval()
     with torch.no_grad():
         for batch in tqdm(loader):
-            sequences = batch['sequence'].to(device)  # Fixed: was 'inputs'
+            sequences = batch['inputs'].to(device)  # HierarchicalDataset returns 'inputs'
             s_label = batch['scenario_label']  # (B,)
-            a_label = batch['action_label']    # Fixed: was 'action_labels'
+            a_label = batch['action_labels']   # (B, Seq)
             
             # Forward pass triggers hooks
             model(sequences)
@@ -64,11 +64,10 @@ def extract_embeddings(model, loader, device):
             # Store labels
             scenario_labels.append(s_label.numpy())
             # Action labels need to be expanded to match flattened embeddings
-            # a_label is (B,) but we have (B*Seq,) embeddings
-            # For now, repeat each action label seq_len times
+            # a_label is (B, Seq) - flatten it
             batch_size = len(s_label)
             seq_len = sequences.shape[1]
-            action_labels.append(np.repeat(a_label.numpy(), seq_len))
+            action_labels.append(a_label.view(-1).numpy())
             
     # Cleanup hooks
     handle_hla.remove()
@@ -165,98 +164,249 @@ def plot_embedding(features, labels, label_map, title, save_path_base, method='p
     print(f"Saved: {save_path_base}.png & .pdf")
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="Visualize hierarchical model embeddings (train+val data)")
     parser.add_argument("--config", type=str, required=True, help="Path to model config (e.g., configs/beta_0.5.yaml)")
     parser.add_argument("--checkpoint", type=str, required=True, help="Path to best_model.pth")
-    parser.add_argument("--output-dir", type=str, default="outputs/plots")
-    parser.add_argument("--split", type=str, default="val", choices=['train', 'val', 'test'],
-                       help="Which split to visualize")
+    parser.add_argument("--output-dir", type=str, default="outputs/plots", help="Output directory for plots")
     parser.add_argument("--use-tsne", action="store_true", help="Use t-SNE instead of PCA")
     parser.add_argument("--gpu", type=int, default=None, help="GPU ID to use (e.g., 0, 1, 2). If not specified, uses CUDA_VISIBLE_DEVICES or auto-detects")
     args = parser.parse_args()
     
-    # Manual GPU assignment if specified
+    print("=" * 60)
+    print("🎨 HIERARCHICAL HAR EMBEDDING VISUALIZATION")
+    print("=" * 60)
+    
+    # ============ VALIDATION PHASE ============
+    print("\n📋 Validating environment and paths...")
+    
+    # 1. Check config file
+    if not os.path.exists(args.config):
+        print(f"❌ ERROR: Config file not found: {args.config}")
+        print(f"   Available configs in configs/:")
+        for f in Path("configs").glob("*.yaml"):
+            print(f"     - {f}")
+        sys.exit(1)
+    print(f"✓ Config file found: {args.config}")
+    
+    # 2. Check checkpoint
+    if not os.path.exists(args.checkpoint):
+        print(f"❌ ERROR: Checkpoint not found: {args.checkpoint}")
+        print(f"   Try: find checkpoints/ -name 'best_model.pth'")
+        sys.exit(1)
+    print(f"✓ Checkpoint found: {args.checkpoint}")
+    
+    # 3. Check data directories
+    required_paths = {
+        "Labels (scenario)": "data/labels/scenario_labels.csv",
+        "Labels (action)": "data/labels/action_labels_4class.csv",
+        "Processed data": "data/processed_ego4d"
+    }
+    
+    for name, path in required_paths.items():
+        if not os.path.exists(path):
+            print(f"❌ ERROR: {name} not found: {path}")
+            if "processed" in path:
+                print(f"   Make sure you're running from the project root directory")
+                print(f"   Current directory: {os.getcwd()}")
+            sys.exit(1)
+        print(f"✓ {name} found")
+    
+    # 4. Check if processed_ego4d has data
+    processed_dir = Path("data/processed_ego4d")
+    sample_files = list(processed_dir.glob("*/seq.npz"))
+    if len(sample_files) == 0:
+        print(f"❌ ERROR: No .npz files found in {processed_dir}/")
+        print(f"   Directory exists but appears empty")
+        sys.exit(1)
+    print(f"✓ Found {len(sample_files)} processed video files")
+    
+    # 5. Manual GPU assignment
     if args.gpu is not None:
-        import os
         os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
-        print(f"🎯 Using manually specified GPU {args.gpu}")
+        print(f"✓ GPU manually set to: {args.gpu}")
     
-    # Config
-    config = load_config(args.config)
+    # ============ INITIALIZATION PHASE ============
+    print("\n🔧 Initializing...")
+    
+    try:
+        config = load_config(args.config)
+        print(f"✓ Config loaded successfully")
+    except Exception as e:
+        print(f"❌ ERROR loading config: {e}")
+        sys.exit(1)
+    
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f"📍 Device: {device}")
+    if device.type == 'cuda':
+        print(f"✓ Using CUDA device: {torch.cuda.get_device_name(0)}")
+        print(f"  Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
+    else:
+        print(f"⚠️  Using CPU (will be slower)")
     
-    # Load Data using same approach as training
-    print(f"Loading {args.split} data...")
+    # ============ DATA LOADING PHASE ============
+    print(f"\n📂 Loading data for visualization...")
     
-    # Load split UIDs
-    split_file = f"data/splits/{args.split}_uids.txt"
-    if not os.path.exists(split_file):
-        print(f"⚠️  Split file not found: {split_file}")
-        print(f"Loading all UIDs from scenario_labels.csv instead...")
+    # Load UIDs from scenario_labels.csv 'split' column (same as training)
+    try:
         scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
-        uids = scenario_df['video_uid'].tolist()
-    else:
-        with open(split_file, 'r') as f:
-            uids = [line.strip() for line in f if line.strip()]
+        
+        # Get train and val UIDs from split column
+        train_uids = scenario_df[scenario_df['split'] == 'train']['video_uid'].tolist()
+        val_uids = scenario_df[scenario_df['split'] == 'val']['video_uid'].tolist()
+        
+        print(f"✓ Loaded {len(train_uids)} training UIDs from scenario_labels.csv")
+        print(f"✓ Loaded {len(val_uids)} validation UIDs from scenario_labels.csv")
+        
+        # Combine train and val
+        uids = train_uids + val_uids
+        print(f"\n✓ Total: {len(uids)} videos (train + val only)")
+        
+        if len(uids) == 0:
+            print(f"❌ ERROR: No train or val UIDs found in scenario_labels.csv!")
+            print(f"   Check that 'split' column contains 'train' and 'val' values")
+            sys.exit(1)
+            
+    except FileNotFoundError:
+        print(f"❌ ERROR: scenario_labels.csv not found at data/labels/")
+        sys.exit(1)
+    except KeyError as e:
+        print(f"❌ ERROR: Missing column in scenario_labels.csv: {e}")
+        print(f"   Required columns: 'video_uid', 'split'")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ ERROR reading scenario labels: {e}")
+        sys.exit(1)
     
-    print(f"Found {len(uids)} videos for visualization")
+    # Create dataset
+    print(f"\n🔨 Creating dataset...")
+    try:
+        dataset = HierarchicalDataset(
+            uids,
+            "data/processed_ego4d",
+            "data/labels/scenario_labels.csv",
+            "data/labels/action_labels_4class.csv",
+            config,
+            training=False
+        )
+        print(f"✓ Dataset created: {len(dataset)} samples")
+        print(f"  Scenarios: {dataset.num_scenarios} classes")
+        print(f"  Actions: {dataset.num_action_classes} classes")
+    except ValueError as e:
+        print(f"❌ ERROR creating dataset: {e}")
+        print(f"\nPossible causes:")
+        print(f"  1. No valid .npz files for the given UIDs")
+        print(f"  2. Data normalization failed (no valid data)")
+        print(f"  3. Mismatch between UIDs and available data")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ UNEXPECTED ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
     
-    # Create dataset with same args as training loop
-    dataset = HierarchicalDataset(
-        uids,
-        "data/processed_ego4d",  # Same as training
-        "data/labels/scenario_labels.csv",
-        "data/labels/action_labels_4class.csv",
-        config,
-        training=False
-    )
+    # Create dataloader
+    try:
+        batch_size = min(config['training']['batch_size'], len(dataset))
+        loader = DataLoader(
+            dataset, 
+            batch_size=batch_size, 
+            shuffle=False, 
+            num_workers=min(4, os.cpu_count() or 4)
+        )
+        print(f"✓ DataLoader created (batch_size={batch_size})")
+    except Exception as e:
+        print(f"❌ ERROR creating DataLoader: {e}")
+        sys.exit(1)
     
-    loader = DataLoader(
-        dataset, 
-        batch_size=config['training']['batch_size'], 
-        shuffle=False, 
-        num_workers=4
-    )
+    # ============ MODEL LOADING PHASE ============
+    print(f"\n🧠 Loading model...")
+    try:
+        model = HierarchicalModel(config).to(device)
+        print(f"✓ Model architecture created")
+        
+        checkpoint = torch.load(args.checkpoint, map_location=device)
+        
+        # Handle different checkpoint formats
+        if 'model_state_dict' in checkpoint:
+            model.load_state_dict(checkpoint['model_state_dict'])
+            print(f"✓ Loaded checkpoint (with state_dict wrapper)")
+        else:
+            model.load_state_dict(checkpoint)
+            print(f"✓ Loaded checkpoint (direct state_dict)")
+        
+        model.eval()
+        print(f"✓ Model set to eval mode")
+    except Exception as e:
+        print(f"❌ ERROR loading model: {e}")
+        print(f"\nPossible causes:")
+        print(f"  1. Checkpoint incompatible with current model architecture")
+        print(f"  2. Checkpoint corrupted")
+        print(f"  3. Config mismatch with saved model")
+        sys.exit(1)
     
-    # Load Model
-    print(f"Loading model from {args.checkpoint}...")
-    model = HierarchicalModel(config).to(device)
-    checkpoint = torch.load(args.checkpoint, map_location=device)
+    # ============ EMBEDDING EXTRACTION PHASE ============
+    print(f"\n🔬 Extracting embeddings...")
+    try:
+        S_feats, S_labels, A_feats, A_labels = extract_embeddings(model, loader, device)
+        print(f"✓ Extracted embeddings:")
+        print(f"  Scenario: {S_feats.shape[0]} samples × {S_feats.shape[1]} dims")
+        print(f"  Action:   {A_feats.shape[0]} samples × {A_feats.shape[1]} dims")
+    except RuntimeError as e:
+        if "out of memory" in str(e).lower():
+            print(f"❌ GPU OUT OF MEMORY!")
+            print(f"   Try: --gpu <different_gpu> or reduce batch size in config")
+        else:
+            print(f"❌ RUNTIME ERROR: {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ ERROR during extraction: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
     
-    # Handle different checkpoint formats
-    if 'model_state_dict' in checkpoint:
-        model.load_state_dict(checkpoint['model_state_dict'])
-    else:
-        model.load_state_dict(checkpoint)
+    # ============ VISUALIZATION PHASE ============
+    print(f"\n🎨 Generating visualizations...")
     
-    # Extract
-    S_feats, S_labels, A_feats, A_labels = extract_embeddings(model, loader, device)
-    
-    # Create Output Dir
+    # Create output directory
     os.makedirs(args.output_dir, exist_ok=True)
     
-    # Plot Method
     method = 'tsne' if args.use_tsne else 'pca'
     model_name = Path(args.checkpoint).parent.name
     
-    # Plot Scenario Features (High Level)
-    plot_embedding(
-        S_feats, S_labels, dataset.scenario_map, 
-        f"Scenario (High-Level) - {args.split.upper()}", 
-        f"{args.output_dir}/{model_name}_scenario_{args.split}_{method}",
-        method
-    )
-    
-    # Plot Action Features (Low Level)
-    plot_embedding(
-        A_feats, A_labels, dataset.action_map, 
-        f"Action (Low-Level) - {args.split.upper()}", 
-        f"{args.output_dir}/{model_name}_action_{args.split}_{method}",
-        method
-    )
-    
-    print(f"\n✓ Visualization complete! Plots saved to {args.output_dir}/")
+    try:
+        # Plot Scenario Features
+        print(f"  📊 Plotting scenario embeddings ({method.upper()})...")
+        plot_embedding(
+            S_feats, S_labels, dataset.scenario_map, 
+            f"Scenario (High-Level) - TRAIN+VAL", 
+            f"{args.output_dir}/{model_name}_scenario_trainval_{method}",
+            method
+        )
+        
+        # Plot Action Features
+        print(f"  📊 Plotting action embeddings ({method.upper()})...")
+        plot_embedding(
+            A_feats, A_labels, dataset.action_map, 
+            f"Action (Low-Level) - TRAIN+VAL", 
+            f"{args.output_dir}/{model_name}_action_trainval_{method}",
+            method
+        )
+        
+        print(f"\n✅ VISUALIZATION COMPLETE!")
+        print(f"\n📁 Output files:")
+        for f in sorted(Path(args.output_dir).glob(f"{model_name}*{method}*")):
+            size = f.stat().st_size / 1024
+            print(f"   {f.name} ({size:.1f} KB)")
+        
+        print(f"\n💡 Next steps:")
+        print(f"   1. View plots: open {args.output_dir}/")
+        print(f"   2. Download: scp -r server:{os.getcwd()}/{args.output_dir} ./")
+        print(f"   3. Use .pdf files for LaTeX reports")
+        
+    except Exception as e:
+        print(f"❌ ERROR during plotting: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
 
 
 if __name__ == "__main__":
