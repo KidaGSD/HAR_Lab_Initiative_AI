@@ -310,9 +310,10 @@ def main():
             dataset, 
             batch_size=batch_size, 
             shuffle=False, 
-            num_workers=min(4, os.cpu_count() or 4)
+            num_workers=8,  # Increased from 4 for faster loading
+            pin_memory=True if device.type == 'cuda' else False  # Speed up GPU transfer
         )
-        print(f"✓ DataLoader created (batch_size={batch_size})")
+        print(f"✓ DataLoader created (batch_size={batch_size}, workers=8)")
     except Exception as e:
         print(f"❌ ERROR creating DataLoader: {e}")
         sys.exit(1)

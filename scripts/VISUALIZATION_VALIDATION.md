@@ -207,7 +207,13 @@ The script should now work end-to-end without interface mismatches!
 python scripts/visualize_embeddings.py \
   --config configs/beta_1.0.yaml \
   --checkpoint checkpoints/experiments_20251206_224347/beta_1.0/best_model.pth \
-  --gpu 5 \
+  --gpu 6 \
   --use-tsne \
   --output-dir outputs/embeddings_viz
 ```
+
+python scripts/visualize_embeddings.py \
+  --config configs/beta_1.0.yaml \
+  --checkpoint checkpoints/experiments_20251206_224347/beta_1.0/best_model.pth \
+  --gpu 5 \
+  --output-dir outputs/embeddings_viz
