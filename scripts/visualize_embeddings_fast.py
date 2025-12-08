@@ -92,24 +92,28 @@ def extract_embeddings(model, loader, device):
 
 def plot_embedding(features, labels, label_map, title, save_path_base, method='pca'):
     """
-    Dimensionality reduction and plotting.
+    Publication-quality dimensionality reduction and plotting.
     """
+    print(f"    Reducing {features.shape[0]} samples to 2D using {method.upper()}...")
+    
     # Reduce to 2D
     if method == 'pca':
         reducer = PCA(n_components=2, random_state=42)
         reduced = reducer.fit_transform(features)
         method_name = 'PCA'
         var_explained = reducer.explained_variance_ratio_
-        subtitle = f'Explained Variance: {var_explained[0]:.1%} + {var_explained[1]:.1%} = {sum(var_explained):.1%}'
+        subtitle = f'Variance: {var_explained[0]:.1%} + {var_explained[1]:.1%} = {sum(var_explained):.1%}'
     else:  # t-SNE
-        reducer = TSNE(n_components=2, random_state=42, perplexity=min(30, len(features)//4))
+        perplexity = min(30, max(5, len(features)//100))  # Adaptive perplexity
+        reducer = TSNE(n_components=2, random_state=42, perplexity=perplexity, 
+                       learning_rate=200, n_iter=1000, verbose=0)
         reduced = reducer.fit_transform(features)
         method_name = 't-SNE'
-        subtitle = 'Perplexity=30, Learning Rate=200'
+        subtitle = f'Perplexity={perplexity}, Iter=1000'
     
     # Create DataFrame
     idx_to_label = {v: k for k, v in label_map.items()}
-    label_names = [idx_to_label.get(l, f'Unknown({l})') for l in labels]
+    label_names = [idx_to_label.get(l, f'Unknown') for l in labels]
     
     df = pd.DataFrame({
         'x': reduced[:, 0],
@@ -118,46 +122,115 @@ def plot_embedding(features, labels, label_map, title, save_path_base, method='p
     })
     
     # Remove unknown
-    df = df[df['Label'].str.contains('Unknown') == False].copy()
+    df = df[~df['Label'].str.contains('Unknown')].copy()
     
-    # Plot
-    plt.figure(figsize=(12, 9))
+    print(f"    Plotting {len(df)} points across {df['Label'].nunique()} classes...")
     
-    # Scatter plot with distinct colors
+    # Create figure with high DPI
+    fig, ax = plt.subplots(figsize=(14, 10), dpi=150)
+    
+    # Get unique labels and assign distinct visual properties
     unique_labels = sorted(df['Label'].unique())
-    palette = sns.color_palette('husl', n_colors=len(unique_labels))
+    n_classes = len(unique_labels)
     
+    # Use distinguishable colors
+    if n_classes <= 10:
+        colors = sns.color_palette('tab10', n_colors=n_classes)
+    else:
+        colors = sns.color_palette('husl', n_colors=n_classes)
+    
+    # Different markers for each class (up to 7 scenarios/4 actions)
+    markers = ['o', 's', '^', 'D', 'v', '<', '>', 'p', '*', 'h']
+    centroid_markers = ['X', 'P', '*', 'd', 'H', '8', 'p', 's', '^', 'v']
+    
+    # Plot each class
     for i, label in enumerate(unique_labels):
         mask = df['Label'] == label
-        plt.scatter(
-            df.loc[mask, 'x'],
-            df.loc[mask, 'y'],
+        class_data = df[mask]
+        
+        # Use smaller, semi-transparent points for large datasets
+        alpha = min(0.7, max(0.3, 500 / len(class_data)))  # Adaptive transparency
+        point_size = min(25, max(5, 2000 / len(class_data)))  # Adaptive size
+        
+        # Scatter plot
+        ax.scatter(
+            class_data['x'],
+            class_data['y'],
             label=label,
-            alpha=0.6,
-            s=20,
-            c=[palette[i]]
+            alpha=alpha,
+            s=point_size,
+            c=[colors[i]],
+            marker=markers[i % len(markers)],
+            edgecolors='white',
+            linewidths=0.3
+        )
+        
+        # Add centroid with distinct marker
+        centroid_x = class_data['x'].mean()
+        centroid_y = class_data['y'].mean()
+        ax.scatter(
+            centroid_x, centroid_y,
+            marker=centroid_markers[i % len(centroid_markers)],
+            s=300,
+            c=[colors[i]],
+            edgecolors='black',
+            linewidths=2.5,
+            zorder=100,
+            alpha=1.0
+        )
+        
+        # Add text label near centroid
+        ax.annotate(
+            label,
+            (centroid_x, centroid_y),
+            xytext=(10, 10),
+            textcoords='offset points',
+            fontsize=9,
+            fontweight='bold',
+            bbox=dict(boxstyle='round,pad=0.3', facecolor=colors[i], alpha=0.7, edgecolor='black'),
+            zorder=101
         )
     
-    # Add centroids
-    for label in unique_labels:
-        mask = df['Label'] == label
-        centroid_x = df.loc[mask, 'x'].mean()
-        centroid_y = df.loc[mask, 'y'].mean()
-        plt.scatter(centroid_x, centroid_y, marker='X', s=200, 
-                   edgecolors='black', linewidths=2, c='white', zorder=10)
+    # Styling
+    ax.set_title(f'{title}\n{method_name} Visualization - {subtitle}', 
+                 fontsize=16, fontweight='bold', pad=20)
+    ax.set_xlabel(f'{method_name} Component 1', fontsize=13, fontweight='bold')
+    ax.set_ylabel(f'{method_name} Component 2', fontsize=13, fontweight='bold')
     
-    plt.title(f'{title}\n{method_name} Visualization - {subtitle}', fontsize=14, pad=15)
-    plt.xlabel(f'{method_name} Component 1', fontsize=12)
-    plt.ylabel(f'{method_name} Component 2', fontsize=12)
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=10)
-    plt.grid(True, alpha=0.3)
+    # Legend with custom styling
+    legend = ax.legend(
+        bbox_to_anchor=(1.02, 1),
+        loc='upper left',
+        fontsize=10,
+        frameon=True,
+        fancybox=True,
+        shadow=True,
+        title='Classes',
+        title_fontsize=11
+    )
+    legend.get_frame().set_facecolor('white')
+    legend.get_frame().set_alpha(0.95)
+    
+    # Grid
+    ax.grid(True, alpha=0.2, linestyle='--', linewidth=0.5)
+    ax.set_axisbelow(True)
+    
+    # Background
+    ax.set_facecolor('#f8f9fa')
+    fig.patch.set_facecolor('white')
+    
+    # Tight layout
     plt.tight_layout()
     
-    # Save
-    plt.savefig(f"{save_path_base}.png", dpi=300, bbox_inches='tight')
-    plt.savefig(f"{save_path_base}.pdf", bbox_inches='tight')
+    # Save both formats
+    png_path = f"{save_path_base}.png"
+    pdf_path = f"{save_path_base}.pdf"
+    plt.savefig(png_path, dpi=300, bbox_inches='tight', facecolor='white')
+    plt.savefig(pdf_path, bbox_inches='tight', facecolor='white')
     plt.close()
-    print(f"Saved: {save_path_base}.png & .pdf")
+    
+    print(f"    ✓ Saved: {Path(png_path).name} & {Path(pdf_path).name}")
+
 
 
 def main():
@@ -259,3 +332,11 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+python scripts/visualize_embeddings_fast.py \
+  --config configs/beta_1.0.yaml \
+  --checkpoint checkpoints/experiments_20251206_224347/beta_1.0/best_model.pth \
+  --gpu 7 \
+  --use-tsne \
+  --subset 100 \
+  --output-dir outputs/embeddings_viz
