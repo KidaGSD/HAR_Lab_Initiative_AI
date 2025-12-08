@@ -188,11 +188,27 @@ def main():
     
     # Load Data using current HierarchicalDataset structure
     print(f"Loading {args.split} data...")
+    
+    # Load split file to get UIDs
+    split_file = f"data/splits/{args.split}_uids.txt"
+    if not os.path.exists(split_file):
+        print(f"⚠️  Split file not found: {split_file}")
+        print("Looking for UIDs in scenario_labels.csv...")
+        scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+        take_uids = scenario_df['video_uid'].tolist()
+    else:
+        with open(split_file, 'r') as f:
+            take_uids = [line.strip() for line in f if line.strip()]
+    
+    print(f"Found {len(take_uids)} videos in {args.split} split")
+    
     dataset = HierarchicalDataset(
-        data_dir="data/processed",
-        split=args.split,
+        take_uids=take_uids,
+        processed_dir="data/processed",
+        scenario_labels_path="data/labels/scenario_labels.csv",
+        action_labels_path="data/labels/action_labels_4class.csv",
         config=config,
-        augment=False  # No augmentation for visualization
+        training=False  # No augmentation for visualization
     )
     
     loader = DataLoader(
