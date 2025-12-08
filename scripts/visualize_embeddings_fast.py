@@ -232,7 +232,6 @@ def plot_embedding(features, labels, label_map, title, save_path_base, method='p
     print(f"    ✓ Saved: {Path(png_path).name} & {Path(pdf_path).name}")
 
 
-
 def main():
     parser = argparse.ArgumentParser(description="Fast visualization with cached normalization")
     parser.add_argument("--config", type=str, required=True)
@@ -241,6 +240,7 @@ def main():
     parser.add_argument("--use-tsne", action="store_true")
     parser.add_argument("--gpu", type=int, default=None)
     parser.add_argument("--subset", type=int, default=None, help="Use only first N videos (for testing)")
+    parser.add_argument("--load-cache", action="store_true", help="Load features from cache if available")
     args = parser.parse_args()
     
     print("🚀 FAST VISUALIZATION MODE")
@@ -255,73 +255,113 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"✓ Device: {device}")
     
-    # Load UIDs
-    scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
-    train_uids = scenario_df[scenario_df['split'] == 'train']['video_uid'].tolist()
-    val_uids = scenario_df[scenario_df['split'] == 'val']['video_uid'].tolist()
-    uids = train_uids + val_uids
-    
+    # Create output directory
+    os.makedirs(args.output_dir, exist_ok=True)
+    model_name = Path(args.checkpoint).parent.name
+    cache_path = Path(args.output_dir) / f"{model_name}_features_cache"
     if args.subset:
-        uids = uids[:args.subset]
-        print(f"⚡ Using subset: {len(uids)} videos")
+        cache_path = Path(str(cache_path) + f"_subset{args.subset}")
+    cache_path = str(cache_path) + ".npz"
+    
+    # Check cache
+    if args.load_cache and os.path.exists(cache_path):
+        print(f"\n📦 Loading features from cache: {cache_path}")
+        data = np.load(cache_path)
+        S_feats = data['S_feats']
+        S_labels = data['S_labels']
+        A_feats = data['A_feats']
+        A_labels = data['A_labels']
+        
+        # We need dataset maps for plotting
+        print("Re-initializing dataset objects (lightweight) for label maps...")
+        # Use lightweight init just to get maps
+        scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+        # Dummy maps
+        all_scenarios = sorted(scenario_df['scenario'].unique())
+        # Exclude gardening if needed, or just assume standard
+        excluded_scenarios = set(config['data'].get('excluded_scenarios', []))
+        valid_scenarios = [s for s in all_scenarios if s not in excluded_scenarios]
+        scenario_map = {name: i for i, name in enumerate(valid_scenarios)}
+        
+        action_map = {
+            'Stationary': 0, 'Locomotion': 1, 'Manipulation': 2, 'Search_Interrupt': 3,
+        }
+        
     else:
-        print(f"✓ Total: {len(uids)} videos")
-    
-    # Create dataset
-    print("\n📂 Creating dataset...")
-    dataset = HierarchicalDataset(
-        uids,
-        "data/processed_ego4d",
-        "data/labels/scenario_labels.csv",
-        "data/labels/action_labels_4class.csv",
-        config,
-        training=False
-    )
-    print(f"✓ Dataset: {len(dataset)} samples")
-    
-    # DataLoader with more workers
-    batch_size = min(32, len(dataset))
-    loader = DataLoader(
-        dataset,
-        batch_size=batch_size,
-        shuffle=False,
-        num_workers=8,  # More workers
-        pin_memory=True if device.type == 'cuda' else False
-    )
-    print(f"✓ Loader: batch_size={batch_size}, workers=8")
-    
-    # Load model
-    print("\n🧠 Loading model...")
-    model = HierarchicalModel(config).to(device)
-    checkpoint = torch.load(args.checkpoint, map_location=device)
-    if 'model_state_dict' in checkpoint:
-        model.load_state_dict(checkpoint['model_state_dict'])
-    else:
-        model.load_state_dict(checkpoint)
-    model.eval()
-    print("✓ Model loaded")
-    
-    # Extract embeddings
-    print("\n🔬 Extracting embeddings...")
-    S_feats, S_labels, A_feats, A_labels = extract_embeddings(model, loader, device)
+        # Load UIDs
+        scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+        train_uids = scenario_df[scenario_df['split'] == 'train']['video_uid'].tolist()
+        val_uids = scenario_df[scenario_df['split'] == 'val']['video_uid'].tolist()
+        uids = train_uids + val_uids
+        
+        if args.subset:
+            uids = uids[:args.subset]
+            print(f"⚡ Using subset: {len(uids)} videos")
+        else:
+            print(f"✓ Total: {len(uids)} videos")
+        
+        # Create dataset
+        print("\n📂 Creating dataset...")
+        dataset = HierarchicalDataset(
+            uids,
+            "data/processed_ego4d",
+            "data/labels/scenario_labels.csv",
+            "data/labels/action_labels_4class.csv",
+            config,
+            training=False
+        )
+        print(f"✓ Dataset: {len(dataset)} samples")
+        
+        # Use maps from dataset
+        scenario_map = dataset.scenario_map
+        action_map = dataset.action_map
+        
+        # DataLoader with more workers
+        batch_size = min(32, len(dataset))
+        loader = DataLoader(
+            dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            num_workers=8,  # More workers
+            pin_memory=True if device.type == 'cuda' else False
+        )
+        print(f"✓ Loader: batch_size={batch_size}, workers=8")
+        
+        # Load model
+        print("\n🧠 Loading model...")
+        model = HierarchicalModel(config).to(device)
+        checkpoint = torch.load(args.checkpoint, map_location=device)
+        if 'model_state_dict' in checkpoint:
+            model.load_state_dict(checkpoint['model_state_dict'])
+        else:
+            model.load_state_dict(checkpoint)
+        model.eval()
+        print("✓ Model loaded")
+        
+        # Extract embeddings
+        print("\n🔬 Extracting embeddings...")
+        S_feats, S_labels, A_feats, A_labels = extract_embeddings(model, loader, device)
+        
+        # Save cache
+        print(f"💾 Saving features to cache: {cache_path}")
+        np.savez(cache_path, S_feats=S_feats, S_labels=S_labels, A_feats=A_feats, A_labels=A_labels)
+        
     print(f"✓ Scenario: {S_feats.shape}")
     print(f"✓ Action: {A_feats.shape}")
     
     # Plot
     print("\n🎨 Generating plots...")
-    os.makedirs(args.output_dir, exist_ok=True)
     method = 'tsne' if args.use_tsne else 'pca'
-    model_name = Path(args.checkpoint).parent.name
     
     plot_embedding(
-        S_feats, S_labels, dataset.scenario_map,
+        S_feats, S_labels, scenario_map,
         "Scenario Embeddings - TRAIN+VAL",
         f"{args.output_dir}/{model_name}_scenario_trainval_{method}",
         method
     )
     
     plot_embedding(
-        A_feats, A_labels, dataset.action_map,
+        A_feats, A_labels, action_map,
         "Action Embeddings - TRAIN+VAL",
         f"{args.output_dir}/{model_name}_action_trainval_{method}",
         method
@@ -333,10 +373,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-python scripts/visualize_embeddings_fast.py \
-  --config configs/beta_1.0.yaml \
-  --checkpoint checkpoints/experiments_20251206_224347/beta_1.0/best_model.pth \
-  --gpu 7 \
-  --use-tsne \
-  --subset 100 \
-  --output-dir outputs/embeddings_viz
