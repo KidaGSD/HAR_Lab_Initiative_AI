@@ -1,0 +1,1504 @@
+{
+  "metadata": {
+    "video_uid": "680e61d7-86e0-47cd-a6e1-83868aaaf3f0",
+    "data_file": "data/processed_ego4d/680e61d7-86e0-47cd-a6e1-83868aaaf3f0/seq.npz",
+    "model_path": "deployment/model.pt",
+    "stats_path": "deployment/normalization_stats.json",
+    "inference_interval": 1.0,
+    "duration": 60.0,
+    "total_inferences": 59
+  },
+  "results": [
+    {
+      "time": 1.0060758590698242,
+      "sample_count": 51,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.46099308133125305,
+      "scenario_probs": {
+        "Carpentry": 0.004014582373201847,
+        "Cleaning": 0.46099308133125305,
+        "Cooking": 0.0005089215119369328,
+        "Desk Work": 0.36875373125076294,
+        "Mechanical Repair": 0.003282297169789672,
+        "Playing Instrument": 0.004238427150994539,
+        "Walking Outdoors": 0.1582089215517044
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 51,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 3.4000000000000004
+      }
+    },
+    {
+      "time": 2.012943983078003,
+      "sample_count": 89,
+      "scenario": "Desk Work",
+      "scenario_prob": 0.6853542327880859,
+      "scenario_probs": {
+        "Carpentry": 0.002768179401755333,
+        "Cleaning": 0.26911646127700806,
+        "Cooking": 0.000318555481499061,
+        "Desk Work": 0.6853542327880859,
+        "Mechanical Repair": 0.001588943530805409,
+        "Playing Instrument": 0.008293806575238705,
+        "Walking Outdoors": 0.03255985304713249
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 89,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 5.933333333333334
+      }
+    },
+    {
+      "time": 3.024003267288208,
+      "sample_count": 133,
+      "scenario": "Desk Work",
+      "scenario_prob": 0.8253031969070435,
+      "scenario_probs": {
+        "Carpentry": 0.002820538589730859,
+        "Cleaning": 0.14891810715198517,
+        "Cooking": 0.00013051026326138526,
+        "Desk Work": 0.8253031969070435,
+        "Mechanical Repair": 0.001431009848602116,
+        "Playing Instrument": 0.010803123004734516,
+        "Walking Outdoors": 0.010593479499220848
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 133,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 8.866666666666667
+      }
+    },
+    {
+      "time": 4.02510404586792,
+      "sample_count": 181,
+      "scenario": "Desk Work",
+      "scenario_prob": 0.8274766802787781,
+      "scenario_probs": {
+        "Carpentry": 0.002787059871479869,
+        "Cleaning": 0.1523786187171936,
+        "Cooking": 9.42567057791166e-05,
+        "Desk Work": 0.8274766802787781,
+        "Mechanical Repair": 0.0012342011323198676,
+        "Playing Instrument": 0.008040646091103554,
+        "Walking Outdoors": 0.007988453842699528
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 28,
+        "Stationary": 2
+      },
+      "buffer_status": {
+        "size": 181,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 12.066666666666666
+      }
+    },
+    {
+      "time": 5.043075084686279,
+      "sample_count": 230,
+      "scenario": "Desk Work",
+      "scenario_prob": 0.8404409885406494,
+      "scenario_probs": {
+        "Carpentry": 0.0026746359653770924,
+        "Cleaning": 0.14340108633041382,
+        "Cooking": 6.521702016470954e-05,
+        "Desk Work": 0.8404409885406494,
+        "Mechanical Repair": 0.0011876588687300682,
+        "Playing Instrument": 0.009118899703025818,
+        "Walking Outdoors": 0.003111479803919792
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 23,
+        "Stationary": 7
+      },
+      "buffer_status": {
+        "size": 230,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 15.333333333333332
+      }
+    },
+    {
+      "time": 6.063175678253174,
+      "sample_count": 279,
+      "scenario": "Desk Work",
+      "scenario_prob": 0.7461168169975281,
+      "scenario_probs": {
+        "Carpentry": 0.0033423190470784903,
+        "Cleaning": 0.23095360398292542,
+        "Cooking": 7.8278906585183e-05,
+        "Desk Work": 0.7461168169975281,
+        "Mechanical Repair": 0.0018283036770299077,
+        "Playing Instrument": 0.01552576944231987,
+        "Walking Outdoors": 0.0021548434160649776
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 23,
+        "Stationary": 7
+      },
+      "buffer_status": {
+        "size": 279,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 18.6
+      }
+    },
+    {
+      "time": 7.063824892044067,
+      "sample_count": 327,
+      "scenario": "Desk Work",
+      "scenario_prob": 0.7375809550285339,
+      "scenario_probs": {
+        "Carpentry": 0.004076987039297819,
+        "Cleaning": 0.2367570549249649,
+        "Cooking": 8.132804214255884e-05,
+        "Desk Work": 0.7375809550285339,
+        "Mechanical Repair": 0.0017661598976701498,
+        "Playing Instrument": 0.01810639537870884,
+        "Walking Outdoors": 0.001631168182939291
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 25,
+        "Stationary": 5
+      },
+      "buffer_status": {
+        "size": 327,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 21.8
+      }
+    },
+    {
+      "time": 8.067403078079224,
+      "sample_count": 375,
+      "scenario": "Desk Work",
+      "scenario_prob": 0.5491510033607483,
+      "scenario_probs": {
+        "Carpentry": 0.004659557249397039,
+        "Cleaning": 0.4128374755382538,
+        "Cooking": 0.0001671342906774953,
+        "Desk Work": 0.5491510033607483,
+        "Mechanical Repair": 0.0019765852484852076,
+        "Playing Instrument": 0.02894149161875248,
+        "Walking Outdoors": 0.0022668165620416403
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 375,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 25.0
+      }
+    },
+    {
+      "time": 9.068128108978271,
+      "sample_count": 423,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.5737040042877197,
+      "scenario_probs": {
+        "Carpentry": 0.004445060156285763,
+        "Cleaning": 0.5737040042877197,
+        "Cooking": 0.00022980351059231907,
+        "Desk Work": 0.39268970489501953,
+        "Mechanical Repair": 0.001873905654065311,
+        "Playing Instrument": 0.022092197090387344,
+        "Walking Outdoors": 0.004965323023498058
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 423,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 28.199999999999996
+      }
+    },
+    {
+      "time": 10.06839632987976,
+      "sample_count": 471,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.6004958152770996,
+      "scenario_probs": {
+        "Carpentry": 0.004651959985494614,
+        "Cleaning": 0.6004958152770996,
+        "Cooking": 0.0002324329107068479,
+        "Desk Work": 0.35951876640319824,
+        "Mechanical Repair": 0.003232999937608838,
+        "Playing Instrument": 0.029276126995682716,
+        "Walking Outdoors": 0.0025919813197106123
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 471,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 31.4
+      }
+    },
+    {
+      "time": 11.068498373031616,
+      "sample_count": 519,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.6055279970169067,
+      "scenario_probs": {
+        "Carpentry": 0.004887730814516544,
+        "Cleaning": 0.6055279970169067,
+        "Cooking": 0.00028434733394533396,
+        "Desk Work": 0.3389406204223633,
+        "Mechanical Repair": 0.003353364998474717,
+        "Playing Instrument": 0.0449867881834507,
+        "Walking Outdoors": 0.002019141800701618
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 519,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 34.599999999999994
+      }
+    },
+    {
+      "time": 12.087315559387207,
+      "sample_count": 568,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.4899715483188629,
+      "scenario_probs": {
+        "Carpentry": 0.005888496525585651,
+        "Cleaning": 0.4899715483188629,
+        "Cooking": 0.00023850401339586824,
+        "Desk Work": 0.4486914277076721,
+        "Mechanical Repair": 0.004285692702978849,
+        "Playing Instrument": 0.048938021063804626,
+        "Walking Outdoors": 0.001986289396882057
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 568,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 37.86666666666667
+      }
+    },
+    {
+      "time": 13.106196880340576,
+      "sample_count": 617,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.8642519116401672,
+      "scenario_probs": {
+        "Carpentry": 0.0021104549523442984,
+        "Cleaning": 0.8642519116401672,
+        "Cooking": 0.00038438456249423325,
+        "Desk Work": 0.10133237391710281,
+        "Mechanical Repair": 0.0022554388269782066,
+        "Playing Instrument": 0.025451552122831345,
+        "Walking Outdoors": 0.00421382300555706
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 617,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 41.13333333333333
+      }
+    },
+    {
+      "time": 14.122843503952026,
+      "sample_count": 666,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.9478237628936768,
+      "scenario_probs": {
+        "Carpentry": 0.0008493615314364433,
+        "Cleaning": 0.9478237628936768,
+        "Cooking": 0.0007829918176867068,
+        "Desk Work": 0.01850101910531521,
+        "Mechanical Repair": 0.001981256529688835,
+        "Playing Instrument": 0.013480229303240776,
+        "Walking Outdoors": 0.016581406816840172
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 26,
+        "Locomotion": 4
+      },
+      "buffer_status": {
+        "size": 666,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 44.4
+      }
+    },
+    {
+      "time": 15.140941381454468,
+      "sample_count": 715,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.9354787468910217,
+      "scenario_probs": {
+        "Carpentry": 0.0004395821306388825,
+        "Cleaning": 0.04980098083615303,
+        "Cooking": 0.0027445494197309017,
+        "Desk Work": 0.009056366980075836,
+        "Mechanical Repair": 0.0007541601662524045,
+        "Playing Instrument": 0.9354787468910217,
+        "Walking Outdoors": 0.00172560999635607
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 19,
+        "Locomotion": 11
+      },
+      "buffer_status": {
+        "size": 715,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 47.66666666666667
+      }
+    },
+    {
+      "time": 16.16002082824707,
+      "sample_count": 764,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.9830432534217834,
+      "scenario_probs": {
+        "Carpentry": 0.0003865852777380496,
+        "Cleaning": 0.003361858194693923,
+        "Cooking": 0.0008461751858703792,
+        "Desk Work": 0.011823211796581745,
+        "Mechanical Repair": 0.00031901791226118803,
+        "Playing Instrument": 0.9830432534217834,
+        "Walking Outdoors": 0.00021979122539050877
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 19,
+        "Locomotion": 11
+      },
+      "buffer_status": {
+        "size": 764,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 50.93333333333333
+      }
+    },
+    {
+      "time": 17.17877507209778,
+      "sample_count": 813,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.9949315190315247,
+      "scenario_probs": {
+        "Carpentry": 0.00020938547095283866,
+        "Cleaning": 0.00026362139033153653,
+        "Cooking": 0.0010481710778549314,
+        "Desk Work": 0.003301803022623062,
+        "Mechanical Repair": 0.0001444229856133461,
+        "Playing Instrument": 0.9949315190315247,
+        "Walking Outdoors": 0.00010102562373504043
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 23,
+        "Locomotion": 7
+      },
+      "buffer_status": {
+        "size": 813,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 54.2
+      }
+    },
+    {
+      "time": 18.182382345199585,
+      "sample_count": 861,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.9617618322372437,
+      "scenario_probs": {
+        "Carpentry": 0.0007333746762014925,
+        "Cleaning": 0.00028589885914698243,
+        "Cooking": 0.004933028481900692,
+        "Desk Work": 0.031731296330690384,
+        "Mechanical Repair": 0.00035444358945824206,
+        "Playing Instrument": 0.9617618322372437,
+        "Walking Outdoors": 0.00020004920952487737
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 861,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 57.4
+      }
+    },
+    {
+      "time": 19.182896375656128,
+      "sample_count": 909,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.9789942502975464,
+      "scenario_probs": {
+        "Carpentry": 0.0003545487124938518,
+        "Cleaning": 0.00029875338077545166,
+        "Cooking": 0.0030789675656706095,
+        "Desk Work": 0.016778655350208282,
+        "Mechanical Repair": 0.0003112616832368076,
+        "Playing Instrument": 0.9789942502975464,
+        "Walking Outdoors": 0.00018362949776928872
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 909,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 60.6
+      }
+    },
+    {
+      "time": 20.19603395462036,
+      "sample_count": 957,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.9696676135063171,
+      "scenario_probs": {
+        "Carpentry": 0.00044218500261195004,
+        "Cleaning": 0.0010692946380004287,
+        "Cooking": 0.0017805199604481459,
+        "Desk Work": 0.026332756504416466,
+        "Mechanical Repair": 0.0005085142329335213,
+        "Playing Instrument": 0.9696676135063171,
+        "Walking Outdoors": 0.00019920947670470923
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 957,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 63.800000000000004
+      }
+    },
+    {
+      "time": 21.201767921447754,
+      "sample_count": 1005,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.6939507126808167,
+      "scenario_probs": {
+        "Carpentry": 0.0026506842114031315,
+        "Cleaning": 0.17372244596481323,
+        "Cooking": 0.0021072851959615946,
+        "Desk Work": 0.12442051619291306,
+        "Mechanical Repair": 0.0020881779491901398,
+        "Playing Instrument": 0.6939507126808167,
+        "Walking Outdoors": 0.0010602347319945693
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1005,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 67.0
+      }
+    },
+    {
+      "time": 22.203367948532104,
+      "sample_count": 1053,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7323335409164429,
+      "scenario_probs": {
+        "Carpentry": 0.0037364161107689142,
+        "Cleaning": 0.7323335409164429,
+        "Cooking": 0.0003876275441143662,
+        "Desk Work": 0.21745909750461578,
+        "Mechanical Repair": 0.002609607297927141,
+        "Playing Instrument": 0.040865909308195114,
+        "Walking Outdoors": 0.002607890637591481
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1053,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 70.19999999999999
+      }
+    },
+    {
+      "time": 23.204969882965088,
+      "sample_count": 1101,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.6505327820777893,
+      "scenario_probs": {
+        "Carpentry": 0.005007653962820768,
+        "Cleaning": 0.6505327820777893,
+        "Cooking": 0.0004245209274813533,
+        "Desk Work": 0.2783666253089905,
+        "Mechanical Repair": 0.004051674623042345,
+        "Playing Instrument": 0.058532487601041794,
+        "Walking Outdoors": 0.003084335010498762
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1101,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 73.4
+      }
+    },
+    {
+      "time": 24.206401586532593,
+      "sample_count": 1149,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.6710787415504456,
+      "scenario_probs": {
+        "Carpentry": 0.004789287224411964,
+        "Cleaning": 0.6710787415504456,
+        "Cooking": 0.0005315197049640119,
+        "Desk Work": 0.24000364542007446,
+        "Mechanical Repair": 0.004066980443894863,
+        "Playing Instrument": 0.07662143558263779,
+        "Walking Outdoors": 0.0029083380941301584
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1149,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 76.6
+      }
+    },
+    {
+      "time": 25.20769739151001,
+      "sample_count": 1197,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7076475620269775,
+      "scenario_probs": {
+        "Carpentry": 0.00432265130802989,
+        "Cleaning": 0.7076475620269775,
+        "Cooking": 0.0003939029120374471,
+        "Desk Work": 0.2389621138572693,
+        "Mechanical Repair": 0.0038604033179581165,
+        "Playing Instrument": 0.03923476114869118,
+        "Walking Outdoors": 0.005578641779720783
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1197,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 79.80000000000001
+      }
+    },
+    {
+      "time": 26.211551189422607,
+      "sample_count": 1245,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7591733932495117,
+      "scenario_probs": {
+        "Carpentry": 0.003341036383062601,
+        "Cleaning": 0.7591733932495117,
+        "Cooking": 0.00045203790068626404,
+        "Desk Work": 0.2005528211593628,
+        "Mechanical Repair": 0.003412594087421894,
+        "Playing Instrument": 0.026348575949668884,
+        "Walking Outdoors": 0.0067196073941886425
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1245,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 83.0
+      }
+    },
+    {
+      "time": 27.214618682861328,
+      "sample_count": 1293,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7848609089851379,
+      "scenario_probs": {
+        "Carpentry": 0.0032221637666225433,
+        "Cleaning": 0.7848609089851379,
+        "Cooking": 0.000550376542378217,
+        "Desk Work": 0.17205555737018585,
+        "Mechanical Repair": 0.0035585497971624136,
+        "Playing Instrument": 0.03321966901421547,
+        "Walking Outdoors": 0.002532792277634144
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1293,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 86.2
+      }
+    },
+    {
+      "time": 28.217882871627808,
+      "sample_count": 1341,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7916028499603271,
+      "scenario_probs": {
+        "Carpentry": 0.0029987627640366554,
+        "Cleaning": 0.7916028499603271,
+        "Cooking": 0.0007371343090198934,
+        "Desk Work": 0.15666404366493225,
+        "Mechanical Repair": 0.0035060893278568983,
+        "Playing Instrument": 0.0424748919904232,
+        "Walking Outdoors": 0.002016353188082576
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1341,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 89.4
+      }
+    },
+    {
+      "time": 29.219491004943848,
+      "sample_count": 1389,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7845588326454163,
+      "scenario_probs": {
+        "Carpentry": 0.0031819164287298918,
+        "Cleaning": 0.7845588326454163,
+        "Cooking": 0.0006065818597562611,
+        "Desk Work": 0.16737785935401917,
+        "Mechanical Repair": 0.003970596473664045,
+        "Playing Instrument": 0.03825276345014572,
+        "Walking Outdoors": 0.0020513921044766903
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1389,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 92.60000000000001
+      }
+    },
+    {
+      "time": 30.22843027114868,
+      "sample_count": 1437,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7581475973129272,
+      "scenario_probs": {
+        "Carpentry": 0.0033726145047694445,
+        "Cleaning": 0.7581475973129272,
+        "Cooking": 0.0004974471521563828,
+        "Desk Work": 0.19774030148983002,
+        "Mechanical Repair": 0.004199232440441847,
+        "Playing Instrument": 0.03197948634624481,
+        "Walking Outdoors": 0.004063306841999292
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1437,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 95.8
+      }
+    },
+    {
+      "time": 31.2301607131958,
+      "sample_count": 1485,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7404105067253113,
+      "scenario_probs": {
+        "Carpentry": 0.0038211399223655462,
+        "Cleaning": 0.7404105067253113,
+        "Cooking": 0.0004312680393923074,
+        "Desk Work": 0.21562904119491577,
+        "Mechanical Repair": 0.004448938649147749,
+        "Playing Instrument": 0.03102685511112213,
+        "Walking Outdoors": 0.004232331644743681
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1485,
+        "max_size": 1500,
+        "is_full": false,
+        "percent_full": 99.0
+      }
+    },
+    {
+      "time": 32.23389744758606,
+      "sample_count": 1533,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7314017415046692,
+      "scenario_probs": {
+        "Carpentry": 0.00365616288036108,
+        "Cleaning": 0.7314017415046692,
+        "Cooking": 0.00042269265395589173,
+        "Desk Work": 0.2259814739227295,
+        "Mechanical Repair": 0.004782890900969505,
+        "Playing Instrument": 0.028208566829562187,
+        "Walking Outdoors": 0.005546576343476772
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 33.24495816230774,
+      "sample_count": 1581,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7756227850914001,
+      "scenario_probs": {
+        "Carpentry": 0.003108857199549675,
+        "Cleaning": 0.7756227850914001,
+        "Cooking": 0.0005438410444185138,
+        "Desk Work": 0.18386174738407135,
+        "Mechanical Repair": 0.0044167740270495415,
+        "Playing Instrument": 0.029256366193294525,
+        "Walking Outdoors": 0.003189653856679797
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 34.25054168701172,
+      "sample_count": 1629,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7386987209320068,
+      "scenario_probs": {
+        "Carpentry": 0.0034621020313352346,
+        "Cleaning": 0.7386987209320068,
+        "Cooking": 0.000679657852742821,
+        "Desk Work": 0.2053927183151245,
+        "Mechanical Repair": 0.004291186109185219,
+        "Playing Instrument": 0.04518725350499153,
+        "Walking Outdoors": 0.002288375049829483
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 35.25171732902527,
+      "sample_count": 1677,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.6885183453559875,
+      "scenario_probs": {
+        "Carpentry": 0.004036962054669857,
+        "Cleaning": 0.6885183453559875,
+        "Cooking": 0.0014394409954547882,
+        "Desk Work": 0.16818538308143616,
+        "Mechanical Repair": 0.004021675791591406,
+        "Playing Instrument": 0.13288860023021698,
+        "Walking Outdoors": 0.0009094714187085629
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 36.252362966537476,
+      "sample_count": 1725,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7976638674736023,
+      "scenario_probs": {
+        "Carpentry": 0.0030612400732934475,
+        "Cleaning": 0.7976638674736023,
+        "Cooking": 0.0010572646278887987,
+        "Desk Work": 0.11291936784982681,
+        "Mechanical Repair": 0.0026752669364213943,
+        "Playing Instrument": 0.08132121711969376,
+        "Walking Outdoors": 0.0013018498430028558
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 37.25402903556824,
+      "sample_count": 1773,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7821542024612427,
+      "scenario_probs": {
+        "Carpentry": 0.0034883024636656046,
+        "Cleaning": 0.7821542024612427,
+        "Cooking": 0.0005282580386847258,
+        "Desk Work": 0.14802055060863495,
+        "Mechanical Repair": 0.0030424657743424177,
+        "Playing Instrument": 0.06134092062711716,
+        "Walking Outdoors": 0.0014252896653488278
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 38.25627827644348,
+      "sample_count": 1821,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.751765251159668,
+      "scenario_probs": {
+        "Carpentry": 0.004113068338483572,
+        "Cleaning": 0.751765251159668,
+        "Cooking": 0.00020878962823189795,
+        "Desk Work": 0.21504363417625427,
+        "Mechanical Repair": 0.0030097877606749535,
+        "Playing Instrument": 0.021392231807112694,
+        "Walking Outdoors": 0.004467251244932413
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 39.25668215751648,
+      "sample_count": 1869,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7510914206504822,
+      "scenario_probs": {
+        "Carpentry": 0.006985711865127087,
+        "Cleaning": 0.7510914206504822,
+        "Cooking": 0.00014446080604102463,
+        "Desk Work": 0.1971394568681717,
+        "Mechanical Repair": 0.002482821000739932,
+        "Playing Instrument": 0.02424483560025692,
+        "Walking Outdoors": 0.017911363393068314
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 40.258240938186646,
+      "sample_count": 1917,
+      "scenario": "Walking Outdoors",
+      "scenario_prob": 0.5665227174758911,
+      "scenario_probs": {
+        "Carpentry": 0.0015192389255389571,
+        "Cleaning": 0.41187945008277893,
+        "Cooking": 0.0011944208526983857,
+        "Desk Work": 0.01515536941587925,
+        "Mechanical Repair": 0.000979146221652627,
+        "Playing Instrument": 0.002749719424173236,
+        "Walking Outdoors": 0.5665227174758911
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 22,
+        "Locomotion": 8
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 41.264800786972046,
+      "sample_count": 1965,
+      "scenario": "Desk Work",
+      "scenario_prob": 0.5497526526451111,
+      "scenario_probs": {
+        "Carpentry": 0.0039035866502672434,
+        "Cleaning": 0.3561922311782837,
+        "Cooking": 0.0005121094291098416,
+        "Desk Work": 0.5497526526451111,
+        "Mechanical Repair": 0.00226156460121274,
+        "Playing Instrument": 0.018833639100193977,
+        "Walking Outdoors": 0.06854423880577087
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 17,
+        "Locomotion": 13
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 42.26590585708618,
+      "sample_count": 2013,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.6173643469810486,
+      "scenario_probs": {
+        "Carpentry": 0.0017682926263660192,
+        "Cleaning": 0.0766848772764206,
+        "Cooking": 0.00041868421249091625,
+        "Desk Work": 0.2999011278152466,
+        "Mechanical Repair": 0.002791133476421237,
+        "Playing Instrument": 0.6173643469810486,
+        "Walking Outdoors": 0.0010714685777202249
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 16,
+        "Locomotion": 14
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 43.27476906776428,
+      "sample_count": 2061,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.5638237595558167,
+      "scenario_probs": {
+        "Carpentry": 0.00338779017329216,
+        "Cleaning": 0.08019260317087173,
+        "Cooking": 0.00027160669560544193,
+        "Desk Work": 0.34812286496162415,
+        "Mechanical Repair": 0.003913484513759613,
+        "Playing Instrument": 0.5638237595558167,
+        "Walking Outdoors": 0.00028785807080566883
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Locomotion": 6,
+        "Object Transfer": 24
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 44.27901649475098,
+      "sample_count": 2109,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.8740942478179932,
+      "scenario_probs": {
+        "Carpentry": 0.0019188896985724568,
+        "Cleaning": 0.017732838168740273,
+        "Cooking": 0.00026238668942824006,
+        "Desk Work": 0.10303747653961182,
+        "Mechanical Repair": 0.002846768591552973,
+        "Playing Instrument": 0.8740942478179932,
+        "Walking Outdoors": 0.00010745308827608824
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 45.280396699905396,
+      "sample_count": 2157,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.7581031918525696,
+      "scenario_probs": {
+        "Carpentry": 0.0024237653706222773,
+        "Cleaning": 0.02349364198744297,
+        "Cooking": 0.0004355448472779244,
+        "Desk Work": 0.21255579590797424,
+        "Mechanical Repair": 0.0026341769844293594,
+        "Playing Instrument": 0.7581031918525696,
+        "Walking Outdoors": 0.00035386893432587385
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 46.28237462043762,
+      "sample_count": 2205,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.9067807793617249,
+      "scenario_probs": {
+        "Carpentry": 0.0012286417186260223,
+        "Cleaning": 0.0015167425153777003,
+        "Cooking": 0.001137470011599362,
+        "Desk Work": 0.08826430886983871,
+        "Mechanical Repair": 0.0009026168845593929,
+        "Playing Instrument": 0.9067807793617249,
+        "Walking Outdoors": 0.0001695134851615876
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 47.283228635787964,
+      "sample_count": 2253,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.9412891268730164,
+      "scenario_probs": {
+        "Carpentry": 0.0008661346510052681,
+        "Cleaning": 0.0018153487471863627,
+        "Cooking": 0.0010606881696730852,
+        "Desk Work": 0.05391515791416168,
+        "Mechanical Repair": 0.0008383659296669066,
+        "Playing Instrument": 0.9412891268730164,
+        "Walking Outdoors": 0.00021514987747650594
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 48.284709215164185,
+      "sample_count": 2301,
+      "scenario": "Playing Instrument",
+      "scenario_prob": 0.87412428855896,
+      "scenario_probs": {
+        "Carpentry": 0.0016178356017917395,
+        "Cleaning": 0.007914024405181408,
+        "Cooking": 0.0009783785790205002,
+        "Desk Work": 0.1138300895690918,
+        "Mechanical Repair": 0.0013272749492898583,
+        "Playing Instrument": 0.87412428855896,
+        "Walking Outdoors": 0.00020812911679968238
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 49.285518646240234,
+      "sample_count": 2349,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.5175418853759766,
+      "scenario_probs": {
+        "Carpentry": 0.004566152114421129,
+        "Cleaning": 0.5175418853759766,
+        "Cooking": 0.0009182470967061818,
+        "Desk Work": 0.21114952862262726,
+        "Mechanical Repair": 0.0025523314252495766,
+        "Playing Instrument": 0.26252734661102295,
+        "Walking Outdoors": 0.0007445054361596704
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 50.28693079948425,
+      "sample_count": 2397,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7040739059448242,
+      "scenario_probs": {
+        "Carpentry": 0.0032875766046345234,
+        "Cleaning": 0.7040739059448242,
+        "Cooking": 0.000372529961168766,
+        "Desk Work": 0.2588447332382202,
+        "Mechanical Repair": 0.0028801453299820423,
+        "Playing Instrument": 0.02678764797747135,
+        "Walking Outdoors": 0.003753594122827053
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 51.28863883018494,
+      "sample_count": 2445,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.8275762796401978,
+      "scenario_probs": {
+        "Carpentry": 0.0020225977059453726,
+        "Cleaning": 0.8275762796401978,
+        "Cooking": 0.0004709688655566424,
+        "Desk Work": 0.14802229404449463,
+        "Mechanical Repair": 0.0027075661346316338,
+        "Playing Instrument": 0.014076673425734043,
+        "Walking Outdoors": 0.005123561713844538
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 52.28900647163391,
+      "sample_count": 2493,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.848039448261261,
+      "scenario_probs": {
+        "Carpentry": 0.0020169911440461874,
+        "Cleaning": 0.848039448261261,
+        "Cooking": 0.0003216078912373632,
+        "Desk Work": 0.1327521950006485,
+        "Mechanical Repair": 0.0026417053304612637,
+        "Playing Instrument": 0.00807865895330906,
+        "Walking Outdoors": 0.006149346474558115
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 28,
+        "Stationary": 2
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 53.29179883003235,
+      "sample_count": 2541,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.6795091032981873,
+      "scenario_probs": {
+        "Carpentry": 0.0033297184854745865,
+        "Cleaning": 0.6795091032981873,
+        "Cooking": 0.0002194473781855777,
+        "Desk Work": 0.2955320477485657,
+        "Mechanical Repair": 0.003460872219875455,
+        "Playing Instrument": 0.009307295083999634,
+        "Walking Outdoors": 0.008641486056149006
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 29,
+        "Stationary": 1
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 54.292147397994995,
+      "sample_count": 2589,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7037080526351929,
+      "scenario_probs": {
+        "Carpentry": 0.003220554906874895,
+        "Cleaning": 0.7037080526351929,
+        "Cooking": 0.0002623886684887111,
+        "Desk Work": 0.2714399993419647,
+        "Mechanical Repair": 0.0033001478295773268,
+        "Playing Instrument": 0.011767747811973095,
+        "Walking Outdoors": 0.006301112938672304
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 29,
+        "Stationary": 1
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 55.29303002357483,
+      "sample_count": 2637,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7513101100921631,
+      "scenario_probs": {
+        "Carpentry": 0.0026608731132000685,
+        "Cleaning": 0.7513101100921631,
+        "Cooking": 0.00043094836291857064,
+        "Desk Work": 0.21889303624629974,
+        "Mechanical Repair": 0.003388651879504323,
+        "Playing Instrument": 0.019195619970560074,
+        "Walking Outdoors": 0.004120765253901482
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Stationary": 1,
+        "Object Transfer": 29
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 56.29634404182434,
+      "sample_count": 2685,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.8101771473884583,
+      "scenario_probs": {
+        "Carpentry": 0.002248649951070547,
+        "Cleaning": 0.8101771473884583,
+        "Cooking": 0.0005580686265602708,
+        "Desk Work": 0.16012431681156158,
+        "Mechanical Repair": 0.0035824275109916925,
+        "Playing Instrument": 0.019762268289923668,
+        "Walking Outdoors": 0.003547119442373514
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 57.29742431640625,
+      "sample_count": 2733,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7995888590812683,
+      "scenario_probs": {
+        "Carpentry": 0.0023712990805506706,
+        "Cleaning": 0.7995888590812683,
+        "Cooking": 0.0004852487472817302,
+        "Desk Work": 0.17224256694316864,
+        "Mechanical Repair": 0.00393923232331872,
+        "Playing Instrument": 0.017597371712327003,
+        "Walking Outdoors": 0.003775419434532523
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 58.29927349090576,
+      "sample_count": 2781,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.7931330800056458,
+      "scenario_probs": {
+        "Carpentry": 0.0021401229314506054,
+        "Cleaning": 0.7931330800056458,
+        "Cooking": 0.0004531684098765254,
+        "Desk Work": 0.18089555203914642,
+        "Mechanical Repair": 0.004173272289335728,
+        "Playing Instrument": 0.01259241160005331,
+        "Walking Outdoors": 0.006612339057028294
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    },
+    {
+      "time": 59.30154323577881,
+      "sample_count": 2829,
+      "scenario": "Cleaning",
+      "scenario_prob": 0.8049926161766052,
+      "scenario_probs": {
+        "Carpentry": 0.0021297249477356672,
+        "Cleaning": 0.8049926161766052,
+        "Cooking": 0.0005023776320740581,
+        "Desk Work": 0.1671023666858673,
+        "Mechanical Repair": 0.004543651361018419,
+        "Playing Instrument": 0.015581338666379452,
+        "Walking Outdoors": 0.005147995892912149
+      },
+      "most_common_action": "Object Transfer",
+      "action_distribution": {
+        "Object Transfer": 30
+      },
+      "buffer_status": {
+        "size": 1500,
+        "max_size": 1500,
+        "is_full": true,
+        "percent_full": 100.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "imu_mean": [
+    0.0013830061877098208,
+    -0.003221006436978903,
+    0.0006106116877452647,
+    3.0886403176389936,
+    0.20185283068736706,
+    7.506165572970614
+  ],
+  "imu_std": [
+    0.31674507794246404,
+    0.32104482679696106,
+    0.4423260519303754,
+    4.552798044670887,
+    2.0738038025010384,
+    3.3703115202321725
+  ],
+  "gaze_mean": [
+    0.0,
+    0.0
+  ],
+  "gaze_std": [
+    1.0,
+    1.0
+  ],
+  "config": {
+    "use_gaze": false,
+    "add_norm_features": true,
+    "per_video_center": true,
+    "seq_len": 30,
+    "window_size": 50,
+    "stride": 5,
+    "in_channels": 8
+  },
+  "scenario_map": {
+    "Carpentry": 0,
+    "Cleaning": 1,
+    "Cooking": 2,
+    "Desk Work": 3,
+    "Mechanical Repair": 4,
+    "Playing Instrument": 5,
+    "Walking Outdoors": 6
+  },
+  "action_map": {
+    "Stationary": 0,
+    "Locomotion": 1,
+    "Essential Operation": 2,
+    "Object Transfer": 3,
+    "Search": 4,
+    "Error / Correction": 5
+  },
+  "idx_to_scenario": {
+    "0": "Carpentry",
+    "1": "Cleaning",
+    "2": "Cooking",
+    "3": "Desk Work",
+    "4": "Mechanical Repair",
+    "5": "Playing Instrument",
+    "6": "Walking Outdoors"
+  },
+  "idx_to_action": {
+    "0": "Stationary",
+    "1": "Locomotion",
+    "2": "Essential Operation",
+    "3": "Object Transfer",
+    "4": "Search",
+    "5": "Error / Correction"
+  }
+}
