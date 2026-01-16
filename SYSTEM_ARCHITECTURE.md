@@ -33,21 +33,33 @@ graph TD
   - `Action` (e.g., Manipulation) - updated every 1s.
 
 ### Stage 2: Anomaly Logic (The "Brain")
-We define "Normalcy" based on the statistical co-occurrence of Actions and Scenarios in the training data.
 
-- **Metric**: Conditional Probability $P(\text{Action} | \text{Scenario})$.
-- **Data Source**: `data/normality_matrix.json` (Computed from Training Set).
-- **Trigger Condition**: 
-  - If $P(\text{Current Action} | \text{Current Scenario}) < 0.05$ (5%).
-  
-#### Baseline Probabilities (Example)
-| Scenario | Locomotion | Manipulation | Search_Interrupt | Stationary |
-| :--- | :--- | :--- | :--- | :--- |
-| **Cooking** | 7.7% | 77.6% | **4.3% (Anomaly)** | 10.5% |
-| **Playing Instrument** | **4.0% (Anomaly)** | 72.5% | 8.2% | 15.3% |
-| **Walking Outdoors** | 28.7% | 42.4% | 16.0% | 12.9% |
+We propose a multi-layered approach to Anomaly Detection, ranging from simple statistics to complex sequential modeling.
 
-*Note: Duration-based anomalies are currently excluded because the sparse training labels do not support reliable duration modeling.*
+#### Strategy 1: Temporal & Contextual Probability (Hard)
+- **Logic**: $P(\text{Action} | \text{Scenario}, \text{Duration})$.
+- **Idea**: "It is normal to stand still while cooking, but not for 20 minutes."
+- **Status**: **On Hold**. Training labels are sparse/atomic (avg 1s), making duration modeling unreliable with current data.
+
+#### Strategy 2: Contextual Probability Only (Implemented)
+- **Logic**: $P(\text{Action} | \text{Scenario}) < \text{Threshold}$.
+- **Idea**: "Walking while playing the piano is rare/impossible."
+- **Status**: **Active**. Used as the primary baseline. 
+- **Metric**: See Probability Matrix (e.g., $P < 0.05$ triggers VLM).
+
+#### Strategy 3: Heuristic / Safety Overrides (Handmade)
+- **Logic**: `if Scenario == X and Action == Y: Trigger`.
+- **Idea**: Safety-critical rules that override data.
+- **Example**: If `Scenario: Walking Outdoors` and `Action: Stationary` for > 10s -> **Trigger**.
+    - *Reason*: Even if data says waiting at a crosswalk is "normal", a safety assistant should check if the user is lost or frozen.
+
+#### Strategy 4: Sequential Pattern Logic (Advanced)
+- **Logic**: $P(Action_t | Action_{t-1}, Action_{t-2}, Scenario)$.
+- **Idea**: Detect "Loops" or "Erratic" sequences.
+- **Example**: `Search` -> `Search` -> `Search` -> `Search`.
+    - Normal workflow: `Search` -> `Manipulation` -> `Stationary`.
+    - Confusion workflow: Repeatedly searching without performing a task.
+- **Implementation**: Markov Chains or N-gram entropy analysis.
 
 ### Stage 3: Visual Verification
 - **Hardware**: Smart Glasses Camera (e.g., Ray-Ban Meta, Vuzix).
