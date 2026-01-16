@@ -33,12 +33,21 @@ graph TD
   - `Action` (e.g., Manipulation) - updated every 1s.
 
 ### Stage 2: Anomaly Logic (The "Brain")
-We need a statistical baseline of "Normalcy".
-- **Logic**: Compute Conditional Probability $P(\text{Action} | \text{Scenario})$ from training data.
+We define "Normalcy" based on the statistical co-occurrence of Actions and Scenarios in the training data.
+
+- **Metric**: Conditional Probability $P(\text{Action} | \text{Scenario})$.
+- **Data Source**: `data/normality_matrix.json` (Computed from Training Set).
 - **Trigger Condition**: 
-  - If $P(\text{Current Action} | \text{Current Scenario}) < \text{Threshold}$ (e.g., 0.05).
-  - *Example*: `Scenario: Desk Work` + `Action: Locomotion` (Running) -> **Anomaly**.
-  - *Example*: `Scenario: Cooking` + `Action: Stationary` (for > 2 minutes) -> **Anomaly** (User might be confused/stuck).
+  - If $P(\text{Current Action} | \text{Current Scenario}) < 0.05$ (5%).
+  
+#### Baseline Probabilities (Example)
+| Scenario | Locomotion | Manipulation | Search_Interrupt | Stationary |
+| :--- | :--- | :--- | :--- | :--- |
+| **Cooking** | 7.7% | 77.6% | **4.3% (Anomaly)** | 10.5% |
+| **Playing Instrument** | **4.0% (Anomaly)** | 72.5% | 8.2% | 15.3% |
+| **Walking Outdoors** | 28.7% | 42.4% | 16.0% | 12.9% |
+
+*Note: Duration-based anomalies are currently excluded because the sparse training labels do not support reliable duration modeling.*
 
 ### Stage 3: Visual Verification
 - **Hardware**: Smart Glasses Camera (e.g., Ray-Ban Meta, Vuzix).
