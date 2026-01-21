@@ -58,6 +58,7 @@ def _normalize_vlm_json(d: Dict[str, Any], raw_answer: str = "") -> Dict[str, An
     Enforce a minimal schema so routing is stable even if the VLM deviates.
     """
     out = dict(d)
+    out.setdefault("image_caption", "")
     out.setdefault("labels_plausibility", "unclear")
     out.setdefault("labels_reasoning", "")
     out.setdefault("scene_summary", "")
@@ -86,10 +87,18 @@ def call_vlm_moondream2(
     model = AutoModelForCausalLM.from_pretrained(model_id, trust_remote_code=True, dtype=dtype).to(device).eval()
 
     img = Image.open(image_path).convert("RGB")
+    # Short caption acts as a compact "anchor" for downstream LLM chat.
+    try:
+        cap_out = model.caption(img, length="short")
+        image_caption = str(cap_out.get("caption", "")).strip()
+    except Exception:
+        image_caption = ""
+
     prompt = (
         "You are a safety assistant verifying IMU predictions from smart glasses.\n"
         "Return ONLY valid JSON. No markdown.\n"
         "Required keys:\n"
+        '  - "image_caption": a single short caption of the image\n'
         '  - "labels_plausibility": one of ["plausible","implausible","unclear"]\n'
         '  - "labels_reasoning": short reason\n'
         '  - "scene_summary": 1-2 sentences describing what you see\n'
@@ -99,6 +108,7 @@ def call_vlm_moondream2(
         f'IMU action_pred="{event.action_pred}" (conf={event.action_conf:.3f})\n'
         f'IMU anomaly_reason="{event.anomaly_reason}"\n\n'
         "Task:\n"
+        f"0) Here is a suggested caption you can reuse if accurate: {json.dumps(image_caption)}\n"
         "1) Are the IMU labels plausible in this image?\n"
         "2) Assess any safety risk in the scene.\n"
     )
@@ -116,6 +126,9 @@ def call_vlm_moondream2(
             parsed = _safe_json_loads(maybe)
 
     normalized = _normalize_vlm_json(parsed, raw_answer=ans)
+    # Ensure caption is always available to the LLM even if JSON parsing fails.
+    if image_caption and not normalized.get("image_caption"):
+        normalized["image_caption"] = image_caption
     if debug:
         _print_block("VLM_PARSED_JSON", json.dumps(normalized, indent=2))
     return normalized
@@ -124,6 +137,7 @@ def call_vlm_moondream2(
 def call_vlm_mock(image_path: str, event: ImuEvent) -> Dict[str, Any]:
     # Replace with Moondream2 / other VLM call. This keeps the router runnable anywhere.
     return {
+        "image_caption": "mock_vlm: caption not implemented",
         "labels_plausibility": "unclear",
         "labels_reasoning": "mock_vlm: not implemented",
         "scene_summary": "mock_vlm: no scene summary",
@@ -204,7 +218,6 @@ def build_llm_prompt(
         "You have access to a camera snapshot summary and IMU anomaly context.\n"
         "Stay grounded in the provided VLM fields. Do not mention probabilities unless asked.\n"
         "Be concise, calm, and practical. If you need info, ask ONE short question.\n"
-        "If the user says they cannot see the camera, respond by describing what YOU see from the camera.\n\n"
         "CONTEXT_JSON:\n"
         f"{json.dumps(payload, indent=2)}\n\n"
         "CHAT_HISTORY:\n"
