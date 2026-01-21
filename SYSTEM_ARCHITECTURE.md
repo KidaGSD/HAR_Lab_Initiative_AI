@@ -87,7 +87,8 @@ When the anomaly logic decides to **activate the camera / VLM**, it should also 
 
 - **Moondream2 role in this system**:
   - Use it as a **visual verifier / reporter**: given 1–3 frames, produce a short description + a small **structured JSON** verdict (OK/ANOMALY/UNCLEAR) + a **label plausibility** check (`plausible|implausible|unclear`).
-  - Keep the **interactive dialog** and multi-step decision-making in a separate LLM (Stage 5), fed by the VLM JSON + IMU anomaly signals.
+  - **For now**: we also use the VLM for a simple **interactive Q&A** loop (user asks questions about what they see).
+  - **Optional later**: introduce a separate LLM (Stage 5) for longer multi-turn dialog, personalization, and more advanced planning.
 
 #### Super-simple VLM→LLM workflow (router)
 This is the minimal decision workflow we want (implemented as a tiny “router” script).
@@ -100,15 +101,12 @@ This is the minimal decision workflow we want (implemented as a tiny “router�
   - If **implausible**: likely IMU false-positive → usually **shutdown camera**, unless the image indicates danger/uncertainty → **ask user**.
 - **Step B (VLM: scene/risk)**: if labels are **plausible**, ask for a short **scene summary** and **risk level**.
   - If risk is none/low → **shutdown** or **ask user** (if uncertain).
-  - If risk is medium/high → call an LLM to decide what to say/do → **give help**.
-- **LLM payload** (when used): IMU predictions + `anomaly_reason` + VLM JSON (plausibility + scene/risk).
+  - If risk is medium/high → the assistant provides **help** (VLM-only for now).
+- **Optional LLM**: not used for now; can be added later to generate richer help plans from the same payload (IMU predictions + `anomaly_reason` + VLM JSON).
 
 ### Stage 5: User Intervention (LLM + TTS)
-- **Model**: Same as VLM or a lightweight LLM (e.g., Llama-3-8B).
-- **Task**: meaningful interaction.
-- **Example**:
-  - *VLM Output*: "User is staring at an empty cutting board."
-  - *LLM Output*: "It looks like you're ready to chop, but I don't see any vegetables. Do you need a recipe?"
+- **Status**: **Optional / Not used for now** (we do VLM-only interaction first).
+- **Why keep it as an option**: longer multi-turn dialog, personalization, and higher-quality help generation based on the VLM report.
 
 ## 3. Implementation Roadmap
 

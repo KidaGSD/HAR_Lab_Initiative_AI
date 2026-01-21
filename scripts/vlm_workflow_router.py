@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
 from dataclasses import dataclass
 from typing import Any, Dict, List, Literal, Optional, Tuple
 
@@ -69,25 +68,20 @@ def _normalize_vlm_json(d: Dict[str, Any], raw_answer: str = "") -> Dict[str, An
     return out
 
 
-def call_vlm_moondream2(
-    image_path: str,
-    event: ImuEvent,
-    model_id: str = "vikhyatk/moondream2",
-    debug: bool = False,
-) -> Dict[str, Any]:
-    """
-    Single-image Moondream2 call returning a *structured JSON* verdict.
-    """
-    from PIL import Image  # lazy import
+def _load_moondream2(model_id: str):
     import torch  # lazy import
     from transformers import AutoModelForCausalLM  # lazy import
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     dtype = torch.float16 if device == "cuda" else torch.float32
-    model = AutoModelForCausalLM.from_pretrained(model_id, trust_remote_code=True, dtype=dtype).to(device).eval()
+    return AutoModelForCausalLM.from_pretrained(model_id, trust_remote_code=True, dtype=dtype).to(device).eval()
 
-    img = Image.open(image_path).convert("RGB")
-    # Short caption acts as a compact "anchor" for downstream LLM chat.
+
+def call_vlm_moondream2(model: Any, img: Any, event: ImuEvent, debug: bool = False) -> Dict[str, Any]:
+    """
+    Single-image Moondream2 call returning a *structured JSON* verdict.
+    """
+    # Short caption acts as a compact "anchor" for downstream chat.
     try:
         cap_out = model.caption(img, length="short")
         image_caption = str(cap_out.get("caption", "")).strip()
@@ -126,7 +120,7 @@ def call_vlm_moondream2(
             parsed = _safe_json_loads(maybe)
 
     normalized = _normalize_vlm_json(parsed, raw_answer=ans)
-    # Ensure caption is always available to the LLM even if JSON parsing fails.
+    # Ensure caption is always available to downstream chat even if JSON parsing fails.
     if image_caption and not normalized.get("image_caption"):
         normalized["image_caption"] = image_caption
     if debug:
@@ -148,23 +142,6 @@ def call_vlm_mock(image_path: str, event: ImuEvent) -> Dict[str, Any]:
         "action_pred": event.action_pred,
         "anomaly_reason": event.anomaly_reason,
     }
-
-
-def call_llm_ollama(prompt: str, model: str) -> str:
-    """
-    Requires `ollama` installed + model pulled locally.
-    Example model (light): qwen2.5:1.5b-instruct (name depends on your Ollama registry).
-    """
-    p = subprocess.run(
-        ["ollama", "run", model],
-        input=prompt.encode("utf-8"),
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=False,
-    )
-    if p.returncode != 0:
-        raise RuntimeError(f"ollama failed: {p.stderr.decode('utf-8', errors='ignore')}")
-    return p.stdout.decode("utf-8", errors="ignore").strip()
 
 
 def route(event: ImuEvent, vlm_json: Dict[str, Any]) -> Dict[str, Any]:
@@ -193,7 +170,7 @@ def route(event: ImuEvent, vlm_json: Dict[str, Any]) -> Dict[str, Any]:
     return {"decision": "ask_user", "why": "VLM uncertain about label plausibility"}
 
 
-def build_llm_prompt(
+def build_vlm_chat_prompt(
     event: ImuEvent,
     vlm_json: Dict[str, Any],
     route_json: Dict[str, Any],
@@ -215,7 +192,7 @@ def build_llm_prompt(
     return (
         "SYSTEM:\n"
         "You are an assistive AI for smart glasses.\n"
-        "You have access to a camera snapshot summary and IMU anomaly context.\n"
+        "You can see the camera image.\n"
         "Stay grounded in the provided VLM fields. Do not mention probabilities unless asked.\n"
         "Be concise, calm, and practical. If you need info, ask ONE short question.\n"
         "CONTEXT_JSON:\n"
@@ -223,6 +200,16 @@ def build_llm_prompt(
         "CHAT_HISTORY:\n"
         f"{history_txt}\n"
     )
+
+
+def vlm_chat_turn_moondream2(model: Any, img: Any, prompt: str, debug: bool = False) -> str:
+    if debug:
+        _print_block("VLM_CHAT_PROMPT", prompt)
+    out = model.query(image=img, question=prompt)
+    ans = str(out.get("answer", out)).strip()
+    if debug:
+        _print_block("VLM_CHAT_OUTPUT", ans)
+    return ans
 
 
 def _print_camera(state: CameraState, reason: str = "") -> None:
@@ -244,14 +231,11 @@ def main() -> None:
     ap.add_argument("--vlm-backend", choices=["moondream2", "mock"], default="moondream2")
     ap.add_argument("--vlm-model", default="vikhyatk/moondream2")
     ap.add_argument("--vlm-json", default="", help="If provided, skip VLM call and use this JSON string.")
-    ap.add_argument("--debug", action="store_true", help="Print VLM prompt + VLM output + parsed JSON (and LLM prompt).")
-
-    ap.add_argument("--llm-backend", choices=["none", "ollama"], default="none")
-    ap.add_argument("--llm-model", default="qwen2.5:1.5b-instruct")
+    ap.add_argument("--debug", action="store_true", help="Print VLM prompt + VLM output + parsed JSON + chat prompts.")
     ap.add_argument(
         "--interactive",
         action="store_true",
-        help="If LLM is used, enter a terminal chat loop (type /shutdown to stop camera).",
+        help="Enter a terminal chat loop with the VLM (type /shutdown to stop camera).",
     )
     args = ap.parse_args()
 
@@ -270,13 +254,19 @@ def main() -> None:
     camera = "ON"
     _print_camera(camera, f"activated due to anomaly_reason='{event.anomaly_reason}'")
 
+    model = None
+    img = None
     if args.vlm_json:
         vlm = _normalize_vlm_json(_safe_json_loads(args.vlm_json))
     else:
         if args.vlm_backend == "mock":
             vlm = call_vlm_mock(args.image, event)
         else:
-            vlm = call_vlm_moondream2(args.image, event, model_id=args.vlm_model, debug=args.debug)
+            from PIL import Image  # lazy import
+
+            model = _load_moondream2(args.vlm_model)
+            img = Image.open(args.image).convert("RGB")
+            vlm = call_vlm_moondream2(model, img, event, debug=args.debug)
 
     r = route(event, vlm)
     out: Dict[str, Any] = {"decision": r["decision"], "why": r["why"], "camera_state": camera, "vlm": vlm}
@@ -291,7 +281,7 @@ def main() -> None:
     # ask_user / give_help: keep camera on unless user shuts it down.
     _print_camera(camera, f"keeping ON (decision={r['decision']})")
 
-    if args.llm_backend != "none":
+    if args.interactive:
         chat: List[Dict[str, str]] = []
         # Kick off with a grounded "first turn" so the assistant starts in-context.
         chat.append(
@@ -304,43 +294,45 @@ def main() -> None:
                 ),
             }
         )
-        prompt = build_llm_prompt(event, vlm, r, chat)
-        if args.debug:
-            _print_block("LLM_PROMPT", prompt)
-        if args.llm_backend == "ollama":
-            first = call_llm_ollama(prompt, args.llm_model)
-            out["llm_text"] = first
-            print(f"[LLM] {first}", flush=True)
-            chat.append({"role": "assistant", "content": first})
 
-        if args.interactive:
-            print("[CHAT] Type your reply. Commands: /shutdown, /exit", flush=True)
-            while True:
-                _print_camera(camera, "chat_active")
-                try:
-                    user_msg = input("you> ").strip()
-                except EOFError:
-                    user_msg = "/exit"
-                if not user_msg:
-                    continue
-                if user_msg in {"/shutdown", "/stop"}:
-                    camera = "OFF"
-                    _print_camera(camera, "user requested shutdown")
-                    out["camera_state"] = camera
-                    break
-                if user_msg in {"/exit", "/quit"}:
-                    _print_camera(camera, "exiting chat (camera unchanged)")
-                    out["camera_state"] = camera
-                    break
+        if args.vlm_backend == "mock":
+            first = "mock_vlm: I cannot see the image (mock), but the system detected a potential anomaly. What do you need?"
+        else:
+            assert model is not None and img is not None
+            prompt = build_vlm_chat_prompt(event, vlm, r, chat)
+            first = vlm_chat_turn_moondream2(model, img, prompt, debug=args.debug)
+        print(f"assistant> {first}", flush=True)
+        out["assistant_text"] = first
+        chat.append({"role": "assistant", "content": first})
 
-                chat.append({"role": "user", "content": user_msg})
-                prompt = build_llm_prompt(event, vlm, r, chat)
-                if args.debug:
-                    _print_block("LLM_PROMPT", prompt)
-                if args.llm_backend == "ollama":
-                    ans = call_llm_ollama(prompt, args.llm_model)
-                    chat.append({"role": "assistant", "content": ans})
-                    print(f"assistant> {ans}", flush=True)
+        print("[CHAT] Type your reply. Commands: /shutdown, /exit", flush=True)
+        while True:
+            _print_camera(camera, "chat_active")
+            try:
+                user_msg = input("you> ").strip()
+            except EOFError:
+                user_msg = "/exit"
+            if not user_msg:
+                continue
+            if user_msg in {"/shutdown", "/stop"}:
+                camera = "OFF"
+                _print_camera(camera, "user requested shutdown")
+                out["camera_state"] = camera
+                break
+            if user_msg in {"/exit", "/quit"}:
+                _print_camera(camera, "exiting chat (camera unchanged)")
+                out["camera_state"] = camera
+                break
+
+            chat.append({"role": "user", "content": user_msg})
+            if args.vlm_backend == "mock":
+                ans = "mock_vlm: (no image) I can't answer visually in mock mode."
+            else:
+                assert model is not None and img is not None
+                prompt = build_vlm_chat_prompt(event, vlm, r, chat)
+                ans = vlm_chat_turn_moondream2(model, img, prompt, debug=args.debug)
+            chat.append({"role": "assistant", "content": ans})
+            print(f"assistant> {ans}", flush=True)
 
     print(json.dumps(out, indent=2))
 
