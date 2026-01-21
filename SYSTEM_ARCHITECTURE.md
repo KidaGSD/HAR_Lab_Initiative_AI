@@ -89,6 +89,20 @@ When the anomaly logic decides to **activate the camera / VLM**, it should also 
   - Use it as a **visual verifier / reporter**: given 1–3 frames, produce a short description + a small **structured JSON** verdict (OK/ANOMALY/UNCLEAR) + a **label plausibility** check (`plausible|implausible|unclear`).
   - Keep the **interactive dialog** and multi-step decision-making in a separate LLM (Stage 5), fed by the VLM JSON + IMU anomaly signals.
 
+#### Super-simple VLM→LLM workflow (router)
+This is the minimal decision workflow we want (implemented as a tiny “router” script).
+
+- **Inputs** (from IMU side):
+  - `scenario_pred`, `action_pred`, confidences
+  - `anomaly_reason` (why IMU triggered)
+  - `image` (a frame or keyframe from the camera)
+- **Step A (VLM: label plausibility)**: ask if the predicted `(scenario, action)` are **plausible** in the image.
+  - If **implausible**: likely IMU false-positive → usually **shutdown camera**, unless the image indicates danger/uncertainty → **ask user**.
+- **Step B (VLM: scene/risk)**: if labels are **plausible**, ask for a short **scene summary** and **risk level**.
+  - If risk is none/low → **shutdown** or **ask user** (if uncertain).
+  - If risk is medium/high → call an LLM to decide what to say/do → **give help**.
+- **LLM payload** (when used): IMU predictions + `anomaly_reason` + VLM JSON (plausibility + scene/risk).
+
 ### Stage 5: User Intervention (LLM + TTS)
 - **Model**: Same as VLM or a lightweight LLM (e.g., Llama-3-8B).
 - **Task**: meaningful interaction.
