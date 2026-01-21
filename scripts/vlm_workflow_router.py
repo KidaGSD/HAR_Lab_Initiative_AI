@@ -48,6 +48,11 @@ def _extract_json_object(s: str) -> Optional[str]:
     return s[i : j + 1]
 
 
+def _print_block(tag: str, text: str) -> None:
+    bar = "=" * max(10, len(tag))
+    print(f"\n[{tag}]\n{bar}\n{text}\n{bar}\n", flush=True)
+
+
 def _normalize_vlm_json(d: Dict[str, Any], raw_answer: str = "") -> Dict[str, Any]:
     """
     Enforce a minimal schema so routing is stable even if the VLM deviates.
@@ -67,6 +72,7 @@ def call_vlm_moondream2(
     image_path: str,
     event: ImuEvent,
     model_id: str = "vikhyatk/moondream2",
+    debug: bool = False,
 ) -> Dict[str, Any]:
     """
     Single-image Moondream2 call returning a *structured JSON* verdict.
@@ -96,8 +102,12 @@ def call_vlm_moondream2(
         "1) Are the IMU labels plausible in this image?\n"
         "2) Assess any safety risk in the scene.\n"
     )
+    if debug:
+        _print_block("VLM_PROMPT", prompt)
     out = model.query(image=img, question=prompt)
     ans = str(out.get("answer", out)).strip()
+    if debug:
+        _print_block("VLM_RAW_OUTPUT", ans)
 
     parsed = _safe_json_loads(ans)
     if "raw" in parsed:
@@ -105,7 +115,10 @@ def call_vlm_moondream2(
         if maybe:
             parsed = _safe_json_loads(maybe)
 
-    return _normalize_vlm_json(parsed, raw_answer=ans)
+    normalized = _normalize_vlm_json(parsed, raw_answer=ans)
+    if debug:
+        _print_block("VLM_PARSED_JSON", json.dumps(normalized, indent=2))
+    return normalized
 
 
 def call_vlm_mock(image_path: str, event: ImuEvent) -> Dict[str, Any]:
@@ -183,12 +196,15 @@ def build_llm_prompt(
         "vlm": vlm_json,
         "router": route_json,
     }
-    # Note: we embed history as plain text to keep this dependency-free.
+    # Note: we embed history as plain text to keep this dependency-free + backend-agnostic.
     history_txt = "\n".join([f'{m["role"]}: {m["content"]}' for m in chat_history])
     return (
         "SYSTEM:\n"
-        "You are an assistive AI for smart glasses. Be concise, calm, and practical.\n"
-        "If you need info, ask ONE short question.\n\n"
+        "You are an assistive AI for smart glasses.\n"
+        "You have access to a camera snapshot summary and IMU anomaly context.\n"
+        "Stay grounded in the provided VLM fields. Do not mention probabilities unless asked.\n"
+        "Be concise, calm, and practical. If you need info, ask ONE short question.\n"
+        "If the user says they cannot see the camera, respond by describing what YOU see from the camera.\n\n"
         "CONTEXT_JSON:\n"
         f"{json.dumps(payload, indent=2)}\n\n"
         "CHAT_HISTORY:\n"
@@ -215,6 +231,7 @@ def main() -> None:
     ap.add_argument("--vlm-backend", choices=["moondream2", "mock"], default="moondream2")
     ap.add_argument("--vlm-model", default="vikhyatk/moondream2")
     ap.add_argument("--vlm-json", default="", help="If provided, skip VLM call and use this JSON string.")
+    ap.add_argument("--debug", action="store_true", help="Print VLM prompt + VLM output + parsed JSON (and LLM prompt).")
 
     ap.add_argument("--llm-backend", choices=["none", "ollama"], default="none")
     ap.add_argument("--llm-model", default="qwen2.5:1.5b-instruct")
@@ -246,7 +263,7 @@ def main() -> None:
         if args.vlm_backend == "mock":
             vlm = call_vlm_mock(args.image, event)
         else:
-            vlm = call_vlm_moondream2(args.image, event, model_id=args.vlm_model)
+            vlm = call_vlm_moondream2(args.image, event, model_id=args.vlm_model, debug=args.debug)
 
     r = route(event, vlm)
     out: Dict[str, Any] = {"decision": r["decision"], "why": r["why"], "camera_state": camera, "vlm": vlm}
@@ -263,13 +280,25 @@ def main() -> None:
 
     if args.llm_backend != "none":
         chat: List[Dict[str, str]] = []
-        # First assistant message (based on VLM + anomaly).
-        chat.append({"role": "user", "content": "What should I do right now?"})
+        # Kick off with a grounded "first turn" so the assistant starts in-context.
+        chat.append(
+            {
+                "role": "user",
+                "content": (
+                    "Start the conversation.\n"
+                    "1) Briefly explain what you see (from the camera) and whether there is an issue.\n"
+                    "2) If needed, ask ONE clarifying question.\n"
+                ),
+            }
+        )
         prompt = build_llm_prompt(event, vlm, r, chat)
+        if args.debug:
+            _print_block("LLM_PROMPT", prompt)
         if args.llm_backend == "ollama":
             first = call_llm_ollama(prompt, args.llm_model)
             out["llm_text"] = first
             print(f"[LLM] {first}", flush=True)
+            chat.append({"role": "assistant", "content": first})
 
         if args.interactive:
             print("[CHAT] Type your reply. Commands: /shutdown, /exit", flush=True)
@@ -293,6 +322,8 @@ def main() -> None:
 
                 chat.append({"role": "user", "content": user_msg})
                 prompt = build_llm_prompt(event, vlm, r, chat)
+                if args.debug:
+                    _print_block("LLM_PROMPT", prompt)
                 if args.llm_backend == "ollama":
                     ans = call_llm_ollama(prompt, args.llm_model)
                     chat.append({"role": "assistant", "content": ans})
