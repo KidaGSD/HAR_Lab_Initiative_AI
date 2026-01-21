@@ -36,6 +36,18 @@ graph TD
 
 We propose a multi-layered approach to Anomaly Detection, ranging from simple statistics to complex sequential modeling.
 
+#### What is `anomaly_reason`?
+When the anomaly logic decides to **activate the camera / VLM**, it should also emit a small, structured explanation called `anomaly_reason`.
+
+- **Definition**: the IMU-side reason *why* this moment was flagged (not from the VLM).
+- **Purpose**:
+  - Give the VLM context for verification (what looked “weird”).
+  - Give the downstream LLM a grounded rationale for user-facing help.
+- **Typical contents (examples)**:
+  - **Contextual probability trigger**: \(P(\text{Action} \mid \text{Scenario})\) below threshold (e.g., `p=0.01 < 0.05`).
+  - **Heuristic trigger**: safety rule fired (e.g., “Walking outdoors + stationary > 10s”).
+  - **Pattern trigger (optional)**: unusual sequence detected (e.g., repeated `Search` 6× in `Cooking`).
+
 #### Strategy 1: Temporal & Contextual Probability (Hard)
 - **Logic**: $P(\text{Action} | \text{Scenario}, \text{Duration})$.
 - **Idea**: "It is normal to stand still while cooking, but not for 20 minutes."
