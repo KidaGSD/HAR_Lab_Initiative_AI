@@ -68,9 +68,14 @@ We propose a multi-layered approach to Anomaly Detection, ranging from simple st
   - *Purpose*: Quick check for relevant objects (e.g., "Is there a knife?" if Cooking). Fast and cheap.
 
 ### Stage 4: Contextual Reasoning (VLM)
-- **Model Candidate**: **Qwen2-VL-7B-Instruct** (Open Source, efficient) or **GPT-4o-mini** (API, fast).
+- **Current VLM (local)**: **Moondream2** via HuggingFace Transformers (`vikhyatk/moondream2`).
+- **Other candidates**: **Qwen2-VL-7B-Instruct** (Open Source, efficient) or **GPT-4o-mini** (API, fast).
 - **Prompt Strategy**:
   > "Sensor data suggests the user is [Scenario] but performing [Action], which is unusual. Look at this image. Is the user in danger, confused, or just doing something else? Reply with a JSON status."
+
+- **Moondream2 role in this system**:
+  - Use it as a **visual verifier / reporter**: given 1–3 frames, produce a short description + a small **structured JSON** verdict (OK/ANOMALY/UNCLEAR) + a **label plausibility** check (`plausible|implausible|unclear`).
+  - Keep the **interactive dialog** and multi-step decision-making in a separate LLM (Stage 5), fed by the VLM JSON + IMU anomaly signals.
 
 ### Stage 5: User Intervention (LLM + TTS)
 - **Model**: Same as VLM or a lightweight LLM (e.g., Llama-3-8B).
@@ -94,6 +99,10 @@ We propose a multi-layered approach to Anomaly Detection, ranging from simple st
 - [ ] Integrate a VLM API (OpenAI or Local HF Transformers).
 - [ ] Send "Anomaly Candidate" frames to VLM.
 - [ ] Evaluate if VLM explanation makes sense.
+
+**Existing Moondream2 test harnesses (to iterate fast on prompts + latency):**
+- `scripts/vlm_moondream2_probe.py`: full probe harness (frame extraction, multiple prompts, structured JSON, optional `--aggregate`).
+- `scripts/simple_test_VLM.py`: minimal “speed test” (load model once, run one image+prompt, print timings).
 
 ### Phase 4: Real-Time Prototype
 - [ ] Connect `inference_engine.py` (which we created earlier) to the Anomaly Logic.
