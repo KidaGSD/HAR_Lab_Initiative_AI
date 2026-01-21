@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Super-simple workflow router:
-IMU anomaly -> (optional) VLM verification -> decision -> (optional) LLM call.
+Input image + IMU predictions + anomaly_reason -> VLM JSON -> routing -> (optional) LLM chat.
 
 Design goal: tiny, readable, easy to replace with real components later.
 """
@@ -12,10 +12,11 @@ import argparse
 import json
 import subprocess
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Literal, Optional, Tuple
 
 
 Decision = str  # "shutdown_camera" | "ask_user" | "give_help"
+CameraState = Literal["OFF", "ON"]
 
 
 @dataclass
@@ -32,6 +33,79 @@ def _safe_json_loads(s: str) -> Dict[str, Any]:
         return json.loads(s)
     except Exception:
         return {"raw": s}
+
+
+def _extract_json_object(s: str) -> Optional[str]:
+    """
+    Best-effort extraction of a JSON object from a model answer that may contain extra text.
+    """
+    if not s:
+        return None
+    i = s.find("{")
+    j = s.rfind("}")
+    if i == -1 or j == -1 or j <= i:
+        return None
+    return s[i : j + 1]
+
+
+def _normalize_vlm_json(d: Dict[str, Any], raw_answer: str = "") -> Dict[str, Any]:
+    """
+    Enforce a minimal schema so routing is stable even if the VLM deviates.
+    """
+    out = dict(d)
+    out.setdefault("labels_plausibility", "unclear")
+    out.setdefault("labels_reasoning", "")
+    out.setdefault("scene_summary", "")
+    out.setdefault("risk_level", "unclear")
+    out.setdefault("risk_reason", "")
+    if raw_answer and "raw_answer" not in out:
+        out["raw_answer"] = raw_answer
+    return out
+
+
+def call_vlm_moondream2(
+    image_path: str,
+    event: ImuEvent,
+    model_id: str = "vikhyatk/moondream2",
+) -> Dict[str, Any]:
+    """
+    Single-image Moondream2 call returning a *structured JSON* verdict.
+    """
+    from PIL import Image  # lazy import
+    import torch  # lazy import
+    from transformers import AutoModelForCausalLM  # lazy import
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    dtype = torch.float16 if device == "cuda" else torch.float32
+    model = AutoModelForCausalLM.from_pretrained(model_id, trust_remote_code=True, dtype=dtype).to(device).eval()
+
+    img = Image.open(image_path).convert("RGB")
+    prompt = (
+        "You are a safety assistant verifying IMU predictions from smart glasses.\n"
+        "Return ONLY valid JSON. No markdown.\n"
+        "Required keys:\n"
+        '  - "labels_plausibility": one of ["plausible","implausible","unclear"]\n'
+        '  - "labels_reasoning": short reason\n'
+        '  - "scene_summary": 1-2 sentences describing what you see\n'
+        '  - "risk_level": one of ["none","low","medium","high","unclear"]\n'
+        '  - "risk_reason": short reason\n\n'
+        f'IMU scenario_pred="{event.scenario_pred}" (conf={event.scenario_conf:.3f})\n'
+        f'IMU action_pred="{event.action_pred}" (conf={event.action_conf:.3f})\n'
+        f'IMU anomaly_reason="{event.anomaly_reason}"\n\n'
+        "Task:\n"
+        "1) Are the IMU labels plausible in this image?\n"
+        "2) Assess any safety risk in the scene.\n"
+    )
+    out = model.query(image=img, question=prompt)
+    ans = str(out.get("answer", out)).strip()
+
+    parsed = _safe_json_loads(ans)
+    if "raw" in parsed:
+        maybe = _extract_json_object(ans)
+        if maybe:
+            parsed = _safe_json_loads(maybe)
+
+    return _normalize_vlm_json(parsed, raw_answer=ans)
 
 
 def call_vlm_mock(image_path: str, event: ImuEvent) -> Dict[str, Any]:
@@ -92,7 +166,12 @@ def route(event: ImuEvent, vlm_json: Dict[str, Any]) -> Dict[str, Any]:
     return {"decision": "ask_user", "why": "VLM uncertain about label plausibility"}
 
 
-def build_llm_prompt(event: ImuEvent, vlm_json: Dict[str, Any], route_json: Dict[str, Any]) -> str:
+def build_llm_prompt(
+    event: ImuEvent,
+    vlm_json: Dict[str, Any],
+    route_json: Dict[str, Any],
+    chat_history: List[Dict[str, str]],
+) -> str:
     payload = {
         "imu": {
             "scenario_pred": event.scenario_pred,
@@ -104,12 +183,24 @@ def build_llm_prompt(event: ImuEvent, vlm_json: Dict[str, Any], route_json: Dict
         "vlm": vlm_json,
         "router": route_json,
     }
+    # Note: we embed history as plain text to keep this dependency-free.
+    history_txt = "\n".join([f'{m["role"]}: {m["content"]}' for m in chat_history])
     return (
-        "You are an assistive AI for smart glasses.\n"
-        "Given IMU anomaly context and a VLM report, decide what to tell the user.\n"
-        "Return a short, direct sentence to say out loud.\n\n"
-        f"JSON:\n{json.dumps(payload, indent=2)}\n"
+        "SYSTEM:\n"
+        "You are an assistive AI for smart glasses. Be concise, calm, and practical.\n"
+        "If you need info, ask ONE short question.\n\n"
+        "CONTEXT_JSON:\n"
+        f"{json.dumps(payload, indent=2)}\n\n"
+        "CHAT_HISTORY:\n"
+        f"{history_txt}\n"
     )
+
+
+def _print_camera(state: CameraState, reason: str = "") -> None:
+    msg = f"[CAMERA] state={state}"
+    if reason:
+        msg += f" | {reason}"
+    print(msg, flush=True)
 
 
 def main() -> None:
@@ -121,11 +212,17 @@ def main() -> None:
     ap.add_argument("--action-conf", type=float, default=0.0)
     ap.add_argument("--anomaly-reason", default="")
 
+    ap.add_argument("--vlm-backend", choices=["moondream2", "mock"], default="moondream2")
+    ap.add_argument("--vlm-model", default="vikhyatk/moondream2")
     ap.add_argument("--vlm-json", default="", help="If provided, skip VLM call and use this JSON string.")
-    ap.add_argument("--use-mock-vlm", action="store_true", help="Use mock VLM output (default if no --vlm-json).")
 
     ap.add_argument("--llm-backend", choices=["none", "ollama"], default="none")
     ap.add_argument("--llm-model", default="qwen2.5:1.5b-instruct")
+    ap.add_argument(
+        "--interactive",
+        action="store_true",
+        help="If LLM is used, enter a terminal chat loop (type /shutdown to stop camera).",
+    )
     args = ap.parse_args()
 
     event = ImuEvent(
@@ -136,23 +233,70 @@ def main() -> None:
         anomaly_reason=args.anomaly_reason,
     )
 
+    camera: CameraState = "OFF"
+    _print_camera(camera, "idle")
+
+    # This script assumes the IMU anomaly logic already triggered; we turn on the camera for VLM verification.
+    camera = "ON"
+    _print_camera(camera, f"activated due to anomaly_reason='{event.anomaly_reason}'")
+
     if args.vlm_json:
-        vlm = _safe_json_loads(args.vlm_json)
+        vlm = _normalize_vlm_json(_safe_json_loads(args.vlm_json))
     else:
-        if args.use_mock_vlm:
+        if args.vlm_backend == "mock":
             vlm = call_vlm_mock(args.image, event)
         else:
-            raise NotImplementedError(
-                "Real VLM call not wired yet. Use --vlm-json to pass a JSON response or --use-mock-vlm."
-            )
+            vlm = call_vlm_moondream2(args.image, event, model_id=args.vlm_model)
 
     r = route(event, vlm)
-    out: Dict[str, Any] = {"decision": r["decision"], "why": r["why"], "vlm": vlm}
+    out: Dict[str, Any] = {"decision": r["decision"], "why": r["why"], "camera_state": camera, "vlm": vlm}
 
-    if r["decision"] in {"ask_user", "give_help"} and args.llm_backend != "none":
-        prompt = build_llm_prompt(event, vlm, r)
+    if r["decision"] == "shutdown_camera":
+        camera = "OFF"
+        _print_camera(camera, "shutdown (no issue detected)")
+        out["camera_state"] = camera
+        print(json.dumps(out, indent=2))
+        return
+
+    # ask_user / give_help: keep camera on unless user shuts it down.
+    _print_camera(camera, f"keeping ON (decision={r['decision']})")
+
+    if args.llm_backend != "none":
+        chat: List[Dict[str, str]] = []
+        # First assistant message (based on VLM + anomaly).
+        chat.append({"role": "user", "content": "What should I do right now?"})
+        prompt = build_llm_prompt(event, vlm, r, chat)
         if args.llm_backend == "ollama":
-            out["llm_text"] = call_llm_ollama(prompt, args.llm_model)
+            first = call_llm_ollama(prompt, args.llm_model)
+            out["llm_text"] = first
+            print(f"[LLM] {first}", flush=True)
+
+        if args.interactive:
+            print("[CHAT] Type your reply. Commands: /shutdown, /exit", flush=True)
+            while True:
+                _print_camera(camera, "chat_active")
+                try:
+                    user_msg = input("you> ").strip()
+                except EOFError:
+                    user_msg = "/exit"
+                if not user_msg:
+                    continue
+                if user_msg in {"/shutdown", "/stop"}:
+                    camera = "OFF"
+                    _print_camera(camera, "user requested shutdown")
+                    out["camera_state"] = camera
+                    break
+                if user_msg in {"/exit", "/quit"}:
+                    _print_camera(camera, "exiting chat (camera unchanged)")
+                    out["camera_state"] = camera
+                    break
+
+                chat.append({"role": "user", "content": user_msg})
+                prompt = build_llm_prompt(event, vlm, r, chat)
+                if args.llm_backend == "ollama":
+                    ans = call_llm_ollama(prompt, args.llm_model)
+                    chat.append({"role": "assistant", "content": ans})
+                    print(f"assistant> {ans}", flush=True)
 
     print(json.dumps(out, indent=2))
 
