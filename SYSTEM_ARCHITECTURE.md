@@ -1,4 +1,4 @@
-# Context-Aware Assistive AI Architecture
+# Global project architecture
 
 ## 1. System Overview
 

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from dataclasses import dataclass
 from typing import Any, Dict, List, Literal, Optional, Tuple
 
@@ -50,6 +51,48 @@ def _extract_json_object(s: str) -> Optional[str]:
 def _print_block(tag: str, text: str) -> None:
     bar = "=" * max(10, len(tag))
     print(f"\n[{tag}]\n{bar}\n{text}\n{bar}\n", flush=True)
+
+
+def _norm_text(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "").strip().lower())
+
+
+_USER_DONE_PAT = re.compile(
+    r"\b("
+    r"thank(s| you)?|thx|ty|"
+    r"got it|"
+    r"ok(ay)?( thanks)?|"
+    r"that's all|that is all|nothing else|no more|"
+    r"bye|goodbye|see you"
+    r")\b",
+    flags=re.IGNORECASE,
+)
+
+_USER_NEGATIVE_PAT = re.compile(
+    r"^\s*(no|nope|nah|nothing|nothing else|that's all|that is all|all good|done)\s*[.!]?\s*$",
+    flags=re.IGNORECASE,
+)
+
+_ASSISTANT_CLOSING_Q_PAT = re.compile(
+    r"\b(anything else|any other (questions|things)|is that all|is there anything else|"
+    r"can i help with anything else)\b",
+    flags=re.IGNORECASE,
+)
+
+
+def _user_signals_done(user_msg: str) -> bool:
+    """
+    Conservative: only triggers on very explicit "done" language.
+    """
+    return bool(_USER_DONE_PAT.search(user_msg or ""))
+
+
+def _user_says_no_to_closing(user_msg: str) -> bool:
+    return bool(_USER_NEGATIVE_PAT.match(user_msg or ""))
+
+
+def _assistant_asked_closing_q(assistant_msg: str) -> bool:
+    return bool(_ASSISTANT_CLOSING_Q_PAT.search(assistant_msg or ""))
 
 
 def _normalize_vlm_json(d: Dict[str, Any], raw_answer: str = "") -> Dict[str, Any]:
@@ -176,29 +219,32 @@ def build_vlm_chat_prompt(
     route_json: Dict[str, Any],
     chat_history: List[Dict[str, str]],
 ) -> str:
-    payload = {
-        "imu": {
-            "scenario_pred": event.scenario_pred,
-            "action_pred": event.action_pred,
-            "scenario_conf": event.scenario_conf,
-            "action_conf": event.action_conf,
-            "anomaly_reason": event.anomaly_reason,
-        },
-        "vlm": vlm_json,
-        "router": route_json,
-    }
-    # Note: we embed history as plain text to keep this dependency-free + backend-agnostic.
-    history_txt = "\n".join([f'{m["role"]}: {m["content"]}' for m in chat_history])
+    """
+    Keep this prompt SHORT. Moondream2 does best with compact, concrete instructions.
+    We include only a compact context summary + a short chat history.
+    """
+    """
+    NOTE:
+    For Moondream2, shorter is better. Large "system prompts" and multi-turn transcripts
+    often cause it to re-caption instead of answering the actual question.
+
+    We therefore build a *minimal* prompt focused on the last user message only.
+    """
+    image_caption = str(vlm_json.get("image_caption", "")).strip()
+    last_user = ""
+    for m in reversed(chat_history):
+        if m.get("role") == "user":
+            last_user = str(m.get("content", "")).strip()
+            break
+
+    # Minimal question-focused prompt.
     return (
-        "SYSTEM:\n"
-        "You are an assistive AI for smart glasses.\n"
-        "You can see the camera image.\n"
-        "Stay grounded in the provided VLM fields. Do not mention probabilities unless asked.\n"
-        "Be concise, calm, and practical. If you need info, ask ONE short question.\n"
-        "CONTEXT_JSON:\n"
-        f"{json.dumps(payload, indent=2)}\n\n"
-        "CHAT_HISTORY:\n"
-        f"{history_txt}\n"
+        "Answer the user's question about the image in 1-2 sentences. Plain English only.\n"
+        "If the user asks where something is, use relative directions (left/right/center, near/far).\n"
+        "If you cannot locate it, say so and ask ONE brief follow-up question.\n\n"
+        "If you think the user is satisfied, you may end with: \"Anything else I can help with?\"\n\n"
+        f"Caption hint: {image_caption}\n"
+        f"User question: {last_user}\n"
     )
 
 
@@ -233,9 +279,20 @@ def main() -> None:
     ap.add_argument("--vlm-json", default="", help="If provided, skip VLM call and use this JSON string.")
     ap.add_argument("--debug", action="store_true", help="Print VLM prompt + VLM output + parsed JSON + chat prompts.")
     ap.add_argument(
+        "--history-turns",
+        type=int,
+        default=6,
+        help="How many chat messages to include in the prompt (kept small for better VLM focus).",
+    )
+    ap.add_argument(
         "--interactive",
         action="store_true",
         help="Enter a terminal chat loop with the VLM (type /shutdown to stop camera).",
+    )
+    ap.add_argument(
+        "--no-auto-shutdown",
+        action="store_true",
+        help="Disable automatic camera shutdown when the conversation appears finished (e.g., user says thanks).",
     )
     args = ap.parse_args()
 
@@ -283,27 +340,20 @@ def main() -> None:
 
     if args.interactive:
         chat: List[Dict[str, str]] = []
-        # Kick off with a grounded "first turn" so the assistant starts in-context.
-        chat.append(
-            {
-                "role": "user",
-                "content": (
-                    "Start the conversation.\n"
-                    "1) Briefly explain what you see (from the camera) and whether there is an issue.\n"
-                    "2) If needed, ask ONE clarifying question.\n"
-                ),
-            }
-        )
+        auto_shutdown = not args.no_auto_shutdown
+        assistant_recently_asked_closing = False
 
         if args.vlm_backend == "mock":
             first = "mock_vlm: I cannot see the image (mock), but the system detected a potential anomaly. What do you need?"
         else:
             assert model is not None and img is not None
-            prompt = build_vlm_chat_prompt(event, vlm, r, chat)
-            first = vlm_chat_turn_moondream2(model, img, prompt, debug=args.debug)
+            # First turn: ask a simple, concrete question (avoid multi-step instructions).
+            first_q = "Describe the image in 1-2 sentences and mention any obvious safety risk."
+            first = vlm_chat_turn_moondream2(model, img, first_q, debug=args.debug)
         print(f"assistant> {first}", flush=True)
         out["assistant_text"] = first
         chat.append({"role": "assistant", "content": first})
+        assistant_recently_asked_closing = _assistant_asked_closing_q(first)
 
         print("[CHAT] Type your reply. Commands: /shutdown, /exit", flush=True)
         while True:
@@ -324,15 +374,36 @@ def main() -> None:
                 out["camera_state"] = camera
                 break
 
+            if auto_shutdown:
+                # If the assistant just asked "anything else?" and the user said "no", shut down.
+                if assistant_recently_asked_closing and _user_says_no_to_closing(user_msg):
+                    camera = "OFF"
+                    _print_camera(camera, "auto-shutdown (user indicated conversation finished)")
+                    out["camera_state"] = camera
+                    chat.append({"role": "user", "content": user_msg})
+                    break
+                # If the user explicitly signals they're done (thanks/bye/etc.), shut down.
+                if _user_signals_done(user_msg):
+                    camera = "OFF"
+                    _print_camera(camera, "auto-shutdown (user said thanks/bye/done)")
+                    out["camera_state"] = camera
+                    chat.append({"role": "user", "content": user_msg})
+                    break
+
             chat.append({"role": "user", "content": user_msg})
             if args.vlm_backend == "mock":
                 ans = "mock_vlm: (no image) I can't answer visually in mock mode."
             else:
                 assert model is not None and img is not None
-                prompt = build_vlm_chat_prompt(event, vlm, r, chat)
+                # Moondream2 works best with short, concrete prompts; use only the last user message.
+                prompt = build_vlm_chat_prompt(event, vlm, r, chat[-args.history_turns :])
                 ans = vlm_chat_turn_moondream2(model, img, prompt, debug=args.debug)
             chat.append({"role": "assistant", "content": ans})
             print(f"assistant> {ans}", flush=True)
+            assistant_recently_asked_closing = _assistant_asked_closing_q(ans)
+
+        # Keep the full transcript in the final JSON for debugging / downstream logging.
+        out["chat_history"] = chat
 
     print(json.dumps(out, indent=2))
 
