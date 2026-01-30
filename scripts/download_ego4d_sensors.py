@@ -6,7 +6,20 @@ from pathlib import Path
 from tqdm import tqdm
 import sys
 
-def download_sensors(target_uids_file, output_dir):
+from src.aws_utils import get_aws_identity, make_boto3_session
+
+
+def download_sensors(
+    target_uids_file,
+    output_dir,
+    *,
+    aws_region: str = "us-west-1",
+    aws_profile: str | None = None,
+    aws_creds_file: str | None = None,
+    aws_access_key_id: str | None = None,
+    aws_secret_access_key: str | None = None,
+    aws_session_token: str | None = None,
+):
     target_uids_file = Path(target_uids_file)
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -30,12 +43,28 @@ def download_sensors(target_uids_file, output_dir):
     
     datasets = ['imu', 'gaze']
     
-    session = boto3.Session(
-        aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
-        aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
-        region_name="us-west-1"
+    session = make_boto3_session(
+        region=aws_region,
+        profile=aws_profile,
+        creds_file=aws_creds_file,
+        access_key_id=aws_access_key_id,
+        secret_access_key=aws_secret_access_key,
+        session_token=aws_session_token,
     )
-    s3 = session.client('s3')
+    ok, ident = get_aws_identity(session)
+    if ok:
+        print(f"Using AWS Identity: {ident}")
+    else:
+        print(f"ERROR: Could not verify AWS credentials: {ident}")
+        print(
+            "Fix by either:\n"
+            "  - Setting env vars: AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY [/ AWS_SESSION_TOKEN]\n"
+            "  - Using an AWS profile: --aws-profile <name> (from ~/.aws/credentials)\n"
+            "  - Using a creds file: --aws-creds-file access_key.txt (Access ID/Access Key[/Session Token])"
+        )
+        return
+
+    s3 = session.client("s3")
     
     for ds in datasets:
         manifest_path = base_data_dir / "v2" / ds / "manifest.csv"
@@ -84,10 +113,26 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--target-uids-file", type=str, required=True)
     parser.add_argument("--output-dir", type=str, required=True)
+    parser.add_argument("--aws-region", type=str, default="us-west-1", help="AWS region (default: us-west-1)")
+    parser.add_argument("--aws-profile", type=str, default=None, help="AWS profile name from ~/.aws/credentials")
+    parser.add_argument(
+        "--aws-creds-file",
+        type=str,
+        default=None,
+        help='Optional creds file with "Access ID:" and "Access Key:" lines (and optional "Session Token:").',
+    )
+    parser.add_argument("--aws-access-key-id", type=str, default=None, help="Optional explicit AWS access key id")
+    parser.add_argument("--aws-secret-access-key", type=str, default=None, help="Optional explicit AWS secret key")
+    parser.add_argument("--aws-session-token", type=str, default=None, help="Optional AWS session token (temp creds)")
     args = parser.parse_args()
-    
-    if not os.environ.get("AWS_ACCESS_KEY_ID"):
-        print("Please set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.")
-        sys.exit(1)
-        
-    download_sensors(args.target_uids_file, args.output_dir)
+
+    download_sensors(
+        args.target_uids_file,
+        args.output_dir,
+        aws_region=args.aws_region,
+        aws_profile=args.aws_profile,
+        aws_creds_file=args.aws_creds_file,
+        aws_access_key_id=args.aws_access_key_id,
+        aws_secret_access_key=args.aws_secret_access_key,
+        aws_session_token=args.aws_session_token,
+    )

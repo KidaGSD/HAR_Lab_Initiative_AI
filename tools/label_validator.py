@@ -14,22 +14,13 @@ from urllib.parse import quote
 from datetime import timedelta
 from botocore.exceptions import ClientError
 
-def get_s3_client():
-    """Initialize S3 client with AWS credentials."""
-    aws_key = os.environ.get("AWS_ACCESS_KEY_ID")
-    aws_secret = os.environ.get("AWS_SECRET_ACCESS_KEY")
-    
-    if aws_key and aws_secret:
-        session = boto3.Session(
-            aws_access_key_id=aws_key,
-            aws_secret_access_key=aws_secret,
-            region_name="us-west-1"
-        )
-    else:
-        # Use default credential chain
-        session = boto3.Session(region_name="us-west-1")
-    
-    return session.client('s3')
+from src.aws_utils import make_boto3_session
+
+
+def get_s3_client(*, region: str = "us-west-1", profile: str | None = None, creds_file: str | None = None):
+    """Initialize S3 client with flexible AWS credentials (env/profile/creds file)."""
+    session = make_boto3_session(region=region, profile=profile, creds_file=creds_file)
+    return session.client("s3")
 
 def get_video_s3_path(video_uid, manifest_path=None):
     """
@@ -564,11 +555,14 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    # Verify AWS credentials
-    if not os.environ.get("AWS_ACCESS_KEY_ID") or not os.environ.get("AWS_SECRET_ACCESS_KEY"):
-        print("WARNING: AWS credentials not found in environment.")
-        print("Please set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY")
-        print("Continuing anyway (will use default credential chain)...")
+    # Verify AWS credentials (best-effort). Credentials may come from:
+    # - env vars: AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY [/ AWS_SESSION_TOKEN]
+    # - profiles: AWS_PROFILE / ~/.aws/credentials
+    # - instance role / workload identity
+    if not (os.environ.get("AWS_ACCESS_KEY_ID") and os.environ.get("AWS_SECRET_ACCESS_KEY")) and not os.environ.get(
+        "AWS_PROFILE"
+    ):
+        print("NOTE: No explicit AWS env vars/profile detected; relying on boto3 default credential chain.")
     
     create_validator_html(
         args.video_uid,

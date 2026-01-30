@@ -15,11 +15,8 @@ pip install wandb scikit-learn tqdm pandas numpy scipy boto3
 pip install wandb scikit-learn
 
 echo "\n=== 2. Downloading Sensor Data ==="
-# Ensure AWS credentials are set in environment
-if [ -z "$AWS_ACCESS_KEY_ID" ]; then
-    echo "Error: AWS_ACCESS_KEY_ID not set"
-    exit 1
-fi
+# Credentials may come from AWS env vars, AWS_PROFILE, or the default boto3 chain.
+# If you use an AWS profile, export AWS_PROFILE=<profile_name> before running.
 
 python scripts/download_sensors_direct.py \
     --target-uids-file target_uids.csv \

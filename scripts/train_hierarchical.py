@@ -35,37 +35,32 @@ CONFIG = {
     'hla': {
         'hidden_dim': 128,
         'num_layers': 2,
-        'num_classes': 7, # 7 Scenarios (Gardening excluded)
+        'num_classes': 8, # 8 Scenarios
         'seq_len': 30,    # 30 seconds context (can test 20 for latency tradeoff)
         'nhead': 4,
         'dropout': 0.1,
         'type': 'transformer' # transformer encoder for long-range modeling
     },
     'training': {
-        'batch_size': 128,     # safer default to mitigate OOM
-        'lr': 0.0001,            # Base LR (will warmup then cosine)
+        'batch_size': 256,     # default; override with BATCH_SIZE env on larger GPUs
+        'lr': 1e-4,            # Base LR (will warmup then cosine)
         'epochs': 50,
-        'patience': 20,
+        'patience': 15,
         'alpha': 1.0,
-        'beta': 1.0,           # Default: focus on scenario; action loss used in probe or if explicitly enabled
+        'beta': 0.0,           # Default: focus on scenario; action loss used in probe or if explicitly enabled
         'weight_decay': 1e-5,
         'grad_clip': 1.0,
-        'warmup_epochs': 5,     # Warmup then cosine anneal
-        'gradient_accumulation_steps': 4,  # 1 = no accumulation, 2+ = accumulate
-        'use_focal_loss': True,  # enable focal loss
-        'focal_gamma': 2.0,      # focusing parameter
-        'focal_alpha': 1.0,      # class weighting (1.0 = no weighting, or use class_weights)
-        'label_smoothing': 0.1,  # label smoothing amount
-
+        'warmup_epochs': 5     # Warmup then cosine anneal
     },
     'data': {
         'action_label_pad': 0.5,   # seconds to expand action labels on each side
         'per_video_center': True,  # subtract per-video mean after global z-score
-        'add_norm_features': True,  # add accel/gyro norms as extra channels
-        'stride': 5,
-        'augment': True
+        'add_norm_features': True  # add accel/gyro norms as extra channels
     }
 }
+
+
+
 
 # --- Utils ---
 class EarlyStopping:

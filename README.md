@@ -46,12 +46,27 @@ We use two levels of labels for our **Semi-Supervised** approach:
 
 ```bash
 # Step 1: Set up AWS credentials (provided by Ego4D)
-export AWS_ACCESS_KEY_ID="<your_key>"
-export AWS_SECRET_ACCESS_KEY="<your_secret>"
+# Option A (recommended): AWS profile (~/.aws/credentials)
+#   aws configure --profile ego4d
+#   export AWS_PROFILE=ego4d
+#
+# Option B: env vars (also supports temporary creds via AWS_SESSION_TOKEN)
+#   export AWS_ACCESS_KEY_ID="<your_key>"
+#   export AWS_SECRET_ACCESS_KEY="<your_secret>"
+#   export AWS_SESSION_TOKEN="<optional_session_token>"
+#
+# Option C: creds file (same format as access_key.txt):
+#   Access ID: <id>
+#   Access Key: <secret>
+#   Session Token: <optional_token>
 
 # Step 2: Download the 1,652 target videos (~15 GB IMU data)
 # This script uses target_uids.csv to filter the download
-python scripts/download_sensors_direct.py --target-uids-file target_uids.csv --output-dir data/ego4d_data/v2 --manifest-dir data/ego4d_data/v2
+python scripts/download_sensors_direct.py \
+  --target-uids-file target_uids.csv \
+  --output-dir data/ego4d_data/v2 \
+  --manifest-dir data/ego4d_data/v2 \
+  --aws-profile "${AWS_PROFILE:-}"
 ```
 
 ---
