@@ -1,7 +1,7 @@
 # Data Labeling & Verification Strategy
 
 ## Overview
-This document outlines the workflow for transforming raw LLM-generated action labels ("Silver" quality) into a verified, high-quality dataset ("Gold" quality). The process prioritizes fixing broken data first, then statistically verifying the rest.
+Workflow for transforming raw LLM-generated action labels ("Silver" quality) into a verified dataset ("Gold" quality). We are going to prioritize fixing broken data first, then statistically verifying the rest.
 
 ## 1. Pipeline Stages
 
