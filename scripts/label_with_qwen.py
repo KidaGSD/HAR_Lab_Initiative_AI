@@ -157,10 +157,10 @@ def main(args):
             print(f"Warning: Could not read existing file to resume: {e}")
 
     if not os.path.exists(OUTPUT_PATH):
-        pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'thinking_process', 'llm_raw_output']).to_csv(OUTPUT_PATH, index=False)
+        pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'thinking_process', 'llm_raw_output', 'status']).to_csv(OUTPUT_PATH, index=False)
         
     if not os.path.exists(CLEAN_OUTPUT_PATH):
-        pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning']).to_csv(CLEAN_OUTPUT_PATH, index=False)
+        pd.DataFrame(columns=['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'status']).to_csv(CLEAN_OUTPUT_PATH, index=False)
     
     # Filter data to skip processed items
     data_to_run = []
@@ -294,7 +294,8 @@ def main(args):
                 'action': label,
                 'reasoning': reasoning,
                 'thinking_process': thinking_process,
-                'llm_raw_output': generated_text
+                'llm_raw_output': generated_text,
+                'status': 'silver'
             })
             
         # Save Batch (Full)
@@ -302,7 +303,7 @@ def main(args):
         df_batch.to_csv(OUTPUT_PATH, mode='a', header=False, index=False)
         
         # Save Batch (Clean/Lightweight - KEEPS UNKNOWNS)
-        df_clean_batch = df_batch[['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning']]
+        df_clean_batch = df_batch[['video_uid', 'timestamp_sec', 'narration_text', 'scenario', 'action', 'reasoning', 'status']]
         df_clean_batch.to_csv(CLEAN_OUTPUT_PATH, mode='a', header=False, index=False)
         
         print(f"Saved batch to {OUTPUT_PATH} and {CLEAN_OUTPUT_PATH}")
