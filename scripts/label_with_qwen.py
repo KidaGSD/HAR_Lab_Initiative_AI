@@ -117,7 +117,18 @@ def main(args):
 
     # 2. Initialize Model
     print(f"Initializing Qwen model: {args.model}")
-    llm = LLM(model=args.model, trust_remote_code=True, tensor_parallel_size=args.gpus)
+    # Reduce GPU memory utilization to 0.6 and enforce eager mode to fix initialization errors
+    # Also ensure vllm is available
+    if not VLLM_AVAILABLE:
+        raise ImportError("vllm not installed.")
+        
+    llm = LLM(
+        model=args.model, 
+        trust_remote_code=True, 
+        tensor_parallel_size=args.gpus, 
+        gpu_memory_utilization=0.6,
+        enforce_eager=True
+    )
     sampling_params = SamplingParams(
         temperature=0.6, 
         top_p=0.95,
