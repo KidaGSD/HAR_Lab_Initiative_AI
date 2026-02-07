@@ -34,6 +34,31 @@ Workflow for transforming raw LLM-generated action labels ("Silver" quality) int
 | **Error / Correction** | 17,784 | 12,497 | -5,287 |
 | **Refined (Auto-Fix)** | 0 | 5,287 | +5,287 |
 
+### Stage 1.75 (Optional): LLM Strict Correction (Automated)
+*   **Tool:** `scripts/run_stage2_5_llm_strict.py`
+*   **Goal:** Automatically “repair” a problematic label bucket (e.g., `"Error / Correction"` or `"Unknown"`) by forcing the LLM to choose from a taxonomy that **excludes** both `"Error / Correction"` **and** `"Unknown"`.
+*   **Input/Output:** Overwrites `action_labels_llm_clean_refined.csv` in-place and writes a per-row change log:
+    *   `data/labels/action_labels_llm_clean_refined.changes.csv`
+*   **Key behaviors (current script):**
+    *   **Never outputs** `"Error / Correction"` or `"Unknown"` (invalid outputs fall back deterministically to recent context labels, else `Stationary`).
+    *   Does **not** modify the `status` column.
+    *   Prefixes updated rows’ reasoning with `"[CtxFixed]"`.
+*   **Run Report (Feb 5, 2026 — earlier script version that still allowed `Unknown`):**
+    *   **Model:** Qwen/Qwen2.5-14B-Instruct-AWQ (vLLM, `tensor_parallel_size=2`, `gpu_memory_utilization=0.5`, `enforce_eager=True`)
+    *   **Rows processed (Error / Correction):** 12,493
+    *   **Wall time:** ~7m 13s (from vLLM init `17:35:17` to termination `17:42:30`)
+    *   **Effective throughput:** ~29 rows/sec (12,493 / 433s, includes model init)
+    *   **Output distribution (old → new):**
+        *   Error / Correction → Object Transfer: 6,681
+        *   Error / Correction → Unknown: 3,750
+        *   Error / Correction → Essential Operation: 1,294
+        *   Error / Correction → Stationary: 532
+        *   Error / Correction → Locomotion: 205
+        *   Error / Correction → Search: 31
+*   **Recommended usage:**
+    *   To remove `"Error / Correction"`: run with `--target-action "Error / Correction"`
+    *   To remove `"Unknown"`: run with default `--target-action "Unknown"`
+
 ### Stage 2: Targeted Fixing (Gold)
 > **⚠️ DONT FORGET TO PULL THE REFINED CSV FILE, SOMEONE MIGHT HAVE MADE SOME CHECKS AS WELL**
 *   **Tool:** `labels_check/stage2_targeted_fixing.ipynb`

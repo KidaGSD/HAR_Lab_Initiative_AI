@@ -117,7 +117,8 @@ def refine_labels(input_path: str, output_path: str, dry_run: bool = False) -> d
                 df.at[idx, 'action'] = new_label
                 
                 # Update reasoning to explain the change
-                df.at[idx, 'reasoning'] = f"[Refined from Error] {reason}. Original: {old_reasoning}"
+                # df.at[idx, 'reasoning'] = f"[Refined from Error] {reason}. Original: {old_reasoning}"
+                df.at[idx, 'reasoning'] = "Refined via regex fallback"
                 
                 changes.append({
                     'video_uid': row['video_uid'],
@@ -146,7 +147,8 @@ def refine_labels(input_path: str, output_path: str, dry_run: bool = False) -> d
     # Save results
     if not dry_run:
         print(f"\nSaving refined labels to {output_path}...")
-        df.to_csv(output_path, index=False)
+        import csv
+        df.to_csv(output_path, index=False, quoting=csv.QUOTE_NONNUMERIC)
         
         # Save change log
         if changes:
