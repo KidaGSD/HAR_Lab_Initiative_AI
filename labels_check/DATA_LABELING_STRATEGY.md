@@ -85,7 +85,7 @@ Workflow for transforming raw LLM-generated action labels ("Silver" quality) int
         *   Calculates **Accuracy %** (Confidence Score).
         *   Rows marked "Good" become `gold`. Rows marked "Bad" are flagged (status `bad`).
 
-### Stage 4: VLM Automated Audit (VLM-Gold)
+### Stage 3b: VLM Automated Audit (VLM-Gold)
 *   **Tool:** `scripts/verify_with_vlm.py` (To be created)
 *   **Goal:** Scale verification to the massive dataset.
 *   **Workflow:**
@@ -94,6 +94,41 @@ Workflow for transforming raw LLM-generated action labels ("Silver" quality) int
     3.  **Result:**
         *   **Plausible:** Update status to **`vlm_gold`**.
         *   **Implausible:** Flag for review.
+
+### Stage 4: VLM Action Duration (Full-Video Labeling)
+*   **Idea:** Current labels are *point-in-time* (one row per narration, ~1 action per second). The goal is to have *segment-level* labels: for each action, a start and end time so that **entire videos** are covered by labeled segments (no gaps).
+*   **Tool (to implement):** `labels_check/stage4_VLM_actions_duration.ipynb`
+*   **Input:** Rows with **gold** (or high-confidence) labels: `video_uid`, `timestamp_sec`, `action`, `narration_text`.
+*   **Process:**
+    1.  For each gold-labeled timestamp, extract a short video clip (e.g. ±15 s) or keyframes.
+    2.  Ask a VLM: “Given this clip and the action label at t=X, when does this action start and end (in seconds)? Output start_sec, end_sec.”
+    3.  Merge/overlap handling: adjacent or overlapping segments (same action) can be merged; gaps can be filled with a “background” or next action.
+*   **Output:** A segment table: `(video_uid, start_sec, end_sec, action)` so that the union of segments covers the video (or the narrated part).
+*   **Caveats:** VLM temporal resolution is coarse; need a clear prompt and possibly multiple keyframes per segment. Cost/speed: running on ~355k clips is heavy—consider batching and filtering (e.g. only gold, or only certain scenarios first).
+
+#### Design variant: precise window from current narration to next
+*   **Window:** For each gold row at time `t`, define the segment as `[t, t_next)` where `t_next` is the timestamp of the **next narration** in the same video. That gives a precise, gap-free duration (one action per narration interval).
+*   **Sampling:** Extract **1 or 2 frames per second** within that interval (so we can assign an action, or nothing, to every second). Feed these frames to the VLM.
+*   **Prompt:** "The action at the start is \<action\>. These frames cover from X s to Y s (1–2 frames per second). At which second (or between which two frames) does this action stop?" → get `end_sec`; segment is `[t, end_sec]`.
+*   **Pros:** Clear boundaries, no overlap with next action; 1–2 fps supports second-level labels while keeping token count manageable.
+
+#### Frames vs video clip
+*   **Frames (1–2 per second):** Each call = N images (1–2 per second of the interval). Goal: one action (or nothing) per second. VLMs (e.g. Qwen2-VL) support multiple images in one prompt. Typically **faster and cheaper** than video because (1) no video decoding, (2) no temporal encoding. Downside: no explicit motion; model infers from context.
+*   **Video clip:** One call = one short video (e.g. 5–30 s). **Slower and heavier**: video VLMs often use more tokens (temporal patches) and need more VRAM. Better for "when does the action stop?" if the model is trained on video. For many open VLMs, video is 2–5× more expensive per second than 1–2 fps images; start with frames, then try video on a subset if needed.
+
+#### Scale: “Rows if we labeled every second”
+If we discretize time at **1 second** and assign one label per second for the entire dataset:
+
+| Metric | Value | Notes |
+| :--- | :--- | :--- |
+| **Current rows (narrations)** | 355,580 | One per narration timestamp |
+| **Unique videos** | 1,491 | |
+| **Total video duration (proxy)** | ~1,902,561 sec | Per video: `max(timestamp_sec) - min(timestamp_sec) + 1`, summed. True total duration may be slightly higher if narrations don’t cover full video. |
+| **Rows if 1 label per second** | **~1.9M** | ≈ 5.4× current row count |
+| **Avg. video length (proxy)** | ~1,276 sec (~21 min) | |
+| **Avg. narrations per video** | ~239 | |
+
+So moving from “one label per narration” to “one label per second” would grow the dataset to on the order of **~2 million rows** (or the same information as a segment table covering ~1.9M seconds). The VLM-duration stage would produce **segments**; converting segments to 1-sec rows is then straightforward if needed.
 
 ## 2. Data Schema
 The `action_labels.csv` file will contain the following columns:
