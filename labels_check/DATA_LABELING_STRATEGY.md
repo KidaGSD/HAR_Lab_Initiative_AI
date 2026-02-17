@@ -116,6 +116,58 @@ Workflow for transforming raw LLM-generated action labels ("Silver" quality) int
 *   **Frames (1–2 per second):** Each call = N images (1–2 per second of the interval). Goal: one action (or nothing) per second. VLMs (e.g. Qwen2-VL) support multiple images in one prompt. Typically **faster and cheaper** than video because (1) no video decoding, (2) no temporal encoding. Downside: no explicit motion; model infers from context.
 *   **Video clip:** One call = one short video (e.g. 5–30 s). **Slower and heavier**: video VLMs often use more tokens (temporal patches) and need more VRAM. Better for "when does the action stop?" if the model is trained on video. For many open VLMs, video is 2–5× more expensive per second than 1–2 fps images; start with frames, then try video on a subset if needed.
 
+### 4.1 Experimental Attempts & Outcomes (VLMs — Not Working Well)
+
+We tried several VLM-based approaches to refine action durations. **None proved reliable enough for production.**
+
+#### Attempt 1: Moondream (Single Image)
+*   **Method:** Passed a single frame to Moondream2.
+*   **Result:** **Failed.** Single images lack temporal context to determine whether an action (e.g., "checking watch") is starting, ongoing, or finished.
+
+#### Attempt 2: Video VLM (LLaVA-OneVision) — Standard Prompting
+*   **Method:** Passed a video clip (multiple frames) to LLaVA-OneVision.
+*   **Result:** **Struggled.** The model often defaulted to saying the action continued through the whole clip or returned vague timestamps, without temporal precision.
+
+#### Attempt 3: Video VLM — Frame-by-Frame Chain-of-Thought
+*   **Method:** Prompted the VLM to classify the action status for **each frame** (e.g., "Frame 1: DOING", "Frame 2: DONE").
+*   **Result:** **Partial success.** It sometimes correctly identified transitions, but was inconsistent and often hallucinated or missed subtle end-points. Far from sufficient for reliable labeling.
+
+**Example (Action 14: "C checks the hand watch"):**
+
+| Context | Value |
+| :--- | :--- |
+| **Current Action** | Stationary |
+| **Narration** | #C C checks the hand watch |
+| **Segment** | 442.63s – 448.61s (≈6 s) |
+| **Frames sent** | 11 (with 1 s pre-context) |
+
+The VLM produced per-frame status (DOING/DONE) and sometimes predicted a plausible stop time (e.g., 444.80s), but on other examples it defaulted to "DONE" only at the last frame.
+
+**Frames sent to VLM:**
+
+<img src="data_example/assets/Capture d'écran 2026-02-17 à 11.58.59.png" alt="VLM Frame-by-Frame Input Example" width="700">
+
+**VLM result (raw output, parsed reasoning, predicted stop):**
+
+<img src="data_example/assets/Capture d'écran 2026-02-17 à 11.59.19.png" alt="VLM Frame-by-Frame Output Example" width="700">
+
+### 4.2 Text-Driven Segmentation (SAMWISE) — Not Working
+
+We hypothesized that tracking object interactions (e.g., "hand" vs "watch") could yield precise action boundaries (contact vs. separation).
+
+*   **Method:** Use **SAMWISE** (text-driven video segmentation) to mask objects from the narration (e.g., prompt: `"the watch"`).
+*   **Result:** **Failed.** SAMWISE did not produce meaningful masks on our ego-centric footage. Masks were often empty or noisy, even for simple prompts.
+
+**Example failure:**
+
+*   **Input prompt:** `"the watch"`
+*   **Output:** Empty or near-empty masks. See `labels_check/demo_output/the_watch/` for the generated frames — the watch is visible in the original video but the model did not segment it.
+
+### 4.3 Next Steps
+
+1.  **Refine VLM approach:** Continue experiments with different VLM architectures and more structured prompting.
+2.  **Feature-based Change Point Detection (CPD):** Use unsupervised change point detection on visual feature embeddings (e.g., DINOv2 or CLIP) to detect temporal boundaries without relying on semantic understanding.
+
 #### Scale: “Rows if we labeled every second”
 If we discretize time at **1 second** and assign one label per second for the entire dataset:
 
