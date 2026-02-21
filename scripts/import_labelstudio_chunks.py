@@ -57,13 +57,13 @@ def row_to_task(row: pd.Series) -> dict:
     """Convert a CSV row to Label Studio task format."""
     return {
         "data": {
+            "batch": int(row["batch"]),
             "video_uid": str(row["video_uid"]),
             "timestamp_sec": float(row["timestamp_sec"]),
             "narration_text": str(row["narration_text"]),
             "scenario": str(row["scenario"]),
             "action": str(row["action"]),
             "reasoning": str(row["reasoning"]),
-            "status": str(row["status"]),
         }
     }
 
