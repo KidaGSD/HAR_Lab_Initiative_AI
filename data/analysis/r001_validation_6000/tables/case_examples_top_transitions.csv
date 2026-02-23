@@ -1,0 +1,65 @@
+transition,batch,scenario,annotator,narration_text,original_action,final_action,reasoning_excerpt
+Stationary -> Essential Operation,2,Cleaning,3,#C C stretches the bedsheets,Stationary,Essential Operation,The action of stretching bedsheets involves minimal movement and can be considered a low-energy activity.
+Stationary -> Essential Operation,2,Cleaning,8,#C C stretches bedsheet,Stationary,Essential Operation,"Low body/hand motion, more about adjusting position rather than movement through space."
+Stationary -> Essential Operation,2,Carpentry,3,#C C hooks the wire cutter to his trousers with his right hand. #Unsure,Stationary,Essential Operation,The action involves attaching an object to clothing with minimal body movement.
+Stationary -> Essential Operation,2,Carpentry,8,#C C hooks the wire cutter to his trousers with his right hand. #Unsure,Stationary,Essential Operation,"The action involves attaching an object to clothing, which is a brief and stationary motion with low energy."
+Stationary -> Essential Operation,2,Cooking,8,# C C Shakes the food with right hand,Stationary,Essential Operation,"Low body/hand motion, shaking is a small movement."
+Stationary -> Essential Operation,2,Gardening,8,#C C waters the grass,Stationary,Essential Operation,"Low body/hand motion, holding position while performing task."
+Stationary -> Essential Operation,2,Playing Instrument,8,#C C plays another card on the table with his right hand.,Stationary,Essential Operation,"The action involves a low-energy movement of placing a card on the table, indicating minimal body or hand motion."
+Stationary -> Essential Operation,2,Cleaning,8,#C C folds gift wrapper,Stationary,Essential Operation,"Low body/hand motion, focused task."
+Object Transfer -> Essential Operation,2,Cleaning,3,#C C tucks bedsheet,Object Transfer,Essential Operation,Logistics step involving picking up and arranging the bedsheet.
+Object Transfer -> Essential Operation,2,Carpentry,3,#C C removes the network cable connector from the UTP cables with his left hand.,Object Transfer,Essential Operation,Logistics action involving picking up or removing an object.
+Object Transfer -> Essential Operation,2,Cooking,3,#C C turns on the tap with her right hand.,Object Transfer,Essential Operation,Turning on the tap is a logistics step involving a specific action with the hand.
+Object Transfer -> Essential Operation,2,Cooking,3,#C C turns on the tap with her left hand.,Object Transfer,Essential Operation,Turning on the tap is a logistics step involving a specific action with the hand.
+Object Transfer -> Essential Operation,2,Cooking,3,#C C closes the container.,Object Transfer,Essential Operation,Closing an object involves a specific action related to logistics and setup.
+Object Transfer -> Essential Operation,2,Cooking,3,#C C opens tap,Object Transfer,Essential Operation,"Logistics action involving opening a tap, short burst of hand activity."
+Object Transfer -> Essential Operation,2,Cooking,8,#C C puts the food in the chopping board,Object Transfer,Essential Operation,Logistics step involving moving the food to the chopping board.
+Object Transfer -> Essential Operation,2,Playing Instrument,8,#C C plays another card on the table with his right hand.,Object Transfer,Essential Operation,"The action involves placing an object (a card) on the table, which is a logistics step."
+Stationary -> Object Transfer,2,Cleaning,3,#C C drops the clothes on the window seat,Stationary,Object Transfer,"The action involves placing clothes on a seat, which is a low-energy activity."
+Stationary -> Object Transfer,2,Cleaning,3,#C C turns the base,Stationary,Object Transfer,Rotation of base is likely minimal and does not involve significant motion.
+Stationary -> Object Transfer,2,Cleaning,3,#C C leans the mop against the wall,Stationary,Object Transfer,"Low body/hand motion, setting down the mop."
+Stationary -> Object Transfer,2,Cleaning,8,#O man D moves tape on the table,Stationary,Object Transfer,"The action involves moving tape on a table, which likely involves minimal body movement and could be considered a low-energy activity."
+Stationary -> Object Transfer,2,Cleaning,9,#C C closes the laundry machine,Stationary,Object Transfer,Low energy action with minimal body movement.
+Stationary -> Object Transfer,3,Cooking,4,#C C puts phone down,Stationary,Object Transfer,"The action involves placing the phone down, which is a low-energy, static movement."
+Stationary -> Object Transfer,3,Cooking,5,#C C opens the laptop,Stationary,Object Transfer,"Low body/hand motion, opening an object is a quick action with minimal movement."
+Stationary -> Object Transfer,3,Carpentry,4,#C C adjusts the wood on the slider,Stationary,Object Transfer,The action involves fine adjustment and likely minimal movement.
+Locomotion -> Object Transfer,2,Cleaning,3,#C C throws pillow,Locomotion,Object Transfer,"Body movement through space, likely involves throwing motion with high body acceleration."
+Locomotion -> Object Transfer,2,Cleaning,9,#C C throws waste on the waste container,Locomotion,Object Transfer,Body movement involved in the action of throwing waste.
+Locomotion -> Object Transfer,3,Cooking,5,#C C moves the meat,Locomotion,Object Transfer,"Body moving through space to move the meat, likely involves higher body acceleration."
+Locomotion -> Object Transfer,3,Cleaning,4,#C C pushes aside a round table with her both hands.,Locomotion,Object Transfer,"Body moving through space, involves pushing an object which implies significant body acceleration."
+Locomotion -> Object Transfer,3,Cleaning,4,#C C pushes the bucket of water forward with her right hand.,Locomotion,Object Transfer,"Body moving through space with an object, involves significant body acceleration."
+Locomotion -> Object Transfer,3,Cleaning,4,#C C pushes another chair to the dining table with both hands.,Locomotion,Object Transfer,"Body moving through space, involves high body acceleration."
+Locomotion -> Object Transfer,3,Cleaning,4,#C C pushes in the egg tray,Locomotion,Object Transfer,"Movement of the body to push in the egg tray, involves significant body acceleration."
+Locomotion -> Object Transfer,3,Carpentry,4,#C C carries the ladder,Locomotion,Object Transfer,Body moving through space with the ladder.
+Stationary -> Search,2,Walking Outdoors,3,#C C looks on the road,Stationary,Search,"Low body/hand motion, likely visual observation."
+Stationary -> Search,3,Mechanical Repair,4,#C C touches the knife,Stationary,Search,"The action of touching the knife implies a momentary, low-energy interaction."
+Stationary -> Search,3,Carpentry,4,#C C looks around,Stationary,Search,"Low body/hand motion, visual observation."
+Stationary -> Search,3,Carpentry,4,#C C looks around,Stationary,Search,"Low body/hand motion, visual observation."
+Stationary -> Search,3,Cooking,4,#C C stares at a phone,Stationary,Search,"Low body/hand motion, focused attention."
+Stationary -> Search,3,Cooking,4,#C C watches the food,Stationary,Search,"Low body/hand motion, focused observation."
+Stationary -> Search,3,Playing Instrument,4,#C C looks on the play card.,Stationary,Search,The action involves visual inspection without significant body or hand movement.
+Stationary -> Search,3,Cooking,4,#C C stares at the dining table,Stationary,Search,"Low body/hand motion, focused gaze."
+Locomotion -> Essential Operation,3,Carpentry,5,#C C turns the wood on the slider,Locomotion,Essential Operation,"The action involves moving the wood on a slider, which is a form of body movement through space."
+Locomotion -> Essential Operation,3,Mechanical Repair,4,#C C lifts the whetstone,Locomotion,Essential Operation,"Body moving through space (lifting), high body acceleration."
+Locomotion -> Essential Operation,3,Cleaning,4,#C C raises up a foldable table. #unsure,Locomotion,Essential Operation,"Body movement involved in raising the foldable table, likely involves lifting which is a form of locomotion."
+Locomotion -> Essential Operation,3,Carpentry,4,#O man Z stretches the carpet on the floor,Locomotion,Essential Operation,Body movement through space (stretching the carpet on the floor).
+Locomotion -> Essential Operation,3,Carpentry,4,#C C lifts the roller brush,Locomotion,Essential Operation,"Body moving through space to lift the roller brush, indicating a change in position."
+Locomotion -> Essential Operation,3,Carpentry,4,#C C lifts the the roller brush,Locomotion,Essential Operation,"Movement of the body to lift an object, involves high body acceleration."
+Locomotion -> Essential Operation,3,Carpentry,4,#C C pushes the ladder,Locomotion,Essential Operation,"Movement of the body through space, likely involving pushing a heavy object (ladder)."
+Locomotion -> Essential Operation,3,Mechanical Repair,4,#c c kicks the ball,Locomotion,Essential Operation,"Body movement through space, high body acceleration."
+Object Transfer -> Stationary,3,Playing Instrument,4,#C C removes his left hand from the keyboard,Object Transfer,Stationary,Logistics/Removing hand from the keyboard.
+Object Transfer -> Stationary,3,Walking Outdoors,4,#O Man Y holds the wood,Object Transfer,Stationary,"Holding an object, indicating a logistics action."
+Object Transfer -> Stationary,3,Playing Instrument,4,#CC picks the dice,Object Transfer,Stationary,"The action involves picking up an object, which is a logistics step."
+Object Transfer -> Stationary,3,Carpentry,4,#C C moves his hand in the buckets,Object Transfer,Stationary,"Logistics step, likely picking up or putting down objects."
+Object Transfer -> Stationary,3,Mechanical Repair,4,#C C takes her left hand off the tarpaulin,Object Transfer,Stationary,"The action involves removing a hand from an object, which is a logistics step."
+Object Transfer -> Stationary,3,Playing Instrument,4,#C C puts down his hand,Object Transfer,Stationary,"Logistics step, putting down an object."
+Object Transfer -> Stationary,3,Playing Instrument,4,#C C moves his hand towards the chess,Object Transfer,Stationary,Logistics/Setup step (moving hand towards the chess piece).
+Object Transfer -> Stationary,3,Playing Instrument,4,#C C moves his hand towards the pawn,Object Transfer,Stationary,"The action involves moving a hand towards an object, which is a logistics step."
+Essential Operation -> Object Transfer,3,Cooking,5,#C C moves the peppers on the chop board,Essential Operation,Object Transfer,"Core task involving manipulation of objects, high hand activity."
+Essential Operation -> Object Transfer,3,Cooking,5,#C C closes the tap,Essential Operation,Object Transfer,Core task involving manual operation with the hands.
+Essential Operation -> Object Transfer,3,Cooking,4,#C C drops the sauce on the hand,Essential Operation,Object Transfer,"[CtxFixed] The action of dropping the sauce on the hand is an essential operation, as it involves an unintended consequence of handling the sauce, rather than a deliberate placement or movement."
+Essential Operation -> Object Transfer,3,Cleaning,4,#C C puts dirt on his hand,Essential Operation,Object Transfer,Core manual task involving high hand activity.
+Essential Operation -> Object Transfer,4,Cooking,5,#C C pushes the cutting board,Essential Operation,Object Transfer,"Core task, high hand activity."
+Essential Operation -> Object Transfer,4,Gardening,5,#C C pulls out the plants,Essential Operation,Object Transfer,Core manual task involving high hand activity.
+Essential Operation -> Object Transfer,4,Gardening,5,#C C pulls out the plants,Essential Operation,Object Transfer,Core task involving high hand activity.
+Essential Operation -> Object Transfer,4,Gardening,5,#O person X removes plants from the ground,Essential Operation,Object Transfer,"Core task involving manual labor and manipulation, high hand activity."

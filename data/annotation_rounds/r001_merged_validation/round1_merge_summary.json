@@ -1,0 +1,28 @@
+{
+  "base_csv": "HAR_Lab_Initiative_AI/data/annotation_rounds/r001_numerical/round1_assigned_only.csv",
+  "validated_csvs": [
+    "HAR_Lab_Initiative_AI/data/1000_validated/2400_project-7-at-2026-02-23-17-18-d8daa73b.csv",
+    "HAR_Lab_Initiative_AI/data/1000_validated/Deduped_2500_project-8-at-2026-02-23-17-26-c66f8a5c.csv",
+    "HAR_Lab_Initiative_AI/data/1000_validated/Batch12_Finished_project-1-at-2026-02-23-02-46-283f88ad.csv"
+  ],
+  "outputs": {
+    "merged_30000_csv": "HAR_Lab_Initiative_AI/data/annotation_rounds/r001_merged_validation/round1_assigned_only_30000_with_validations.csv",
+    "validated_all_matched_csv": "HAR_Lab_Initiative_AI/data/annotation_rounds/r001_merged_validation/round1_validated_rows_all_matched.csv",
+    "validated_decision_csv": "HAR_Lab_Initiative_AI/data/annotation_rounds/r001_merged_validation/round1_validated_rows_with_decisions.csv",
+    "deep_analysis_subset_csv": "HAR_Lab_Initiative_AI/data/annotation_rounds/r001_merged_validation/round1_deep_analysis_subset_unique_narration_final_action.csv",
+    "conflict_log_csv": "HAR_Lab_Initiative_AI/data/annotation_rounds/r001_merged_validation/round1_validation_conflict_log.csv",
+    "unmatched_csv": "HAR_Lab_Initiative_AI/data/annotation_rounds/r001_merged_validation/round1_validation_unmatched_rows.csv"
+  },
+  "counts": {
+    "base_rows": 30000,
+    "validated_raw_rows": 6217,
+    "validated_after_id_dedup": 6217,
+    "matched_rows_in_base": 6117,
+    "decision_rows": 6101,
+    "gold_bad_rows": 6011,
+    "deep_analysis_rows_unique_norm_narration_final_action": 5278,
+    "conflict_keys_in_base": 100,
+    "duplicate_id_groups_in_validated_sources": 0,
+    "unmatched_validated_rows": 0
+  }
+}

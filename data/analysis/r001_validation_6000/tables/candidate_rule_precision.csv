@@ -1,0 +1,5 @@
+rule_name,pattern,target_label,support,correct_target_count,precision,final_action_distribution
+looks around -> Search,\blooks\s+around\b,Search,110,107,0.9727272727272728,Search:107; Stationary:3
+throws .* ball -> Object Transfer,\bthrows?\b.*\bball\b,Object Transfer,10,3,0.3,Essential Operation:6; Object Transfer:3; Stationary:1
+adjusts the camera -> Essential Operation,\badjusts\s+the\s+camera\b,Essential Operation,7,7,1.0,Essential Operation:7
+looks at person -> Stationary,\blooks\s+at\s+person\b,Stationary,4,2,0.5,Stationary:2; Search:2

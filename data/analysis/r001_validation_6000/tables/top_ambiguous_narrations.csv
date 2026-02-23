@@ -1,0 +1,21 @@
+normalized_narration_for_analysis,support,n_labels,dominant_label,dominant_count,dominant_ratio,label_entropy_bits,label_histogram
+c looks around,55,2,Search,52,0.9454545454545454,0.30540057087631495,Search:52; Stationary:3
+c looks at the phone,19,2,Search,18,0.9473684210526315,0.2974722489164043,Search:18; Stationary:1
+c adjusts the wood on the slider,12,3,Essential Operation,7,0.5833333333333334,1.2806721295165588,Essential Operation:7; Object Transfer:4; Stationary:1
+c closes the tap,8,2,Essential Operation,7,0.875,0.543564443196711,Essential Operation:7; Object Transfer:1
+c turns around,8,2,Locomotion,7,0.875,0.543564443196711,Locomotion:7; Stationary:1
+c arranges cards,6,2,Object Transfer,3,0.5,0.9999999999971146,Object Transfer:3; Essential Operation:3
+c lifts the paint brush,6,2,Essential Operation,4,0.6666666666666666,0.9182958340516041,Essential Operation:4; Object Transfer:2
+c clicks the mouse,6,2,Essential Operation,5,0.8333333333333334,0.6500224216454688,Essential Operation:5; Stationary:1
+c kicks the ball in the field,5,2,Locomotion,3,0.6,0.9709505944517833,Locomotion:3; Essential Operation:2
+c drinks water,5,2,Stationary,4,0.8,0.7219280948844771,Stationary:4; Essential Operation:1
+c looks at the wall,5,2,Search,4,0.8,0.7219280948844771,Search:4; Stationary:1
+c opens the tap,5,2,Object Transfer,4,0.8,0.7219280948844771,Object Transfer:4; Essential Operation:1
+woman y picks card,5,2,Object Transfer,4,0.8,0.7219280948844771,Object Transfer:4; Stationary:1
+c moves his right hand,4,2,Locomotion,3,0.75,0.8112781244562475,Locomotion:3; Stationary:1
+c moves the roller brush,4,2,Essential Operation,3,0.75,0.8112781244562475,Essential Operation:3; Object Transfer:1
+c reads the book,4,2,Essential Operation,3,0.75,0.8112781244562475,Essential Operation:3; Stationary:1
+c scrolls the mouse,4,2,Essential Operation,3,0.75,0.8112781244562475,Essential Operation:3; Stationary:1
+c eats bread,3,2,Stationary,2,0.6666666666666666,0.9182958340516041,Stationary:2; Essential Operation:1
+c moves around the room,3,2,Locomotion,2,0.6666666666666666,0.9182958340516041,Locomotion:2; Essential Operation:1
+c opens tap,3,2,Object Transfer,2,0.6666666666666666,0.9182958340516041,Object Transfer:2; Essential Operation:1

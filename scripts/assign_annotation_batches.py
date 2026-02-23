@@ -197,7 +197,8 @@ def print_summary(
         batch_rows = result[result["_batch"] == batch_id]
         if batch_rows.empty:
             continue
-        line = f"{batch_id:>6} | {len(batch_rows):>5}"
+        label = f"B{batch_id:02d}"
+        line = f"{label:>6} | {len(batch_rows):>5}"
         for cls in ACTIVE_CLASSES:
             count = int((batch_rows["action"] == cls).sum())
             target = class_targets[cls]
@@ -340,10 +341,13 @@ def main() -> int:
     # Print summary
     print_summary(sampled, args.num_batches, class_targets)
 
-    # Step 4: Write back to full DataFrame
-    # Set batch and round on assigned rows
+    # Step 4: Format batch labels as "B01"–"B12" to avoid substring collisions
+    # (Label Studio "contains" filter: "2" would match both "2" and "12")
+    sampled["_batch_label"] = sampled["_batch"].apply(lambda x: f"B{x:02d}")
+
+    # Write back to full DataFrame
     assigned_indices = sampled.index
-    df.loc[assigned_indices, "batch"] = sampled.loc[assigned_indices, "_batch"].astype(int)
+    df.loc[assigned_indices, "batch"] = sampled.loc[assigned_indices, "_batch_label"]
     df.loc[assigned_indices, "round"] = args.round_id
 
     # Summary counts
@@ -354,11 +358,22 @@ def main() -> int:
     print(f"  Assigned:        {assigned_total:,} (batch/round populated)")
     print(f"  Unassigned:      {unassigned_total:,} (available for future rounds)")
 
-    # Save
+    # Save full CSV
     out_path = Path(args.output_csv)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(out_path, index=False)
-    print(f"\nSaved to {out_path}")
+    print(f"\nSaved full CSV to {out_path}")
+
+    # Save assigned-only CSV
+    assigned_df = df[df["batch"].notna()].copy()
+    assigned_df = assigned_df.sort_values(
+        ["round", "batch", "video_uid", "timestamp_sec"]
+    ).reset_index(drop=True)
+    assigned_path = out_path.with_name(
+        out_path.stem + "_assigned_only" + out_path.suffix
+    )
+    assigned_df.to_csv(assigned_path, index=False)
+    print(f"Saved assigned-only CSV to {assigned_path}")
 
     return 0
 

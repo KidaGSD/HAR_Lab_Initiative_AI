@@ -1,0 +1,51 @@
+normalized_narration_for_analysis,support,final_action_histogram,verdict_histogram
+c looks around,55,Search:52; Stationary:3,Gold:52; Bad:3
+c looks at the phone,19,Search:18; Stationary:1,Gold:18; Bad:1
+c adjusts the wood on the slider,12,Essential Operation:7; Object Transfer:4; Stationary:1,Bad:9; Gold:3
+c turns around,8,Locomotion:7; Stationary:1,Gold:8
+c closes the tap,8,Essential Operation:7; Object Transfer:1,Gold:7; Bad:1
+c arranges cards,6,Object Transfer:3; Essential Operation:3,Bad:6
+c clicks the mouse,6,Essential Operation:5; Stationary:1,Bad:5; Gold:1
+c lifts the paint brush,6,Essential Operation:4; Object Transfer:2,Gold:5; Bad:1
+c opens the tap,5,Object Transfer:4; Essential Operation:1,Gold:5
+c kicks the ball in the field,5,Locomotion:3; Essential Operation:2,Gold:3; Bad:2
+c looks at the wall,5,Search:4; Stationary:1,Gold:4; Bad:1
+woman y picks card,5,Object Transfer:4; Stationary:1,Bad:4; Gold:1
+c drinks water,5,Stationary:4; Essential Operation:1,Gold:4; Bad:1
+c moves the roller brush,4,Essential Operation:3; Object Transfer:1,Gold:3; Bad:1
+c reads the book,4,Essential Operation:3; Stationary:1,Bad:3; Gold:1
+c moves his right hand,4,Locomotion:3; Stationary:1,Bad:3; Gold:1
+c scrolls the mouse,4,Essential Operation:3; Stationary:1,Gold:3; Bad:1
+c moves around the room,3,Locomotion:2; Essential Operation:1,Gold:2; Bad:1
+c eats bread,3,Stationary:2; Essential Operation:1,Gold:2; Bad:1
+c picks,3,Object Transfer:2; Essential Operation:1,Gold:3
+c opens tap,3,Object Transfer:2; Essential Operation:1,Gold:2; Bad:1
+c operates the phone,3,Essential Operation:2; Stationary:1,Gold:2; Bad:1
+person a looks at person c,2,Search:1; Stationary:1,Gold:1; Bad:1
+c turns off the tap,2,Essential Operation:1; Object Transfer:1,Gold:1; Bad:1
+c stares at the computer,2,Stationary:1; Search:1,Gold:1; Bad:1
+c touches the mouse,2,Essential Operation:1; Stationary:1,Gold:2
+c captures photo with the phone,2,Essential Operation:1; Stationary:1,Bad:1; Gold:1
+c uses the phone,2,Essential Operation:1; Stationary:1,Gold:2
+child a touches the plate,2,Stationary:1; Object Transfer:1,Gold:2
+c uses the remote,2,Essential Operation:1; Stationary:1,Bad:1; Gold:1
+c rubs the brush on the wall with his left hand,2,Stationary:1; Essential Operation:1,Gold:2
+the man b serves his meal from the pot with chopsticks in his right hand,2,Essential Operation:1; Object Transfer:1,Gold:2
+c wipes hands,2,Essential Operation:1; Stationary:1,Bad:1; Gold:1
+c writes on the paper,2,Essential Operation:1; Stationary:1,Gold:2
+c gazes the screen,2,Search:1; Stationary:1,Gold:2
+c picks a card,2,Stationary:1; Object Transfer:1,Gold:1; Bad:1
+c returns his gaze,2,Search:1; Stationary:1,Gold:2
+c reads the book in the mosque,2,Stationary:1; Essential Operation:1,Gold:1; Bad:1
+c reads,2,Stationary:1; Essential Operation:1,Gold:1; Bad:1
+c lifts up the phone,2,Object Transfer:1; Stationary:1,Gold:2
+c operates computer,2,Essential Operation:1; Stationary:1,Gold:2
+c operates a laptop,2,Stationary:1; Essential Operation:1,Gold:2
+c opens water tap,2,Object Transfer:1; Essential Operation:1,Gold:2
+c closes tap,2,Essential Operation:1; Stationary:1,Gold:2
+c moves his hand forward,2,Essential Operation:1; Stationary:1,Gold:2
+c moves hand up,2,Locomotion:1; Stationary:1,Bad:1; Gold:1
+c makes a step,2,Locomotion:1; Essential Operation:1,Bad:1; Gold:1
+c closes the freezer,2,Object Transfer:1; Essential Operation:1,Gold:1; Bad:1
+c looks at the laptop,2,Search:1; Stationary:1,Gold:2
+c adjusts cloth on the iron board,2,Stationary:1; Essential Operation:1,Gold:1; Bad:1
