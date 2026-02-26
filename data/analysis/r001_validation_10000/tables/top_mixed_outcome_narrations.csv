@@ -1,0 +1,34 @@
+normalized_narration_for_analysis,support,final_action_histogram,verdict_histogram
+scrolls the mouse,3,Essential Operation:2; Stationary:1,Gold:3
+handles a camera,3,Stationary:1; Object Transfer:1; Essential Operation:1,Gold:3
+adjust the camera,2,Stationary:1; Essential Operation:1,Gold:2
+presses the phone,2,Stationary:1; Essential Operation:1,Gold:2
+pulls a vacuum cleaner,2,Object Transfer:1; Essential Operation:1,Gold:2
+pulls machine hose,2,Essential Operation:1; Locomotion:1,Gold:2
+puts the cement in the bucket,2,Object Transfer:1; Essential Operation:1,Gold:2
+reads the book,2,Essential Operation:1; Stationary:1,Bad:1; Gold:1
+scoops the soup from the strainer,2,Essential Operation:1; Object Transfer:1,Gold:2
+serves a tennis ball in the court,2,Essential Operation:1; Locomotion:1,Gold:2
+opens the tap,2,Essential Operation:1; Object Transfer:1,Gold:2
+shakes dish,2,Stationary:1; Essential Operation:1,Gold:2
+stands on the floor,2,Locomotion:1; Stationary:1,Gold:2
+stands on the road,2,Locomotion:1; Stationary:1,Gold:2
+switches the brush to the other hand,2,Object Transfer:1; Stationary:1,Gold:2
+turns,2,Search:1; Locomotion:1,Gold:2
+pour water in the sink,2,Essential Operation:1; Object Transfer:1,Gold:2
+o the man a plays a card on the table with his right hand,2,Essential Operation:1; Stationary:1,Gold:2
+bounces the ball,2,Essential Operation:1; Object Transfer:1,Gold:1; Bad:1
+moves the sink pipe,2,Object Transfer:1; Locomotion:1,Gold:2
+moves the roller brush,2,Essential Operation:1; Object Transfer:1,Gold:1; Bad:1
+moves a towel,2,Object Transfer:1; Locomotion:1,Gold:2
+man y picks dices on the table,2,Object Transfer:1; Essential Operation:1,Gold:2
+looks at the video on the phone,2,Search:1; Stationary:1,Gold:2
+looks at the desktop,2,Stationary:1; Search:1,Bad:1; Gold:1
+looks at his cards,2,Stationary:1; Search:1,Gold:2
+looks aside,2,Search:1; Stationary:1,Gold:2
+leans on the bike,2,Stationary:1; Locomotion:1,Gold:2
+drives,2,Locomotion:1; Essential Operation:1,Gold:2
+closes the tap with his right hand,2,Essential Operation:1; Object Transfer:1,Gold:2
+closes the oven,2,Object Transfer:1; Essential Operation:1,Gold:1; Bad:1
+clicks the mouse,2,Essential Operation:1; Stationary:1,Gold:2
+writes on the book,2,Stationary:1; Essential Operation:1,Gold:2

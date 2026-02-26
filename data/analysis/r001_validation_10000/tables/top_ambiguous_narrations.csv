@@ -1,0 +1,3 @@
+normalized_narration_for_analysis,support,n_labels,dominant_label,dominant_count,dominant_ratio,label_entropy_bits,label_histogram
+handles a camera,3,3,Stationary,1,0.3333333333333333,1.584962500716828,Stationary:1; Object Transfer:1; Essential Operation:1
+scrolls the mouse,3,2,Essential Operation,2,0.6666666666666666,0.9182958340516041,Essential Operation:2; Stationary:1

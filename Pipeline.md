@@ -103,3 +103,62 @@ We created a "Gold Standard" dataset using a hybrid approach:
 1.  **Setup**: `./setup_training.sh` (Installs deps + downloads data).
 2.  **Validate**: `python scripts/validate_training_data.py` (Checks for corruption).
 3.  **Train**: `./run_training.sh` (Runs in `tmux` on GPUs 6 & 7).
+
+
+
+```
+\`\`\`  
+\<View style="margin-top: 1em;"\>
+
+  \<Header value="Action prediction:"/\>
+
+  \<Text name="action\_text" value="$action"/\>
+
+  \<Header value="Help: LLM reasoning:"/\>
+
+  \<Text name="reasoning" value="$reasoning"/\>
+
+\</View\>
+
+\<Header value="Choose label"/\>
+
+\<View style="display: flex; justify-content: center; gap: 60px; margin-top: 1.5em;"\>
+
+  \<Choices name="status\_main" toName="narration" choice="single" showInline="true"\>
+
+    \<Choice value="Gold" hotkey="1"/\>
+
+    \<Choice value="Bad" hotkey="2"/\>
+
+  \</Choices\>
+
+\</View\>
+
+\<View style="display: flex; justify-content: center; gap: 24px; margin-top: 2em;"\>
+
+  \<Choices name="status\_secondary" toName="narration" choice="single" showInline="true"\>
+
+    \<Choice value="Skip" hotkey="3"/\>
+
+    \<Choice value="Delete Row" hotkey="4"/\>
+
+  \</Choices\>
+
+\</View\>
+
+\<Choices name="corrected\_action" toName="narration" choice="single" showInline="false"\>
+
+  \<Choice value="Essential Operation"/\>
+
+  \<Choice value="Object Transfer"/\>
+
+  \<Choice value="Search"/\>
+
+  \<Choice value="Stationary"/\>
+
+  \<Choice value="Locomotion"/\>
+
+\</Choices\>  
+\`\`\`
+```
+

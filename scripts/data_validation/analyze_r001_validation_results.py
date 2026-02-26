@@ -27,8 +27,10 @@ import seaborn as sns
 
 SCRIPT_PATH = Path(__file__).resolve()
 PROJECT_ROOT = SCRIPT_PATH.parents[2]
-INPUT_DEFAULT = PROJECT_ROOT / "data/annotation_rounds/r001_merged_validation/round1_validated_rows_with_decisions.csv"
-OUTPUT_DEFAULT = PROJECT_ROOT / "data/analysis/r001_validation_6000"
+# INPUT_DEFAULT = PROJECT_ROOT / "data/annotation_rounds/r001_merged_validation/round1_validated_rows_with_decisions.csv"
+INPUT_DEFAULT = PROJECT_ROOT / "data/1000_validated/10000-at-2026-02-26-04-57-b8434726.csv"
+
+OUTPUT_DEFAULT = PROJECT_ROOT / "data/analysis/r001_validation_10000"
 
 VERDICT_ORDER = ["Gold", "Bad", "Skip", "Delete Row"]
 ACTION_ORDER = ["Object Transfer", "Stationary", "Essential Operation", "Locomotion", "Search"]
@@ -46,6 +48,77 @@ def ensure_dirs(base: Path) -> Tuple[Path, Path]:
 
 def clean_str_series(s: pd.Series) -> pd.Series:
     return s.fillna("").astype(str).str.strip()
+
+
+def get_clean_series(df: pd.DataFrame, col: str) -> pd.Series:
+    if col in df.columns:
+        return clean_str_series(df[col])
+    return pd.Series("", index=df.index, dtype=str)
+
+
+def coalesce_clean_series(*series: pd.Series) -> pd.Series:
+    if not series:
+        return pd.Series(dtype=str)
+    out = clean_str_series(series[0]).copy()
+    for s in series[1:]:
+        s_clean = clean_str_series(s)
+        mask = out.eq("")
+        if mask.any():
+            out.loc[mask] = s_clean.loc[mask]
+    return out
+
+
+def normalize_verdict_series(s: pd.Series) -> pd.Series:
+    verdict_map = {v.lower(): v for v in VERDICT_ORDER}
+    return clean_str_series(s).str.lower().map(verdict_map).fillna("")
+
+
+def normalize_narration_for_analysis(s: pd.Series) -> pd.Series:
+    out = clean_str_series(s).str.lower()
+    out = out.str.replace(r"^#\s*", "", regex=True)
+    out = out.str.replace(r"^([co])\s+[a-z]\s+", "", regex=True)
+    out = out.str.replace(r"\s+", " ", regex=True)
+    out = out.str.strip(" .,!?:;")
+    return out
+
+
+def normalize_input_schema(df: pd.DataFrame) -> pd.DataFrame:
+    out = df.copy()
+
+    out["validated_final_verdict"] = coalesce_clean_series(
+        normalize_verdict_series(get_clean_series(out, "validated_final_verdict")),
+        normalize_verdict_series(get_clean_series(out, "status_secondary")),
+        normalize_verdict_series(get_clean_series(out, "status_main")),
+        normalize_verdict_series(get_clean_series(out, "status")),
+    )
+
+    out["validated_corrected_action"] = coalesce_clean_series(
+        get_clean_series(out, "validated_corrected_action"),
+        get_clean_series(out, "corrected_action"),
+    )
+    out["validated_final_action"] = coalesce_clean_series(
+        get_clean_series(out, "validated_final_action"),
+        out["validated_corrected_action"],
+        get_clean_series(out, "action"),
+    )
+
+    out["validated_annotator"] = coalesce_clean_series(
+        get_clean_series(out, "validated_annotator"),
+        get_clean_series(out, "annotator"),
+    )
+    out["validated_lead_time"] = coalesce_clean_series(
+        get_clean_series(out, "validated_lead_time"),
+        get_clean_series(out, "lead_time"),
+    )
+    out["validated_reasoning"] = coalesce_clean_series(
+        get_clean_series(out, "validated_reasoning"),
+        get_clean_series(out, "reasoning"),
+    )
+    out["normalized_narration_for_analysis"] = coalesce_clean_series(
+        get_clean_series(out, "normalized_narration_for_analysis"),
+        normalize_narration_for_analysis(get_clean_series(out, "narration_text")),
+    )
+    return out
 
 
 def first_verb_from_norm_text(text: str) -> str:
@@ -96,19 +169,32 @@ def make_verdict_distribution(df: pd.DataFrame, fig_dir: Path, table_dir: Path) 
         .rename_axis("verdict")
         .reset_index(name="count")
     )
-    counts["pct"] = counts["count"] / counts["count"].sum() * 100.0
+    total = int(counts["count"].sum())
+    counts["pct"] = np.where(total > 0, counts["count"] / total * 100.0, 0.0)
     counts.to_csv(table_dir / "verdict_distribution.csv", index=False)
 
-    plt.figure(figsize=(8, 4.5))
-    ax = sns.barplot(data=counts, x="verdict", y="count", order=VERDICT_ORDER, palette="Set2")
+    fig, ax = plt.subplots(figsize=(8, 4.8), constrained_layout=True)
+    ax = sns.barplot(
+        data=counts,
+        x="verdict",
+        y="count",
+        order=VERDICT_ORDER,
+        hue="verdict",
+        dodge=False,
+        palette="Set2",
+        legend=False,
+    )
+    y_max = int(counts["count"].max()) if not counts.empty else 0
+    y_upper = max(1, int(math.ceil(y_max * 1.18)))
+    ax.set_ylim(0, y_upper)
+    label_offset = max(0.35, y_upper * 0.02)
     for i, r in counts.iterrows():
-        ax.text(i, r["count"] + max(5, counts["count"].max() * 0.01), f'{int(r["count"])}\n({r["pct"]:.1f}%)', ha="center", va="bottom", fontsize=9)
-    ax.set_title("Validation Verdict Distribution (n=6,101)")
+        ax.text(i, r["count"] + label_offset, f'{int(r["count"])}\n({r["pct"]:.1f}%)', ha="center", va="bottom", fontsize=9)
+    ax.set_title(f"Validation Verdict Distribution (n={total:,})")
     ax.set_xlabel("Final Verdict")
     ax.set_ylabel("Count")
-    plt.tight_layout()
-    plt.savefig(fig_dir / "fig01_verdict_distribution.png", dpi=180)
-    plt.close()
+    fig.savefig(fig_dir / "fig01_verdict_distribution.png", dpi=180)
+    plt.close(fig)
     return counts
 
 
@@ -129,15 +215,19 @@ def make_batch_stacked(df: pd.DataFrame, fig_dir: Path, table_dir: Path) -> pd.D
     batch_tbl.to_csv(table_dir / "batch_verdict_summary.csv")
 
     plot_tbl = batch_tbl[VERDICT_ORDER]
-    plt.figure(figsize=(10, 5.2))
-    plot_tbl.plot(kind="bar", stacked=True, colormap="Set3", edgecolor="black", linewidth=0.2)
-    plt.title("Verdict Composition by Batch")
-    plt.xlabel("Batch")
-    plt.ylabel("Count")
-    plt.legend(title="Verdict", bbox_to_anchor=(1.02, 1), loc="upper left")
-    plt.tight_layout()
-    plt.savefig(fig_dir / "fig02_batch_stacked_verdicts.png", dpi=180)
-    plt.close()
+    fig, ax = plt.subplots(figsize=(10, 5.2))
+    if plot_tbl.empty:
+        ax.text(0.5, 0.5, "No batch data after verdict filtering.", ha="center", va="center", fontsize=11)
+        ax.set_axis_off()
+    else:
+        plot_tbl.plot(kind="bar", stacked=True, colormap="Set3", edgecolor="black", linewidth=0.2, ax=ax)
+        ax.set_title("Verdict Composition by Batch")
+        ax.set_xlabel("Batch")
+        ax.set_ylabel("Count")
+        ax.legend(title="Verdict", bbox_to_anchor=(1.02, 1), loc="upper left")
+    fig.tight_layout()
+    fig.savefig(fig_dir / "fig02_batch_stacked_verdicts.png", dpi=180)
+    plt.close(fig)
     return batch_tbl.reset_index()
 
 
@@ -151,7 +241,7 @@ def make_class_bad_rate(df: pd.DataFrame, fig_dir: Path, table_dir: Path) -> pd.
     out.to_csv(table_dir / "class_bad_rate.csv", index=False)
 
     plt.figure(figsize=(8.2, 4.8))
-    ax = sns.barplot(data=out, x="bad_rate_pct", y="action", palette="mako")
+    ax = sns.barplot(data=out, x="bad_rate_pct", y="action", hue="action", dodge=False, palette="mako", legend=False)
     for _, r in out.iterrows():
         ax.text(r["bad_rate_pct"] + 0.4, out.index[out["action"] == r["action"]][0], f'{r["Bad"]}/{r["total"]}', va="center", fontsize=9)
     ax.set_title("Bad Rate by Original LLM Action Class (Gold/Bad only)")
@@ -191,7 +281,7 @@ def make_scenario_bad_rate(df: pd.DataFrame, fig_dir: Path, table_dir: Path) -> 
     out.to_csv(table_dir / "scenario_bad_rate.csv", index=False)
 
     plt.figure(figsize=(9, 5.2))
-    ax = sns.barplot(data=out, x="bad_rate_pct", y="scenario", palette="rocket")
+    ax = sns.barplot(data=out, x="bad_rate_pct", y="scenario", hue="scenario", dodge=False, palette="rocket", legend=False)
     for _, r in out.iterrows():
         ax.text(r["bad_rate_pct"] + 0.25, out.index[out["scenario"] == r["scenario"]][0], f'n={int(r["total"])}', va="center", fontsize=9)
     ax.set_title("Bad Rate by Scenario (Gold/Bad only)")
@@ -238,7 +328,18 @@ def make_lead_time_plot(df: pd.DataFrame, fig_dir: Path, table_dir: Path) -> pd.
 
     plt.figure(figsize=(8.4, 5.4))
     plot_tmp = tmp[tmp["validated_final_verdict"].isin(VERDICT_ORDER)].copy()
-    sns.boxplot(data=plot_tmp, x="validated_final_verdict", y="validated_lead_time", order=VERDICT_ORDER, showfliers=False, palette="Pastel1")
+    ax = sns.boxplot(
+        data=plot_tmp,
+        x="validated_final_verdict",
+        y="validated_lead_time",
+        order=VERDICT_ORDER,
+        hue="validated_final_verdict",
+        dodge=False,
+        showfliers=False,
+        palette="Pastel1",
+    )
+    if ax.legend_ is not None:
+        ax.legend_.remove()
     plt.yscale("log")
     plt.title("Lead Time by Final Verdict (log scale)")
     plt.xlabel("Final Verdict")
@@ -357,7 +458,7 @@ def make_pattern_rule_eval(df: pd.DataFrame, fig_dir: Path, table_dir: Path) -> 
     plot_tbl["precision_pct"] = plot_tbl["precision"] * 100.0
 
     plt.figure(figsize=(10.5, 5.2))
-    ax = sns.barplot(data=plot_tbl, x="precision_pct", y="rule_name", palette="crest")
+    ax = sns.barplot(data=plot_tbl, x="precision_pct", y="rule_name", hue="rule_name", dodge=False, palette="crest", legend=False)
     for _, r in plot_tbl.iterrows():
         txt = f'support={int(r["support"])}'
         ax.text(min(99.2, (r["precision_pct"] if pd.notna(r["precision_pct"]) else 0) + 1.2), plot_tbl.index[plot_tbl["rule_name"] == r["rule_name"]][0], txt, va="center", fontsize=9)
@@ -585,6 +686,7 @@ def main() -> int:
 
     fig_dir, table_dir = ensure_dirs(output_dir)
     df = pd.read_csv(input_csv, dtype=str, keep_default_na=False)
+    df = normalize_input_schema(df)
 
     # Basic cleanup
     for col in [
