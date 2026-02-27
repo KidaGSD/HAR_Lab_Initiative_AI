@@ -1,0 +1,16 @@
+action,validated_final_action,count
+Stationary,Essential Operation,281
+Object Transfer,Essential Operation,181
+Stationary,Object Transfer,131
+Locomotion,Object Transfer,127
+Search,Stationary,76
+Essential Operation,Stationary,60
+Stationary,Search,58
+Essential Operation,Object Transfer,57
+Object Transfer,Stationary,56
+Locomotion,Essential Operation,45
+Locomotion,Stationary,35
+Search,Essential Operation,34
+Stationary,Locomotion,28
+Search,Object Transfer,15
+Object Transfer,Locomotion,5
