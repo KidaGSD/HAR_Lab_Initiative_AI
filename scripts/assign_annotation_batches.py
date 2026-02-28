@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import argparse
 import math
+import re
 from pathlib import Path
 
 import numpy as np
@@ -46,6 +47,58 @@ ACTIVE_CLASSES = [
     "Locomotion",
     "Search",
 ]
+
+
+def normalize_no_articles(text: str) -> str:
+    """Lowercase, remove hashtags/punctuation/articles, collapse spaces."""
+    if not isinstance(text, str):
+        return ""
+    t = text.lower()
+    t = re.sub(r"#\w+", " ", t)
+    t = re.sub(r"[^\w\s]", " ", t)
+    t = re.sub(r"\b(the|a|an|some)\b", " ", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def build_frequency_key(series: pd.Series, mode: str) -> pd.Series:
+    """
+    Build text key for frequency grouping.
+    - raw: original narration text normalized to lowercase/space.
+    - no_articles: regex-cleaned text removing articles.
+    - nouns_verbs: aggressive key keeping only NOUN/PROPN/VERB lemmas.
+    """
+    s = series.fillna("").astype(str)
+
+    if mode == "raw":
+        return s.str.lower().str.strip()
+
+    if mode == "no_articles":
+        return s.apply(normalize_no_articles)
+
+    if mode == "nouns_verbs":
+        try:
+            import spacy
+        except ImportError as e:
+            raise RuntimeError(
+                "spacy is required for --frequency-key nouns_verbs. "
+                "Install with: pip install spacy && python -m spacy download en_core_web_sm"
+            ) from e
+
+        model = "en_core_web_sm"
+        if not spacy.util.is_package(model):
+            raise RuntimeError(
+                "Missing spaCy model 'en_core_web_sm'. "
+                "Run: python -m spacy download en_core_web_sm"
+            )
+        nlp = spacy.load(model, disable=["parser", "ner"])
+        texts = s.apply(lambda x: re.sub(r"#\w+", " ", x)).tolist()
+        out: list[str] = []
+        for doc in nlp.pipe(texts, batch_size=2000, n_process=1):
+            toks = [tok.lemma_.lower() for tok in doc if tok.pos_ in {"NOUN", "PROPN", "VERB"}]
+            out.append(" ".join(toks).strip())
+        return pd.Series(out, index=series.index)
+
+    raise ValueError(f"Unknown frequency key mode: {mode}")
 
 
 def compute_power_allocation(
@@ -141,6 +194,7 @@ def sample_rows_per_batch(
     batch_videos: dict[int, list[str]],
     class_targets: dict[str, int],
     seed: int,
+    prioritize_frequent: bool = False,
 ) -> pd.DataFrame:
     """
     For each batch, sample rows from its assigned videos
@@ -160,7 +214,14 @@ def sample_rows_per_batch(
             target = class_targets[cls]
             n = min(target, len(cls_pool))
             if n > 0:
-                sampled = cls_pool.sample(n=n, random_state=seed + batch_id * 100)
+                if prioritize_frequent and "_narr_freq" in cls_pool.columns:
+                    # Deterministic highest-frequency first (very aggressive mode support)
+                    sampled = cls_pool.sort_values(
+                        by=["_narr_freq", "video_uid", "timestamp_sec"],
+                        ascending=[False, True, True],
+                    ).head(n)
+                else:
+                    sampled = cls_pool.sample(n=n, random_state=seed + batch_id * 100)
                 batch_rows.append(sampled)
 
         if batch_rows:
@@ -250,6 +311,23 @@ def main() -> int:
     parser.add_argument("--round-id", default="r001")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument(
+        "--prioritize-frequent",
+        action="store_true",
+        help="Prioritize high-frequency narrations during per-class sampling.",
+    )
+    parser.add_argument(
+        "--min-narration-frequency",
+        type=int,
+        default=1,
+        help="Keep rows whose narration key frequency >= N (default: 1 = no filter).",
+    )
+    parser.add_argument(
+        "--frequency-key",
+        choices=["raw", "no_articles", "nouns_verbs"],
+        default="raw",
+        help="Key used to compute narration frequency. Use nouns_verbs for very aggressive grouping.",
+    )
+    parser.add_argument(
         "--output-csv",
         default="data/labels/action_labels_llm_clean_refined.csv",
         help="Output CSV (can be same as input to update in-place)",
@@ -265,11 +343,13 @@ def main() -> int:
     df = pd.read_csv(labels_path)
     print(f"Total rows: {len(df):,}")
 
-    # Ensure batch/round columns exist
+    # Ensure batch/round columns exist and can store string labels like B01/r002
     if "batch" not in df.columns:
         df["batch"] = pd.NA
     if "round" not in df.columns:
         df["round"] = pd.NA
+    df["batch"] = df["batch"].astype("string")
+    df["round"] = df["round"].astype("string")
 
     # Pool: active classes with no existing batch assignment
     pool = df[
@@ -281,6 +361,32 @@ def main() -> int:
     if pool.empty:
         print("Error: No unassigned rows available.")
         return 1
+
+    # Optional narration-frequency filtering/prioritization
+    if args.prioritize_frequent or args.min_narration_frequency > 1:
+        print(
+            f"\nBuilding narration frequency key (mode={args.frequency_key}) "
+            f"for prioritize/min-frequency filtering..."
+        )
+        pool["_freq_key"] = build_frequency_key(pool["narration_text"], args.frequency_key)
+        freq = pool.groupby("_freq_key").size()
+        pool["_narr_freq"] = pool["_freq_key"].map(freq).astype(int)
+        print(
+            f"  Frequency groups: {len(freq):,} | "
+            f"max freq: {int(freq.max()):,} | median freq: {float(freq.median()):.1f}"
+        )
+
+        if args.min_narration_frequency > 1:
+            before = len(pool)
+            pool = pool[pool["_narr_freq"] >= args.min_narration_frequency].copy()
+            after = len(pool)
+            print(
+                f"  Applied min frequency >= {args.min_narration_frequency}: "
+                f"{before:,} -> {after:,} rows"
+            )
+            if pool.empty:
+                print("Error: Pool became empty after min-narration-frequency filter.")
+                return 1
 
     # Compute class distribution in pool
     class_counts = {cls: int((pool["action"] == cls).sum()) for cls in ACTIVE_CLASSES}
@@ -332,7 +438,13 @@ def main() -> int:
 
     # Step 3: Sample rows
     print(f"\nSampling rows...")
-    sampled = sample_rows_per_batch(pool, batch_videos, class_targets, args.seed)
+    sampled = sample_rows_per_batch(
+        pool,
+        batch_videos,
+        class_targets,
+        args.seed,
+        prioritize_frequent=args.prioritize_frequent,
+    )
 
     if sampled.empty:
         print("Error: No rows sampled.")
