@@ -45,7 +45,7 @@ CONFIG = {
         'epochs': 50,
         'patience': 15,
         'alpha': 1.0,
-        'beta': 0.0,           # Default: focus on scenario; action loss used in probe or if explicitly enabled
+        'beta': 0.5,           # Default: focus on scenario; action loss used in probe or if explicitly enabled
         'weight_decay': 1e-5,
         'grad_clip': 1.0,
         'warmup_epochs': 5     # Warmup then cosine anneal
@@ -82,13 +82,25 @@ class EarlyStopping:
 
 # --- Dataset ---
 class HierarchicalDataset(torch.utils.data.Dataset):
-    def __init__(self, take_uids, processed_dir, scenario_labels_path, action_labels_path):
+    def __init__(self, take_uids, processed_dir, scenario_labels_source, action_labels_source):
         self.samples = []
         
         # Load Labels
         print("Loading label files...")
-        self.scenario_df = pd.read_csv(scenario_labels_path).set_index('video_uid')
-        self.action_df = pd.read_csv(action_labels_path)
+        if isinstance(scenario_labels_source, pd.DataFrame):
+            self.scenario_df = scenario_labels_source.copy().set_index('video_uid')
+        else:
+            self.scenario_df = pd.read_csv(scenario_labels_source).set_index('video_uid')
+        if isinstance(action_labels_source, pd.DataFrame):
+            self.action_df = action_labels_source.copy()
+        else:
+            self.action_df = pd.read_csv(action_labels_source)
+        
+        # Optional scenario exclusion (e.g., Gardening)
+        excluded = set(CONFIG.get('data', {}).get('excluded_scenarios', []))
+        if excluded:
+            print(f"Excluding scenarios: {excluded}")
+            self.scenario_df = self.scenario_df[~self.scenario_df['scenario'].isin(excluded)]
         
         # Map Scenario Names to Integers
         self.scenario_map = {name: i for i, name in enumerate(sorted(self.scenario_df['scenario'].unique()))}
@@ -105,6 +117,10 @@ class HierarchicalDataset(torch.utils.data.Dataset):
             'Search': 4,
             'Error / Correction': 5
         }
+        # Normalize equivalent action names used in refined gold exports.
+        self.action_df["action"] = self.action_df["action"].replace(
+            {"Task Operation": "Essential Operation"}
+        )
         self.idx_to_action = {v: k for k, v in self.action_map.items()}
         # Keep only clean action labels (drop Unknown/Uncertain)
         self.action_df = self.action_df[self.action_df['action'].isin(self.action_map.keys())]
@@ -116,6 +132,7 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         print("\nComputing global normalization statistics...")
         all_data = []
         valid_uids = []
+        dropped_windows_for_stats = 0
         
         for uid in tqdm(take_uids, desc='Collecting normalization data'):
             seq_path = Path(processed_dir) / uid / 'seq.npz'
@@ -125,6 +142,10 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                 data = np.load(seq_path)
                 traj = data['traj']  # (N, 50, 6)
                 traj = self._augment_traj(traj)  # add norms if enabled
+                if len(traj) > 0:
+                    finite_mask = np.isfinite(traj).all(axis=(1, 2))
+                    dropped_windows_for_stats += int((~finite_mask).sum())
+                    traj = traj[finite_mask]
                 if len(traj) > 0 and uid in self.scenario_df.index:
                     all_data.append(traj)
                     valid_uids.append(uid)
@@ -137,14 +158,22 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         all_data = np.concatenate(all_data, axis=0)  # (Total_Windows, 50, C)
         self.global_mean = all_data.mean(axis=(0, 1))  # (C,) - mean per channel
         self.global_std = all_data.std(axis=(0, 1)) + 1e-6  # (C,) - std per channel
+        if not np.isfinite(self.global_mean).all() or not np.isfinite(self.global_std).all():
+            raise ValueError(
+                "Global mean/std contains NaN/Inf after sanitization. "
+                "Please inspect seq.npz files for severe corruption."
+            )
         
         print(f"Global statistics computed from {len(valid_uids)} videos:")
         print(f"  Mean: {self.global_mean}")
         print(f"  Std:  {self.global_std}")
         print(f"  Data range: [{all_data.min():.2f}, {all_data.max():.2f}]")
+        if dropped_windows_for_stats > 0:
+            print(f"  Dropped invalid windows for stats: {dropped_windows_for_stats}")
         # ==========================================
         
         # Iterate Videos
+        dropped_windows_for_training = 0
         for uid in tqdm(take_uids, desc='Loading Data'):
             seq_path = Path(processed_dir) / uid / 'seq.npz'
             if not seq_path.exists():
@@ -155,6 +184,13 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                 traj = data['traj'] # (N, 50, 6)
                 traj = self._augment_traj(traj)
                 timestamps = data['timestamp'] # (N, 50)
+                
+                # Drop invalid windows before normalization/sampling
+                if len(traj) > 0:
+                    finite_mask = np.isfinite(traj).all(axis=(1, 2))
+                    dropped_windows_for_training += int((~finite_mask).sum())
+                    traj = traj[finite_mask]
+                    timestamps = timestamps[finite_mask]
                 
                 # GLOBAL normalization + optional per-video centering
                 if len(traj) > 0:
@@ -231,6 +267,9 @@ class HierarchicalDataset(torch.utils.data.Dataset):
                 
             except Exception as e:
                 print(f"Error loading {uid}: {e}")
+        
+        if dropped_windows_for_training > 0:
+            print(f"Dropped invalid windows during loading: {dropped_windows_for_training}")
 
     def _augment_traj(self, traj):
         # traj: (N, 50, 6)
@@ -396,12 +435,53 @@ def train(args):
     print("DATA SPLIT CONFIGURATION")
     print("="*80)
     
-    # Load scenario labels with splits
-    scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+    # Single labels CSV contains action + scenario annotations.
+    labels_df = pd.read_csv(args.labels_csv)
+    split_source_df = pd.read_csv(args.scenario_labels_csv)
+
+    required_label_cols = {"video_uid", "scenario", "action", "timestamp_sec"}
+    missing_required = sorted(required_label_cols - set(labels_df.columns))
+    if missing_required:
+        raise ValueError(
+            f"--labels-csv is missing required columns: {missing_required}"
+        )
+
+    # Build per-video scenario/split table.
+    if {"video_uid", "scenario", "split"}.issubset(labels_df.columns):
+        scenario_df = (
+            labels_df[["video_uid", "scenario", "split"]]
+            .dropna(subset=["video_uid", "scenario", "split"])
+            .drop_duplicates(subset=["video_uid"], keep="first")
+        )
+    else:
+        scenario_df = (
+            labels_df[["video_uid", "scenario"]]
+            .dropna(subset=["video_uid", "scenario"])
+            .drop_duplicates(subset=["video_uid"], keep="first")
+        )
+        scenario_df = scenario_df.merge(
+            split_source_df[["video_uid", "split"]],
+            on="video_uid",
+            how="left",
+        )
+        missing_split = int(scenario_df["split"].isna().sum())
+        if missing_split > 0:
+            print(f"Warning: {missing_split} videos missing split mapping; assigning to train.")
+            scenario_df["split"] = scenario_df["split"].fillna("train")
+
+    # Row-level split counts from labels CSV (requested visibility).
+    labels_rows_df = labels_df.merge(
+        scenario_df[["video_uid", "split"]].drop_duplicates(subset=["video_uid"]),
+        on="video_uid",
+        how="left",
+    )
+    labels_rows_df["split"] = labels_rows_df["split"].fillna("unmapped")
     
     # Show overall split distribution
     print("\nOverall split distribution:")
     print(scenario_df['split'].value_counts().sort_index())
+    print("\nLabel rows per split (from --labels-csv):")
+    print(labels_rows_df["split"].value_counts().sort_index())
     
     # Use ONLY train and val splits
     # Exclude: 'test' (for final evaluation), 'multi' (ambiguous/multi-scenario videos)
@@ -449,34 +529,47 @@ def train(args):
     print(format_availability("Train", len(train_uids_available), len(train_uids)))
     print(format_availability("Val", len(val_uids_available), len(val_uids)))
     print(format_availability("Test", len(test_uids_available), len(test_uids)))
+    # Effective row counts after processed-data availability filtering.
+    labels_rows_effective = labels_rows_df[labels_rows_df["video_uid"].isin(available_uids)].copy()
+    excluded = set(CONFIG.get("data", {}).get("excluded_scenarios", []))
+    if excluded and "scenario" in labels_rows_effective.columns:
+        labels_rows_effective = labels_rows_effective[
+            ~labels_rows_effective["scenario"].isin(excluded)
+        ]
+    print("\nEffective label rows per split (after processed-data + exclusions):")
+    print(labels_rows_effective["split"].value_counts().sort_index())
     print("="*80 + "\n")
     
     # Use the available UIDs
     train_uids = train_uids_available
     val_uids = val_uids_available
     
-    # Use validated labels
-    action_labels_path = "data/labels/action_labels_llm_validated.csv"
-    
     train_ds = HierarchicalDataset(
         train_uids, 
         args.processed_dir, 
-        "data/labels/scenario_labels.csv", 
-        action_labels_path
+        scenario_df,
+        labels_df,
     )
     
     val_ds = HierarchicalDataset(
         val_uids, 
         args.processed_dir, 
-        "data/labels/scenario_labels.csv", 
-        action_labels_path
+        scenario_df,
+        labels_df,
     )
     
+    # Keep model output classes aligned with active scenario set (e.g., excluding Gardening).
+    num_scenarios = len(train_ds.scenario_map)
+    CONFIG['hla']['num_classes'] = num_scenarios
+
     # Scenario imbalance handling: use class weights (no sampler to match val distribution)
+    # minlength ensures weight tensor size always matches model output dimension.
     scenario_labels_train = torch.tensor([s['scenario_label'].item() for s in train_ds.samples])
-    class_counts = torch.bincount(scenario_labels_train)
-    class_weights = 1.0 / class_counts.float()
-    class_weights = class_weights / class_weights.sum() * len(class_weights)
+    class_counts = torch.bincount(scenario_labels_train, minlength=num_scenarios).float()
+    class_weights = torch.zeros_like(class_counts)
+    nonzero_mask = class_counts > 0
+    class_weights[nonzero_mask] = 1.0 / class_counts[nonzero_mask]
+    class_weights = class_weights * (nonzero_mask.sum() / class_weights[nonzero_mask].sum())
     
     # Allow overriding batch size via env
     bs = int(os.environ.get("BATCH_SIZE", CONFIG['training']['batch_size']))
@@ -574,7 +667,7 @@ def train(args):
         try:
             wandb_run = wandb.init(
                 project="har-imu-training",
-                name=f"hierarchical-{args.run_name}" if args.run_name else None,
+                name=f"{args.run_name}" if args.run_name else None,
                 config={
                     **CONFIG,
                     "train_videos": len(train_uids),
@@ -681,6 +774,8 @@ def train(args):
                 "train_loss": avg_train_loss,
                 "val_scenario_f1": val_s_f1,
                 "val_scenario_acc": val_s_acc,
+                "val_action_f1": val_a_f1,
+                "val_action_acc": val_a_acc,
                 "learning_rate": current_lr  # Log LR for monitoring
             })
             
@@ -721,6 +816,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--target-uids-file", type=str, default="target_uids.csv")
     parser.add_argument("--processed-dir", type=str, default="data/processed_ego4d")
+    parser.add_argument("--labels-csv", type=str, default="data/labels/action_labels_llm_validated.csv")
+    parser.add_argument("--scenario-labels-csv", type=str, default="data/labels/scenario_labels.csv")
     parser.add_argument("--output-dir", type=str, default="checkpoints")
     parser.add_argument('--run-name', type=str, default='hierarchical_har')
     parser.add_argument('--probe', action='store_true', help='Train action probe on frozen model')
@@ -728,7 +825,19 @@ if __name__ == "__main__":
     parser.add_argument('--cv', action='store_true', help='Use K-fold cross validation')
     parser.add_argument('--n-folds', type=int, default=4, help='Number of CV folds (default: 4)')
     parser.add_argument("--no-wandb", action="store_true", help="Disable W&B logging")
+    parser.add_argument(
+        "--exclude-scenarios",
+        type=str,
+        default="",
+        help='Comma-separated scenarios to exclude, e.g. "Gardening,Desk Work"',
+    )
     args = parser.parse_args()
+    
+    # Apply runtime exclusions to global CONFIG
+    if args.exclude_scenarios.strip():
+        excluded = [s.strip() for s in args.exclude_scenarios.split(",") if s.strip()]
+        CONFIG.setdefault("data", {})["excluded_scenarios"] = excluded
+        print(f"Runtime scenario exclusion enabled: {excluded}")
     
     # Cross Validation Mode
     if args.cv:
@@ -740,7 +849,7 @@ if __name__ == "__main__":
         print("=" * 80)
         
         # Load scenario labels
-        scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+        scenario_df = pd.read_csv(args.scenario_labels_csv)
         usable_df = scenario_df[scenario_df['split'].isin(['train', 'val'])].copy()
         
         print(f"\nUsing {len(usable_df)} videos for {args.n_folds}-fold CV")
@@ -769,7 +878,7 @@ if __name__ == "__main__":
             
             # Temporarily override train function to use fold UIDs
             # We do this by modifying the scenario_df before passing to train
-            original_scenario_df = pd.read_csv("data/labels/scenario_labels.csv")
+            original_scenario_df = pd.read_csv(args.scenario_labels_csv)
             
             # Mark fold UIDs appropriately
             temp_scenario_df = original_scenario_df.copy()
@@ -779,12 +888,14 @@ if __name__ == "__main__":
             temp_scenario_df.loc[temp_scenario_df['video_uid'].isin(fold_val_uids), 'split'] = 'val'
             
             # Save temporarily
-            temp_scenario_df.to_csv("data/labels/scenario_labels_temp.csv", index=False)
+            scenario_path = Path(args.scenario_labels_csv)
+            temp_path = str(scenario_path.with_name("scenario_labels_temp.csv"))
+            backup_path = str(scenario_path.with_name("scenario_labels_backup.csv"))
+            temp_scenario_df.to_csv(temp_path, index=False)
             
             # Modify args to use temp file
-            original_labels_path = "data/labels/scenario_labels.csv"
-            os.rename("data/labels/scenario_labels.csv", "data/labels/scenario_labels_backup.csv")
-            os.rename("data/labels/scenario_labels_temp.csv", "data/labels/scenario_labels.csv")
+            os.rename(args.scenario_labels_csv, backup_path)
+            os.rename(temp_path, args.scenario_labels_csv)
             
             try:
                 # Train this fold
@@ -796,9 +907,9 @@ if __name__ == "__main__":
                 
             finally:
                 # Restore original file
-                os.rename("data/labels/scenario_labels.csv", "data/labels/scenario_labels_temp.csv")
-                os.rename("data/labels/scenario_labels_backup.csv", "data/labels/scenario_labels.csv")
-                os.remove("data/labels/scenario_labels_temp.csv")
+                os.rename(args.scenario_labels_csv, temp_path)
+                os.rename(backup_path, args.scenario_labels_csv)
+                os.remove(temp_path)
         
         print("\n" + "=" * 80)
         print("CROSS VALIDATION COMPLETE")
