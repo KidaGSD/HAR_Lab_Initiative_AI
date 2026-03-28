@@ -2,3 +2,38 @@
 *.bak_corrupt
 
 Leo_files/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+
+# Logs
+*.log
+nohup.out
+etting up run *
+
+# Machine Learning / Data
+checkpoints/
+runs/
+wandb/
+.cache/
+data/ego4d_data/
+data/raw/
+data/processed_ego4d/
+data/cache/
+data/
+*.pth
+
+# Large repos / outputs
+labels_check/SAMWISE_repo/
+labels_check/labels_check/
+labels_check/postgresql
+labels_check/postgresql/
+labels_check/temp_frames/
+labels_check/demo_output/
+labels_check/pretrain/
+labels_check/stage4_VLM_actions_duration.ipynb
