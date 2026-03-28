@@ -33,4 +33,4 @@ data:
   per_video_center: true
   add_norm_features: true
   excluded_scenarios:
-    - Gardening
+    []

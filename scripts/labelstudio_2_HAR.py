@@ -30,6 +30,11 @@ def main():
         "lead_time",
         "updated_at",
         "id"  # Often redundant with annotation_id
+        "inner_id",
+        "project",
+        "task_id",
+
+
     ]
 
     input_path = Path(args.input_csv)

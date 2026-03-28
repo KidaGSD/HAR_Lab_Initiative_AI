@@ -9,7 +9,7 @@ import argparse
 import os
 import copy
 import math
-from sklearn.metrics import f1_score, confusion_matrix
+from sklearn.metrics import f1_score, confusion_matrix, precision_recall_fscore_support
 from torch.utils.data import WeightedRandomSampler
 
 try:
@@ -53,9 +53,19 @@ CONFIG = {
     'data': {
         'action_label_pad': 0.5,   # seconds to expand action labels on each side
         'per_video_center': True,  # subtract per-video mean after global z-score
-        'add_norm_features': True  # add accel/gyro norms as extra channels
+        'add_norm_features': True, # add accel/gyro norms as extra channels
+        'excluded_actions': []
     }
 }
+
+DEFAULT_ACTION_CLASSES = [
+    'Stationary',
+    'Locomotion',
+    'Essential Operation',
+    'Object Transfer',
+    'Search',
+    'Error / Correction',
+]
 
 # --- Utils ---
 class EarlyStopping:
@@ -80,7 +90,82 @@ class EarlyStopping:
             self.best_model_state = copy.deepcopy(model.state_dict())
             self.counter = 0
 
-# --- Dataset ---
+
+def load_checkpoint_flexible(model, checkpoint_path, device):
+    """Load checkpoint with/without DataParallel prefixes."""
+    checkpoint = torch.load(checkpoint_path, map_location=device)
+    state_dict = checkpoint["model_state_dict"] if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint else checkpoint
+
+    def _count_overlap_keys(sd, ref_keys):
+        return sum(1 for k in sd.keys() if k in ref_keys)
+
+    model_keys = set(model.state_dict().keys())
+    overlap_raw = _count_overlap_keys(state_dict, model_keys)
+    if overlap_raw == 0:
+        # Translate keys only when there is no direct overlap.
+        has_module_prefix = any(k.startswith("module.") for k in state_dict.keys())
+        if has_module_prefix:
+            translated = {k.replace("module.", "", 1): v for k, v in state_dict.items()}
+        else:
+            translated = {f"module.{k}": v for k, v in state_dict.items()}
+        overlap_translated = _count_overlap_keys(translated, model_keys)
+        if overlap_translated > 0:
+            state_dict = translated
+            print(f"Checkpoint key translation applied ({overlap_translated} overlapping tensors).")
+        else:
+            raise RuntimeError(
+                "Could not match checkpoint keys to model keys (0 overlapping tensors), "
+                "even after DataParallel key translation."
+            )
+
+    missing, unexpected = model.load_state_dict(state_dict, strict=False)
+    loaded_count = len(model_keys) - len(missing)
+    print(
+        f"Checkpoint loaded: {loaded_count}/{len(model_keys)} tensors matched; "
+        f"missing={len(missing)}, unexpected={len(unexpected)}"
+    )
+
+
+def _sanitize_metric_name(name):
+    safe = str(name).strip().lower()
+    for ch in [" ", "/", "-", "(", ")", ","]:
+        safe = safe.replace(ch, "_")
+    while "__" in safe:
+        safe = safe.replace("__", "_")
+    return safe.strip("_")
+
+
+def summarize_class_metrics(y_true, y_pred, class_names):
+    labels = list(range(len(class_names)))
+    precision, recall, f1, support = precision_recall_fscore_support(
+        y_true,
+        y_pred,
+        labels=labels,
+        zero_division=0,
+    )
+    rows = []
+    payload = {}
+    for idx, class_name in enumerate(class_names):
+        metric_prefix = _sanitize_metric_name(class_name)
+        rows.append({
+            "name": class_name,
+            "precision": float(precision[idx]),
+            "recall": float(recall[idx]),
+            "f1": float(f1[idx]),
+            "support": int(support[idx]),
+        })
+        payload[f"{metric_prefix}_precision"] = float(precision[idx])
+        payload[f"{metric_prefix}_recall"] = float(recall[idx])
+        payload[f"{metric_prefix}_f1"] = float(f1[idx])
+        payload[f"{metric_prefix}_support"] = int(support[idx])
+    return rows, payload
+
+
+def get_active_action_names():
+    excluded = set(CONFIG.get('data', {}).get('excluded_actions', []))
+    return [name for name in DEFAULT_ACTION_CLASSES if name not in excluded]
+
+# --- Dataset --- #Custom Pytorch dataset #Loads IMUs, labels, normalize, and create training samp 
 class HierarchicalDataset(torch.utils.data.Dataset):
     def __init__(self, take_uids, processed_dir, scenario_labels_source, action_labels_source):
         self.samples = []
@@ -108,15 +193,10 @@ class HierarchicalDataset(torch.utils.data.Dataset):
         self.idx_to_scenario = {v: k for k, v in self.scenario_map.items()}
         print(f"Scenarios: {self.scenario_map}")
         
-        # Map Action Names to Integers (6 Classes)
-        self.action_map = {
-            'Stationary': 0, 
-            'Locomotion': 1, 
-            'Essential Operation': 2, 
-            'Object Transfer': 3,
-            'Search': 4,
-            'Error / Correction': 5
-        }
+        # Map active action names to integers after optional exclusions.
+        active_action_names = get_active_action_names()
+        self.action_map = {name: i for i, name in enumerate(active_action_names)}
+        print(f"Actions: {self.action_map}")
         # Normalize equivalent action names used in refined gold exports.
         self.action_df["action"] = self.action_df["action"].replace(
             {"Task Operation": "Essential Operation"}
@@ -302,7 +382,7 @@ class SqueezeExcite(nn.Module):
         se = torch.sigmoid(self.fc2(se)).view(b, c, 1)
         return x * se
 
-class LLE(nn.Module):
+class LLE(nn.Module): #CNN and SE and GRU
     """Low-Level Encoder with Variable Dilation CNNs + SE channel attention."""
     def __init__(self, config):
         super().__init__()
@@ -470,11 +550,15 @@ def train(args):
             scenario_df["split"] = scenario_df["split"].fillna("train")
 
     # Row-level split counts from labels CSV (requested visibility).
-    labels_rows_df = labels_df.merge(
-        scenario_df[["video_uid", "split"]].drop_duplicates(subset=["video_uid"]),
-        on="video_uid",
-        how="left",
-    )
+    # If labels already contain split, avoid merge suffixes (split_x/split_y).
+    if "split" in labels_df.columns:
+        labels_rows_df = labels_df.copy()
+    else:
+        labels_rows_df = labels_df.merge(
+            scenario_df[["video_uid", "split"]].drop_duplicates(subset=["video_uid"]),
+            on="video_uid",
+            how="left",
+        )
     labels_rows_df["split"] = labels_rows_df["split"].fillna("unmapped")
     
     # Show overall split distribution
@@ -543,6 +627,7 @@ def train(args):
     # Use the available UIDs
     train_uids = train_uids_available
     val_uids = val_uids_available
+    test_uids = test_uids_available
     
     train_ds = HierarchicalDataset(
         train_uids, 
@@ -554,6 +639,13 @@ def train(args):
     val_ds = HierarchicalDataset(
         val_uids, 
         args.processed_dir, 
+        scenario_df,
+        labels_df,
+    )
+    
+    test_ds = HierarchicalDataset(
+        test_uids,
+        args.processed_dir,
         scenario_df,
         labels_df,
     )
@@ -594,9 +686,23 @@ def train(args):
         prefetch_factor=2,
         pin_memory_device="cuda"
     )
+    test_loader = torch.utils.data.DataLoader(
+        test_ds,
+        batch_size=bs,
+        shuffle=False,
+        num_workers=4,
+        pin_memory=True,
+        persistent_workers=True,
+        prefetch_factor=2,
+        pin_memory_device="cuda"
+    )
     
     # Initialize Model
     model = HierarchicalModel(CONFIG).to(device)
+    if args.init_checkpoint:
+        print(f"Loading initialization checkpoint: {args.init_checkpoint}")
+        load_checkpoint_flexible(model, args.init_checkpoint, device)
+        print("Checkpoint loaded for fine-tuning.")
     
     # --- PROBING MODE ---
     if args.probe:
@@ -672,8 +778,10 @@ def train(args):
                     **CONFIG,
                     "train_videos": len(train_uids),
                     "val_videos": len(val_uids),
+                    "test_videos": len(test_uids),
                     "train_samples": len(train_ds),
                     "val_samples": len(val_ds),
+                    "test_samples": len(test_ds),
                 }
             )
             wandb.watch(model, log='all', log_freq=100)
@@ -812,16 +920,101 @@ def train(args):
     torch.save(model.state_dict(), Path(args.output_dir) / "last_model.pth")
     print("Last model saved.")
 
+    # --- Final Test Evaluation (on best model state) ---
+    if len(test_ds) == 0:
+        print("No test samples available; skipping final test evaluation.")
+        return
+
+    # Evaluate using the best checkpoint selected by validation.
+    if early_stopper.best_model_state:
+        model.load_state_dict(early_stopper.best_model_state)
+    model.eval()
+
+    test_s_preds = []
+    test_s_labels = []
+    test_a_preds = []
+    test_a_labels = []
+    with torch.no_grad():
+        for batch in test_loader:
+            inputs = batch['inputs'].to(device)
+            s_labels = batch['scenario_label'].to(device)
+            a_labels = batch['action_labels'].to(device)
+
+            s_logits, a_logits = model(inputs)
+            s_preds = torch.argmax(s_logits, dim=1)
+            test_s_preds.extend(s_preds.cpu().numpy())
+            test_s_labels.extend(s_labels.cpu().numpy())
+
+            a_preds = torch.argmax(a_logits, dim=2).view(-1)
+            a_labels_flat = a_labels.view(-1)
+            mask = a_labels_flat != -1
+            test_a_preds.extend(a_preds[mask].cpu().numpy())
+            test_a_labels.extend(a_labels_flat[mask].cpu().numpy())
+
+    test_s_f1 = f1_score(test_s_labels, test_s_preds, average='macro')
+    test_s_acc = (np.array(test_s_preds) == np.array(test_s_labels)).mean()
+    test_a_f1 = 0.0
+    test_a_acc = 0.0
+    if len(test_a_labels) > 0:
+        test_a_f1 = f1_score(test_a_labels, test_a_preds, average='macro')
+        test_a_acc = (np.array(test_a_preds) == np.array(test_a_labels)).mean()
+
+    print("\nFinal Test Results (best model):")
+    print(f"  Test Scenario F1: {test_s_f1:.4f} | Acc: {test_s_acc:.4f}")
+    print(f"  Test Action   F1: {test_a_f1:.4f} | Acc: {test_a_acc:.4f}")
+
+    scenario_rows, scenario_payload = summarize_class_metrics(
+        test_s_labels,
+        test_s_preds,
+        list(train_ds.scenario_map.keys()),
+    )
+    print("  Scenario per-class metrics:")
+    for row in scenario_rows:
+        print(
+            f"    {row['name']}: "
+            f"P={row['precision']:.4f} R={row['recall']:.4f} "
+            f"F1={row['f1']:.4f} support={row['support']}"
+        )
+
+    action_rows = []
+    action_payload = {}
+    if len(test_a_labels) > 0:
+        action_class_names = [train_ds.idx_to_action[i] for i in range(len(train_ds.action_map))]
+        action_rows, action_payload = summarize_class_metrics(
+            test_a_labels,
+            test_a_preds,
+            action_class_names,
+        )
+        print("  Action per-class metrics:")
+        for row in action_rows:
+            print(
+                f"    {row['name']}: "
+                f"P={row['precision']:.4f} R={row['recall']:.4f} "
+                f"F1={row['f1']:.4f} support={row['support']}"
+            )
+
+    if wandb_run is not None:
+        payload = {
+            "test_scenario_f1": test_s_f1,
+            "test_scenario_acc": test_s_acc,
+            "test_action_f1": test_a_f1,
+            "test_action_acc": test_a_acc,
+        }
+        payload.update({f"test_scenario_{k}": v for k, v in scenario_payload.items()})
+        payload.update({f"test_action_{k}": v for k, v in action_payload.items()})
+        wandb.log(payload)
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--target-uids-file", type=str, default="target_uids.csv")
     parser.add_argument("--processed-dir", type=str, default="data/processed_ego4d")
-    parser.add_argument("--labels-csv", type=str, default="data/labels/action_labels_llm_validated.csv")
+    parser.add_argument("--labels-csv", type=str, default="data/labels/action_labels_llm_clean_refined.csv")
     parser.add_argument("--scenario-labels-csv", type=str, default="data/labels/scenario_labels.csv")
     parser.add_argument("--output-dir", type=str, default="checkpoints")
     parser.add_argument('--run-name', type=str, default='hierarchical_har')
     parser.add_argument('--probe', action='store_true', help='Train action probe on frozen model')
     parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint for probing')
+    parser.add_argument('--init-checkpoint', type=str, default=None, help='Initialize model from checkpoint for fine-tuning')
     parser.add_argument('--cv', action='store_true', help='Use K-fold cross validation')
     parser.add_argument('--n-folds', type=int, default=4, help='Number of CV folds (default: 4)')
     parser.add_argument("--no-wandb", action="store_true", help="Disable W&B logging")
@@ -831,6 +1024,12 @@ if __name__ == "__main__":
         default="",
         help='Comma-separated scenarios to exclude, e.g. "Gardening,Desk Work"',
     )
+    parser.add_argument(
+        "--exclude-actions",
+        type=str,
+        default="",
+        help='Comma-separated actions to exclude, e.g. "Search,Error / Correction"',
+    )
     args = parser.parse_args()
     
     # Apply runtime exclusions to global CONFIG
@@ -838,6 +1037,10 @@ if __name__ == "__main__":
         excluded = [s.strip() for s in args.exclude_scenarios.split(",") if s.strip()]
         CONFIG.setdefault("data", {})["excluded_scenarios"] = excluded
         print(f"Runtime scenario exclusion enabled: {excluded}")
+    if args.exclude_actions.strip():
+        excluded_actions = [s.strip() for s in args.exclude_actions.split(",") if s.strip()]
+        CONFIG.setdefault("data", {})["excluded_actions"] = excluded_actions
+        print(f"Runtime action exclusion enabled: {excluded_actions}")
     
     # Cross Validation Mode
     if args.cv:
