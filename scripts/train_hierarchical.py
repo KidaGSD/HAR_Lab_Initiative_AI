@@ -1009,7 +1009,7 @@ if __name__ == "__main__":
     parser.add_argument("--target-uids-file", type=str, default="target_uids.csv")
     parser.add_argument("--processed-dir", type=str, default="data/processed_ego4d")
     parser.add_argument("--labels-csv", type=str, default="data/labels/action_labels_llm_clean_refined.csv")
-    parser.add_argument("--scenario-labels-csv", type=str, default="data/labels/scenario_labels.csv")
+    parser.add_argument("--scenario-labels-csv", type=str, default="data/annotation_rounds/final_gold_dataset/HAR_dataset_155.csv")
     parser.add_argument("--output-dir", type=str, default="checkpoints")
     parser.add_argument('--run-name', type=str, default='hierarchical_har')
     parser.add_argument('--probe', action='store_true', help='Train action probe on frozen model')
